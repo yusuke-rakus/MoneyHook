@@ -38,7 +38,8 @@ CREATE TABLE IF NOT EXISTS sub_category (
     sub_category_name varchar(16) NOT NULL,
     PRIMARY KEY(sub_category_id),
     FOREIGN KEY user_no(user_no) REFERENCES user(user_no),
-    FOREIGN KEY category_id(category_id) REFERENCES category(category_id)
+    FOREIGN KEY category_id(category_id) REFERENCES category(category_id),
+    UNIQUE(user_no, category_id, sub_category_name)
 );
 
 CREATE TABLE IF NOT EXISTS hidden_sub_category (

@@ -8,7 +8,7 @@ VALUES
     ('#43a047'),
     ('#00acc1'),
     ('#e53935'),
-    ('#8e24aa)');
+    ('#8e24aa');
 
 INSERT INTO
     theme_color(theme_color_gradient_code)
@@ -22,19 +22,17 @@ VALUES
 
 -- ユーザー
 INSERT INTO
-    user(user_id, email, PASSWORD, theme_color_id)
+    user(user_id, email, PASSWORD)
 VALUES
     (
-        UUID_TO_BIN(UUID()),
+        '4f4da417-7693-4fa1-b153-a3511ed1a57a',
         'MasterUser',
-        'password',
-        1
+        'password'
     ),
     (
-        UUID_TO_BIN(UUID()),
+        'a77a6e94-6aa2-47ea-87dd-129f580fb669',
         'sample@sample.com',
-        'password',
-        1
+        'password'
     );
 
 -- カテゴリ

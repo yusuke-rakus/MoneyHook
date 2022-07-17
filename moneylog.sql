@@ -16,11 +16,11 @@ CREATE TABLE IF NOT EXISTS theme_color(
 );
 
 CREATE TABLE IF NOT EXISTS user(
-    user_id binary(16) NOT NULL,
+    user_id varchar(36) NOT NULL,
     user_no bigint UNSIGNED AUTO_INCREMENT,
     email varchar(128) NOT NULL,
     PASSWORD text NOT NULL,
-    theme_color_id bigint UNSIGNED NOT NULL,
+    theme_color_id bigint UNSIGNED NOT NULL DEFAULT 1,
     PRIMARY KEY(user_no),
     FOREIGN KEY theme_color_id(theme_color_id) REFERENCES theme_color(theme_color_id)
 );

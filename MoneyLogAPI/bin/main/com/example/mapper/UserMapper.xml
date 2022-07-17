@@ -17,5 +17,16 @@
 			#{password}
 		);
 	</insert>
+	
+	<!-- ログイン -->
+	<select id="login" resultType="com.example.domain.User">
+		SELECT 
+			user_id, 
+			password
+		FROM 
+			user
+		WHERE 
+		email = #{email};
+	</select>
 
 </mapper>

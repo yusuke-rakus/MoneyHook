@@ -8,6 +8,9 @@ import com.example.form.RegistUserForm;
 
 @Mapper
 public interface UserMapper {
+	
+	/** ユーザーIDからユーザーNoを取得 */
+	public Long getUserNoFromUserId(String UserId);
 
 	/** ユーザー登録 */
 	public void registUser(RegistUserForm form);

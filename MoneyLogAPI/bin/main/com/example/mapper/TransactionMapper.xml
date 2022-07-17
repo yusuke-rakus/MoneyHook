@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.mapper.TransactionMapper">
+
+	<!-- 収支を登録 -->
+	<insert id="addTransaction"
+		parameterType="com.example.form.AddTransactionForm">
+		INSERT INTO
+		transaction(
+			user_no,
+			transaction_name,
+			amount,
+			transaction_date,
+			category_id,
+			sub_category_id,
+			fixed_flg
+		)
+		VALUES(
+			#{userNo},
+			#{transactionName},
+			#{amount},
+			#{transactionDate},
+			#{categoryId},
+			#{subCategoryId},
+			#{fixedFlg}
+		);
+	</insert>
+	
+		
+</mapper>

@@ -1,11 +1,9 @@
 package com.example.domain;
 
-import java.util.UUID;
-
 public class User {
-	
+
 	private Long userNo;
-	private UUID userId;
+	private String userId;
 	private String email;
 	private String password;
 	private Integer themeColorId;
@@ -18,11 +16,11 @@ public class User {
 		this.userNo = userNo;
 	}
 
-	public UUID getUserId() {
+	public String getUserId() {
 		return userId;
 	}
 
-	public void setUserId(UUID userId) {
+	public void setUserId(String userId) {
 		this.userId = userId;
 	}
 

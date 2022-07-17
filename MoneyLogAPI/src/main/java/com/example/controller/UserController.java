@@ -6,7 +6,9 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.example.form.LoginForm;
 import com.example.form.RegistUserForm;
+import com.example.response.LoginResponse;
 import com.example.response.RegistUserResponse;
 import com.example.service.UserService;
 
@@ -21,6 +23,12 @@ public class UserController {
 	@PostMapping("/registUser")
 	public RegistUserResponse registUser(@RequestBody RegistUserForm form) {
 		return userService.registUser(form);
+	}
+
+	/** ログイン */
+	@PostMapping("/login")
+	public LoginResponse login(@RequestBody LoginForm form) {
+		return userService.login(form);
 	}
 
 }

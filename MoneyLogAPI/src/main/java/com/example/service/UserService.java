@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.example.common.Message;
 import com.example.common.Status;
 import com.example.domain.User;
 import com.example.form.RegistUserForm;
@@ -28,14 +29,15 @@ public class UserService {
 		String userId = uuid.toString();
 		User user = new User();
 		user.setUserId(userId);
-		res.setUser(user);
 		form.setUserId(userId);
 
 		// ユーザー登録処理
 		try {
 			userMapper.registUser(form);
+			res.setUser(user);
 		} catch (Exception e) {
 			res.setStatus(Status.ERROR.getStatus());
+			res.setMessage(Message.MAIL_ADDRESS_ALREADY_REGISTERED.getMessage());
 		}
 		return res;
 	}

@@ -6,8 +6,10 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.example.form.GetUserInfoForm;
 import com.example.form.LoginForm;
 import com.example.form.RegistUserForm;
+import com.example.response.GetUserInfoResponse;
 import com.example.response.LoginResponse;
 import com.example.response.RegistUserResponse;
 import com.example.service.UserService;
@@ -29,6 +31,12 @@ public class UserController {
 	@PostMapping("/login")
 	public LoginResponse login(@RequestBody LoginForm form) {
 		return userService.login(form);
+	}
+	
+	/** ユーザー情報の取得 */
+	@PostMapping("/getUserInfo")
+	public GetUserInfoResponse getUserInfo(@RequestBody GetUserInfoForm form) {
+		return userService.getUserInfo(form);
 	}
 
 }

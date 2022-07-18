@@ -13,7 +13,8 @@ public enum Message {
 	TRANSACTION_DATA_SELECT_FAILED("収支データの取得に失敗しました"),
 	CATEGORY_GET_FAILED("カテゴリの取得に失敗しました"),
 	SUB_CATEGORY_GET_FAILED("サブカテゴリの取得に失敗しました"),
-	MONTHLY_TRANSACTION_NOT_EXISTS("月次固定費が存在しませんでした");
+	MONTHLY_TRANSACTION_NOT_EXISTS("月次固定費が存在しませんでした"),
+	USER_INFO_GET_FAILED("ユーザー情報の取得に失敗しました");
 
 	private String message;
 

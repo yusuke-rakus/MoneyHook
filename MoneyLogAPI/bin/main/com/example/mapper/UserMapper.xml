@@ -38,5 +38,15 @@
 		WHERE 
 			email = #{email};
 	</select>
+	
+	<!-- ユーザー情報の取得 -->
+	<select id="getUserInfo" resultType="com.example.domain.User">
+		SELECT
+			email
+		FROM
+			user
+		WHERE
+			user_id = #{userId};
+	</select>
 
 </mapper>

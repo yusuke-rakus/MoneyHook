@@ -12,7 +12,8 @@ public enum Message {
 	AUTHENTICATION_ERROR("認証エラーが発生しました"),
 	TRANSACTION_DATA_SELECT_FAILED("収支データの取得に失敗しました"),
 	CATEGORY_GET_FAILED("カテゴリの取得に失敗しました"),
-	SUB_CATEGORY_GET_FAILED("サブカテゴリの取得に失敗しました");
+	SUB_CATEGORY_GET_FAILED("サブカテゴリの取得に失敗しました"),
+	MONTHLY_TRANSACTION_NOT_EXISTS("月次固定費が存在しませんでした");
 
 	private String message;
 

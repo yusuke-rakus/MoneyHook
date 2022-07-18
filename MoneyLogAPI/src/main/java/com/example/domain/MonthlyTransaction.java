@@ -10,6 +10,8 @@ public class MonthlyTransaction {
 	private Long categoryId;
 	private Long subCategoryId;
 	private boolean includeFlg;
+	private String categoryName;
+	private String subCategoryName;
 
 	public Long getMonthlyTransactionId() {
 		return monthlyTransactionId;
@@ -75,12 +77,20 @@ public class MonthlyTransaction {
 		this.includeFlg = includeFlg;
 	}
 
-	@Override
-	public String toString() {
-		return "MonthlyTransaction [monthlyTransactionId=" + monthlyTransactionId + ", userNo=" + userNo
-				+ ", monthlyTransactionName=" + monthlyTransactionName + ", monthlyTransactionAmount="
-				+ monthlyTransactionAmount + ", monthlyTransactionDate=" + monthlyTransactionDate + ", categoryId="
-				+ categoryId + ", subCategoryId=" + subCategoryId + ", includeFlg=" + includeFlg + "]";
+	public String getCategoryName() {
+		return categoryName;
+	}
+
+	public void setCategoryName(String categoryName) {
+		this.categoryName = categoryName;
+	}
+
+	public String getSubCategoryName() {
+		return subCategoryName;
+	}
+
+	public void setSubCategoryName(String subCategoryName) {
+		this.subCategoryName = subCategoryName;
 	}
 
 }

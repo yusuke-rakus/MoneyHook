@@ -11,7 +11,8 @@ public enum Message {
 	SUB_CATEGORY_ALREADY_REGISTERED("登録されているサブカテゴリです"),
 	AUTHENTICATION_ERROR("認証エラーが発生しました"),
 	TRANSACTION_DATA_SELECT_FAILED("収支データの取得に失敗しました"),
-	CATEGORY_GET_FAILED("カテゴリの取得に失敗しました");
+	CATEGORY_GET_FAILED("カテゴリの取得に失敗しました"),
+	SUB_CATEGORY_GET_FAILED("サブカテゴリの取得に失敗しました");
 
 	private String message;
 

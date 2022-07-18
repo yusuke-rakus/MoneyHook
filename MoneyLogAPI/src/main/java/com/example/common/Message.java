@@ -14,7 +14,8 @@ public enum Message {
 	CATEGORY_GET_FAILED("カテゴリの取得に失敗しました"),
 	SUB_CATEGORY_GET_FAILED("サブカテゴリの取得に失敗しました"),
 	MONTHLY_TRANSACTION_NOT_EXISTS("月次固定費が存在しませんでした"),
-	USER_INFO_GET_FAILED("ユーザー情報の取得に失敗しました");
+	USER_INFO_GET_FAILED("ユーザー情報の取得に失敗しました"),
+	DELETE_FIXED_ERROR("月次取引データの削除に失敗しました");
 
 	private String message;
 

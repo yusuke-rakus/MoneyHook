@@ -10,8 +10,10 @@ import com.example.common.AuthenticationException;
 import com.example.common.Message;
 import com.example.common.Status;
 import com.example.domain.MonthlyTransaction;
+import com.example.form.DeleteFixedForm;
 import com.example.form.GetFixedForm;
 import com.example.mapper.MonthlyTransactionMapper;
+import com.example.response.DeleteFixedResponse;
 import com.example.response.GetFixedResponse;
 
 @Service
@@ -45,6 +47,30 @@ public class MonthlyTransactionService {
 			res.setStatus(Status.ERROR.getStatus());
 			res.setMessage(Message.MONTHLY_TRANSACTION_NOT_EXISTS.getMessage());
 		}
+		return res;
+	}
+
+	/** 固定費データの削除 */
+	public DeleteFixedResponse deleteFixed(DeleteFixedForm form) {
+		DeleteFixedResponse res = new DeleteFixedResponse();
+
+		// ユーザーIDからユーザーNoを取得
+		try {
+			Long userNo = authenticationService.authUser(form);
+			form.setUserNo(userNo);
+		} catch (AuthenticationException e) {
+			res.setStatus(Status.ERROR.getStatus());
+			res.setMessage(Message.AUTHENTICATION_ERROR.getMessage());
+			return res;
+		}
+
+		try {
+			monthlyTransactionMapper.deleteFixed(form);
+		} catch (Exception e) {
+			res.setStatus(Status.ERROR.getStatus());
+			res.setMessage(Message.DELETE_FIXED_ERROR.getMessage());
+		}
+
 		return res;
 	}
 

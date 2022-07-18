@@ -7,6 +7,8 @@ public class User {
 	private String email;
 	private String password;
 	private Integer themeColorId;
+	private String themeColorCode;
+	private String themeColorGradientCode;
 
 	public Long getUserNo() {
 		return userNo;
@@ -46,6 +48,22 @@ public class User {
 
 	public void setThemeColorId(Integer themeColorId) {
 		this.themeColorId = themeColorId;
+	}
+
+	public String getThemeColorCode() {
+		return themeColorCode;
+	}
+
+	public void setThemeColorCode(String themeColorCode) {
+		this.themeColorCode = themeColorCode;
+	}
+
+	public String getThemeColorGradientCode() {
+		return themeColorGradientCode;
+	}
+
+	public void setThemeColorGradientCode(String themeColorGradientCode) {
+		this.themeColorGradientCode = themeColorGradientCode;
 	}
 
 	@Override

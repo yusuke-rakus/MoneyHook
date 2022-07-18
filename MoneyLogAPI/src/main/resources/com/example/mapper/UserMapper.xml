@@ -30,13 +30,27 @@
 	
 	<!-- ログイン -->
 	<select id="login" resultType="com.example.domain.User">
-		SELECT 
-			user_id, 
-			password
-		FROM 
-			user
-		WHERE 
-			email = #{email};
+		SELECT
+			u.user_id,
+			u.password,
+			tc.theme_color_code,
+			tc.theme_color_gradient_code
+		FROM
+			user u
+		INNER JOIN theme_color tc ON tc.theme_color_id = u.theme_color_id
+		WHERE
+			u.email = #{email}
+		UNION
+		SELECT
+			u.user_id, 
+			u.password,
+			tc.theme_color_code,
+			tc.theme_color_gradient_code
+		FROM
+			user u
+		INNER JOIN theme_color tc ON tc.theme_color_id = u.theme_color_id
+		WHERE
+			u.email = #{email};
 	</select>
 	
 	<!-- ユーザー情報の取得 -->

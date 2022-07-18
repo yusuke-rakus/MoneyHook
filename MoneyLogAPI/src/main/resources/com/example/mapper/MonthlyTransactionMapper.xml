@@ -25,7 +25,9 @@
 		INNER JOIN category c ON c.category_id = mt.category_id
 		INNER JOIN sub_category sc ON sc.sub_category_id = mt.sub_category_id
 		WHERE
-			mt.user_no = #{userNo};
+			mt.user_no = #{userNo}
+		AND
+			include_flg = TRUE;
 	</select>
 	
 	<!-- 固定費データの削除(論理) -->

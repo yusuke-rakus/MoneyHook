@@ -8,8 +8,10 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.example.form.AddTransactionForm;
 import com.example.form.DeleteTransactionForm;
+import com.example.form.GetTransactionForm;
 import com.example.response.AddTransactionResponse;
 import com.example.response.DeleteTransactionResponse;
+import com.example.response.GetTransactionResponse;
 import com.example.service.TransactionService;
 
 @RestController
@@ -29,5 +31,11 @@ public class TransactionController {
 	@PostMapping("/deleteTransaction")
 	public DeleteTransactionResponse deleteTransaction(@RequestBody DeleteTransactionForm form) {
 		return transactionService.deleteTransaction(form);
+	}
+	
+	/** 収支詳細の取得 */
+	@PostMapping("/getTransaction")
+	public GetTransactionResponse getTransaction(@RequestBody GetTransactionForm form) {
+		return transactionService.getTransaction(form);
 	}
 }

@@ -34,5 +34,22 @@
 			transaction_id = #{transactionId} AND user_no = #{userNo};
 	</delete>
 	
+	<!-- 収支詳細の取得 -->
+	<select id="getTransaction" resultType="com.example.domain.Transaction">
+		SELECT
+			t.transaction_date,
+			t.transaction_name,
+			t.amount, t.category_id,
+			c.category_name,
+			t.sub_category_id,
+			sc.sub_category_name,
+			t.fixed_flg
+		FROM
+			transaction t
+		INNER JOIN category c ON c.category_id = t.category_id
+		INNER JOIN sub_category sc ON sc.sub_category_id = t.sub_category_id
+		WHERE t.user_no = #{userNo} AND t.transaction_id = #{transactionId};
+	</select>
+	
 		
 </mapper>

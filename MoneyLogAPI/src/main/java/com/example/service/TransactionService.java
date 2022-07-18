@@ -10,12 +10,15 @@ import com.example.common.AuthenticationException;
 import com.example.common.Message;
 import com.example.common.Status;
 import com.example.domain.SubCategory;
+import com.example.domain.Transaction;
 import com.example.form.AddTransactionForm;
 import com.example.form.DeleteTransactionForm;
+import com.example.form.GetTransactionForm;
 import com.example.mapper.SubCategoryMapper;
 import com.example.mapper.TransactionMapper;
 import com.example.response.AddTransactionResponse;
 import com.example.response.DeleteTransactionResponse;
+import com.example.response.GetTransactionResponse;
 
 @Service
 @Transactional
@@ -113,6 +116,38 @@ public class TransactionService {
 			transactionMapper.deleteTransaction(form);
 		} catch (Exception e) {
 			res.setStatus(Status.ERROR.getStatus());
+			return res;
+		}
+
+		return res;
+	}
+
+	/** 収支詳細の取得 */
+	public GetTransactionResponse getTransaction(GetTransactionForm form) {
+		GetTransactionResponse res = new GetTransactionResponse();
+
+		// ユーザー認証
+		try {
+			Long userNo = authenticationService.authUser(form);
+			form.setUserNo(userNo);
+		} catch (AuthenticationException e) {
+			res.setStatus(Status.ERROR.getStatus());
+			res.setMessage(Message.AUTHENTICATION_ERROR.getMessage());
+			return res;
+		}
+
+		// 収支データを取得
+		try {
+			Transaction transaction = transactionMapper.getTransaction(form);
+
+			if (Objects.isNull(transaction)) {
+				throw new Exception();
+			}
+
+			res.setTransaction(transaction);
+		} catch (Exception e) {
+			res.setStatus(Status.ERROR.getStatus());
+			res.setMessage(Message.TRANSACTION_DATA_SELECT_FAILED.getMessage());
 			return res;
 		}
 

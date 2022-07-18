@@ -9,7 +9,8 @@ public enum Message {
 	AMOUNT_EMPTY_ERROR("金額を入力してください"),
 	TRANSACTION_NAME_EMPTY_ERROR("取引名を入力してください"),
 	SUB_CATEGORY_ALREADY_REGISTERED("登録されているサブカテゴリです"),
-	AUTHENTICATION_ERROR("認証エラーが発生しました");
+	AUTHENTICATION_ERROR("認証エラーが発生しました"),
+	TRANSACTION_DATA_SELECT_FAILED("収支データの取得に失敗しました");
 
 	private String message;
 

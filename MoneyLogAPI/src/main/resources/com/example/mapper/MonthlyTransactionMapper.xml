@@ -28,8 +28,20 @@
 			mt.user_no = #{userNo};
 	</select>
 	
-	<!-- 固定費データの削除 -->
-	<delete id="deleteFixed" parameterType="com.example.form.DeleteFixedForm">
+	<!-- 固定費データの削除(論理) -->
+	<update id="deleteFixed">
+		UPDATE
+			monthly_transaction
+		SET
+			include_flg = FALSE
+		WHERE
+			monthly_transaction_id = #{monthlyTransactionId}
+		AND
+			user_no = #{userNo};
+	</update>
+	
+	<!-- 固定費データの削除(物理) -->
+	<delete id="deleteFixedFromTable" parameterType="com.example.form.DeleteFixedForm">
 		DELETE FROM
 			monthly_transaction
 		WHERE

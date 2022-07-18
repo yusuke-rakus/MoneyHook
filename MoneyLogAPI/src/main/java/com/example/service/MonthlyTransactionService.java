@@ -42,6 +42,9 @@ public class MonthlyTransactionService {
 
 		try {
 			List<MonthlyTransaction> monthlyTransactionList = monthlyTransactionMapper.getFixed(form);
+			if (monthlyTransactionList.size() == 0) {
+				throw new Exception();
+			}
 			res.setMonthlyTransactionList(monthlyTransactionList);
 		} catch (Exception e) {
 			res.setStatus(Status.ERROR.getStatus());

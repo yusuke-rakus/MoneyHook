@@ -7,8 +7,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.example.form.DeleteFixedForm;
+import com.example.form.GetDeletedFixedForm;
 import com.example.form.GetFixedForm;
 import com.example.response.DeleteFixedResponse;
+import com.example.response.GetDeletedFixedResponse;
 import com.example.response.GetFixedResponse;
 import com.example.service.MonthlyTransactionService;
 
@@ -30,5 +32,12 @@ public class MonthlyTransactionController {
 	public DeleteFixedResponse deleteFixed(@RequestBody DeleteFixedForm form) {
 		return monthlyTransactionService.deleteFixed(form);
 	}
+	
+	/** 計算対象外の固定費一覧取得 */
+	@PostMapping("/getDeletedFixed")
+	public GetDeletedFixedResponse getDeletedFixed(@RequestBody GetDeletedFixedForm form) {
+		return monthlyTransactionService.getDeletedFixed(form);
+	}
+	
 
 }

@@ -7,7 +7,7 @@ public class Transaction {
 	private Long transactionId;
 	private Long userNo;
 	private String transactionName;
-	private Integer amount;
+	private Integer transactionAmount;
 	private Date transactionDate;
 	private Long categoryId;
 	private Long subCategoryId;
@@ -37,12 +37,12 @@ public class Transaction {
 		this.transactionName = transactionName;
 	}
 
-	public Integer getAmount() {
-		return amount;
+	public Integer getTransactionAmount() {
+		return transactionAmount;
 	}
 
-	public void setAmount(Integer amount) {
-		this.amount = amount;
+	public void setTransactionAmount(Integer amount) {
+		this.transactionAmount = amount;
 	}
 
 	public Date getTransactionDate() {
@@ -80,7 +80,7 @@ public class Transaction {
 	@Override
 	public String toString() {
 		return "Transaction [transactionId=" + transactionId + ", userNo=" + userNo + ", transactionName="
-				+ transactionName + ", amount=" + amount + ", transactionDate=" + transactionDate + ", categoryId="
+				+ transactionName + ", amount=" + transactionAmount + ", transactionDate=" + transactionDate + ", categoryId="
 				+ categoryId + ", subCategoryId=" + subCategoryId + ", fixedFlg=" + fixedFlg + "]";
 	}
 

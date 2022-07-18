@@ -6,7 +6,7 @@ public class AddTransactionForm extends form {
 
 	private Long userNo;
 	private Date transactionDate;
-	private Integer amount;
+	private Integer transactionAmount;
 	private String transactionName;
 	private Long categoryId;
 	private Long subCategoryId;
@@ -29,12 +29,12 @@ public class AddTransactionForm extends form {
 		this.transactionDate = transactionDate;
 	}
 
-	public Integer getAmount() {
-		return amount;
+	public Integer getTransactionAmount() {
+		return transactionAmount;
 	}
 
-	public void setAmount(Integer amount) {
-		this.amount = amount;
+	public void setTransactionAmount(Integer amount) {
+		this.transactionAmount = amount;
 	}
 
 	public String getTransactionName() {
@@ -79,7 +79,7 @@ public class AddTransactionForm extends form {
 
 	@Override
 	public String toString() {
-		return "AddTransactionForm [userNo=" + userNo + ", transactionDate=" + transactionDate + ", amount=" + amount
+		return "AddTransactionForm [userNo=" + userNo + ", transactionDate=" + transactionDate + ", amount=" + transactionAmount
 				+ ", transactionName=" + transactionName + ", categoryId=" + categoryId + ", subCategoryId="
 				+ subCategoryId + ", subCategoryName=" + subCategoryName + ", fixedFlg=" + fixedFlg + "]";
 	}

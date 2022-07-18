@@ -42,7 +42,7 @@ public class TransactionService {
 			res.setMessage(Message.TRANSACTION_DATE_EMPTY_ERROR.getMessage());
 			return res;
 		}
-		if (Objects.isNull(form.getAmount())) {
+		if (Objects.isNull(form.getTransactionAmount())) {
 			res.setStatus(Status.ERROR.getStatus());
 			res.setMessage(Message.AMOUNT_EMPTY_ERROR.getMessage());
 			return res;

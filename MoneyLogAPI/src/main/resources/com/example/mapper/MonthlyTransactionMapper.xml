@@ -27,5 +27,15 @@
 		WHERE
 			mt.user_no = #{userNo};
 	</select>
+	
+	<!-- 固定費データの削除 -->
+	<delete id="deleteFixed" parameterType="com.example.form.DeleteFixedForm">
+		DELETE FROM
+			monthly_transaction
+		WHERE
+			monthly_transaction_id = #{monthlyTransactionId}
+		AND
+			user_no = #{userNo};
+	</delete>
 
 </mapper>

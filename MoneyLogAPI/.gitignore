@@ -13,7 +13,7 @@ build/
 .settings
 .springBeans
 .sts4-cache
-MoneyLogAPI/bin/
+./bin/
 !**/src/main/**/bin/
 !**/src/test/**/bin/
 

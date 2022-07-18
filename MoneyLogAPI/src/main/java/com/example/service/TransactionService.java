@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.example.common.AuthenticationException;
 import com.example.common.Message;
 import com.example.common.Status;
 import com.example.domain.SubCategory;
@@ -23,7 +24,7 @@ public class TransactionService {
 	private TransactionMapper transactionMapper;
 
 	@Autowired
-	private UserMapper userMapper;
+	private AuthenticationService authenticationService;
 
 	@Autowired
 	private SubCategoryMapper subCategoryMapper;
@@ -53,8 +54,14 @@ public class TransactionService {
 		}
 
 		// ユーザーIDからユーザーNoを取得
-		Long UserNo = userMapper.getUserNoFromUserId(form.getUserId());
-		form.setUserNo(UserNo);
+		try {
+			Long userNo = authenticationService.authUser(form);
+			form.setUserNo(userNo);
+		} catch (AuthenticationException e) {
+			res.setStatus(Status.ERROR.getStatus());
+			res.setMessage(Message.AUTHENTICATION_ERROR.getMessage());
+			return res;
+		}
 
 		// サブカテゴリを新規追加した場合
 		if (Objects.isNull(form.getSubCategoryId())) {

@@ -8,7 +8,8 @@ public enum Message {
 	TRANSACTION_DATE_EMPTY_ERROR("日付を入力してください"),
 	AMOUNT_EMPTY_ERROR("金額を入力してください"),
 	TRANSACTION_NAME_EMPTY_ERROR("取引名を入力してください"),
-	SUB_CATEGORY_ALREADY_REGISTERED("登録されているサブカテゴリです");
+	SUB_CATEGORY_ALREADY_REGISTERED("登録されているサブカテゴリです"),
+	AUTHENTICATION_ERROR("認証エラーが発生しました");
 
 	private String message;
 

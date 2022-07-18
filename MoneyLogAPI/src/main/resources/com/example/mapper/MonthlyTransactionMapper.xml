@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.mapper.MonthlyTransactionMapper">
+
+	<!-- カテゴリ一覧の取得 -->
+	<resultMap type="com.example.domain.MonthlyTransaction" id="getFixedMap">
+		<id column="monthly_transaction_id" property="monthlyTransactionId" />
+		<result column="monthly_transaction_name" property="monthlyTransactionName" />
+		<result column="monthly_transaction_amount" property="monthlyTransactionAmount" />
+		<result column="monthly_transaction_date" property="monthlyTransactionDate" />
+		<result column="category_name" property="categoryName" />
+		<result column="sub_category_name" property="subCategoryName" />
+	</resultMap>
+	
+	<select id="getFixed" resultMap="getFixedMap">
+		SELECT
+			mt.monthly_transaction_id,
+			mt.monthly_transaction_name,
+			mt.monthly_transaction_amount,
+			mt.monthly_transaction_date,
+			c.category_name,
+			sc.sub_category_name
+		FROM
+			monthly_transaction mt
+		INNER JOIN category c ON c.category_id = mt.category_id
+		INNER JOIN sub_category sc ON sc.sub_category_id = mt.sub_category_id
+		WHERE
+			mt.user_no = #{userNo};
+	</select>
+
+</mapper>

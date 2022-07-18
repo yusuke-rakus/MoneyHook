@@ -11,9 +11,11 @@ import com.example.common.Message;
 import com.example.common.Status;
 import com.example.domain.SubCategory;
 import com.example.form.AddTransactionForm;
+import com.example.form.DeleteTransactionForm;
 import com.example.mapper.SubCategoryMapper;
 import com.example.mapper.TransactionMapper;
 import com.example.response.AddTransactionResponse;
+import com.example.response.DeleteTransactionResponse;
 
 @Service
 @Transactional
@@ -89,6 +91,31 @@ public class TransactionService {
 		} catch (Exception e) {
 			res.setStatus(Status.ERROR.getStatus());
 		}
+		return res;
+	}
+
+	/** 収支データの削除 */
+	public DeleteTransactionResponse deleteTransaction(DeleteTransactionForm form) {
+		DeleteTransactionResponse res = new DeleteTransactionResponse();
+
+		// ユーザー認証
+		try {
+			Long userNo = authenticationService.authUser(form);
+			form.setUserNo(userNo);
+		} catch (AuthenticationException e) {
+			res.setStatus(Status.ERROR.getStatus());
+			res.setMessage(Message.AUTHENTICATION_ERROR.getMessage());
+			return res;
+		}
+
+		// 削除処理
+		try {
+			transactionMapper.deleteTransaction(form);
+		} catch (Exception e) {
+			res.setStatus(Status.ERROR.getStatus());
+			return res;
+		}
+
 		return res;
 	}
 

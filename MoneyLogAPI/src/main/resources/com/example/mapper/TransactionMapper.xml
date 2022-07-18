@@ -26,5 +26,13 @@
 		);
 	</insert>
 	
+	<!-- 収支を削除 -->
+	<delete id="deleteTransaction" parameterType="com.example.form.DeleteTransactionForm">
+		DELETE FROM 
+			transaction
+		WHERE
+			transaction_id = #{transactionId} AND user_no = #{userNo};
+	</delete>
+	
 		
 </mapper>

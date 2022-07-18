@@ -7,7 +7,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.example.form.AddTransactionForm;
+import com.example.form.DeleteTransactionForm;
 import com.example.response.AddTransactionResponse;
+import com.example.response.DeleteTransactionResponse;
 import com.example.service.TransactionService;
 
 @RestController
@@ -23,4 +25,9 @@ public class TransactionController {
 		return transactionService.addTransaction(form);
 	}
 
+	/** 収支を削除 */
+	@PostMapping("/deleteTransaction")
+	public DeleteTransactionResponse deleteTransaction(@RequestBody DeleteTransactionForm form) {
+		return transactionService.deleteTransaction(form);
+	}
 }

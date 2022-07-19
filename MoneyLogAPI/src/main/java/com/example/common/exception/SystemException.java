@@ -1,10 +1,10 @@
 package com.example.common.exception;
 
-public class AuthenticationException extends SystemException {
+public class SystemException extends Exception {
 	
 	private static final long serialVersionUID = 1L;
 
-	public AuthenticationException(String msg) {
+	public SystemException(String msg) {
 		super(msg);
 	}
 }

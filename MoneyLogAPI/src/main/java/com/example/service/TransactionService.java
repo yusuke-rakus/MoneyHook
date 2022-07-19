@@ -15,12 +15,14 @@ import com.example.domain.SubCategory;
 import com.example.domain.Transaction;
 import com.example.form.AddTransactionForm;
 import com.example.form.DeleteTransactionForm;
+import com.example.form.EditTransactionForm;
 import com.example.form.GetMonthlySpendingDataForm;
 import com.example.form.GetTransactionForm;
 import com.example.mapper.SubCategoryMapper;
 import com.example.mapper.TransactionMapper;
 import com.example.response.AddTransactionResponse;
 import com.example.response.DeleteTransactionResponse;
+import com.example.response.EditTransactionResponse;
 import com.example.response.GetMonthlySpendingDataResponse;
 import com.example.response.GetTransactionResponse;
 
@@ -114,6 +116,51 @@ public class TransactionService {
 		// 削除処理
 		try {
 			transactionMapper.deleteTransaction(form);
+		} catch (Exception e) {
+			res.setStatus(Status.ERROR.getStatus());
+			return res;
+		}
+
+		return res;
+	}
+
+	/**
+	 * 収支データの編集
+	 * 
+	 * @throws AuthenticationException
+	 */
+	public EditTransactionResponse editTransaction(EditTransactionForm form) throws SystemException {
+		EditTransactionResponse res = new EditTransactionResponse();
+
+		// ユーザー認証
+		Long userNo = authenticationService.authUser(form);
+		form.setUserNo(userNo);
+
+		// サブカテゴリを新規追加した場合
+		if (Objects.isNull(form.getSubCategoryId())) {
+
+			// サブカテゴリテーブルに登録してIDを取得する処理
+			SubCategory subCategory = new SubCategory();
+			subCategory.setUserNo(form.getUserNo());
+			subCategory.setCategoryId(form.getCategoryId());
+			subCategory.setSubCategoryName(form.getSubCategoryName());
+
+			try {
+				// 重複したサブカテゴリを作成しないよう制約を付与
+				subCategoryMapper.addSubCategory(subCategory);
+			} catch (Exception e) {
+				res.setStatus(Status.ERROR.getStatus());
+				res.setMessage(Message.SUB_CATEGORY_ALREADY_REGISTERED.getMessage());
+				return res;
+			}
+
+			Long subCategoryId = subCategory.getSubCategoryId();
+			form.setSubCategoryId(subCategoryId);
+		}
+
+		// 編集
+		try {
+			transactionMapper.editTransaction(form);
 		} catch (Exception e) {
 			res.setStatus(Status.ERROR.getStatus());
 			return res;

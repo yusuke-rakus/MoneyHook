@@ -7,6 +7,7 @@ import org.apache.ibatis.annotations.Mapper;
 import com.example.domain.Transaction;
 import com.example.form.AddTransactionForm;
 import com.example.form.DeleteTransactionForm;
+import com.example.form.EditTransactionForm;
 import com.example.form.GetMonthlySpendingDataForm;
 import com.example.form.GetTransactionForm;
 
@@ -18,6 +19,9 @@ public interface TransactionMapper {
 
 	/** 収支を削除 */
 	public void deleteTransaction(DeleteTransactionForm form);
+
+	/** 収支を編集 */
+	public void editTransaction(EditTransactionForm form);
 
 	/** 収支詳細の取得 */
 	public Transaction getTransaction(GetTransactionForm from);

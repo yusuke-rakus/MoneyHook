@@ -6,9 +6,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.example.common.AuthenticationException;
 import com.example.common.Message;
 import com.example.common.Status;
+import com.example.common.exception.AuthenticationException;
+import com.example.common.exception.SystemException;
 import com.example.domain.SubCategory;
 import com.example.form.GetSubCategoryListForm;
 import com.example.mapper.SubCategoryMapper;
@@ -20,23 +21,17 @@ public class SubCategoryService {
 
 	@Autowired
 	private SubCategoryMapper subCategoryMapper;
-	
+
 	@Autowired
 	private AuthenticationService authenticationService;
 
 	/** カテゴリ一覧の取得 */
-	public SubCategoryResponse getSubCategoryList(GetSubCategoryListForm form) {
+	public SubCategoryResponse getSubCategoryList(GetSubCategoryListForm form) throws SystemException {
 		SubCategoryResponse res = new SubCategoryResponse();
 
 		// ユーザーIDからユーザーNoを取得
-		try {
-			Long userNo = authenticationService.authUser(form);
-			form.setUserNo(userNo);
-		} catch (AuthenticationException e) {
-			res.setStatus(Status.ERROR.getStatus());
-			res.setMessage(Message.AUTHENTICATION_ERROR.getMessage());
-			return res;
-		}
+		Long userNo = authenticationService.authUser(form);
+		form.setUserNo(userNo);
 
 		try {
 			List<SubCategory> subCategoryList = subCategoryMapper.getSubCategoryList(form);

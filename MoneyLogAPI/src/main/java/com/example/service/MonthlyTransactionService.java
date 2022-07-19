@@ -6,9 +6,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.example.common.AuthenticationException;
 import com.example.common.Message;
 import com.example.common.Status;
+import com.example.common.exception.AuthenticationException;
+import com.example.common.exception.SystemException;
 import com.example.domain.MonthlyTransaction;
 import com.example.form.DeleteFixedForm;
 import com.example.form.GetDeletedFixedForm;
@@ -29,18 +30,12 @@ public class MonthlyTransactionService {
 	private AuthenticationService authenticationService;
 
 	/** 毎月の固定費一覧の取得 */
-	public GetFixedResponse getFixed(GetFixedForm form) {
+	public GetFixedResponse getFixed(GetFixedForm form) throws SystemException {
 		GetFixedResponse res = new GetFixedResponse();
 
 		// ユーザーIDからユーザーNoを取得
-		try {
-			Long userNo = authenticationService.authUser(form);
-			form.setUserNo(userNo);
-		} catch (AuthenticationException e) {
-			res.setStatus(Status.ERROR.getStatus());
-			res.setMessage(Message.AUTHENTICATION_ERROR.getMessage());
-			return res;
-		}
+		Long userNo = authenticationService.authUser(form);
+		form.setUserNo(userNo);
 
 		try {
 			List<MonthlyTransaction> monthlyTransactionList = monthlyTransactionMapper.getFixed(form);
@@ -55,19 +50,17 @@ public class MonthlyTransactionService {
 		return res;
 	}
 
-	/** 固定費データの削除 */
-	public DeleteFixedResponse deleteFixed(DeleteFixedForm form) {
+	/**
+	 * 固定費データの削除
+	 * 
+	 * @throws SystemException
+	 */
+	public DeleteFixedResponse deleteFixed(DeleteFixedForm form) throws SystemException {
 		DeleteFixedResponse res = new DeleteFixedResponse();
 
 		// ユーザーIDからユーザーNoを取得
-		try {
-			Long userNo = authenticationService.authUser(form);
-			form.setUserNo(userNo);
-		} catch (AuthenticationException e) {
-			res.setStatus(Status.ERROR.getStatus());
-			res.setMessage(Message.AUTHENTICATION_ERROR.getMessage());
-			return res;
-		}
+		Long userNo = authenticationService.authUser(form);
+		form.setUserNo(userNo);
 
 		try {
 			monthlyTransactionMapper.deleteFixed(form);
@@ -80,18 +73,12 @@ public class MonthlyTransactionService {
 	}
 
 	/** 計算対象外の固定費一覧取得 */
-	public GetDeletedFixedResponse getDeletedFixed(GetDeletedFixedForm form) {
+	public GetDeletedFixedResponse getDeletedFixed(GetDeletedFixedForm form) throws SystemException {
 		GetDeletedFixedResponse res = new GetDeletedFixedResponse();
 
 		// ユーザーIDからユーザーNoを取得
-		try {
-			Long userNo = authenticationService.authUser(form);
-			form.setUserNo(userNo);
-		} catch (AuthenticationException e) {
-			res.setStatus(Status.ERROR.getStatus());
-			res.setMessage(Message.AUTHENTICATION_ERROR.getMessage());
-			return res;
-		}
+		Long userNo = authenticationService.authUser(form);
+		form.setUserNo(userNo);
 
 		try {
 			List<MonthlyTransaction> monthlyTransactionList = monthlyTransactionMapper.getDeletedFixed(form);

@@ -6,9 +6,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.example.common.AuthenticationException;
 import com.example.common.Message;
 import com.example.common.Status;
+import com.example.common.exception.AuthenticationException;
+import com.example.common.exception.SystemException;
 import com.example.domain.SubCategory;
 import com.example.domain.Transaction;
 import com.example.form.AddTransactionForm;
@@ -33,8 +34,12 @@ public class TransactionService {
 	@Autowired
 	private SubCategoryMapper subCategoryMapper;
 
-	/** 収支を登録 */
-	public AddTransactionResponse addTransaction(AddTransactionForm form) {
+	/**
+	 * 収支を登録
+	 * 
+	 * @throws AuthenticationException
+	 */
+	public AddTransactionResponse addTransaction(AddTransactionForm form) throws SystemException {
 		AddTransactionResponse res = new AddTransactionResponse();
 
 		if (Objects.isNull(form.getTransactionDate())) {
@@ -58,14 +63,8 @@ public class TransactionService {
 		}
 
 		// ユーザーIDからユーザーNoを取得
-		try {
-			Long userNo = authenticationService.authUser(form);
-			form.setUserNo(userNo);
-		} catch (AuthenticationException e) {
-			res.setStatus(Status.ERROR.getStatus());
-			res.setMessage(Message.AUTHENTICATION_ERROR.getMessage());
-			return res;
-		}
+		Long userNo = authenticationService.authUser(form);
+		form.setUserNo(userNo);
 
 		// サブカテゴリを新規追加した場合
 		if (Objects.isNull(form.getSubCategoryId())) {
@@ -97,19 +96,17 @@ public class TransactionService {
 		return res;
 	}
 
-	/** 収支データの削除 */
-	public DeleteTransactionResponse deleteTransaction(DeleteTransactionForm form) {
+	/**
+	 * 収支データの削除
+	 * 
+	 * @throws AuthenticationException
+	 */
+	public DeleteTransactionResponse deleteTransaction(DeleteTransactionForm form) throws SystemException {
 		DeleteTransactionResponse res = new DeleteTransactionResponse();
 
 		// ユーザー認証
-		try {
-			Long userNo = authenticationService.authUser(form);
-			form.setUserNo(userNo);
-		} catch (AuthenticationException e) {
-			res.setStatus(Status.ERROR.getStatus());
-			res.setMessage(Message.AUTHENTICATION_ERROR.getMessage());
-			return res;
-		}
+		Long userNo = authenticationService.authUser(form);
+		form.setUserNo(userNo);
 
 		// 削除処理
 		try {
@@ -122,19 +119,17 @@ public class TransactionService {
 		return res;
 	}
 
-	/** 収支詳細の取得 */
-	public GetTransactionResponse getTransaction(GetTransactionForm form) {
+	/**
+	 * 収支詳細の取得
+	 * 
+	 * @throws SystemException
+	 */
+	public GetTransactionResponse getTransaction(GetTransactionForm form) throws SystemException {
 		GetTransactionResponse res = new GetTransactionResponse();
 
 		// ユーザー認証
-		try {
-			Long userNo = authenticationService.authUser(form);
-			form.setUserNo(userNo);
-		} catch (AuthenticationException e) {
-			res.setStatus(Status.ERROR.getStatus());
-			res.setMessage(Message.AUTHENTICATION_ERROR.getMessage());
-			return res;
-		}
+		Long userNo = authenticationService.authUser(form);
+		form.setUserNo(userNo);
 
 		// 収支データを取得
 		try {

@@ -7,9 +7,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.example.common.AuthenticationException;
 import com.example.common.Message;
 import com.example.common.Status;
+import com.example.common.exception.AuthenticationException;
 import com.example.domain.User;
 import com.example.form.GetUserInfoForm;
 import com.example.form.LoginForm;

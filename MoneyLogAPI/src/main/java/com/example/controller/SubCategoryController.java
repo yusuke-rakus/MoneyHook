@@ -6,6 +6,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.example.common.exception.SystemException;
 import com.example.form.GetSubCategoryListForm;
 import com.example.response.SubCategoryResponse;
 import com.example.service.SubCategoryService;
@@ -19,7 +20,7 @@ public class SubCategoryController {
 
 	/** カテゴリ一覧の取得 */
 	@PostMapping("/getSubCategoryList")
-	public SubCategoryResponse getSubCategoryList(@RequestBody GetSubCategoryListForm form) {
+	public SubCategoryResponse getSubCategoryList(@RequestBody GetSubCategoryListForm form) throws SystemException {
 		return subCategoryService.getSubCategoryList(form);
 	}
 

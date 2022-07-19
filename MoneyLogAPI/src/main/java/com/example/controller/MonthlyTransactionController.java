@@ -6,6 +6,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.example.common.exception.SystemException;
 import com.example.form.DeleteFixedForm;
 import com.example.form.GetDeletedFixedForm;
 import com.example.form.GetFixedForm;
@@ -23,21 +24,20 @@ public class MonthlyTransactionController {
 
 	/** カテゴリ一覧の取得 */
 	@PostMapping("/getFixed")
-	public GetFixedResponse getCategoryList(@RequestBody GetFixedForm form) {
+	public GetFixedResponse getCategoryList(@RequestBody GetFixedForm form) throws SystemException {
 		return monthlyTransactionService.getFixed(form);
 	}
-	
+
 	/** 固定費データの削除 */
 	@PostMapping("/deleteFixed")
-	public DeleteFixedResponse deleteFixed(@RequestBody DeleteFixedForm form) {
+	public DeleteFixedResponse deleteFixed(@RequestBody DeleteFixedForm form) throws SystemException {
 		return monthlyTransactionService.deleteFixed(form);
 	}
-	
+
 	/** 計算対象外の固定費一覧取得 */
 	@PostMapping("/getDeletedFixed")
-	public GetDeletedFixedResponse getDeletedFixed(@RequestBody GetDeletedFixedForm form) {
+	public GetDeletedFixedResponse getDeletedFixed(@RequestBody GetDeletedFixedForm form) throws SystemException {
 		return monthlyTransactionService.getDeletedFixed(form);
 	}
-	
 
 }

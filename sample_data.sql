@@ -204,7 +204,7 @@ INSERT INTO
     transaction(
         user_no,
         transaction_name,
-        amount,
+        transaction_amount,
         transaction_date,
         category_id,
         sub_category_id,

@@ -9,7 +9,7 @@
 		transaction(
 			user_no,
 			transaction_name,
-			amount,
+			transaction_amount,
 			transaction_date,
 			category_id,
 			sub_category_id,
@@ -18,7 +18,7 @@
 		VALUES(
 			#{userNo},
 			#{transactionName},
-			#{amount},
+			#{transactionAmount},
 			#{transactionDate},
 			#{categoryId},
 			#{subCategoryId},
@@ -39,7 +39,8 @@
 		SELECT
 			t.transaction_date,
 			t.transaction_name,
-			t.amount, t.category_id,
+			t.transaction_amount, 
+			t.category_id,
 			c.category_name,
 			t.sub_category_id,
 			sc.sub_category_name,

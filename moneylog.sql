@@ -53,7 +53,7 @@ CREATE TABLE IF NOT EXISTS transaction(
     transaction_id bigint UNSIGNED AUTO_INCREMENT,
     user_no bigint UNSIGNED NOT NULL,
     transaction_name varchar(32) NOT NULL,
-    amount int NOT NULL,
+    transaction_amount int NOT NULL,
     transaction_date date NOT NULL,
     category_id bigint UNSIGNED NOT NULL,
     sub_category_id bigint UNSIGNED NOT NULL,

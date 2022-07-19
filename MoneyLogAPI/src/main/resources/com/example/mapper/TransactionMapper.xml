@@ -34,6 +34,23 @@
 			transaction_id = #{transactionId} AND user_no = #{userNo};
 	</delete>
 	
+	<!-- 収支を編集 -->
+	<update id="editTransaction">
+		UPDATE
+			transaction
+		SET
+			transaction_name=#{transactionName},
+			transaction_amount=#{transactionAmount},
+			transaction_date=#{transactionDate},
+			category_id=#{categoryId},
+			sub_category_id=#{subCategoryId},
+			fixed_flg=#{fixedFlg}
+		WHERE
+			transaction_id=#{transactionId}
+		AND
+			user_no=#{userNo};
+	</update>
+	
 	<!-- 収支詳細の取得 -->
 	<select id="getTransaction" resultType="com.example.domain.Transaction">
 		SELECT

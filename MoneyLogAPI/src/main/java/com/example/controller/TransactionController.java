@@ -10,10 +10,12 @@ import com.example.common.exception.AuthenticationException;
 import com.example.common.exception.SystemException;
 import com.example.form.AddTransactionForm;
 import com.example.form.DeleteTransactionForm;
+import com.example.form.EditTransactionForm;
 import com.example.form.GetMonthlySpendingDataForm;
 import com.example.form.GetTransactionForm;
 import com.example.response.AddTransactionResponse;
 import com.example.response.DeleteTransactionResponse;
+import com.example.response.EditTransactionResponse;
 import com.example.response.GetMonthlySpendingDataResponse;
 import com.example.response.GetTransactionResponse;
 import com.example.service.TransactionService;
@@ -43,6 +45,16 @@ public class TransactionController {
 	@PostMapping("/deleteTransaction")
 	public DeleteTransactionResponse deleteTransaction(@RequestBody DeleteTransactionForm form) throws SystemException {
 		return transactionService.deleteTransaction(form);
+	}
+
+	/**
+	 * 収支を編集
+	 * 
+	 * @throws AuthenticationException
+	 */
+	@PostMapping("/editTransaction")
+	public EditTransactionResponse editTransaction(@RequestBody EditTransactionForm form) throws SystemException {
+		return transactionService.editTransaction(form);
 	}
 
 	/**

@@ -10,9 +10,11 @@ import com.example.common.exception.AuthenticationException;
 import com.example.common.exception.SystemException;
 import com.example.form.AddTransactionForm;
 import com.example.form.DeleteTransactionForm;
+import com.example.form.GetMonthlySpendingDataForm;
 import com.example.form.GetTransactionForm;
 import com.example.response.AddTransactionResponse;
 import com.example.response.DeleteTransactionResponse;
+import com.example.response.GetMonthlySpendingDataResponse;
 import com.example.response.GetTransactionResponse;
 import com.example.service.TransactionService;
 
@@ -33,15 +35,34 @@ public class TransactionController {
 		return transactionService.addTransaction(form);
 	}
 
-	/** 収支を削除 */
+	/**
+	 * 収支を削除
+	 * 
+	 * @throws AuthenticationException
+	 */
 	@PostMapping("/deleteTransaction")
 	public DeleteTransactionResponse deleteTransaction(@RequestBody DeleteTransactionForm form) throws SystemException {
 		return transactionService.deleteTransaction(form);
 	}
 
-	/** 収支詳細の取得 */
+	/**
+	 * 収支詳細の取得
+	 * 
+	 * @throws AuthenticationException
+	 */
 	@PostMapping("/getTransaction")
 	public GetTransactionResponse getTransaction(@RequestBody GetTransactionForm form) throws SystemException {
 		return transactionService.getTransaction(form);
+	}
+
+	/**
+	 * ６ヶ月分の合計支出を取得
+	 * 
+	 * @throws AuthenticationException
+	 */
+	@PostMapping("/getMonthlySpendingData")
+	public GetMonthlySpendingDataResponse getMonthlySpendingData(@RequestBody GetMonthlySpendingDataForm form)
+			throws SystemException {
+		return transactionService.getMonthlySpendingData(form);
 	}
 }

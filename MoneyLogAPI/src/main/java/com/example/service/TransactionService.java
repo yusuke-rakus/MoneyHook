@@ -1,5 +1,6 @@
 package com.example.service;
 
+import java.util.List;
 import java.util.Objects;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,11 +15,13 @@ import com.example.domain.SubCategory;
 import com.example.domain.Transaction;
 import com.example.form.AddTransactionForm;
 import com.example.form.DeleteTransactionForm;
+import com.example.form.GetMonthlySpendingDataForm;
 import com.example.form.GetTransactionForm;
 import com.example.mapper.SubCategoryMapper;
 import com.example.mapper.TransactionMapper;
 import com.example.response.AddTransactionResponse;
 import com.example.response.DeleteTransactionResponse;
+import com.example.response.GetMonthlySpendingDataResponse;
 import com.example.response.GetTransactionResponse;
 
 @Service
@@ -144,6 +147,30 @@ public class TransactionService {
 			res.setStatus(Status.ERROR.getStatus());
 			res.setMessage(Message.TRANSACTION_DATA_SELECT_FAILED.getMessage());
 			return res;
+		}
+
+		return res;
+	}
+
+	/**
+	 * ６ヶ月分の合計支出を取得
+	 * 
+	 * @throws AuthenticationException
+	 */
+	public GetMonthlySpendingDataResponse getMonthlySpendingData(GetMonthlySpendingDataForm form)
+			throws SystemException {
+		GetMonthlySpendingDataResponse res = new GetMonthlySpendingDataResponse();
+
+		// ユーザー認証
+		Long userNo = authenticationService.authUser(form);
+		form.setUserNo(userNo);
+
+		// 合計支出リストを取得
+		try {
+			List<Transaction> monthlyTotalAmountList = transactionMapper.getMonthlySpendingData(form);
+			res.setMonthlyTotalAmountList(monthlyTotalAmountList);
+		} catch (Exception e) {
+			res.setStatus(Status.ERROR.getStatus());
 		}
 
 		return res;

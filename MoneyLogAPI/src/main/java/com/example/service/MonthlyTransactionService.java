@@ -8,7 +8,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.example.common.Message;
 import com.example.common.Status;
-import com.example.common.exception.AuthenticationException;
 import com.example.common.exception.SystemException;
 import com.example.domain.MonthlyTransaction;
 import com.example.form.DeleteFixedForm;

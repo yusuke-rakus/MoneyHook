@@ -9,7 +9,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.example.common.Message;
 import com.example.common.Status;
-import com.example.common.exception.AuthenticationException;
 import com.example.domain.User;
 import com.example.form.GetUserInfoForm;
 import com.example.form.LoginForm;
@@ -25,9 +24,6 @@ public class UserService {
 
 	@Autowired
 	private UserMapper userMapper;
-
-	@Autowired
-	private AuthenticationService authenticationService;
 
 	/** ユーザー登録 */
 	public RegistUserResponse registUser(RegistUserForm form) {

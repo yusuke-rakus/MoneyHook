@@ -13,6 +13,8 @@ public class Transaction {
 	private Long subCategoryId;
 	private boolean fixedFlg;
 
+	private String categoryName;
+	private String subCategoryName;
 	private Integer totalAmount;
 	private String month;
 
@@ -78,6 +80,22 @@ public class Transaction {
 
 	public void setFixedFlg(boolean fixedFlg) {
 		this.fixedFlg = fixedFlg;
+	}
+
+	public String getCategoryName() {
+		return categoryName;
+	}
+
+	public void setCategoryName(String categoryName) {
+		this.categoryName = categoryName;
+	}
+
+	public String getSubCategoryName() {
+		return subCategoryName;
+	}
+
+	public void setSubCategoryName(String subCategoryName) {
+		this.subCategoryName = subCategoryName;
 	}
 
 	public Integer getTotalAmount() {

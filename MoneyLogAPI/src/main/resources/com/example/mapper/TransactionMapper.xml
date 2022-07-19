@@ -52,5 +52,29 @@
 		WHERE t.user_no = #{userNo} AND t.transaction_id = #{transactionId};
 	</select>
 	
+		<!-- ６ヶ月分の合計支出を取得 -->
+	<resultMap type="com.example.domain.Transaction" id="getMonthlySpendingDataMap">
+		<result column="month" property="month" />
+		<result column="total_amount" property="totalAmount" />
+	</resultMap>
+	
+		<!-- ６ヶ月分の合計支出を取得 -->
+	<select id="getMonthlySpendingData" resultMap="getMonthlySpendingDataMap">
+		SELECT
+			DATE_FORMAT(transaction_date, "%m") as month,
+			SUM(transaction_amount) as total_amount
+		FROM
+			transaction
+		WHERE
+			user_no = #{userNo}
+		AND
+			0 > transaction_amount
+		AND
+			transaction_date 
+				BETWEEN DATE_SUB(#{month}, INTERVAL 5 MONTH)
+				AND  DATE_ADD(#{month}, INTERVAL 1 MONTH)
+		GROUP BY month
+		LIMIT 6;
+	</select>
 		
 </mapper>

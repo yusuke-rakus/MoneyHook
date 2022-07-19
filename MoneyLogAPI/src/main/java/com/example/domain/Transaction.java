@@ -13,6 +13,9 @@ public class Transaction {
 	private Long subCategoryId;
 	private boolean fixedFlg;
 
+	private Integer totalAmount;
+	private String month;
+
 	public Long getTransactionId() {
 		return transactionId;
 	}
@@ -77,11 +80,27 @@ public class Transaction {
 		this.fixedFlg = fixedFlg;
 	}
 
+	public Integer getTotalAmount() {
+		return totalAmount;
+	}
+
+	public void setTotalAmount(Integer totalAmount) {
+		this.totalAmount = totalAmount;
+	}
+
+	public String getMonth() {
+		return month;
+	}
+
+	public void setMonth(String month) {
+		this.month = month;
+	}
+
 	@Override
 	public String toString() {
 		return "Transaction [transactionId=" + transactionId + ", userNo=" + userNo + ", transactionName="
-				+ transactionName + ", amount=" + transactionAmount + ", transactionDate=" + transactionDate + ", categoryId="
-				+ categoryId + ", subCategoryId=" + subCategoryId + ", fixedFlg=" + fixedFlg + "]";
+				+ transactionName + ", amount=" + transactionAmount + ", transactionDate=" + transactionDate
+				+ ", categoryId=" + categoryId + ", subCategoryId=" + subCategoryId + ", fixedFlg=" + fixedFlg + "]";
 	}
 
 }

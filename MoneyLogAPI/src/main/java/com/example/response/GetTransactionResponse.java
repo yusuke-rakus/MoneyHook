@@ -4,7 +4,7 @@ import com.example.domain.Transaction;
 
 public class GetTransactionResponse extends response {
 
-	Transaction transaction;
+	private Transaction transaction;
 
 	public Transaction getTransaction() {
 		return transaction;

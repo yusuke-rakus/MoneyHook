@@ -2,7 +2,6 @@ package com.example.response;
 
 import java.util.List;
 
-import com.example.domain.MonthlyTransaction;
 import com.example.domain.Transaction;
 
 public class GetMonthlySpendingDataResponse extends response {

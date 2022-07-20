@@ -9,7 +9,9 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.example.common.Message;
 import com.example.common.Status;
+import com.example.domain.ChangePasswordResponse;
 import com.example.domain.User;
+import com.example.form.ChangePasswordForm;
 import com.example.form.GetUserInfoForm;
 import com.example.form.LoginForm;
 import com.example.form.RegistUserForm;
@@ -24,6 +26,9 @@ public class UserService {
 
 	@Autowired
 	private UserMapper userMapper;
+
+	@Autowired
+	private AuthenticationService authenticationService;
 
 	/** ユーザー登録 */
 	public RegistUserResponse registUser(RegistUserForm form) {
@@ -89,6 +94,26 @@ public class UserService {
 		} catch (Exception e) {
 			res.setStatus(Status.ERROR.getStatus());
 			res.setMessage(Message.USER_INFO_GET_FAILED.getMessage());
+		}
+
+		return res;
+	}
+
+	/**
+	 * パスワード変更
+	 * 
+	 * @throws Exception
+	 */
+	public ChangePasswordResponse changePassword(ChangePasswordForm form) throws Exception {
+		ChangePasswordResponse res = new ChangePasswordResponse();
+
+		// ユーザー認証
+		Long userNo = authenticationService.authUser(form);
+		form.setUserNo(userNo);
+
+		boolean updateResult = userMapper.changePassword(form);
+		if (!updateResult) {
+			throw new Exception();
 		}
 
 		return res;

@@ -6,6 +6,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.example.domain.ChangePasswordResponse;
+import com.example.form.ChangePasswordForm;
 import com.example.form.GetUserInfoForm;
 import com.example.form.LoginForm;
 import com.example.form.RegistUserForm;
@@ -32,11 +34,21 @@ public class UserController {
 	public LoginResponse login(@RequestBody LoginForm form) {
 		return userService.login(form);
 	}
-	
+
 	/** ユーザー情報の取得 */
 	@PostMapping("/getUserInfo")
 	public GetUserInfoResponse getUserInfo(@RequestBody GetUserInfoForm form) {
 		return userService.getUserInfo(form);
+	}
+
+	/**
+	 * パスワード変更
+	 * 
+	 * @throws Exception
+	 */
+	@PostMapping("/changePassword")
+	public ChangePasswordResponse changePassword(@RequestBody ChangePasswordForm form) throws Exception {
+		return userService.changePassword(form);
 	}
 
 }

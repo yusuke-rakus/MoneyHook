@@ -62,5 +62,17 @@
 		WHERE
 			user_id = #{userId};
 	</select>
+	
+	<!-- パスワード変更 -->
+	<update id="changePassword">
+		UPDATE
+			user
+		SET
+			password=#{newPassword}
+		WHERE
+			user_no=#{userNo}
+		AND
+			password=#{password};
+	</update>
 
 </mapper>

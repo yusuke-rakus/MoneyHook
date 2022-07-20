@@ -4,7 +4,6 @@ import java.sql.Date;
 
 public class AddTransactionForm extends form {
 
-	private Long userNo;
 	private Date transactionDate;
 	private Integer transactionAmount;
 	private String transactionName;
@@ -12,14 +11,6 @@ public class AddTransactionForm extends form {
 	private Long subCategoryId;
 	private String subCategoryName;
 	private boolean fixedFlg;
-
-	public Long getUserNo() {
-		return userNo;
-	}
-
-	public void setUserNo(Long userNo) {
-		this.userNo = userNo;
-	}
 
 	public Date getTransactionDate() {
 		return transactionDate;
@@ -75,13 +66,6 @@ public class AddTransactionForm extends form {
 
 	public void setFixedFlg(boolean fixedFlg) {
 		this.fixedFlg = fixedFlg;
-	}
-
-	@Override
-	public String toString() {
-		return "AddTransactionForm [userNo=" + userNo + ", transactionDate=" + transactionDate + ", amount=" + transactionAmount
-				+ ", transactionName=" + transactionName + ", categoryId=" + categoryId + ", subCategoryId="
-				+ subCategoryId + ", subCategoryName=" + subCategoryName + ", fixedFlg=" + fixedFlg + "]";
 	}
 
 }

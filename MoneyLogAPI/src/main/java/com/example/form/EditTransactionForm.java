@@ -4,7 +4,6 @@ import java.sql.Date;
 
 public class EditTransactionForm extends form {
 
-	private Long userNo;
 	private Long transactionId;
 	private Date transactionDate;
 	private Integer transactionAmount;
@@ -13,14 +12,6 @@ public class EditTransactionForm extends form {
 	private Long subCategoryId;
 	private String subCategoryName;
 	private boolean fixedFlg;
-
-	public Long getUserNo() {
-		return userNo;
-	}
-
-	public void setUserNo(Long userNo) {
-		this.userNo = userNo;
-	}
 
 	public Long getTransactionId() {
 		return transactionId;

@@ -12,8 +12,10 @@ public enum Message {
 	TRANSACTION_DATE_EMPTY_ERROR("日付を入力してください"),
 	/** 金額未入力 */
 	AMOUNT_EMPTY_ERROR("金額を入力してください"),
-	/** 取引金額未入力 */
+	/** 取引名未入力 */
 	TRANSACTION_NAME_EMPTY_ERROR("取引名を入力してください"),
+	/** 貯金目標名未入力 */
+	SAVING_TARGET_NAME_EMPTY_ERROR("貯金目標名を入力してください"),
 	/** サブカテゴリ登録済み */
 	SUB_CATEGORY_ALREADY_REGISTERED("登録されているサブカテゴリです"),
 	
@@ -33,7 +35,13 @@ public enum Message {
 	/** ユーザー情報の取得失敗 */
 	USER_INFO_GET_FAILED("ユーザー情報の取得に失敗しました"),
 	/** 月次取引データの失敗 */
-	DELETE_FIXED_ERROR("月次取引データの削除に失敗しました");
+	DELETE_FIXED_ERROR("月次取引データの削除に失敗しました"),
+	/** 貯金目標の追加失敗 */
+	SAVING_TARGET_INSERT_FAILED("貯金目標の追加に失敗しました"),
+	
+	// success
+	/** 貯金目標の追加成功 */
+	SAVING_TARGET_INSERT_SUCCESSED("貯金目標の追加が完了しました。");
 
 	private String message;
 

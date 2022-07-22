@@ -20,6 +20,7 @@ import com.example.form.EditTransactionForm;
 import com.example.form.GetMonthlyFixedIncomeForm;
 import com.example.form.GetMonthlyFixedSpendingForm;
 import com.example.form.GetMonthlySpendingDataForm;
+import com.example.form.GetTimelineDataForm;
 import com.example.form.GetTransactionForm;
 import com.example.mapper.SubCategoryMapper;
 import com.example.mapper.TransactionMapper;
@@ -29,6 +30,7 @@ import com.example.response.EditTransactionResponse;
 import com.example.response.GetMonthlyFixedIncomeResponse;
 import com.example.response.GetMonthlyFixedSpendingResponse;
 import com.example.response.GetMonthlySpendingDataResponse;
+import com.example.response.GetTimelineDataResponse;
 import com.example.response.GetTransactionResponse;
 
 @Service
@@ -261,8 +263,7 @@ public class TransactionService {
 	 * 
 	 * @throws AuthenticationException
 	 */
-	public GetMonthlyFixedIncomeResponse getMonthlyFixedIncome(GetMonthlyFixedIncomeForm form)
-			throws SystemException {
+	public GetMonthlyFixedIncomeResponse getMonthlyFixedIncome(GetMonthlyFixedIncomeForm form) throws SystemException {
 		GetMonthlyFixedIncomeResponse res = new GetMonthlyFixedIncomeResponse();
 
 		// ユーザー認証
@@ -279,6 +280,30 @@ public class TransactionService {
 		} catch (Exception e) {
 			res.setStatus(Status.ERROR.getStatus());
 			res.setMessage(Message.MONTHLY_FIXED_SPENDING_GET_FAILED.getMessage());
+		}
+
+		return res;
+	}
+
+	/**
+	 * 当月のTransactionデータを取得
+	 * 
+	 * @throws AuthenticationException
+	 */
+	public GetTimelineDataResponse getTimelineData(GetTimelineDataForm form) throws SystemException {
+		GetTimelineDataResponse res = new GetTimelineDataResponse();
+
+		// ユーザー認証
+		Long userNo = authenticationService.authUser(form);
+		form.setUserNo(userNo);
+
+		// タイムラインデータを取得
+		try {
+			List<Transaction> transactionList = transactionMapper.getTimelineData(form);
+			res.setTransactionList(transactionList);
+		} catch (Exception e) {
+			res.setStatus(Status.ERROR.getStatus());
+			res.setMessage(Message.TIMELINE_DATA_GET_FAILED.getMessage());
 		}
 
 		return res;

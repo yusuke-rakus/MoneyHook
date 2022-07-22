@@ -127,7 +127,7 @@
 		ORDER BY total_category_amount;
 	</select>
 	
-	<!-- 月別固定支出の取得 -->
+	<!-- 月別固定収入の取得 -->
 	<select id="getMonthlyFixedIncome" resultMap="monthlyFixedMap">
 		SELECT
 			c.category_name,
@@ -148,6 +148,24 @@
 			transaction_amount > 0
 		AND t.fixed_flg = true
 		ORDER BY total_category_amount;
+	</select>
+	
+	<!-- 当月のTransactionデータを取得 -->
+	<select id="getTimelineData" resultType="com.example.domain.Transaction">
+		SELECT
+			t.transaction_id,
+			t.transaction_name,
+			t.transaction_amount,
+			t.transaction_date,
+			c.category_name
+		FROM
+			transaction t
+		INNER JOIN category c ON c.category_id = t.category_id
+		WHERE user_no = #{userNo}
+		AND 0 > t.transaction_amount
+		AND t.transaction_date 
+			BETWEEN #{month} AND  DATE_ADD(#{month}, INTERVAL 1 MONTH)
+		ORDER BY t.transaction_date DESC;
 	</select>
 		
 </mapper>

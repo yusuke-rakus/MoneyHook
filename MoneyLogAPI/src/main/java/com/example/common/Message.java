@@ -3,7 +3,7 @@ package com.example.common;
 public enum Message {
 
 	/** 入力されたメールアドレスは既に登録済み */
-	MAIL_ADDRESS_ALREADY_REGISTERED("入力されたメールアドレスは既に登録済みです"), 
+	MAIL_ADDRESS_ALREADY_REGISTERED("入力されたメールアドレスは既に登録済みです"),
 	/** メールアドレス未登録 */
 	UNREGISTERED_MAIL_ADDRESS("登録されていないメールアドレスです"),
 	/** パスワード不一致 */
@@ -18,7 +18,7 @@ public enum Message {
 	SAVING_TARGET_NAME_EMPTY_ERROR("貯金目標名を入力してください"),
 	/** サブカテゴリ登録済み */
 	SUB_CATEGORY_ALREADY_REGISTERED("登録されているサブカテゴリです"),
-	
+
 	// エラーメッセージ
 	/** システムエラー */
 	SYSTEM_ERROR("システムエラーが発生しました"),
@@ -38,6 +38,10 @@ public enum Message {
 	DELETE_FIXED_ERROR("月次取引データの削除に失敗しました"),
 	/** 貯金目標の追加失敗 */
 	SAVING_TARGET_INSERT_FAILED("貯金目標の追加に失敗しました"),
+	/** 固定収支の取得に失敗しました */
+	MONTHLY_FIXED_SPENDING_GET_FAILED("固定収支の取得に失敗しました"),
+	/** タイムラインデータの取得に失敗 */
+	TIMELINE_DATA_GET_FAILED("タイムラインデータの取得に失敗しました"),
 	
 	// success
 	/** 貯金目標の追加成功 */

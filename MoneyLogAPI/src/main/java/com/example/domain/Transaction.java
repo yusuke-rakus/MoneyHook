@@ -117,8 +117,10 @@ public class Transaction {
 	@Override
 	public String toString() {
 		return "Transaction [transactionId=" + transactionId + ", userNo=" + userNo + ", transactionName="
-				+ transactionName + ", amount=" + transactionAmount + ", transactionDate=" + transactionDate
-				+ ", categoryId=" + categoryId + ", subCategoryId=" + subCategoryId + ", fixedFlg=" + fixedFlg + "]";
+				+ transactionName + ", transactionAmount=" + transactionAmount + ", transactionDate=" + transactionDate
+				+ ", categoryId=" + categoryId + ", subCategoryId=" + subCategoryId + ", fixedFlg=" + fixedFlg
+				+ ", categoryName=" + categoryName + ", subCategoryName=" + subCategoryName + ", totalAmount="
+				+ totalAmount + ", month=" + month + "]";
 	}
 
 }

@@ -11,11 +11,13 @@ import com.example.common.Message;
 import com.example.common.Status;
 import com.example.common.exception.AuthenticationException;
 import com.example.common.exception.SystemException;
+import com.example.domain.MonthlyFixedList;
 import com.example.domain.SubCategory;
 import com.example.domain.Transaction;
 import com.example.form.AddTransactionForm;
 import com.example.form.DeleteTransactionForm;
 import com.example.form.EditTransactionForm;
+import com.example.form.GetMonthlyFixedSpendingForm;
 import com.example.form.GetMonthlySpendingDataForm;
 import com.example.form.GetTransactionForm;
 import com.example.mapper.SubCategoryMapper;
@@ -23,6 +25,7 @@ import com.example.mapper.TransactionMapper;
 import com.example.response.AddTransactionResponse;
 import com.example.response.DeleteTransactionResponse;
 import com.example.response.EditTransactionResponse;
+import com.example.response.GetMonthlyFixedSpendingResponse;
 import com.example.response.GetMonthlySpendingDataResponse;
 import com.example.response.GetTransactionResponse;
 
@@ -218,6 +221,34 @@ public class TransactionService {
 			res.setMonthlyTotalAmountList(monthlyTotalAmountList);
 		} catch (Exception e) {
 			res.setStatus(Status.ERROR.getStatus());
+		}
+
+		return res;
+	}
+
+	/**
+	 * 月別固定支出の取得
+	 * 
+	 * @throws AuthenticationException
+	 */
+	public GetMonthlyFixedSpendingResponse getMonthlyFixedSpending(GetMonthlyFixedSpendingForm form)
+			throws SystemException {
+		GetMonthlyFixedSpendingResponse res = new GetMonthlyFixedSpendingResponse();
+
+		// ユーザー認証
+		Long userNo = authenticationService.authUser(form);
+		form.setUserNo(userNo);
+
+		// 合計支出リストを取得
+		try {
+			List<MonthlyFixedList> monthlyFixedList = transactionMapper.getMonthlyFixedSpending(form);
+			res.setMonthlyFixedList(monthlyFixedList);
+
+			Integer disposableIncome = monthlyFixedList.stream().mapToInt(i -> i.getTotalCategoryAmount()).sum();
+			res.setDisposableIncome(disposableIncome);
+		} catch (Exception e) {
+			res.setStatus(Status.ERROR.getStatus());
+			res.setMessage(Message.MONTHLY_FIXED_SPENDING_GET_FAILED.getMessage());
 		}
 
 		return res;

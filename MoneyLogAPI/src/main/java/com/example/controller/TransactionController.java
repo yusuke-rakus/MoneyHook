@@ -11,11 +11,13 @@ import com.example.common.exception.SystemException;
 import com.example.form.AddTransactionForm;
 import com.example.form.DeleteTransactionForm;
 import com.example.form.EditTransactionForm;
+import com.example.form.GetMonthlyFixedSpendingForm;
 import com.example.form.GetMonthlySpendingDataForm;
 import com.example.form.GetTransactionForm;
 import com.example.response.AddTransactionResponse;
 import com.example.response.DeleteTransactionResponse;
 import com.example.response.EditTransactionResponse;
+import com.example.response.GetMonthlyFixedSpendingResponse;
 import com.example.response.GetMonthlySpendingDataResponse;
 import com.example.response.GetTransactionResponse;
 import com.example.service.TransactionService;
@@ -76,5 +78,16 @@ public class TransactionController {
 	public GetMonthlySpendingDataResponse getMonthlySpendingData(@RequestBody GetMonthlySpendingDataForm form)
 			throws SystemException {
 		return transactionService.getMonthlySpendingData(form);
+	}
+
+	/**
+	 * 月別固定支出の取得
+	 * 
+	 * @throws AuthenticationException
+	 */
+	@PostMapping("/getMonthlyFixedSpending")
+	public GetMonthlyFixedSpendingResponse getMonthlyFixedSpending(@RequestBody GetMonthlyFixedSpendingForm form)
+			throws SystemException {
+		return transactionService.getMonthlyFixedSpending(form);
 	}
 }

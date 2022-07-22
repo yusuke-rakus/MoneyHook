@@ -34,8 +34,10 @@ public enum Message {
 	USER_INFO_GET_FAILED("ユーザー情報の取得に失敗しました"),
 	/** 月次取引データの失敗 */
 	DELETE_FIXED_ERROR("月次取引データの削除に失敗しました"),
-	/** 固定支出の取得に失敗しました */
-	MONTHLY_FIXED_SPENDING_GET_FAILED("月次取引データの削除に失敗しました");
+	/** 固定収支の取得に失敗しました */
+	MONTHLY_FIXED_SPENDING_GET_FAILED("固定収支の取得に失敗しました"),
+	/** タイムラインデータの取得に失敗 */
+	TIMELINE_DATA_GET_FAILED("タイムラインデータの取得に失敗");
 
 	private String message;
 

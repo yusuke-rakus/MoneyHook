@@ -14,6 +14,7 @@ import com.example.form.EditTransactionForm;
 import com.example.form.GetMonthlyFixedIncomeForm;
 import com.example.form.GetMonthlyFixedSpendingForm;
 import com.example.form.GetMonthlySpendingDataForm;
+import com.example.form.GetTimelineDataForm;
 import com.example.form.GetTransactionForm;
 import com.example.response.AddTransactionResponse;
 import com.example.response.DeleteTransactionResponse;
@@ -21,6 +22,7 @@ import com.example.response.EditTransactionResponse;
 import com.example.response.GetMonthlyFixedIncomeResponse;
 import com.example.response.GetMonthlyFixedSpendingResponse;
 import com.example.response.GetMonthlySpendingDataResponse;
+import com.example.response.GetTimelineDataResponse;
 import com.example.response.GetTransactionResponse;
 import com.example.service.TransactionService;
 
@@ -102,5 +104,15 @@ public class TransactionController {
 	public GetMonthlyFixedIncomeResponse getMonthlyFixedIncome(@RequestBody GetMonthlyFixedIncomeForm form)
 			throws SystemException {
 		return transactionService.getMonthlyFixedIncome(form);
+	}
+
+	/**
+	 * 当月のTransactionデータを取得
+	 * 
+	 * @throws AuthenticationException
+	 */
+	@PostMapping("/getTimelineData")
+	public GetTimelineDataResponse getMonthlyFixedIncome(@RequestBody GetTimelineDataForm form) throws SystemException {
+		return transactionService.getTimelineData(form);
 	}
 }

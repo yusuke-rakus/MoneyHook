@@ -12,6 +12,7 @@ import com.example.form.EditTransactionForm;
 import com.example.form.GetMonthlyFixedIncomeForm;
 import com.example.form.GetMonthlyFixedSpendingForm;
 import com.example.form.GetMonthlySpendingDataForm;
+import com.example.form.GetTimelineDataForm;
 import com.example.form.GetTransactionForm;
 
 @Mapper
@@ -37,5 +38,8 @@ public interface TransactionMapper {
 
 	/** 月別固定収入の取得 */
 	public List<MonthlyFixedList> getMonthlyFixedIncome(GetMonthlyFixedIncomeForm form);
+
+	/** 当月のTransactionデータを取得 */
+	public List<Transaction> getTimelineData(GetTimelineDataForm form);
 
 }

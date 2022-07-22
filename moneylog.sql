@@ -71,7 +71,8 @@ CREATE TABLE IF NOT EXISTS saving_target (
     target_amount int NOT NULL,
     delete_flg boolean NOT NULL,
     PRIMARY KEY(saving_target_id),
-    FOREIGN KEY user_no(user_no) REFERENCES user(user_no)
+    FOREIGN KEY user_no(user_no) REFERENCES user(user_no),
+    UNIQUE(user_no, saving_target_name)
 );
 
 CREATE TABLE IF NOT EXISTS saving (

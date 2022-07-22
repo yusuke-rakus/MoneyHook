@@ -3,7 +3,7 @@ package com.example.common;
 public enum Message {
 
 	/** 入力されたメールアドレスは既に登録済み */
-	MAIL_ADDRESS_ALREADY_REGISTERED("入力されたメールアドレスは既に登録済みです"), 
+	MAIL_ADDRESS_ALREADY_REGISTERED("入力されたメールアドレスは既に登録済みです"),
 	/** メールアドレス未登録 */
 	UNREGISTERED_MAIL_ADDRESS("登録されていないメールアドレスです"),
 	/** パスワード不一致 */
@@ -16,7 +16,7 @@ public enum Message {
 	TRANSACTION_NAME_EMPTY_ERROR("取引名を入力してください"),
 	/** サブカテゴリ登録済み */
 	SUB_CATEGORY_ALREADY_REGISTERED("登録されているサブカテゴリです"),
-	
+
 	// エラーメッセージ
 	/** システムエラー */
 	SYSTEM_ERROR("システムエラーが発生しました"),
@@ -33,7 +33,9 @@ public enum Message {
 	/** ユーザー情報の取得失敗 */
 	USER_INFO_GET_FAILED("ユーザー情報の取得に失敗しました"),
 	/** 月次取引データの失敗 */
-	DELETE_FIXED_ERROR("月次取引データの削除に失敗しました");
+	DELETE_FIXED_ERROR("月次取引データの削除に失敗しました"),
+	/** 固定支出の取得に失敗しました */
+	MONTHLY_FIXED_SPENDING_GET_FAILED("月次取引データの削除に失敗しました");
 
 	private String message;
 

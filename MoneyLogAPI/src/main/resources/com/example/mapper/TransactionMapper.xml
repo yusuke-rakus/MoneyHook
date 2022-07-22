@@ -69,13 +69,13 @@
 		WHERE t.user_no = #{userNo} AND t.transaction_id = #{transactionId};
 	</select>
 	
-		<!-- ６ヶ月分の合計支出を取得 -->
+	<!-- ６ヶ月分の合計支出を取得 -->
 	<resultMap type="com.example.domain.Transaction" id="getMonthlySpendingDataMap">
 		<result column="month" property="month" />
 		<result column="total_amount" property="totalAmount" />
 	</resultMap>
 	
-		<!-- ６ヶ月分の合計支出を取得 -->
+	<!-- ６ヶ月分の合計支出を取得 -->
 	<select id="getMonthlySpendingData" resultMap="getMonthlySpendingDataMap">
 		SELECT
 			DATE_FORMAT(transaction_date, "%m") as month,
@@ -92,6 +92,39 @@
 				AND  DATE_ADD(#{month}, INTERVAL 1 MONTH)
 		GROUP BY month
 		LIMIT 6;
+	</select>
+	
+	<!-- 月別固定支出を取得 -->
+	<resultMap type="com.example.domain.MonthlyFixedList" id="monthlyFixedSpendingMap">
+		<result column="category_name" property="categoryName" />
+		<result column="total_category_Amount" property="totalCategoryAmount" />
+		<collection property="transactionList" ofType="com.example.domain.Transaction">
+			<result column="transaction_name" property="transactionName" />
+			<result column="transaction_amount" property="transactionAmount" />
+		</collection>
+	</resultMap>
+	
+	<!-- 月別固定支出の取得 -->
+	<select id="getMonthlyFixedSpending" resultMap="monthlyFixedSpendingMap">
+		SELECT
+			c.category_name,
+			sum(t.transaction_amount) OVER(PARTITION BY c.category_name) as total_category_amount,
+			t.transaction_name,
+			t.transaction_amount
+		FROM
+			transaction t
+		INNER JOIN category c ON c.category_id = t.category_id
+		INNER JOIN sub_category sc ON sc.sub_category_id = t.sub_category_id
+		WHERE
+			t.user_no = #{userNo}
+		AND
+			t.transaction_date 
+				BETWEEN #{month}
+				AND  DATE_ADD(#{month}, INTERVAL 1 MONTH)
+		AND
+			0 > transaction_amount
+		AND t.fixed_flg = true
+		ORDER BY total_category_amount;
 	</select>
 		
 </mapper>

@@ -4,8 +4,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.example.common.Message;
 import com.example.common.exception.AuthenticationException;
+import com.example.common.message.ErrorMessage;
 import com.example.form.form;
 import com.example.mapper.UserMapper;
 
@@ -21,7 +21,7 @@ public class AuthenticationService {
 		Long userNo = userMapper.getUserNoFromUserId(form.getUserId());
 
 		if (userNo == null) {
-			throw new AuthenticationException(Message.AUTHENTICATION_ERROR.getMessage());
+			throw new AuthenticationException(ErrorMessage.AUTHENTICATION_ERROR);
 		}
 
 		return userNo;

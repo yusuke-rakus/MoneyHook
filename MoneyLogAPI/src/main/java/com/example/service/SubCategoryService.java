@@ -6,9 +6,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.example.common.Message;
 import com.example.common.Status;
 import com.example.common.exception.SystemException;
+import com.example.common.message.ErrorMessage;
 import com.example.domain.SubCategory;
 import com.example.form.GetSubCategoryListForm;
 import com.example.mapper.SubCategoryMapper;
@@ -40,7 +40,7 @@ public class SubCategoryService {
 			res.setSubCategoryList(subCategoryList);
 		} catch (Exception e) {
 			res.setStatus(Status.ERROR.getStatus());
-			res.setMessage(Message.SUB_CATEGORY_GET_FAILED.getMessage());
+			res.setMessage(ErrorMessage.SUB_CATEGORY_GET_FAILED);
 			return res;
 		}
 

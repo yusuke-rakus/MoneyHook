@@ -7,10 +7,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.example.common.Message;
 import com.example.common.Status;
 import com.example.common.exception.AuthenticationException;
 import com.example.common.exception.SystemException;
+import com.example.common.message.ErrorMessage;
+import com.example.common.message.ValidatingMessage;
 import com.example.domain.MonthlyFixedList;
 import com.example.domain.SubCategory;
 import com.example.domain.Transaction;
@@ -56,17 +57,17 @@ public class TransactionService {
 
 		if (Objects.isNull(form.getTransactionDate())) {
 			res.setStatus(Status.ERROR.getStatus());
-			res.setMessage(Message.TRANSACTION_DATE_EMPTY_ERROR.getMessage());
+			res.setMessage(ValidatingMessage.TRANSACTION_DATE_EMPTY_ERROR);
 			return res;
 		}
 		if (Objects.isNull(form.getTransactionAmount())) {
 			res.setStatus(Status.ERROR.getStatus());
-			res.setMessage(Message.AMOUNT_EMPTY_ERROR.getMessage());
+			res.setMessage(ValidatingMessage.TRANSACTION_AMOUNT_EMPTY_ERROR);
 			return res;
 		}
 		if (Objects.isNull(form.getTransactionName()) || form.getTransactionName().isEmpty()) {
 			res.setStatus(Status.ERROR.getStatus());
-			res.setMessage(Message.TRANSACTION_NAME_EMPTY_ERROR.getMessage());
+			res.setMessage(ValidatingMessage.TRANSACTION_NAME_EMPTY_ERROR);
 			return res;
 		}
 		if (!Objects.isNull(form.getSubCategoryId()) && !Objects.isNull(form.getSubCategoryName())) {
@@ -92,7 +93,7 @@ public class TransactionService {
 				subCategoryMapper.addSubCategory(subCategory);
 			} catch (Exception e) {
 				res.setStatus(Status.ERROR.getStatus());
-				res.setMessage(Message.SUB_CATEGORY_ALREADY_REGISTERED.getMessage());
+				res.setMessage(ErrorMessage.SUB_CATEGORY_ALREADY_REGISTERED);
 				return res;
 			}
 
@@ -157,7 +158,7 @@ public class TransactionService {
 				subCategoryMapper.addSubCategory(subCategory);
 			} catch (Exception e) {
 				res.setStatus(Status.ERROR.getStatus());
-				res.setMessage(Message.SUB_CATEGORY_ALREADY_REGISTERED.getMessage());
+				res.setMessage(ErrorMessage.SUB_CATEGORY_ALREADY_REGISTERED);
 				return res;
 			}
 
@@ -199,7 +200,7 @@ public class TransactionService {
 			res.setTransaction(transaction);
 		} catch (Exception e) {
 			res.setStatus(Status.ERROR.getStatus());
-			res.setMessage(Message.TRANSACTION_DATA_SELECT_FAILED.getMessage());
+			res.setMessage(ErrorMessage.TRANSACTION_DATA_SELECT_FAILED);
 			return res;
 		}
 
@@ -252,7 +253,7 @@ public class TransactionService {
 			res.setDisposableIncome(disposableIncome);
 		} catch (Exception e) {
 			res.setStatus(Status.ERROR.getStatus());
-			res.setMessage(Message.MONTHLY_FIXED_SPENDING_GET_FAILED.getMessage());
+			res.setMessage(ErrorMessage.MONTHLY_FIXED_SPENDING_GET_FAILED);
 		}
 
 		return res;
@@ -279,7 +280,7 @@ public class TransactionService {
 			res.setDisposableIncome(disposableIncome);
 		} catch (Exception e) {
 			res.setStatus(Status.ERROR.getStatus());
-			res.setMessage(Message.MONTHLY_FIXED_SPENDING_GET_FAILED.getMessage());
+			res.setMessage(ErrorMessage.MONTHLY_FIXED_SPENDING_GET_FAILED);
 		}
 
 		return res;
@@ -303,7 +304,7 @@ public class TransactionService {
 			res.setTransactionList(transactionList);
 		} catch (Exception e) {
 			res.setStatus(Status.ERROR.getStatus());
-			res.setMessage(Message.TIMELINE_DATA_GET_FAILED.getMessage());
+			res.setMessage(ErrorMessage.TIMELINE_DATA_GET_FAILED);
 		}
 
 		return res;

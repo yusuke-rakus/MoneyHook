@@ -3,6 +3,7 @@ package com.example.mapper;
 import org.apache.ibatis.annotations.Mapper;
 
 import com.example.domain.User;
+import com.example.form.ChangeEmailForm;
 import com.example.form.ChangePasswordForm;
 import com.example.form.GetUserInfoForm;
 import com.example.form.LoginForm;
@@ -25,5 +26,8 @@ public interface UserMapper {
 	
 	/** パスワード変更 */
 	public boolean changePassword(ChangePasswordForm form);
+	
+	/** メールアドレスを変更 */
+	public boolean changeEmail(ChangeEmailForm form);
 
 }

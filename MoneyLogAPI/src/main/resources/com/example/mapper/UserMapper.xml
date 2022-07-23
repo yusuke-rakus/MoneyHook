@@ -42,7 +42,7 @@
 			u.email = #{email}
 		UNION
 		SELECT
-			u.user_id, 
+			u.user_id,
 			u.password,
 			tc.theme_color_code,
 			tc.theme_color_gradient_code
@@ -69,6 +69,18 @@
 			user
 		SET
 			password=#{newPassword}
+		WHERE
+			user_no=#{userNo}
+		AND
+			password=#{password};
+	</update>
+	
+	<!-- メールアドレス変更 -->
+	<update id="changeEmail">
+		UPDATE
+			user
+		SET
+			email=#{email}
 		WHERE
 			user_no=#{userNo}
 		AND

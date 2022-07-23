@@ -70,5 +70,49 @@
 		AND
 			include_flg = FALSE;
 	</select>
+	
+	<!-- 収支を登録 -->
+	<insert id="registerFixed" parameterType="java.util.List">
+		INSERT INTO
+		monthly_transaction(
+			user_no,
+			monthly_transaction_name,
+			monthly_transaction_amount,
+			monthly_transaction_date,
+			category_id,
+			sub_category_id,
+			include_flg
+		)
+		VALUES
+		<foreach collection="monthlyTransactionList" item="tran" separator=","> 
+		(
+			#{tran.userNo},
+			#{tran.monthlyTransactionName},
+			#{tran.monthlyTransactionAmount},
+			#{tran.monthlyTransactionDate},
+			#{tran.categoryId},
+			#{tran.subCategoryId},
+			TRUE
+		)
+		</foreach>
+		;
+	</insert>
+	
+	<!-- 収支を編集 -->
+	<update id="updateFixed">
+		UPDATE
+			monthly_transaction
+		SET
+			monthly_transaction_name=#{monthlyTransactionName},
+			monthly_transaction_amount=#{monthlyTransactionAmount},
+			monthly_transaction_date=#{monthlyTransactionDate},
+			category_id=#{categoryId},
+			sub_category_id=#{subCategoryId},
+			include_flg=#{includeFlg}
+		WHERE
+			monthly_transaction_id=#{monthlyTransactionId}
+		AND
+			user_no=#{userNo}
+	</update>
 
 </mapper>

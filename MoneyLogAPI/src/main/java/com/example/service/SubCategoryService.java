@@ -1,6 +1,7 @@
 package com.example.service;
 
 import java.util.List;
+import java.util.Objects;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -24,7 +25,7 @@ public class SubCategoryService {
 	@Autowired
 	private AuthenticationService authenticationService;
 
-	/** カテゴリ一覧の取得 */
+	/** サブカテゴリ一覧の取得 */
 	public SubCategoryResponse getSubCategoryList(GetSubCategoryListForm form) throws SystemException {
 		SubCategoryResponse res = new SubCategoryResponse();
 
@@ -45,6 +46,24 @@ public class SubCategoryService {
 		}
 
 		return res;
+	}
+
+	/** サブカテゴリの登録 */
+	public SubCategory insertSubCategory(SubCategory subCategory) {
+		SubCategory returnSubCategory = subCategory;
+
+		Long subCategoryId = subCategoryMapper.checkSubCategory(subCategory);
+
+		// 存在しないサブカテゴリは新規追加
+		if (Objects.isNull(subCategoryId)) {
+			subCategoryMapper.addSubCategory(returnSubCategory);
+		}
+		// 存在する場合はオブジェクトにIDをセット
+		else {
+			returnSubCategory.setSubCategoryId(subCategoryId);
+		}
+
+		return returnSubCategory;
 	}
 
 }

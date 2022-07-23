@@ -3,6 +3,7 @@ package com.example.mapper;
 import java.util.List;
 
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
 
 import com.example.domain.MonthlyTransaction;
 import com.example.form.DeleteFixedForm;
@@ -20,5 +21,11 @@ public interface MonthlyTransactionMapper {
 
 	/** 計算対象外の固定費一覧取得 */
 	public List<MonthlyTransaction> getDeletedFixed(GetDeletedFixedForm form);
+
+	/** 固定費の登録 */
+	public boolean registerFixed(@Param("monthlyTransactionList") List<MonthlyTransaction> list);
+
+	/** 固定費の更新 */
+	public boolean updateFixed(MonthlyTransaction monthlyTransaction);
 
 }

@@ -35,5 +35,13 @@
 		);
 	</insert>
 	
+	<!-- サブカテゴリの存在チェック -->
+	<select id="checkSubCategory" resultType="java.lang.Long">
+		SELECT
+			sub_category_id
+		FROM sub_category
+		WHERE user_no=#{userNo}
+		AND sub_category_name=#{subCategoryName};
+	</select>
 		
 </mapper>

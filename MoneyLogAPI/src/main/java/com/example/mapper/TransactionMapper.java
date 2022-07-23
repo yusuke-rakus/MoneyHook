@@ -4,11 +4,13 @@ import java.util.List;
 
 import org.apache.ibatis.annotations.Mapper;
 
+import com.example.domain.CategoryList;
 import com.example.domain.MonthlyFixedList;
 import com.example.domain.Transaction;
 import com.example.form.AddTransactionForm;
 import com.example.form.DeleteTransactionForm;
 import com.example.form.EditTransactionForm;
+import com.example.form.GetHomeForm;
 import com.example.form.GetMonthlyFixedIncomeForm;
 import com.example.form.GetMonthlyFixedSpendingForm;
 import com.example.form.GetMonthlySpendingDataForm;
@@ -41,5 +43,8 @@ public interface TransactionMapper {
 
 	/** 当月のTransactionデータを取得 */
 	public List<Transaction> getTimelineData(GetTimelineDataForm form);
+
+	/** ホーム画面情報を取得 */
+	public List<CategoryList> getHome(GetHomeForm form);
 
 }

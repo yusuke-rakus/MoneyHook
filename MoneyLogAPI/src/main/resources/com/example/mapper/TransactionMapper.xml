@@ -167,5 +167,42 @@
 			BETWEEN #{month} AND  DATE_ADD(#{month}, INTERVAL 1 MONTH)
 		ORDER BY t.transaction_date DESC;
 	</select>
+	
+	<!-- ホーム画面情報の取得 -->
+	<resultMap type="com.example.domain.CategoryList" id="getHomeMap">
+		<result column="category_name" property="categoryName" />
+		<result column="category_total_amount" property="categoryTotalAmount" />
+		<collection property="subCategoryList" ofType="com.example.domain.Transaction">
+			<result column="sub_category_name" property="subCategoryName" />
+			<result column="sub_category_total_amount" property="subCategoryTotalAmount" />
+		</collection>
+	</resultMap>
+	
+	<!-- ホーム画面情報の取得 -->
+	<select id="getHome" resultMap="getHomeMap">
+		SELECT
+			(select category_name from category where category_id = sub_tran.category_id) as category_name,
+			sum(sub_tran.sub_category_total_amount) OVER(PARTITION BY sub_tran.category_id) as category_total_amount,
+			sub_tran.sub_category_name,
+			sub_tran.sub_category_total_amount
+		FROM
+			transaction t
+		RIGHT JOIN (
+				SELECT
+					st.sub_category_id,
+					ssc.category_id,
+					ssc.sub_category_name,
+					sum(st.transaction_amount) as sub_category_total_amount
+				FROM transaction st
+				INNER JOIN sub_category ssc ON ssc.sub_category_id = st.sub_category_id
+				WHERE st.user_no = #{userNo}
+				AND st.transaction_date BETWEEN #{month} AND  DATE_ADD(#{month}, INTERVAL 1 MONTH)
+				GROUP BY st.sub_category_id
+			) sub_tran ON sub_tran.sub_category_id = t.sub_category_id
+		WHERE t.user_no = #{userNo}
+			AND t.transaction_date BETWEEN #{month} AND  DATE_ADD(#{month}, INTERVAL 1 MONTH)
+		group by t.sub_category_id
+		ORDER BY t.sub_category_id;
+	</select>
 		
 </mapper>

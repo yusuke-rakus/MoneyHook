@@ -11,6 +11,7 @@ import com.example.common.exception.SystemException;
 import com.example.form.AddTransactionForm;
 import com.example.form.DeleteTransactionForm;
 import com.example.form.EditTransactionForm;
+import com.example.form.GetHomeForm;
 import com.example.form.GetMonthlyFixedIncomeForm;
 import com.example.form.GetMonthlyFixedSpendingForm;
 import com.example.form.GetMonthlySpendingDataForm;
@@ -19,6 +20,7 @@ import com.example.form.GetTransactionForm;
 import com.example.response.AddTransactionResponse;
 import com.example.response.DeleteTransactionResponse;
 import com.example.response.EditTransactionResponse;
+import com.example.response.GetHomeResponse;
 import com.example.response.GetMonthlyFixedIncomeResponse;
 import com.example.response.GetMonthlyFixedSpendingResponse;
 import com.example.response.GetMonthlySpendingDataResponse;
@@ -114,5 +116,15 @@ public class TransactionController {
 	@PostMapping("/getTimelineData")
 	public GetTimelineDataResponse getMonthlyFixedIncome(@RequestBody GetTimelineDataForm form) throws SystemException {
 		return transactionService.getTimelineData(form);
+	}
+
+	/**
+	 * ホーム画面情報の取得
+	 * 
+	 * @throws AuthenticationException
+	 */
+	@PostMapping("/getHome")
+	public GetHomeResponse getHome(@RequestBody GetHomeForm form) throws SystemException {
+		return transactionService.getHome(form);
 	}
 }

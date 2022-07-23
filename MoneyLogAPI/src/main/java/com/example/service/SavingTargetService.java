@@ -1,6 +1,5 @@
 package com.example.service;
 
-import java.sql.SQLException;
 import java.util.Objects;
 
 import org.springframework.beans.BeanUtils;
@@ -8,10 +7,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.example.common.Message;
 import com.example.common.Status;
 import com.example.common.exception.AuthenticationException;
-import com.example.common.exception.SystemException;
+import com.example.common.message.ErrorMessage;
+import com.example.common.message.SuccessMessage;
+import com.example.common.message.ValidatingMessage;
 import com.example.domain.SavingTarget;
 import com.example.form.AddSavingTargetForm;
 import com.example.mapper.SavingTargetMapper;
@@ -37,12 +37,12 @@ public class SavingTargetService {
 
 		if (Objects.isNull(form.getSavingTargetName()) || form.getSavingTargetName().isEmpty()) {
 			res.setStatus(Status.ERROR.getStatus());
-			res.setMessage(Message.SAVING_TARGET_NAME_EMPTY_ERROR.getMessage());
+			res.setMessage(ValidatingMessage.SAVING_TARGET_NAME_EMPTY_ERROR);
 			return res;
 		}
 		if (Objects.isNull(form.getTargetAmount())) {
 			res.setStatus(Status.ERROR.getStatus());
-			res.setMessage(Message.AMOUNT_EMPTY_ERROR.getMessage());
+			res.setMessage(ValidatingMessage.TRANSACTION_AMOUNT_EMPTY_ERROR);
 			return res;
 		}
 
@@ -51,12 +51,12 @@ public class SavingTargetService {
 
 		// 既存検索・追加に失敗した場合
 		if (Objects.isNull(savingTarget)) {
-			res.setMessage(Message.SAVING_TARGET_INSERT_FAILED.getMessage());
+			res.setMessage(ErrorMessage.SAVING_TARGET_INSERT_FAILED);
 			return res;
 		}
 
 		res.setSavingTarget(savingTarget);
-		res.setMessage(Message.SAVING_TARGET_INSERT_SUCCESSED.getMessage());
+		res.setMessage(SuccessMessage.SAVING_TARGET_INSERT_SUCCESSED);
 		return res;
 	}
 

@@ -5,6 +5,7 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.example.common.exception.AuthenticationException;
+import com.example.common.message.ErrorMessage;
 import com.example.response.ExceptionResponse;
 
 /**
@@ -27,7 +28,7 @@ public class GlobalExceptionHandler  {
     public ExceptionResponse handleSystemExceptionError() {
     	ExceptionResponse res = new ExceptionResponse();
         res.setStatus(Status.ERROR.getStatus());
-		res.setMessage(Message.SYSTEM_ERROR.getMessage());
+		res.setMessage(ErrorMessage.SYSTEM_ERROR);
         return res;
     }
 
@@ -41,7 +42,7 @@ public class GlobalExceptionHandler  {
     public ExceptionResponse handleAuthenticationError() {
     	ExceptionResponse res = new ExceptionResponse();
     	res.setStatus(Status.ERROR.getStatus());
-    	res.setMessage(Message.AUTHENTICATION_ERROR.getMessage());
+    	res.setMessage(ErrorMessage.AUTHENTICATION_ERROR);
     	return res;
     }
     

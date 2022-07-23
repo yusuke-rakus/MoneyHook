@@ -6,8 +6,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.example.common.Message;
 import com.example.common.Status;
+import com.example.common.message.ErrorMessage;
 import com.example.domain.Category;
 import com.example.mapper.CategoryMapper;
 import com.example.response.CategoryResponse;
@@ -31,7 +31,7 @@ public class CategoryService {
 			res.setCategoryList(categoryList);
 		} catch (Exception e) {
 			res.setStatus(Status.ERROR.getStatus());
-			res.setMessage(Message.CATEGORY_GET_FAILED.getMessage());
+			res.setMessage(ErrorMessage.CATEGORY_GET_FAILED);
 			return res;
 		}
 

@@ -7,8 +7,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.example.common.Message;
 import com.example.common.Status;
+import com.example.common.message.ErrorMessage;
 import com.example.domain.ChangePasswordResponse;
 import com.example.domain.User;
 import com.example.form.ChangePasswordForm;
@@ -47,7 +47,7 @@ public class UserService {
 			res.setUser(user);
 		} catch (Exception e) {
 			res.setStatus(Status.ERROR.getStatus());
-			res.setMessage(Message.MAIL_ADDRESS_ALREADY_REGISTERED.getMessage());
+			res.setMessage(ErrorMessage.MAIL_ADDRESS_ALREADY_REGISTERED);
 		}
 		return res;
 	}
@@ -71,11 +71,11 @@ public class UserService {
 		} catch (NullPointerException e) {
 			res.setStatus(Status.ERROR.getStatus());
 			// メールアドレスをもとにユーザー情報が取得できなかった場合のエラー
-			res.setMessage(Message.UNREGISTERED_MAIL_ADDRESS.getMessage());
+			res.setMessage(ErrorMessage.UNREGISTERED_MAIL_ADDRESS);
 		} catch (Exception e) {
 			res.setStatus(Status.ERROR.getStatus());
 			// パスワードが不一致の場合のエラー
-			res.setMessage(Message.PASSWORD_INCORRECT.getMessage());
+			res.setMessage(ErrorMessage.PASSWORD_INCORRECT);
 		}
 
 		return res;
@@ -93,7 +93,7 @@ public class UserService {
 			res.setUserInfo(user);
 		} catch (Exception e) {
 			res.setStatus(Status.ERROR.getStatus());
-			res.setMessage(Message.USER_INFO_GET_FAILED.getMessage());
+			res.setMessage(ErrorMessage.USER_INFO_GET_FAILED);
 		}
 
 		return res;

@@ -6,9 +6,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.example.common.Message;
 import com.example.common.Status;
 import com.example.common.exception.SystemException;
+import com.example.common.message.ErrorMessage;
 import com.example.domain.MonthlyTransaction;
 import com.example.form.DeleteFixedForm;
 import com.example.form.GetDeletedFixedForm;
@@ -44,7 +44,7 @@ public class MonthlyTransactionService {
 			res.setMonthlyTransactionList(monthlyTransactionList);
 		} catch (Exception e) {
 			res.setStatus(Status.ERROR.getStatus());
-			res.setMessage(Message.MONTHLY_TRANSACTION_NOT_EXISTS.getMessage());
+			res.setMessage(ErrorMessage.MONTHLY_TRANSACTION_NOT_EXISTS);
 		}
 		return res;
 	}
@@ -65,7 +65,7 @@ public class MonthlyTransactionService {
 			monthlyTransactionMapper.deleteFixed(form);
 		} catch (Exception e) {
 			res.setStatus(Status.ERROR.getStatus());
-			res.setMessage(Message.DELETE_FIXED_ERROR.getMessage());
+			res.setMessage(ErrorMessage.DELETE_FIXED_ERROR);
 		}
 
 		return res;
@@ -87,7 +87,7 @@ public class MonthlyTransactionService {
 			res.setMonthlyTransactionList(monthlyTransactionList);
 		} catch (Exception e) {
 			res.setStatus(Status.ERROR.getStatus());
-			res.setMessage(Message.MONTHLY_TRANSACTION_NOT_EXISTS.getMessage());
+			res.setMessage(ErrorMessage.MONTHLY_TRANSACTION_NOT_EXISTS);
 		}
 
 		return res;

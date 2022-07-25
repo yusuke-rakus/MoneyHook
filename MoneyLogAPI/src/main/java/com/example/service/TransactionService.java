@@ -23,6 +23,7 @@ import com.example.form.GetHomeForm;
 import com.example.form.GetMonthlyFixedIncomeForm;
 import com.example.form.GetMonthlyFixedSpendingForm;
 import com.example.form.GetMonthlySpendingDataForm;
+import com.example.form.GetMonthlyVariableDataForm;
 import com.example.form.GetTimelineDataForm;
 import com.example.form.GetTransactionForm;
 import com.example.mapper.SubCategoryMapper;
@@ -34,6 +35,7 @@ import com.example.response.GetHomeResponse;
 import com.example.response.GetMonthlyFixedIncomeResponse;
 import com.example.response.GetMonthlyFixedSpendingResponse;
 import com.example.response.GetMonthlySpendingDataResponse;
+import com.example.response.GetMonthlyVariableDataResponse;
 import com.example.response.GetTimelineDataResponse;
 import com.example.response.GetTransactionResponse;
 
@@ -335,6 +337,29 @@ public class TransactionService {
 		} catch (Exception e) {
 			res.setStatus(Status.ERROR.getStatus());
 			res.setMessage(ErrorMessage.TIMELINE_DATA_GET_FAILED);
+		}
+
+		return res;
+	}
+
+	/**
+	 * 指定月の変動費用・変動費合計を取得
+	 * 
+	 * @throws AuthenticationException
+	 */
+	public GetMonthlyVariableDataResponse getMonthlyVariableData(GetMonthlyVariableDataForm form,
+			GetMonthlyVariableDataResponse res) throws SystemException {
+
+		// データを取得
+		try {
+			List<CategoryList> categoryList = transactionMapper.getMonthlyVariableData(form);
+			res.setMonthlyVariableList(categoryList);
+
+			Integer totalVariable = categoryList.stream().mapToInt(i -> i.getCategoryTotalAmount()).sum();
+			res.setTotalVariable(totalVariable);
+		} catch (Exception e) {
+			res.setStatus(Status.ERROR.getStatus());
+			res.setMessage(ErrorMessage.MONTHLY_VARIABLE_DATA_GET_FAILED);
 		}
 
 		return res;

@@ -15,6 +15,7 @@ import com.example.form.GetHomeForm;
 import com.example.form.GetMonthlyFixedIncomeForm;
 import com.example.form.GetMonthlyFixedSpendingForm;
 import com.example.form.GetMonthlySpendingDataForm;
+import com.example.form.GetMonthlyVariableDataForm;
 import com.example.form.GetTimelineDataForm;
 import com.example.form.GetTransactionForm;
 import com.example.response.AddTransactionResponse;
@@ -24,8 +25,10 @@ import com.example.response.GetHomeResponse;
 import com.example.response.GetMonthlyFixedIncomeResponse;
 import com.example.response.GetMonthlyFixedSpendingResponse;
 import com.example.response.GetMonthlySpendingDataResponse;
+import com.example.response.GetMonthlyVariableDataResponse;
 import com.example.response.GetTimelineDataResponse;
 import com.example.response.GetTransactionResponse;
+import com.example.service.AuthenticationService;
 import com.example.service.TransactionService;
 
 @RestController
@@ -34,6 +37,9 @@ public class TransactionController {
 
 	@Autowired
 	private TransactionService transactionService;
+
+	@Autowired
+	private AuthenticationService authenticationService;
 
 	/**
 	 * 収支を登録
@@ -126,5 +132,22 @@ public class TransactionController {
 	@PostMapping("/getHome")
 	public GetHomeResponse getHome(@RequestBody GetHomeForm form) throws SystemException {
 		return transactionService.getHome(form);
+	}
+
+	/**
+	 * 指定月の変動費用・変動費合計を取得
+	 * 
+	 * @throws AuthenticationException
+	 */
+	@PostMapping("/getMonthlyVariableData")
+	public GetMonthlyVariableDataResponse getMonthlyVariableData(@RequestBody GetMonthlyVariableDataForm form)
+			throws SystemException {
+		GetMonthlyVariableDataResponse res = new GetMonthlyVariableDataResponse();
+
+		// ユーザー認証
+		Long userNo = authenticationService.authUser(form);
+		form.setUserNo(userNo);
+
+		return transactionService.getMonthlyVariableData(form, res);
 	}
 }

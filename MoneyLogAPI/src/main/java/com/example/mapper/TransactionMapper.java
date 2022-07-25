@@ -14,6 +14,7 @@ import com.example.form.GetHomeForm;
 import com.example.form.GetMonthlyFixedIncomeForm;
 import com.example.form.GetMonthlyFixedSpendingForm;
 import com.example.form.GetMonthlySpendingDataForm;
+import com.example.form.GetMonthlyVariableDataForm;
 import com.example.form.GetTimelineDataForm;
 import com.example.form.GetTransactionForm;
 
@@ -46,5 +47,8 @@ public interface TransactionMapper {
 
 	/** ホーム画面情報を取得 */
 	public List<CategoryList> getHome(GetHomeForm form);
+
+	/** 指定月の変動費・変動費合計を取得 */
+	public List<CategoryList> getMonthlyVariableData(GetMonthlyVariableDataForm form);
 
 }

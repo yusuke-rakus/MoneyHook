@@ -9,8 +9,6 @@ public class ErrorMessage {
 	public static final String AUTHENTICATION_ERROR = "認証エラーが発生しました";
 
 	// user
-	/** タイムラインデータの取得に失敗 */
-	public static final String TIMELINE_DATA_GET_FAILED = "タイムラインデータの取得に失敗しました";
 	/** 入力されたメールアドレスは既に登録済み */
 	public static final String MAIL_ADDRESS_ALREADY_REGISTERED = "入力されたメールアドレスは既に登録済みです";
 	/** メールアドレス未登録 */
@@ -25,6 +23,8 @@ public class ErrorMessage {
 	public static final String TRANSACTION_DATA_SELECT_FAILED = "収支データの取得に失敗しました";
 	/** 固定収支の取得に失敗しました */
 	public static final String MONTHLY_FIXED_SPENDING_GET_FAILED = "固定収支の取得に失敗しました";
+	/** タイムラインデータの取得に失敗 */
+	public static final String TIMELINE_DATA_GET_FAILED = "タイムラインデータの取得に失敗しました";
 	/** 変動費データの取得に失敗しました */
 	public static final String MONTHLY_VARIABLE_DATA_GET_FAILED = "変動費データの取得に失敗しました";
 
@@ -38,7 +38,7 @@ public class ErrorMessage {
 	/** カテゴリデータの取得失敗 */
 	public static final String CATEGORY_GET_FAILED = "カテゴリの取得に失敗しました";
 
-	// subcategory
+	// subCategory
 	/** サブカテゴリデータの取得失敗 */
 	public static final String SUB_CATEGORY_GET_FAILED = "サブカテゴリの取得に失敗しました";
 	/** サブカテゴリ登録済み */

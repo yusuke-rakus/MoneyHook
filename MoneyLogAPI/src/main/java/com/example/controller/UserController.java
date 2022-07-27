@@ -9,13 +9,16 @@ import org.springframework.web.bind.annotation.RestController;
 import com.example.domain.ChangePasswordResponse;
 import com.example.form.ChangeEmailForm;
 import com.example.form.ChangePasswordForm;
+import com.example.form.EditThemeColorForm;
 import com.example.form.GetUserInfoForm;
 import com.example.form.LoginForm;
 import com.example.form.RegistUserForm;
 import com.example.response.ChangeEmailResponse;
+import com.example.response.EditThemeColorResponse;
 import com.example.response.GetUserInfoResponse;
 import com.example.response.LoginResponse;
 import com.example.response.RegistUserResponse;
+import com.example.service.AuthenticationService;
 import com.example.service.UserService;
 
 @RestController
@@ -24,6 +27,9 @@ public class UserController {
 
 	@Autowired
 	private UserService userService;
+	
+	@Autowired
+	private AuthenticationService authenticationService;
 
 	/** ユーザー登録 */
 	@PostMapping("/registUser")
@@ -61,6 +67,22 @@ public class UserController {
 	@PostMapping("/changeEmail")
 	public ChangeEmailResponse changeEmail(@RequestBody ChangeEmailForm form) throws Exception {
 		return userService.changeEmail(form);
+	}
+
+	/**
+	 * テーマカラーの変更
+	 * 
+	 * @throws Exception
+	 */
+	@PostMapping("/editThemeColor")
+	public EditThemeColorResponse editThemeColor(@RequestBody EditThemeColorForm form) throws Exception {
+		EditThemeColorResponse res = new EditThemeColorResponse();
+
+		// ユーザー認証
+		Long userNo = authenticationService.authUser(form);
+		form.setUserNo(userNo);
+		
+		return userService.editThemeColor(form, res);
 	}
 
 }

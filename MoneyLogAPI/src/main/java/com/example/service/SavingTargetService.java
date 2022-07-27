@@ -28,40 +28,6 @@ public class SavingTargetService {
 	private AuthenticationService authenticationService;
 
 	/**
-	 * 貯金目標を登録
-	 * 
-	 * @throws AuthenticationException
-	 */
-	public AddSavingTargetResponse addSavingTarget(AddSavingTargetForm form) throws Throwable {
-		AddSavingTargetResponse res = new AddSavingTargetResponse();
-
-		if (Objects.isNull(form.getSavingTargetName()) || form.getSavingTargetName().isEmpty()) {
-			res.setStatus(Status.ERROR.getStatus());
-			res.setMessage(ValidatingMessage.SAVING_TARGET_NAME_EMPTY_ERROR);
-			return res;
-		}
-		if (Objects.isNull(form.getTargetAmount())) {
-			res.setStatus(Status.ERROR.getStatus());
-			res.setMessage(ValidatingMessage.TRANSACTION_AMOUNT_EMPTY_ERROR);
-			return res;
-		}
-
-		// 既存検索・追加処理
-		SavingTarget savingTarget = searchByNameAndInsertSavingTarget(form);
-
-		// 既存検索・追加に失敗した場合
-		if (Objects.isNull(savingTarget)) {
-			res.setMessage(ErrorMessage.SAVING_TARGET_INSERT_FAILED);
-			return res;
-		}
-
-		res.setSavingTarget(savingTarget);
-		res.setMessage(SuccessMessage.SAVING_TARGET_INSERT_SUCCESSED);
-		return res;
-	}
-
-
-	/**
 	 * 貯金目標の新規追加用メソッド。
 	 * 新規追加前に既存の目標の目標名検索を行い、あればそのインスタンスを返却、なければDBに挿入したのち、そのインスタンスを返却します。
 	 * 

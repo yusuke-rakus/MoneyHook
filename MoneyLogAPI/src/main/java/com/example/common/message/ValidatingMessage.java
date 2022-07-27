@@ -10,5 +10,10 @@ public class ValidatingMessage {
 	public static final String TRANSACTION_NAME_EMPTY_ERROR = "取引名を入力してください";
 	/** 貯金目標名未入力 */
 	public static final String SAVING_TARGET_NAME_EMPTY_ERROR = "貯金目標名を入力してください";
+	/** 貯金目標金額未入力 */
+	public static final String SAVING_TARGET_AMOUNT_EMPTY_ERROR = "貯金目標金額を入力してください";
+	
+	/** IDと名前両方未入力 */
+	public static final String BOTH_OF_ID_AND_NAME_EMPTY_ERROR = "対象を選択するか、名前を入力してください";
 	
 }

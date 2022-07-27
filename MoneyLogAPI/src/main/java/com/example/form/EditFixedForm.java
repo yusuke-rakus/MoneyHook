@@ -6,13 +6,13 @@ import com.example.domain.MonthlyTransaction;
 
 public class EditFixedForm extends form {
 
-	private List<MonthlyTransaction> monthlyTransactionList;
+	private List<MonthlyTransactionList> monthlyTransactionList;
 
-	public List<MonthlyTransaction> getMonthlyTransactionList() {
+	public List<MonthlyTransactionList> getMonthlyTransactionList() {
 		return monthlyTransactionList;
 	}
 
-	public void setMonthlyTransactionList(List<MonthlyTransaction> monthlyTransactionList) {
+	public void setMonthlyTransactionList(List<MonthlyTransactionList> monthlyTransactionList) {
 		this.monthlyTransactionList = monthlyTransactionList;
 	}
 

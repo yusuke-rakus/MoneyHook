@@ -86,5 +86,15 @@
 		AND
 			password=#{password};
 	</update>
+	
+	<!-- テーマカラーの変更 -->
+	<update id="editThemeColor">
+		UPDATE
+			user
+		SET
+			theme_color_id=#{themeColorId};
+		WHERE
+			user_no=#{userNo};
+	</update>
 
 </mapper>

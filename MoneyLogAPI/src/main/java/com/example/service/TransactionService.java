@@ -12,15 +12,18 @@ import com.example.common.exception.AuthenticationException;
 import com.example.common.exception.SystemException;
 import com.example.common.message.ErrorMessage;
 import com.example.common.message.ValidatingMessage;
+import com.example.domain.CategoryList;
 import com.example.domain.MonthlyFixedList;
 import com.example.domain.SubCategory;
 import com.example.domain.Transaction;
 import com.example.form.AddTransactionForm;
 import com.example.form.DeleteTransactionForm;
 import com.example.form.EditTransactionForm;
+import com.example.form.GetHomeForm;
 import com.example.form.GetMonthlyFixedIncomeForm;
 import com.example.form.GetMonthlyFixedSpendingForm;
 import com.example.form.GetMonthlySpendingDataForm;
+import com.example.form.GetMonthlyVariableDataForm;
 import com.example.form.GetTimelineDataForm;
 import com.example.form.GetTransactionForm;
 import com.example.mapper.SubCategoryMapper;
@@ -28,9 +31,11 @@ import com.example.mapper.TransactionMapper;
 import com.example.response.AddTransactionResponse;
 import com.example.response.DeleteTransactionResponse;
 import com.example.response.EditTransactionResponse;
+import com.example.response.GetHomeResponse;
 import com.example.response.GetMonthlyFixedIncomeResponse;
 import com.example.response.GetMonthlyFixedSpendingResponse;
 import com.example.response.GetMonthlySpendingDataResponse;
+import com.example.response.GetMonthlyVariableDataResponse;
 import com.example.response.GetTimelineDataResponse;
 import com.example.response.GetTransactionResponse;
 
@@ -305,6 +310,56 @@ public class TransactionService {
 		} catch (Exception e) {
 			res.setStatus(Status.ERROR.getStatus());
 			res.setMessage(ErrorMessage.TIMELINE_DATA_GET_FAILED);
+		}
+
+		return res;
+	}
+
+	/**
+	 * ホーム画面情報の取得
+	 * 
+	 * @throws AuthenticationException
+	 */
+	public GetHomeResponse getHome(GetHomeForm form) throws SystemException {
+		GetHomeResponse res = new GetHomeResponse();
+
+		// ユーザー認証
+		Long userNo = authenticationService.authUser(form);
+		form.setUserNo(userNo);
+
+		// タイムラインデータを取得
+		try {
+			List<CategoryList> categoryList = transactionMapper.getHome(form);
+			res.setCategoryList(categoryList);
+
+			Integer balance = categoryList.stream().mapToInt(i -> i.getCategoryTotalAmount()).sum();
+			res.setBalance(balance);
+		} catch (Exception e) {
+			res.setStatus(Status.ERROR.getStatus());
+			res.setMessage(ErrorMessage.TIMELINE_DATA_GET_FAILED);
+		}
+
+		return res;
+	}
+
+	/**
+	 * 指定月の変動費用・変動費合計を取得
+	 * 
+	 * @throws AuthenticationException
+	 */
+	public GetMonthlyVariableDataResponse getMonthlyVariableData(GetMonthlyVariableDataForm form,
+			GetMonthlyVariableDataResponse res) throws SystemException {
+
+		// データを取得
+		try {
+			List<CategoryList> categoryList = transactionMapper.getMonthlyVariableData(form);
+			res.setMonthlyVariableList(categoryList);
+
+			Integer totalVariable = categoryList.stream().mapToInt(i -> i.getCategoryTotalAmount()).sum();
+			res.setTotalVariable(totalVariable);
+		} catch (Exception e) {
+			res.setStatus(Status.ERROR.getStatus());
+			res.setMessage(ErrorMessage.MONTHLY_VARIABLE_DATA_GET_FAILED);
 		}
 
 		return res;

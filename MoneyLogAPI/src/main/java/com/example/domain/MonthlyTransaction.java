@@ -10,6 +10,7 @@ public class MonthlyTransaction {
 	private Long categoryId;
 	private Long subCategoryId;
 	private boolean includeFlg;
+
 	private String categoryName;
 	private String subCategoryName;
 

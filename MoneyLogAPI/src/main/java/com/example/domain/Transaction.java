@@ -1,6 +1,7 @@
 package com.example.domain;
 
 import java.sql.Date;
+import java.util.List;
 
 public class Transaction {
 
@@ -17,6 +18,8 @@ public class Transaction {
 	private String subCategoryName;
 	private Integer totalAmount;
 	private String month;
+	private Integer subCategoryTotalAmount;
+	private List<Transaction> transactionList;
 
 	public Long getTransactionId() {
 		return transactionId;
@@ -114,13 +117,30 @@ public class Transaction {
 		this.month = month;
 	}
 
+	public Integer getSubCategoryTotalAmount() {
+		return subCategoryTotalAmount;
+	}
+
+	public void setSubCategoryTotalAmount(Integer subCategoryTotalAmount) {
+		this.subCategoryTotalAmount = subCategoryTotalAmount;
+	}
+
+	public List<Transaction> getTransactionList() {
+		return transactionList;
+	}
+
+	public void setTransactionList(List<Transaction> transactionList) {
+		this.transactionList = transactionList;
+	}
+
 	@Override
 	public String toString() {
 		return "Transaction [transactionId=" + transactionId + ", userNo=" + userNo + ", transactionName="
 				+ transactionName + ", transactionAmount=" + transactionAmount + ", transactionDate=" + transactionDate
 				+ ", categoryId=" + categoryId + ", subCategoryId=" + subCategoryId + ", fixedFlg=" + fixedFlg
 				+ ", categoryName=" + categoryName + ", subCategoryName=" + subCategoryName + ", totalAmount="
-				+ totalAmount + ", month=" + month + "]";
+				+ totalAmount + ", month=" + month + ", subCategoryTotalAmount=" + subCategoryTotalAmount
+				+ ", transactionList=" + transactionList + "]";
 	}
 
 }

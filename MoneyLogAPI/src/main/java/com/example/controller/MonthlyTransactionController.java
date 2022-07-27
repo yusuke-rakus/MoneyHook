@@ -8,11 +8,14 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.example.common.exception.SystemException;
 import com.example.form.DeleteFixedForm;
+import com.example.form.EditFixedForm;
 import com.example.form.GetDeletedFixedForm;
 import com.example.form.GetFixedForm;
 import com.example.response.DeleteFixedResponse;
+import com.example.response.EditFixedResponse;
 import com.example.response.GetDeletedFixedResponse;
 import com.example.response.GetFixedResponse;
+import com.example.service.AuthenticationService;
 import com.example.service.MonthlyTransactionService;
 
 @RestController
@@ -21,6 +24,9 @@ public class MonthlyTransactionController {
 
 	@Autowired
 	private MonthlyTransactionService monthlyTransactionService;
+
+	@Autowired
+	private AuthenticationService authenticationService;
 
 	/** カテゴリ一覧の取得 */
 	@PostMapping("/getFixed")
@@ -38,6 +44,19 @@ public class MonthlyTransactionController {
 	@PostMapping("/getDeletedFixed")
 	public GetDeletedFixedResponse getDeletedFixed(@RequestBody GetDeletedFixedForm form) throws SystemException {
 		return monthlyTransactionService.getDeletedFixed(form);
+	}
+
+	/** 固定費の編集 */
+	@PostMapping("/editFixed")
+	public EditFixedResponse getFixed(@RequestBody EditFixedForm form) throws SystemException {
+		EditFixedResponse res = new EditFixedResponse();
+
+		// ユーザーIDからユーザーNoを取得
+		Long userNo = authenticationService.authUser(form);
+		form.setUserNo(userNo);
+		form.getMonthlyTransactionList().forEach(i -> i.setUserNo(userNo));
+
+		return monthlyTransactionService.editFixed(form, res);
 	}
 
 }

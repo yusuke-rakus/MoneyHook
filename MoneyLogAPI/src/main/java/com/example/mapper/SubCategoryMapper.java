@@ -16,4 +16,7 @@ public interface SubCategoryMapper {
 	/** サブカテゴリを新規追加してIDをリターン */
 	public Long addSubCategory(SubCategory subCategory);
 
+	/** サブカテゴリ存在チェック */
+	public Long checkSubCategory(SubCategory subCategory);
+
 }

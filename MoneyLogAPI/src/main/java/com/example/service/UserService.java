@@ -11,11 +11,15 @@ import com.example.common.Status;
 import com.example.common.message.ErrorMessage;
 import com.example.domain.ChangePasswordResponse;
 import com.example.domain.User;
+import com.example.form.ChangeEmailForm;
 import com.example.form.ChangePasswordForm;
+import com.example.form.EditThemeColorForm;
 import com.example.form.GetUserInfoForm;
 import com.example.form.LoginForm;
 import com.example.form.RegistUserForm;
 import com.example.mapper.UserMapper;
+import com.example.response.ChangeEmailResponse;
+import com.example.response.EditThemeColorResponse;
 import com.example.response.GetUserInfoResponse;
 import com.example.response.LoginResponse;
 import com.example.response.RegistUserResponse;
@@ -112,6 +116,41 @@ public class UserService {
 		form.setUserNo(userNo);
 
 		boolean updateResult = userMapper.changePassword(form);
+		if (!updateResult) {
+			throw new Exception();
+		}
+
+		return res;
+	}
+
+	/**
+	 * メールアドレスを変更
+	 * 
+	 * @throws Exception
+	 */
+	public ChangeEmailResponse changeEmail(ChangeEmailForm form) throws Exception {
+		ChangeEmailResponse res = new ChangeEmailResponse();
+
+		// ユーザー認証
+		Long userNo = authenticationService.authUser(form);
+		form.setUserNo(userNo);
+
+		boolean updateResult = userMapper.changeEmail(form);
+		if (!updateResult) {
+			throw new Exception();
+		}
+
+		return res;
+	}
+
+	/**
+	 * テーマカラー変更
+	 * 
+	 * @throws Exception
+	 */
+	public EditThemeColorResponse editThemeColor(EditThemeColorForm form, EditThemeColorResponse res) throws Exception {
+
+		boolean updateResult = userMapper.editThemeColor(form);
 		if (!updateResult) {
 			throw new Exception();
 		}

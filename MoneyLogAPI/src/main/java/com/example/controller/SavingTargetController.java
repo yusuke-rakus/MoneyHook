@@ -1,5 +1,6 @@
 package com.example.controller;
 
+import java.util.List;
 import java.util.Objects;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,6 +17,7 @@ import com.example.common.message.ErrorMessage;
 import com.example.common.message.SuccessMessage;
 import com.example.domain.SavingTarget;
 import com.example.form.AddSavingTargetForm;
+import com.example.mapper.GetSavingTargetListForm;
 import com.example.response.AddSavingTargetResponse;
 import com.example.service.SavingTargetService;
 import com.example.service.ValidationService;
@@ -29,8 +31,27 @@ public class SavingTargetController {
 
 	@Autowired
 	private ValidationService validationService;
-	
-	
+
+	@PostMapping("/getSavingTargetList")
+	public GetSavingTargetListResponse getSavingTargetList(@RequestBody @Validated GetSavingTargetListForm form,
+			BindingResult result) throws Throwable {
+
+		GetSavingTargetListResponse res = new GetSavingTargetListResponse();
+
+		if (result.hasErrors()) {
+			String errorMessage = validationService.getFirstErrorMessage(result);
+			res.setStatus(Status.ERROR.getStatus());
+			res.setMessage(errorMessage);
+			return res;
+		}
+
+		List<SavingTarget> savingTargetList = savingTargetService.getSavingTargetList(form);
+		
+		res.setMessage(SuccessMessage.SAVING_TARGET_LIST_GET_SUCCESSED);
+		res.setSavingTarget(savingTargetList);
+		return res;
+	}
+
 	/**
 	 * 収支を登録
 	 * 
@@ -42,10 +63,10 @@ public class SavingTargetController {
 	public AddSavingTargetResponse addSavingTarget(@RequestBody @Validated AddSavingTargetForm form,
 			BindingResult result) throws Throwable {
 		AddSavingTargetResponse res = new AddSavingTargetResponse();
-		
+
 		if (result.hasErrors()) {
 			String errorMessage = validationService.getFirstErrorMessage(result);
-			
+
 			res.setStatus(Status.ERROR.getStatus());
 			res.setMessage(errorMessage);
 			return res;

@@ -1,5 +1,7 @@
 package com.example.service;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 
 import org.springframework.beans.BeanUtils;
@@ -8,14 +10,12 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.example.common.Status;
-import com.example.common.exception.AuthenticationException;
+import com.example.common.exception.SystemException;
 import com.example.common.message.ErrorMessage;
-import com.example.common.message.SuccessMessage;
-import com.example.common.message.ValidatingMessage;
 import com.example.domain.SavingTarget;
 import com.example.form.AddSavingTargetForm;
+import com.example.mapper.GetSavingTargetListForm;
 import com.example.mapper.SavingTargetMapper;
-import com.example.response.AddSavingTargetResponse;
 
 @Service
 @Transactional
@@ -26,6 +26,19 @@ public class SavingTargetService {
 
 	@Autowired
 	private AuthenticationService authenticationService;
+
+	/** サブカテゴリ一覧の取得 */
+	public List<SavingTarget> getSavingTargetList(GetSavingTargetListForm form) throws SystemException {
+		List<SavingTarget> savingTargetList = new ArrayList<>();
+
+		// ユーザーIDからユーザーNoを取得
+		Long userNo = authenticationService.authUser(form);
+		form.setUserNo(userNo);
+
+		savingTargetList = savingTargetMapper.getSavingTargetList(form);
+
+		return savingTargetList;
+	}
 
 	/**
 	 * 貯金目標の新規追加用メソッド。

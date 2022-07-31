@@ -2,11 +2,26 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.example.mapper.SavingTargetMapper">
 
-	<!-- 貯金目標一覧の取得 -->
 	<resultMap type="com.example.domain.SavingTarget" id="savingTargetMap">
 		<id column="saving_target_id" property="savingTargetId" />
 		<result column="saving_target_name" property="savingTargetName" />
+		<result column="target_amount" property="targetAmount" />
 	</resultMap>
+	
+	<!-- 貯金目標一覧の取得 -->
+		<select id="getSavingTargetList" resultMap="savingTargetMap">
+		SELECT
+			saving_target_id,
+			saving_target_name,
+			target_amount
+		FROM
+			saving_target
+		WHERE 
+		 	user_no = #{userNo}
+		AND
+			delete_flg = false
+	</select>
+	
 	
 	<select id="findSavingTargetByIdAndUserNo" resultType="com.example.domain.SavingTarget">
 		SELECT

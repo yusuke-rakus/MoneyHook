@@ -16,6 +16,7 @@ import com.example.form.DeleteFixedForm;
 import com.example.form.EditFixedForm;
 import com.example.form.GetDeletedFixedForm;
 import com.example.form.GetFixedForm;
+import com.example.form.MonthlyTransactionList;
 import com.example.mapper.MonthlyTransactionMapper;
 import com.example.response.DeleteFixedResponse;
 import com.example.response.EditFixedResponse;
@@ -105,14 +106,14 @@ public class MonthlyTransactionService {
 
 		try {
 			// monthlyTransactionIdを保持しているものを更新処理
-			List<MonthlyTransaction> includingIdList = form.getMonthlyTransactionList().stream()
+			List<MonthlyTransactionList> includingIdList = form.getMonthlyTransactionList().stream()
 					.filter(i -> i.getMonthlyTransactionId() != null).collect(Collectors.toList());
 			if (includingIdList.size() > 0) {
 				this.updateFixed(includingIdList);
 			}
 
 			// monthlyTransactionIdがないものを登録処理
-			List<MonthlyTransaction> notIncludingIdList = form.getMonthlyTransactionList().stream()
+			List<MonthlyTransactionList> notIncludingIdList = form.getMonthlyTransactionList().stream()
 					.filter(i -> i.getMonthlyTransactionId() == null).collect(Collectors.toList());
 			if (notIncludingIdList.size() > 0) {
 				this.registerFixed(notIncludingIdList);
@@ -126,20 +127,20 @@ public class MonthlyTransactionService {
 	}
 
 	/** 固定費の登録 */
-	public void registerFixed(List<MonthlyTransaction> list) throws SystemException {
+	public void registerFixed(List<MonthlyTransactionList> list) throws SystemException {
 
 		// サブカテゴリをDBのリストから選択した場合
-		List<MonthlyTransaction> chosenSubCategoryList = list.stream().filter(i -> i.getSubCategoryId() != null)
+		List<MonthlyTransactionList> chosenSubCategoryList = list.stream().filter(i -> i.getSubCategoryId() != null)
 				.collect(Collectors.toList());
 		if (chosenSubCategoryList.size() > 0) {
 			monthlyTransactionMapper.registerFixed(chosenSubCategoryList);
 		}
 
 		// ユーザー入力のサブカテゴリがある場合
-		List<MonthlyTransaction> userInputSubCategoryList = list.stream().filter(i -> i.getSubCategoryName() != null)
+		List<MonthlyTransactionList> userInputSubCategoryList = list.stream().filter(i -> i.getSubCategoryName() != null)
 				.filter(i -> !i.getSubCategoryName().isEmpty()).collect(Collectors.toList());
 		if (userInputSubCategoryList.size() > 0) {
-			for (MonthlyTransaction monthlyTran : userInputSubCategoryList) {
+			for (MonthlyTransactionList monthlyTran : userInputSubCategoryList) {
 
 				SubCategory subCategory = new SubCategory();
 				subCategory.setUserNo(monthlyTran.getUserNo());
@@ -155,22 +156,22 @@ public class MonthlyTransactionService {
 	}
 
 	/** 固定費の更新 */
-	public void updateFixed(List<MonthlyTransaction> list) throws SystemException {
+	public void updateFixed(List<MonthlyTransactionList> list) throws SystemException {
 
 		// サブカテゴリをDBのリストから選択した場合
-		List<MonthlyTransaction> chosenSubCategoryList = list.stream().filter(i -> i.getSubCategoryId() != null)
+		List<MonthlyTransactionList> chosenSubCategoryList = list.stream().filter(i -> i.getSubCategoryId() != null)
 				.collect(Collectors.toList());
 		if (chosenSubCategoryList.size() > 0) {
-			for (MonthlyTransaction monthlyTran : chosenSubCategoryList) {
+			for (MonthlyTransactionList monthlyTran : chosenSubCategoryList) {
 				monthlyTransactionMapper.updateFixed(monthlyTran);
 			}
 		}
 
 		// ユーザー入力のサブカテゴリがある場合
-		List<MonthlyTransaction> userInputSubCategoryList = list.stream().filter(i -> i.getSubCategoryName() != null)
+		List<MonthlyTransactionList> userInputSubCategoryList = list.stream().filter(i -> i.getSubCategoryName() != null)
 				.filter(i -> !i.getSubCategoryName().isEmpty()).collect(Collectors.toList());
 		if (userInputSubCategoryList.size() > 0) {
-			for (MonthlyTransaction monthlyTran : userInputSubCategoryList) {
+			for (MonthlyTransactionList monthlyTran : userInputSubCategoryList) {
 
 				SubCategory subCategory = new SubCategory();
 				subCategory.setUserNo(monthlyTran.getUserNo());
@@ -181,7 +182,7 @@ public class MonthlyTransactionService {
 				subCategory = subCategoryService.insertSubCategory(subCategory);
 				monthlyTran.setSubCategoryId(subCategory.getSubCategoryId());
 			}
-			for (MonthlyTransaction monthlyTran : userInputSubCategoryList) {
+			for (MonthlyTransactionList monthlyTran : userInputSubCategoryList) {
 				monthlyTransactionMapper.updateFixed(monthlyTran);
 			}
 		}

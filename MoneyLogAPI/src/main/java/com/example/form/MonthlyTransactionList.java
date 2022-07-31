@@ -8,6 +8,8 @@ import com.example.common.message.ValidatingMessage;
 
 public class MonthlyTransactionList {
 
+	private Long userNo;
+
 	private Long monthlyTransactionId;
 
 	@NotBlank(message = ValidatingMessage.TRANSACTION_NAME_EMPTY_ERROR)
@@ -25,6 +27,14 @@ public class MonthlyTransactionList {
 	private Long subCategoryId;
 
 	private String subCategoryName;
+
+	public Long getUserNo() {
+		return userNo;
+	}
+
+	public void setUserNo(Long userNo) {
+		this.userNo = userNo;
+	}
 
 	public Long getMonthlyTransactionId() {
 		return monthlyTransactionId;

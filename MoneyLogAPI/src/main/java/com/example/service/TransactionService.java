@@ -57,8 +57,8 @@ public class TransactionService {
 	 * 
 	 * @throws AuthenticationException
 	 */
-	public AddTransactionResponse addTransaction(AddTransactionForm form) throws SystemException {
-		AddTransactionResponse res = new AddTransactionResponse();
+	public AddTransactionResponse addTransaction(AddTransactionForm form, AddTransactionResponse res)
+			throws SystemException {
 
 		if (Objects.isNull(form.getTransactionDate())) {
 			res.setStatus(Status.ERROR.getStatus());
@@ -142,8 +142,8 @@ public class TransactionService {
 	 * 
 	 * @throws AuthenticationException
 	 */
-	public EditTransactionResponse editTransaction(EditTransactionForm form) throws SystemException {
-		EditTransactionResponse res = new EditTransactionResponse();
+	public EditTransactionResponse editTransaction(EditTransactionForm form, EditTransactionResponse res)
+			throws SystemException {
 
 		// ユーザー認証
 		Long userNo = authenticationService.authUser(form);

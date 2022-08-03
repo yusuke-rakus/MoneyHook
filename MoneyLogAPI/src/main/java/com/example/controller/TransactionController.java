@@ -1,11 +1,14 @@
 package com.example.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.example.common.Status;
 import com.example.common.exception.AuthenticationException;
 import com.example.common.exception.SystemException;
 import com.example.form.AddTransactionForm;
@@ -30,6 +33,7 @@ import com.example.response.GetTimelineDataResponse;
 import com.example.response.GetTransactionResponse;
 import com.example.service.AuthenticationService;
 import com.example.service.TransactionService;
+import com.example.service.ValidationService;
 
 @RestController
 @RequestMapping("/transaction")
@@ -41,14 +45,27 @@ public class TransactionController {
 	@Autowired
 	private AuthenticationService authenticationService;
 
+	@Autowired
+	private ValidationService validationService;
+
 	/**
 	 * 収支を登録
 	 * 
 	 * @throws AuthenticationException
 	 */
 	@PostMapping("/addTransaction")
-	public AddTransactionResponse addTransaction(@RequestBody AddTransactionForm form) throws SystemException {
-		return transactionService.addTransaction(form);
+	public AddTransactionResponse addTransaction(@RequestBody @Validated AddTransactionForm form, BindingResult result)
+			throws SystemException {
+		AddTransactionResponse res = new AddTransactionResponse();
+
+		if (result.hasErrors()) {
+			String errorMessage = validationService.getFirstErrorMessage(result);
+			res.setStatus(Status.ERROR.getStatus());
+			res.setMessage(errorMessage);
+			return res;
+		}
+
+		return transactionService.addTransaction(form, res);
 	}
 
 	/**
@@ -67,8 +84,18 @@ public class TransactionController {
 	 * @throws AuthenticationException
 	 */
 	@PostMapping("/editTransaction")
-	public EditTransactionResponse editTransaction(@RequestBody EditTransactionForm form) throws SystemException {
-		return transactionService.editTransaction(form);
+	public EditTransactionResponse editTransaction(@RequestBody @Validated EditTransactionForm form,
+			BindingResult result) throws SystemException {
+		EditTransactionResponse res = new EditTransactionResponse();
+
+		if (result.hasErrors()) {
+			String errorMessage = validationService.getFirstErrorMessage(result);
+			res.setStatus(Status.ERROR.getStatus());
+			res.setMessage(errorMessage);
+			return res;
+		}
+
+		return transactionService.editTransaction(form, res);
 	}
 
 	/**

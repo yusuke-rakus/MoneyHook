@@ -36,5 +36,7 @@ public class ValidatingMessage {
 	public static final String SUB_CATEGORY_NOT_SELECT_ERROR = "サブカテゴリを選択してください";
 	/** サブカテゴリ文字数 */
 	public static final String SUB_CATEGORY_OVER_LIMIT_ERROR = "16文字以内で入力してください";
+	/**  */
+	public static final String SUB_CATEGORY_NO_SELECT_AND_INPUT_ERROR = "サブカテゴリを選択するか入力してください";
 
 }

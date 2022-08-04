@@ -47,5 +47,9 @@ public class ErrorMessage {
 	// savingTarget
 	/** 貯金目標の追加失敗 */
 	public static final String SAVING_TARGET_INSERT_FAILED = "貯金目標の追加に失敗しました";
-
+	/** 貯金目標登録済み */
+	public static final String SAVING_TARGET_NAME_DUPLICATED = "貯金目標名が重複しています";
+	/** 貯金目標の編集失敗 */
+	public static final String SAVING_TARGET_UPDATE_FAILED = "貯金目標の編集に失敗しました";
+	
 }

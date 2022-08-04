@@ -63,5 +63,18 @@
 		);
 	</insert>
 	
+	<!-- 貯金目標の編集 -->
+	<update id="editSavingTarget">
+		UPDATE
+			saving_target
+		<set>
+			<if test="savingTargetName != null">saving_target_name = #{savingTargetName},</if>
+			<if test="targetAmount != null">target_amount = #{targetAmount}</if>
+		</set>
+		WHERE 
+			saving_target_id = #{savingTargetId} 
+		AND 
+			user_no = #{userNo} ;
+	</update>
 		
 </mapper>

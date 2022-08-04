@@ -1,5 +1,7 @@
 package com.example.common.validation;
 
+import java.util.Objects;
+
 import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;
 
@@ -10,14 +12,11 @@ public class NameOrIDValidator implements ConstraintValidator<AnyOneNotEmpty, Ob
 
 	private String[] fields;
 
-	private String message;
-
 	/**
 	 * 初期化処理 ()内のクラスは下記2のアノテーションクラス
 	 */
 	public void initialize(AnyOneNotEmpty annotation) {
 		this.fields = annotation.fields();
-		this.message = annotation.message();
 	}
 
 	/**
@@ -36,20 +35,17 @@ public class NameOrIDValidator implements ConstraintValidator<AnyOneNotEmpty, Ob
 			value = beanWrapper.getPropertyValue(string);
 
 			// 入力がある場合、入力カウントに1を足しておく
-			if (value != "") {
+			if (value == "" || Objects.isNull(value)) {
 				idCount += 1;
 			}
 		}
 
 		// 入力数が2以上のときはtrueを返す
-		if (idCount >= 1) {
-			return true;
+		if (idCount >= 2) {
+			return false;
 		}
 
-		// それ以外はfalseを返し、messageを出す
-		context.disableDefaultConstraintViolation();
-		context.buildConstraintViolationWithTemplate(message).addPropertyNode(fields[0]).addConstraintViolation();
-		return false;
+		return true;
 	}
 
 }

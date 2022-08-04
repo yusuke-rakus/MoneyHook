@@ -3,26 +3,28 @@ package com.example.form;
 import java.sql.Date;
 
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 
 import org.hibernate.validator.constraints.Length;
 
-import com.example.common.SubCategoryAnnotation;
 import com.example.common.message.ValidatingMessage;
+import com.example.common.validation.AnyOneNotEmpty;
 
-@SubCategoryAnnotation(fields = { "subCategoryId", "subCategoryName" })
+@AnyOneNotEmpty(fields = { "subCategoryId",
+		"subCategoryName" }, message = ValidatingMessage.SUB_CATEGORY_NO_SELECT_AND_INPUT_ERROR)
 public class AddTransactionForm extends form {
 
-	@NotBlank(message = ValidatingMessage.TRANSACTION_DATE_EMPTY_ERROR)
+	@NotNull(message = ValidatingMessage.TRANSACTION_DATE_EMPTY_ERROR)
 	private Date transactionDate;
 
-	@NotBlank(message = ValidatingMessage.TRANSACTION_AMOUNT_EMPTY_ERROR)
+	@NotNull(message = ValidatingMessage.TRANSACTION_AMOUNT_EMPTY_ERROR)
 	private Integer transactionAmount;
 
 	@NotBlank(message = ValidatingMessage.TRANSACTION_NAME_EMPTY_ERROR)
 	@Length(max = 32, message = ValidatingMessage.TRANSACTION_NAME_LIMIT_ERROR)
 	private String transactionName;
 
-	@NotBlank(message = ValidatingMessage.CATEGORY_NOT_SELECT_ERROR)
+	@NotNull(message = ValidatingMessage.CATEGORY_NOT_SELECT_ERROR)
 	private Long categoryId;
 
 	private Long subCategoryId;

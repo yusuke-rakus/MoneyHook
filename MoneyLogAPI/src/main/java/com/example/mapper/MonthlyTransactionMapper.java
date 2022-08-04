@@ -9,6 +9,7 @@ import com.example.domain.MonthlyTransaction;
 import com.example.form.DeleteFixedForm;
 import com.example.form.GetDeletedFixedForm;
 import com.example.form.GetFixedForm;
+import com.example.form.MonthlyTransactionList;
 
 @Mapper
 public interface MonthlyTransactionMapper {
@@ -23,9 +24,9 @@ public interface MonthlyTransactionMapper {
 	public List<MonthlyTransaction> getDeletedFixed(GetDeletedFixedForm form);
 
 	/** 固定費の登録 */
-	public boolean registerFixed(@Param("monthlyTransactionList") List<MonthlyTransaction> list);
+	public boolean registerFixed(@Param("monthlyTransactionList") List<MonthlyTransactionList> list);
 
 	/** 固定費の更新 */
-	public boolean updateFixed(MonthlyTransaction monthlyTransaction);
+	public boolean updateFixed(MonthlyTransactionList monthlyTransaction);
 
 }

@@ -1,11 +1,14 @@
 package com.example.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.example.common.Status;
 import com.example.domain.ChangePasswordResponse;
 import com.example.form.ChangeEmailForm;
 import com.example.form.ChangePasswordForm;
@@ -20,6 +23,7 @@ import com.example.response.LoginResponse;
 import com.example.response.RegistUserResponse;
 import com.example.service.AuthenticationService;
 import com.example.service.UserService;
+import com.example.service.ValidationService;
 
 @RestController
 @RequestMapping("/user")
@@ -27,20 +31,42 @@ public class UserController {
 
 	@Autowired
 	private UserService userService;
-	
+
 	@Autowired
 	private AuthenticationService authenticationService;
 
+	@Autowired
+	private ValidationService validationService;
+
 	/** ユーザー登録 */
 	@PostMapping("/registUser")
-	public RegistUserResponse registUser(@RequestBody RegistUserForm form) {
-		return userService.registUser(form);
+	public RegistUserResponse registUser(@RequestBody @Validated RegistUserForm form, BindingResult result) {
+		RegistUserResponse res = new RegistUserResponse();
+
+		if (result.hasErrors()) {
+			String errorMessage = validationService.getFirstErrorMessage(result);
+			res.setStatus(Status.ERROR.getStatus());
+			res.setMessage(errorMessage);
+			return res;
+		}
+
+		return userService.registUser(form, res);
 	}
 
 	/** ログイン */
 	@PostMapping("/login")
-	public LoginResponse login(@RequestBody LoginForm form) {
-		return userService.login(form);
+	public LoginResponse login(@RequestBody @Validated LoginForm form, BindingResult result) {
+
+		LoginResponse res = new LoginResponse();
+
+		if (result.hasErrors()) {
+			String errorMessage = validationService.getFirstErrorMessage(result);
+			res.setStatus(Status.ERROR.getStatus());
+			res.setMessage(errorMessage);
+			return res;
+		}
+
+		return userService.login(form, res);
 	}
 
 	/** ユーザー情報の取得 */
@@ -55,8 +81,19 @@ public class UserController {
 	 * @throws Exception
 	 */
 	@PostMapping("/changePassword")
-	public ChangePasswordResponse changePassword(@RequestBody ChangePasswordForm form) throws Exception {
-		return userService.changePassword(form);
+	public ChangePasswordResponse changePassword(@RequestBody @Validated ChangePasswordForm form, BindingResult result)
+			throws Exception {
+
+		ChangePasswordResponse res = new ChangePasswordResponse();
+
+		if (result.hasErrors()) {
+			String errorMessage = validationService.getFirstErrorMessage(result);
+			res.setStatus(Status.ERROR.getStatus());
+			res.setMessage(errorMessage);
+			return res;
+		}
+
+		return userService.changePassword(form, res);
 	}
 
 	/**
@@ -65,8 +102,18 @@ public class UserController {
 	 * @throws Exception
 	 */
 	@PostMapping("/changeEmail")
-	public ChangeEmailResponse changeEmail(@RequestBody ChangeEmailForm form) throws Exception {
-		return userService.changeEmail(form);
+	public ChangeEmailResponse changeEmail(@RequestBody @Validated ChangeEmailForm form, BindingResult result)
+			throws Exception {
+		ChangeEmailResponse res = new ChangeEmailResponse();
+
+		if (result.hasErrors()) {
+			String errorMessage = validationService.getFirstErrorMessage(result);
+			res.setStatus(Status.ERROR.getStatus());
+			res.setMessage(errorMessage);
+			return res;
+		}
+
+		return userService.changeEmail(form, res);
 	}
 
 	/**
@@ -81,7 +128,7 @@ public class UserController {
 		// ユーザー認証
 		Long userNo = authenticationService.authUser(form);
 		form.setUserNo(userNo);
-		
+
 		return userService.editThemeColor(form, res);
 	}
 

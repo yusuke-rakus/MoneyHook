@@ -35,8 +35,7 @@ public class UserService {
 	private AuthenticationService authenticationService;
 
 	/** ユーザー登録 */
-	public RegistUserResponse registUser(RegistUserForm form) {
-		RegistUserResponse res = new RegistUserResponse();
+	public RegistUserResponse registUser(RegistUserForm form, RegistUserResponse res) {
 
 		// UUIDを生成
 		UUID uuid = UUID.randomUUID();
@@ -57,8 +56,8 @@ public class UserService {
 	}
 
 	/** ログイン */
-	public LoginResponse login(LoginForm form) {
-		LoginResponse res = new LoginResponse();
+	public LoginResponse login(LoginForm form, LoginResponse res) {
+
 		String inputPassword = form.getPassword();
 
 		try {
@@ -108,8 +107,7 @@ public class UserService {
 	 * 
 	 * @throws Exception
 	 */
-	public ChangePasswordResponse changePassword(ChangePasswordForm form) throws Exception {
-		ChangePasswordResponse res = new ChangePasswordResponse();
+	public ChangePasswordResponse changePassword(ChangePasswordForm form, ChangePasswordResponse res) throws Exception {
 
 		// ユーザー認証
 		Long userNo = authenticationService.authUser(form);
@@ -128,8 +126,7 @@ public class UserService {
 	 * 
 	 * @throws Exception
 	 */
-	public ChangeEmailResponse changeEmail(ChangeEmailForm form) throws Exception {
-		ChangeEmailResponse res = new ChangeEmailResponse();
+	public ChangeEmailResponse changeEmail(ChangeEmailForm form, ChangeEmailResponse res) throws Exception {
 
 		// ユーザー認証
 		Long userNo = authenticationService.authUser(form);

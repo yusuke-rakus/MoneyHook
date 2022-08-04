@@ -6,8 +6,10 @@ import javax.validation.constraints.NotBlank;
 
 import org.hibernate.validator.constraints.Length;
 
+import com.example.common.SubCategoryAnnotation;
 import com.example.common.message.ValidatingMessage;
 
+@SubCategoryAnnotation(fields = { "subCategoryId", "subCategoryName" })
 public class AddTransactionForm extends form {
 
 	@NotBlank(message = ValidatingMessage.TRANSACTION_DATE_EMPTY_ERROR)

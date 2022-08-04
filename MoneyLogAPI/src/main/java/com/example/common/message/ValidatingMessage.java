@@ -3,20 +3,26 @@ package com.example.common.message;
 public class ValidatingMessage {
 
 	// 共通
+	/** ID未入力 */
+	public static final String ID_EMPTY_ERROR = "対象を選択してください";
 	/** 日付未入力 */
 	public static final String TRANSACTION_DATE_EMPTY_ERROR = "日付を入力してください";
 	/** 金額未入力 */
 	public static final String TRANSACTION_AMOUNT_EMPTY_ERROR = "取引金額を入力してください";
 	/** 取引名未入力 */
 	public static final String TRANSACTION_NAME_EMPTY_ERROR = "取引名を入力してください";
+	
+	/** IDと名前両方未入力 */
+	public static final String BOTH_OF_ID_AND_NAME_EMPTY_ERROR = "対象を選択するか、名前を入力してください";
+
+	// 貯金目標系
 	/** 貯金目標名未入力 */
 	public static final String SAVING_TARGET_NAME_EMPTY_ERROR = "貯金目標名を入力してください";
 	/** 貯金目標金額未入力 */
 	public static final String SAVING_TARGET_AMOUNT_EMPTY_ERROR = "貯金目標金額を入力してください";
-
-	/** IDと名前両方未入力 */
-	public static final String BOTH_OF_ID_AND_NAME_EMPTY_ERROR = "対象を選択するか、名前を入力してください";
-
+	/** 名前と目標金額両方未入力 */
+	public static final String BOTH_OF_NAME_AND_TARGET_AMOUNT_EMPTY_ERROR = "名前か目標金額を入力してください";
+	
 	// ユーザー系
 	/** メールアドレス未入力 */
 	public static final String EMAIL_EMPTY_ERROR = "メールアドレスを入力してください";

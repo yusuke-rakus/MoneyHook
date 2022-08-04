@@ -5,8 +5,9 @@ import java.util.List;
 import org.apache.ibatis.annotations.Mapper;
 
 import com.example.domain.SavingTarget;
-import com.example.domain.SubCategory;
-import com.example.form.GetSubCategoryListForm;
+import com.example.form.EditSavingTargetForm;
+import com.example.form.EditTransactionForm;
+import com.example.form.GetSavingTargetListForm;
 
 @Mapper
 public interface SavingTargetMapper {
@@ -22,6 +23,8 @@ public interface SavingTargetMapper {
 
 	/** 貯金目標を登録 */
 	public Long addSavingTarget(SavingTarget savingTarget);
-
+	
+	/** 貯金目標を編集 */
+	public void editSavingTarget (EditSavingTargetForm form);
 
 }

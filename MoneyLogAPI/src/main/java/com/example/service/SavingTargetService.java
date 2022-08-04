@@ -10,11 +10,13 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.example.common.Status;
+import com.example.common.exception.AlreadyExistsException;
 import com.example.common.exception.SystemException;
 import com.example.common.message.ErrorMessage;
 import com.example.domain.SavingTarget;
 import com.example.form.AddSavingTargetForm;
-import com.example.mapper.GetSavingTargetListForm;
+import com.example.form.EditSavingTargetForm;
+import com.example.form.GetSavingTargetListForm;
 import com.example.mapper.SavingTargetMapper;
 
 @Service
@@ -82,4 +84,37 @@ public class SavingTargetService {
 		return savingTarget;
 	}
 
+	
+	/**
+	 * 貯金目標の編集
+	 * 
+	 * @param form
+	 * @return
+	 * @throws SystemException
+	 */
+	public void editSavingTarget(EditSavingTargetForm form) throws SystemException {
+		List<SavingTarget> savingTargetList = new ArrayList<>();
+
+		// ユーザーIDからユーザーNoを取得
+		Long userNo = authenticationService.authUser(form);
+		form.setUserNo(userNo);
+
+		// 名称変更をする場合、同名がないか検索
+		if(!(Objects.isNull(form.getSavingTargetName()))) {
+			SavingTarget savingTarget = new SavingTarget();
+			savingTarget.setSavingTargetId(form.getSavingTargetId());
+			savingTarget.setUserNo(form.getUserNo());
+			savingTarget.setSavingTargetName(form.getSavingTargetName());
+
+			// 名称で検索
+			SavingTarget searchedSavingTarget = savingTargetMapper.findSavingTargetByNameAndUserNo(savingTarget);
+			
+			if (!Objects.isNull(searchedSavingTarget) && !(savingTarget.getSavingTargetId().equals(searchedSavingTarget.getSavingTargetId()))) {
+				// 既にあり、それが変更対象以外であれば、編集に失敗したことを返す
+				throw new AlreadyExistsException(ErrorMessage.SAVING_TARGET_NAME_DUPLICATED);
+			} 
+		}
+
+		savingTargetMapper.editSavingTarget(form);
+	}
 }

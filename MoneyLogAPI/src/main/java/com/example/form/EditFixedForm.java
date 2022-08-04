@@ -2,8 +2,6 @@ package com.example.form;
 
 import java.util.List;
 
-import com.example.domain.MonthlyTransaction;
-
 public class EditFixedForm extends form {
 
 	private List<MonthlyTransactionList> monthlyTransactionList;

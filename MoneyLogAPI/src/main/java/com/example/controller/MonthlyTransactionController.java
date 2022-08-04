@@ -31,19 +31,37 @@ public class MonthlyTransactionController {
 	/** カテゴリ一覧の取得 */
 	@PostMapping("/getFixed")
 	public GetFixedResponse getCategoryList(@RequestBody GetFixedForm form) throws SystemException {
-		return monthlyTransactionService.getFixed(form);
+		GetFixedResponse res = new GetFixedResponse();
+
+		// ユーザー認証
+		Long userNo = authenticationService.authUser(form);
+		form.setUserNo(userNo);
+
+		return monthlyTransactionService.getFixed(form, res);
 	}
 
 	/** 固定費データの削除 */
 	@PostMapping("/deleteFixed")
 	public DeleteFixedResponse deleteFixed(@RequestBody DeleteFixedForm form) throws SystemException {
-		return monthlyTransactionService.deleteFixed(form);
+		DeleteFixedResponse res = new DeleteFixedResponse();
+
+		// ユーザー認証
+		Long userNo = authenticationService.authUser(form);
+		form.setUserNo(userNo);
+
+		return monthlyTransactionService.deleteFixed(form, res);
 	}
 
 	/** 計算対象外の固定費一覧取得 */
 	@PostMapping("/getDeletedFixed")
 	public GetDeletedFixedResponse getDeletedFixed(@RequestBody GetDeletedFixedForm form) throws SystemException {
-		return monthlyTransactionService.getDeletedFixed(form);
+		GetDeletedFixedResponse res = new GetDeletedFixedResponse();
+
+		// ユーザー認証
+		Long userNo = authenticationService.authUser(form);
+		form.setUserNo(userNo);
+
+		return monthlyTransactionService.getDeletedFixed(form, res);
 	}
 
 	/** 固定費の編集 */
@@ -51,7 +69,7 @@ public class MonthlyTransactionController {
 	public EditFixedResponse getFixed(@RequestBody EditFixedForm form) throws SystemException {
 		EditFixedResponse res = new EditFixedResponse();
 
-		// ユーザーIDからユーザーNoを取得
+		// ユーザー認証
 		Long userNo = authenticationService.authUser(form);
 		form.setUserNo(userNo);
 		form.getMonthlyTransactionList().forEach(i -> i.setUserNo(userNo));

@@ -1,8 +1,8 @@
 package com.example.controller;
 
-import java.util.Objects;
-
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -33,6 +33,7 @@ import com.example.response.GetTimelineDataResponse;
 import com.example.response.GetTransactionResponse;
 import com.example.service.AuthenticationService;
 import com.example.service.TransactionService;
+import com.example.service.ValidationService;
 
 @RestController
 @RequestMapping("/transaction")
@@ -44,22 +45,23 @@ public class TransactionController {
 	@Autowired
 	private AuthenticationService authenticationService;
 
+	@Autowired
+	private ValidationService validationService;
+
 	/**
 	 * 収支を登録
 	 * 
 	 * @throws AuthenticationException
 	 */
 	@PostMapping("/addTransaction")
-	public AddTransactionResponse addTransaction(@RequestBody AddTransactionForm form) throws SystemException {
+	public AddTransactionResponse addTransaction(@RequestBody @Validated AddTransactionForm form, BindingResult result)
+			throws SystemException {
 		AddTransactionResponse res = new AddTransactionResponse();
 
-		// ユーザー認証
-		Long userNo = authenticationService.authUser(form);
-		form.setUserNo(userNo);
-
-		if (Objects.isNull(form.getSubCategoryId()) && form.getSubCategoryName().isBlank()) {
+		if (result.hasErrors()) {
+			String errorMessage = validationService.getFirstErrorMessage(result);
 			res.setStatus(Status.ERROR.getStatus());
-			res.setMessage("エラーです");
+			res.setMessage(errorMessage);
 			return res;
 		}
 
@@ -73,13 +75,7 @@ public class TransactionController {
 	 */
 	@PostMapping("/deleteTransaction")
 	public DeleteTransactionResponse deleteTransaction(@RequestBody DeleteTransactionForm form) throws SystemException {
-		DeleteTransactionResponse res = new DeleteTransactionResponse();
-
-		// ユーザー認証
-		Long userNo = authenticationService.authUser(form);
-		form.setUserNo(userNo);
-
-		return transactionService.deleteTransaction(form, res);
+		return transactionService.deleteTransaction(form);
 	}
 
 	/**
@@ -88,12 +84,16 @@ public class TransactionController {
 	 * @throws AuthenticationException
 	 */
 	@PostMapping("/editTransaction")
-	public EditTransactionResponse editTransaction(@RequestBody EditTransactionForm form) throws SystemException {
+	public EditTransactionResponse editTransaction(@RequestBody @Validated EditTransactionForm form,
+			BindingResult result) throws SystemException {
 		EditTransactionResponse res = new EditTransactionResponse();
 
-		// ユーザー認証
-		Long userNo = authenticationService.authUser(form);
-		form.setUserNo(userNo);
+		if (result.hasErrors()) {
+			String errorMessage = validationService.getFirstErrorMessage(result);
+			res.setStatus(Status.ERROR.getStatus());
+			res.setMessage(errorMessage);
+			return res;
+		}
 
 		return transactionService.editTransaction(form, res);
 	}
@@ -105,13 +105,7 @@ public class TransactionController {
 	 */
 	@PostMapping("/getTransaction")
 	public GetTransactionResponse getTransaction(@RequestBody GetTransactionForm form) throws SystemException {
-		GetTransactionResponse res = new GetTransactionResponse();
-
-		// ユーザー認証
-		Long userNo = authenticationService.authUser(form);
-		form.setUserNo(userNo);
-
-		return transactionService.getTransaction(form, res);
+		return transactionService.getTransaction(form);
 	}
 
 	/**
@@ -122,13 +116,7 @@ public class TransactionController {
 	@PostMapping("/getMonthlySpendingData")
 	public GetMonthlySpendingDataResponse getMonthlySpendingData(@RequestBody GetMonthlySpendingDataForm form)
 			throws SystemException {
-		GetMonthlySpendingDataResponse res = new GetMonthlySpendingDataResponse();
-
-		// ユーザー認証
-		Long userNo = authenticationService.authUser(form);
-		form.setUserNo(userNo);
-
-		return transactionService.getMonthlySpendingData(form, res);
+		return transactionService.getMonthlySpendingData(form);
 	}
 
 	/**
@@ -139,13 +127,7 @@ public class TransactionController {
 	@PostMapping("/getMonthlyFixedSpending")
 	public GetMonthlyFixedSpendingResponse getMonthlyFixedSpending(@RequestBody GetMonthlyFixedSpendingForm form)
 			throws SystemException {
-		GetMonthlyFixedSpendingResponse res = new GetMonthlyFixedSpendingResponse();
-
-		// ユーザー認証
-		Long userNo = authenticationService.authUser(form);
-		form.setUserNo(userNo);
-
-		return transactionService.getMonthlyFixedSpending(form, res);
+		return transactionService.getMonthlyFixedSpending(form);
 	}
 
 	/**
@@ -156,13 +138,7 @@ public class TransactionController {
 	@PostMapping("/getMonthlyFixedIncome")
 	public GetMonthlyFixedIncomeResponse getMonthlyFixedIncome(@RequestBody GetMonthlyFixedIncomeForm form)
 			throws SystemException {
-		GetMonthlyFixedIncomeResponse res = new GetMonthlyFixedIncomeResponse();
-
-		// ユーザー認証
-		Long userNo = authenticationService.authUser(form);
-		form.setUserNo(userNo);
-
-		return transactionService.getMonthlyFixedIncome(form, res);
+		return transactionService.getMonthlyFixedIncome(form);
 	}
 
 	/**
@@ -172,13 +148,7 @@ public class TransactionController {
 	 */
 	@PostMapping("/getTimelineData")
 	public GetTimelineDataResponse getMonthlyFixedIncome(@RequestBody GetTimelineDataForm form) throws SystemException {
-		GetTimelineDataResponse res = new GetTimelineDataResponse();
-
-		// ユーザー認証
-		Long userNo = authenticationService.authUser(form);
-		form.setUserNo(userNo);
-
-		return transactionService.getTimelineData(form, res);
+		return transactionService.getTimelineData(form);
 	}
 
 	/**
@@ -188,13 +158,7 @@ public class TransactionController {
 	 */
 	@PostMapping("/getHome")
 	public GetHomeResponse getHome(@RequestBody GetHomeForm form) throws SystemException {
-		GetHomeResponse res = new GetHomeResponse();
-
-		// ユーザー認証
-		Long userNo = authenticationService.authUser(form);
-		form.setUserNo(userNo);
-
-		return transactionService.getHome(form, res);
+		return transactionService.getHome(form);
 	}
 
 	/**

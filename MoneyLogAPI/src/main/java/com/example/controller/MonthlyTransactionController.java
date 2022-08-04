@@ -1,6 +1,8 @@
 package com.example.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -66,7 +68,8 @@ public class MonthlyTransactionController {
 
 	/** 固定費の編集 */
 	@PostMapping("/editFixed")
-	public EditFixedResponse getFixed(@RequestBody EditFixedForm form) throws SystemException {
+	public EditFixedResponse getFixed(@RequestBody @Validated EditFixedForm form, BindingResult result)
+			throws SystemException {
 		EditFixedResponse res = new EditFixedResponse();
 
 		// ユーザー認証

@@ -11,6 +11,7 @@ import com.example.common.Status;
 import com.example.common.exception.AuthenticationException;
 import com.example.common.exception.SystemException;
 import com.example.common.message.ErrorMessage;
+import com.example.common.message.ValidatingMessage;
 import com.example.domain.CategoryList;
 import com.example.domain.MonthlyFixedList;
 import com.example.domain.SubCategory;
@@ -46,6 +47,9 @@ public class TransactionService {
 	private TransactionMapper transactionMapper;
 
 	@Autowired
+	private AuthenticationService authenticationService;
+
+	@Autowired
 	private SubCategoryMapper subCategoryMapper;
 
 	/**
@@ -55,6 +59,30 @@ public class TransactionService {
 	 */
 	public AddTransactionResponse addTransaction(AddTransactionForm form, AddTransactionResponse res)
 			throws SystemException {
+
+		if (Objects.isNull(form.getTransactionDate())) {
+			res.setStatus(Status.ERROR.getStatus());
+			res.setMessage(ValidatingMessage.TRANSACTION_DATE_EMPTY_ERROR);
+			return res;
+		}
+		if (Objects.isNull(form.getTransactionAmount())) {
+			res.setStatus(Status.ERROR.getStatus());
+			res.setMessage(ValidatingMessage.TRANSACTION_AMOUNT_EMPTY_ERROR);
+			return res;
+		}
+		if (Objects.isNull(form.getTransactionName()) || form.getTransactionName().isEmpty()) {
+			res.setStatus(Status.ERROR.getStatus());
+			res.setMessage(ValidatingMessage.TRANSACTION_NAME_EMPTY_ERROR);
+			return res;
+		}
+		if (!Objects.isNull(form.getSubCategoryId()) && !Objects.isNull(form.getSubCategoryName())) {
+			res.setStatus(Status.ERROR.getStatus());
+			return res;
+		}
+
+		// ユーザーIDからユーザーNoを取得
+		Long userNo = authenticationService.authUser(form);
+		form.setUserNo(userNo);
 
 		// サブカテゴリを新規追加した場合
 		if (Objects.isNull(form.getSubCategoryId())) {
@@ -91,8 +119,12 @@ public class TransactionService {
 	 * 
 	 * @throws AuthenticationException
 	 */
-	public DeleteTransactionResponse deleteTransaction(DeleteTransactionForm form, DeleteTransactionResponse res)
-			throws SystemException {
+	public DeleteTransactionResponse deleteTransaction(DeleteTransactionForm form) throws SystemException {
+		DeleteTransactionResponse res = new DeleteTransactionResponse();
+
+		// ユーザー認証
+		Long userNo = authenticationService.authUser(form);
+		form.setUserNo(userNo);
 
 		// 削除処理
 		try {
@@ -112,6 +144,10 @@ public class TransactionService {
 	 */
 	public EditTransactionResponse editTransaction(EditTransactionForm form, EditTransactionResponse res)
 			throws SystemException {
+
+		// ユーザー認証
+		Long userNo = authenticationService.authUser(form);
+		form.setUserNo(userNo);
 
 		// サブカテゴリを新規追加した場合
 		if (Objects.isNull(form.getSubCategoryId())) {
@@ -151,8 +187,12 @@ public class TransactionService {
 	 * 
 	 * @throws SystemException
 	 */
-	public GetTransactionResponse getTransaction(GetTransactionForm form, GetTransactionResponse res)
-			throws SystemException {
+	public GetTransactionResponse getTransaction(GetTransactionForm form) throws SystemException {
+		GetTransactionResponse res = new GetTransactionResponse();
+
+		// ユーザー認証
+		Long userNo = authenticationService.authUser(form);
+		form.setUserNo(userNo);
 
 		// 収支データを取得
 		try {
@@ -177,8 +217,13 @@ public class TransactionService {
 	 * 
 	 * @throws AuthenticationException
 	 */
-	public GetMonthlySpendingDataResponse getMonthlySpendingData(GetMonthlySpendingDataForm form,
-			GetMonthlySpendingDataResponse res) throws SystemException {
+	public GetMonthlySpendingDataResponse getMonthlySpendingData(GetMonthlySpendingDataForm form)
+			throws SystemException {
+		GetMonthlySpendingDataResponse res = new GetMonthlySpendingDataResponse();
+
+		// ユーザー認証
+		Long userNo = authenticationService.authUser(form);
+		form.setUserNo(userNo);
 
 		// 合計支出リストを取得
 		try {
@@ -196,8 +241,13 @@ public class TransactionService {
 	 * 
 	 * @throws AuthenticationException
 	 */
-	public GetMonthlyFixedSpendingResponse getMonthlyFixedSpending(GetMonthlyFixedSpendingForm form,
-			GetMonthlyFixedSpendingResponse res) throws SystemException {
+	public GetMonthlyFixedSpendingResponse getMonthlyFixedSpending(GetMonthlyFixedSpendingForm form)
+			throws SystemException {
+		GetMonthlyFixedSpendingResponse res = new GetMonthlyFixedSpendingResponse();
+
+		// ユーザー認証
+		Long userNo = authenticationService.authUser(form);
+		form.setUserNo(userNo);
 
 		// 合計支出リストを取得
 		try {
@@ -219,8 +269,12 @@ public class TransactionService {
 	 * 
 	 * @throws AuthenticationException
 	 */
-	public GetMonthlyFixedIncomeResponse getMonthlyFixedIncome(GetMonthlyFixedIncomeForm form,
-			GetMonthlyFixedIncomeResponse res) throws SystemException {
+	public GetMonthlyFixedIncomeResponse getMonthlyFixedIncome(GetMonthlyFixedIncomeForm form) throws SystemException {
+		GetMonthlyFixedIncomeResponse res = new GetMonthlyFixedIncomeResponse();
+
+		// ユーザー認証
+		Long userNo = authenticationService.authUser(form);
+		form.setUserNo(userNo);
 
 		// 合計収入リストを取得
 		try {
@@ -242,8 +296,12 @@ public class TransactionService {
 	 * 
 	 * @throws AuthenticationException
 	 */
-	public GetTimelineDataResponse getTimelineData(GetTimelineDataForm form, GetTimelineDataResponse res)
-			throws SystemException {
+	public GetTimelineDataResponse getTimelineData(GetTimelineDataForm form) throws SystemException {
+		GetTimelineDataResponse res = new GetTimelineDataResponse();
+
+		// ユーザー認証
+		Long userNo = authenticationService.authUser(form);
+		form.setUserNo(userNo);
 
 		// タイムラインデータを取得
 		try {
@@ -262,7 +320,12 @@ public class TransactionService {
 	 * 
 	 * @throws AuthenticationException
 	 */
-	public GetHomeResponse getHome(GetHomeForm form, GetHomeResponse res) throws SystemException {
+	public GetHomeResponse getHome(GetHomeForm form) throws SystemException {
+		GetHomeResponse res = new GetHomeResponse();
+
+		// ユーザー認証
+		Long userNo = authenticationService.authUser(form);
+		form.setUserNo(userNo);
 
 		// タイムラインデータを取得
 		try {

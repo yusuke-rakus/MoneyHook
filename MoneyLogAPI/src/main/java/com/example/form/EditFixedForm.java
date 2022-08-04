@@ -2,9 +2,11 @@ package com.example.form;
 
 import java.util.List;
 
+import javax.validation.Valid;
+
 public class EditFixedForm extends form {
 
-	private List<MonthlyTransactionList> monthlyTransactionList;
+	private List<@Valid MonthlyTransactionList> monthlyTransactionList;
 
 	public List<MonthlyTransactionList> getMonthlyTransactionList() {
 		return monthlyTransactionList;

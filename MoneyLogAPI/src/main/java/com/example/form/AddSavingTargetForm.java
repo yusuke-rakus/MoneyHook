@@ -5,16 +5,16 @@ import javax.validation.constraints.NotNull;
 import com.example.common.message.ValidatingMessage;
 import com.example.common.validation.AnyOneNotEmpty;
 
-@AnyOneNotEmpty(fields = {"savingTargetId","savingTargetName"})
+@AnyOneNotEmpty(fields = { "savingTargetId",
+		"savingTargetName" }, message = ValidatingMessage.BOTH_OF_ID_AND_NAME_EMPTY_ERROR)
 public class AddSavingTargetForm extends form {
 
 	private Long savingTargetId;
 	private String savingTargetName;
-	
+
 	@NotNull(message = ValidatingMessage.SAVING_TARGET_AMOUNT_EMPTY_ERROR)
 	private Integer targetAmount;
 
-	
 	public Long getSavingTargetId() {
 		return savingTargetId;
 	}

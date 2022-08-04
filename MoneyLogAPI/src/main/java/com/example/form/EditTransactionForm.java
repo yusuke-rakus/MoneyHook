@@ -3,6 +3,7 @@ package com.example.form;
 import java.sql.Date;
 
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 
 import org.hibernate.validator.constraints.Length;
 
@@ -12,10 +13,10 @@ public class EditTransactionForm extends form {
 
 	private Long transactionId;
 
-	@NotBlank(message = ValidatingMessage.TRANSACTION_DATE_EMPTY_ERROR)
+	@NotNull(message = ValidatingMessage.TRANSACTION_DATE_EMPTY_ERROR)
 	private Date transactionDate;
 
-	@NotBlank(message = ValidatingMessage.TRANSACTION_AMOUNT_EMPTY_ERROR)
+	@NotNull(message = ValidatingMessage.TRANSACTION_AMOUNT_EMPTY_ERROR)
 	private Integer transactionAmount;
 
 	@NotBlank(message = ValidatingMessage.TRANSACTION_NAME_EMPTY_ERROR)

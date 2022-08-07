@@ -15,6 +15,7 @@ import com.example.common.exception.SystemException;
 import com.example.common.message.ErrorMessage;
 import com.example.domain.SavingTarget;
 import com.example.form.AddSavingTargetForm;
+import com.example.form.DeleteSavingTargetForm;
 import com.example.form.EditSavingTargetForm;
 import com.example.form.GetSavingTargetListForm;
 import com.example.mapper.SavingTargetMapper;
@@ -84,7 +85,6 @@ public class SavingTargetService {
 		return savingTarget;
 	}
 
-	
 	/**
 	 * 貯金目標の編集
 	 * 
@@ -100,7 +100,7 @@ public class SavingTargetService {
 		form.setUserNo(userNo);
 
 		// 名称変更をする場合、同名がないか検索
-		if(!(Objects.isNull(form.getSavingTargetName()))) {
+		if (!(Objects.isNull(form.getSavingTargetName()))) {
 			SavingTarget savingTarget = new SavingTarget();
 			savingTarget.setSavingTargetId(form.getSavingTargetId());
 			savingTarget.setUserNo(form.getUserNo());
@@ -108,13 +108,23 @@ public class SavingTargetService {
 
 			// 名称で検索
 			SavingTarget searchedSavingTarget = savingTargetMapper.findSavingTargetByNameAndUserNo(savingTarget);
-			
-			if (!Objects.isNull(searchedSavingTarget) && !(savingTarget.getSavingTargetId().equals(searchedSavingTarget.getSavingTargetId()))) {
+
+			if (!Objects.isNull(searchedSavingTarget)
+					&& !(savingTarget.getSavingTargetId().equals(searchedSavingTarget.getSavingTargetId()))) {
 				// 既にあり、それが変更対象以外であれば、編集に失敗したことを返す
 				throw new AlreadyExistsException(ErrorMessage.SAVING_TARGET_NAME_DUPLICATED);
-			} 
+			}
 		}
 
 		savingTargetMapper.editSavingTarget(form);
+	}
+
+	public void deleteSavingTarget(DeleteSavingTargetForm form) throws SystemException {
+		// ユーザーIDからユーザーNoを取得
+		Long userNo = authenticationService.authUser(form);
+		form.setUserNo(userNo);
+		
+		savingTargetMapper.deleteSavingTarget(form);
+
 	}
 }

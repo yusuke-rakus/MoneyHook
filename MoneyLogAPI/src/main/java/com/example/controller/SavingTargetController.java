@@ -18,9 +18,11 @@ import com.example.common.message.ErrorMessage;
 import com.example.common.message.SuccessMessage;
 import com.example.domain.SavingTarget;
 import com.example.form.AddSavingTargetForm;
+import com.example.form.DeleteSavingTargetForm;
 import com.example.form.EditSavingTargetForm;
 import com.example.form.GetSavingTargetListForm;
 import com.example.response.AddSavingTargetResponse;
+import com.example.response.DeleteSavingTargetResponse;
 import com.example.response.EditSavingTargetResponse;
 import com.example.response.GetSavingTargetListResponse;
 import com.example.service.SavingTargetService;
@@ -36,6 +38,14 @@ public class SavingTargetController {
 	@Autowired
 	private ValidationService validationService;
 
+	/**
+	 * 貯金目標一覧を取得
+	 * 
+	 * @param form
+	 * @param result
+	 * @return
+	 * @throws Throwable
+	 */
 	@PostMapping("/getSavingTargetList")
 	public GetSavingTargetListResponse getSavingTargetList(@RequestBody @Validated GetSavingTargetListForm form,
 			BindingResult result) throws Throwable {
@@ -50,18 +60,16 @@ public class SavingTargetController {
 		}
 
 		List<SavingTarget> savingTargetList = savingTargetService.getSavingTargetList(form);
-		
+
 		res.setMessage(SuccessMessage.SAVING_TARGET_LIST_GET_SUCCESSED);
 		res.setSavingTarget(savingTargetList);
 		return res;
 	}
 
 	/**
-	 * 収支を登録
+	 * 貯金目標を登録
 	 * 
 	 * @throws Throwable
-	 * 
-	 * @throws AuthenticationException
 	 */
 	@PostMapping("/addSavingTarget")
 	public AddSavingTargetResponse addSavingTarget(@RequestBody @Validated AddSavingTargetForm form,
@@ -89,12 +97,53 @@ public class SavingTargetController {
 		res.setMessage(SuccessMessage.SAVING_TARGET_INSERT_SUCCESSED);
 		return res;
 	}
-	
+
+	/**
+	 * 貯金目標の編集
+	 * 
+	 * @param form
+	 * @param result
+	 * @return
+	 * @throws Throwable
+	 */
 	@PostMapping("/editSavingTarget")
 	public EditSavingTargetResponse editSavingTarget(@RequestBody @Validated EditSavingTargetForm form,
 			BindingResult result) throws Throwable {
 		EditSavingTargetResponse res = new EditSavingTargetResponse();
-		
+
+		if (result.hasErrors()) {
+			String errorMessage = validationService.getFirstErrorMessage(result);
+
+			res.setStatus(Status.ERROR.getStatus());
+			res.setMessage(errorMessage);
+			return res;
+		}
+
+		try {
+			savingTargetService.editSavingTarget(form);
+		} catch (AlreadyExistsException e) {
+			res.setStatus(Status.ERROR.getStatus());
+			res.setMessage(e.getMessage());
+			return res;
+		}
+
+		res.setMessage(SuccessMessage.SAVING_TARGET_EDIT_SUCCESSED);
+		return res;
+	}
+
+	/**
+	 * 貯金目標を削除
+	 * 
+	 * @param form
+	 * @param result
+	 * @return
+	 * @throws Throwable
+	 */
+	@PostMapping("/deleteSavingTarget")
+	public DeleteSavingTargetResponse deleteSavingTarget(@RequestBody @Validated DeleteSavingTargetForm form,
+			BindingResult result) throws Throwable {
+		DeleteSavingTargetResponse res = new DeleteSavingTargetResponse();
+
 		if (result.hasErrors()) {
 			String errorMessage = validationService.getFirstErrorMessage(result);
 
@@ -104,14 +153,15 @@ public class SavingTargetController {
 		}
 		
 		try {
-			savingTargetService.editSavingTarget(form);
+			savingTargetService.deleteSavingTarget(form);
 		} catch (AlreadyExistsException e) {
 			res.setStatus(Status.ERROR.getStatus());
 			res.setMessage(e.getMessage());
 			return res;
 		}
-		
-		res.setMessage(SuccessMessage.SAVING_TARGET_EDIT_SUCCESSED);
+
+		res.setMessage(SuccessMessage.SAVING_TARGET_DELETE_SUCCESSED);
 		return res;
 	}
+
 }

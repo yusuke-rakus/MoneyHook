@@ -77,4 +77,16 @@
 			user_no = #{userNo} ;
 	</update>
 		
+	<!-- 貯金目標の削除 -->
+	<delete id="deleteSavingTarget">
+		UPDATE
+			saving_target
+		<set>
+			delete_flg = true
+		</set>
+		WHERE 
+			saving_target_id = #{savingTargetId} 
+		AND 
+			user_no = #{userNo} ;
+	</delete>
 </mapper>

@@ -1,0 +1,148 @@
+/* 共通 */
+.container-box p {
+  color: #757575;
+  margin-bottom: 5px;
+  font-size: 20px;
+}
+
+.container-box hr {
+  border-top: 1px solid;
+  color: #757575;
+}
+
+/* ユーザー設定変更 */
+.email-box {
+  display: flex;
+  padding: 30px;
+}
+
+.email-box span {
+  min-width: 150px;
+  margin-right: 15px;
+}
+
+.user-settings-buttons {
+  display: flex;
+  width: 180px;
+  justify-content: space-between;
+}
+
+/* パスワード変更 */
+.password-box {
+  display: flex;
+  padding: 30px;
+}
+
+.password-box span {
+  min-width: 150px;
+  margin-right: 15px;
+}
+
+.password-settings-buttons {
+  display: flex;
+  width: 180px;
+  justify-content: space-between;
+}
+
+/* 固定費の編集 */
+.fixed-list-area {
+  padding: 10px;
+  width: 100%;
+  height: fit-content;
+  margin-top: 15px;
+}
+
+.fixed-data {
+  width: 100%;
+  height: 50px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+/* カテゴリデータ */
+.category-data {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 18%;
+  height: 40px;
+}
+
+/* 取引名 */
+.transaction-name-data {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 18%;
+  height: 40px;
+  position: relative;
+}
+
+.transaction-name-data span {
+  position: absolute;
+  font-size: 10px;
+  top: -5px;
+  left: 0;
+}
+
+.fixed-amount-data {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 18%;
+  height: 40px;
+  position: relative;
+}
+
+.fixed-amount-data span {
+  position: absolute;
+  font-size: 10px;
+  top: -5px;
+  left: 0;
+}
+
+/* 振替日 */
+.transfer-date {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 18%;
+  height: 40px;
+  position: relative;
+  color: #757575;
+}
+
+.transfer-date span {
+  position: absolute;
+  font-size: 10px;
+  top: -5px;
+  left: 0;
+}
+
+.switch-balance-area {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 18%;
+  height: 40px;
+  position: relative;
+}
+
+.delete-area {
+  width: 7%;
+  height: 40px;
+}
+
+/* 追加ボタン */
+.add-area {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.fixed-settings-buttons {
+  display: flex;
+  width: 180px;
+  justify-content: space-between;
+}

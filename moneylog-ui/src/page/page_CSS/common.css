@@ -1,0 +1,22 @@
+.container {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+span {
+  color: #757575;
+}
+
+#standard-basic {
+  color: #424242;
+}
+
+.container-box {
+  width: 80%;
+  height: fit-content;
+  background-color: #ffff;
+  padding: 20px;
+  margin-bottom: 20px;
+}

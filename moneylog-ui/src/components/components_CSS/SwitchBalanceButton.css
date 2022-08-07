@@ -1,0 +1,43 @@
+.switch input[type="checkbox"] {
+  display: none;
+}
+
+.switch {
+  display: flex;
+  height: 35px;
+  width: 90px;
+  background-color: #eeeeee;
+  border-radius: 23px;
+  box-shadow: 0px 3px 2px #ccc;
+}
+
+.switch label {
+  display: flex;
+  width: 54px;
+  justify-content: center;
+  align-items: center;
+  color: #a9a9a9;
+  transition: all 0.25s 0s ease;
+  cursor: pointer;
+}
+
+.switch-circle {
+  display: block;
+  width: 35px;
+  height: 35px;
+  border-radius: 22px;
+  position: relative;
+  transition: all 0.25s 0s ease;
+  z-index: 2;
+  cursor: pointer;
+}
+
+.icon {
+  position: absolute;
+  color: #fff;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  margin: auto;
+}

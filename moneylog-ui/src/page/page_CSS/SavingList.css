@@ -1,0 +1,80 @@
+.container-box {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+/* 月 */
+.month {
+  height: fit-content;
+  width: 70%;
+  display: flex;
+  justify-content: space-between;
+  color: #757575;
+  font-size: 20px;
+}
+
+.switch-month-button {
+  border-radius: 10px;
+  padding: 5px;
+  transition: 0.25s;
+  cursor: pointer;
+  width: 50px;
+}
+
+.switch-month-button:hover {
+  background-color: #eceff1;
+  transform: scale(130%);
+}
+
+/* 金額 */
+.monthly-total-saving {
+  display: flex;
+  width: 80%;
+  height: fit-content;
+  font-size: 25px;
+  color: #424242;
+  padding-top: 20px;
+  padding-bottom: 20px;
+}
+
+.total-saving-amount {
+  color: #4caf50;
+  padding-left: 15px;
+}
+
+/* 貯金明細 */
+.saving-list {
+  height: fit-content;
+  width: 70%;
+}
+
+.saving-data {
+  height: 25px;
+  width: 100%;
+  display: flex;
+  color: #757575;
+  list-style: none;
+  border-bottom: #757575 solid 1px;
+  cursor: pointer;
+  transition: 0.25s;
+  margin-bottom: 10px;
+}
+
+.saving-data:hover {
+  background-color: #eceff1;
+  transform: translateX(5px);
+}
+
+.saving-date {
+  width: 20%;
+}
+.saving-name {
+  width: 60%;
+}
+.saving-amount {
+  width: 10%;
+}
+.saving-data span {
+  width: 10%;
+}

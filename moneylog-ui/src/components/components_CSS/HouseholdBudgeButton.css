@@ -1,0 +1,48 @@
+.add-house-hold-budget-button {
+  position: absolute;
+  right: 50px;
+  bottom: 50px;
+  display: flex;
+  justify-content: flex-end;
+  width: 100px;
+}
+
+.HouseholdBudgetButton-show-enter {
+  /* transform: translateX(50%); */
+  opacity: 0;
+}
+
+.HouseholdBudgetButton-show-enter-active {
+  /* transform: translateX(0); */
+  transition: 500ms, 500ms;
+  opacity: 1;
+}
+
+.HouseholdBudgetButton-show-exit-active {
+  /* transform: translateX(50%); */
+  transition: 500ms, 500ms;
+  opacity: 0;
+}
+
+.HouseholdBudgetButton {
+  position: fixed;
+  margin-right: 0;
+  height: 56px;
+  background-color: #d5d5d5;
+  border-radius: 28px;
+  display: flex;
+  align-items: center;
+  overflow: hidden;
+}
+
+.button-style {
+}
+
+.box-text-style {
+  color: #ffffff;
+  font-size: 20px;
+  padding-left: 20px;
+  padding-right: 70px;
+  display: table-cell;
+  vertical-align: middle;
+}

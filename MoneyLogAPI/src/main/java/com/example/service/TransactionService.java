@@ -65,17 +65,17 @@ public class TransactionService {
 			subCategory.setCategoryId(form.getCategoryId());
 			subCategory.setSubCategoryName(form.getSubCategoryName());
 
-			try {
-				// 重複したサブカテゴリを作成しないよう制約を付与
+			Long subCategoryId = subCategoryMapper.checkSubCategory(subCategory);
+			// 入力したサブカテゴリが存在する場合
+			if (!Objects.isNull(subCategoryId)) {
+				form.setSubCategoryId(subCategoryId);
+			} else {
+				// 新規サブカテゴリ作成
 				subCategoryMapper.addSubCategory(subCategory);
-			} catch (Exception e) {
-				res.setStatus(Status.ERROR.getStatus());
-				res.setMessage(ErrorMessage.SUB_CATEGORY_ALREADY_REGISTERED);
-				return res;
-			}
 
-			Long subCategoryId = subCategory.getSubCategoryId();
-			form.setSubCategoryId(subCategoryId);
+				Long createdSubCategoryId = subCategory.getSubCategoryId();
+				form.setSubCategoryId(createdSubCategoryId);
+			}
 		}
 
 		try {

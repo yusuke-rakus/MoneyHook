@@ -65,6 +65,34 @@ public class SavingTargetController {
 		res.setSavingTarget(savingTargetList);
 		return res;
 	}
+	
+	/**
+	 * 削除済み貯金目標を取得
+	 * 
+	 * @param form
+	 * @param result
+	 * @return
+	 * @throws Throwable
+	 */
+	@PostMapping("/getDeletedSavingTarget")
+	public GetSavingTargetListResponse getDeletedSavingTarget(@RequestBody @Validated GetSavingTargetListForm form,
+			BindingResult result) throws Throwable {
+		GetSavingTargetListResponse res = new GetSavingTargetListResponse();
+
+		if (result.hasErrors()) {
+			String errorMessage = validationService.getFirstErrorMessage(result);
+
+			res.setStatus(Status.ERROR.getStatus());
+			res.setMessage(errorMessage);
+			return res;
+		}
+		
+		List<SavingTarget> savingTargetList = savingTargetService.getDeletedSavingTargetList(form);
+
+		res.setMessage(SuccessMessage.DELETED_SAVING_TARGET_LIST_GET_SUCCESSED);
+		res.setSavingTarget(savingTargetList);
+		return res;
+	}
 
 	/**
 	 * 貯金目標を登録
@@ -163,5 +191,4 @@ public class SavingTargetController {
 		res.setMessage(SuccessMessage.SAVING_TARGET_DELETE_SUCCESSED);
 		return res;
 	}
-
 }

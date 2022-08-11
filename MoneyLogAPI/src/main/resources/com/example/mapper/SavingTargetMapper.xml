@@ -22,6 +22,19 @@
 			delete_flg = false
 	</select>
 	
+	<!-- 削除済み貯金目標一覧の取得 -->
+		<select id="getDeletedSavingTargetList" resultMap="savingTargetMap">
+		SELECT
+			saving_target_id,
+			saving_target_name,
+			target_amount
+		FROM
+			saving_target
+		WHERE 
+		 	user_no = #{userNo}
+		AND
+			delete_flg = true
+	</select>
 	
 	<select id="findSavingTargetByIdAndUserNo" resultType="com.example.domain.SavingTarget">
 		SELECT

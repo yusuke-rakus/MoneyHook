@@ -30,7 +30,7 @@ public class SavingTargetService {
 	@Autowired
 	private AuthenticationService authenticationService;
 
-	/** サブカテゴリ一覧の取得 */
+	/** 貯金目標一覧の取得 */
 	public List<SavingTarget> getSavingTargetList(GetSavingTargetListForm form) throws SystemException {
 		List<SavingTarget> savingTargetList = new ArrayList<>();
 
@@ -40,6 +40,19 @@ public class SavingTargetService {
 
 		savingTargetList = savingTargetMapper.getSavingTargetList(form);
 
+		return savingTargetList;
+	}
+	
+	/** 削除済み貯金目標一覧の取得 */
+	public List<SavingTarget> getDeletedSavingTargetList(GetSavingTargetListForm form) throws SystemException {
+		List<SavingTarget> savingTargetList = new ArrayList<>();
+		
+		// ユーザーIDからユーザーNoを取得
+		Long userNo = authenticationService.authUser(form);
+		form.setUserNo(userNo);
+		
+		savingTargetList = savingTargetMapper.getDeletedSavingTargetList(form);
+		
 		return savingTargetList;
 	}
 

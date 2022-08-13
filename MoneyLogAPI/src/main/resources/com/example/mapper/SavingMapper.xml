@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.mapper.SavingMapper">
+	<!-- 月別貯金一覧の取得 -->
+	<select id="getMonthlySavingList" resultType="com.example.domain.Saving">
+		SELECT
+			s.saving_id,
+			s.saving_name,
+			s.saving_date,
+			s.saving_amount, 
+			s.saving_target_id,
+			st.saving_target_name
+		FROM
+			saving s
+		INNER JOIN saving_target st using (saving_target_id) 
+		WHERE s.user_no = #{userNo} 
+		AND s.saving_date 
+				BETWEEN #{month} 
+				AND  DATE_ADD(#{month}, INTERVAL 1 MONTH)
+		ORDER BY s.saving_date desc ,saving_target_id
+	</select>
+</mapper>

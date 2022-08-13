@@ -10,6 +10,7 @@ public class Saving {
 	private Integer savingAmount;
 	private Date savingDate;
 	private Long savingTargetId;
+	private String savingTargetName;
 
 	public Long getSavingId() {
 		return savingId;
@@ -59,10 +60,19 @@ public class Saving {
 		this.savingTargetId = savingTargetId;
 	}
 
+	public String getSavingTargetName() {
+		return savingTargetName;
+	}
+
+	public void setSavingTargetName(String savingTargetName) {
+		this.savingTargetName = savingTargetName;
+	}
+
 	@Override
 	public String toString() {
 		return "Saving [savingId=" + savingId + ", userNo=" + userNo + ", savingName=" + savingName + ", savingAmount="
-				+ savingAmount + ", savingDate=" + savingDate + ", savingTargetId=" + savingTargetId + "]";
+				+ savingAmount + ", savingDate=" + savingDate + ", savingTargetId=" + savingTargetId
+				+ ", savingTargetName=" + savingTargetName + "]";
 	}
 
 }

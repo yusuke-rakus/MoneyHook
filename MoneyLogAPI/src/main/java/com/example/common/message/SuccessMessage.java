@@ -19,5 +19,9 @@ public class SuccessMessage {
 	public static final String SAVING_TARGET_DELETE_SUCCESSED = "貯金目標の削除が完了しました。";
 
 	// saving
+	/** 月別貯金一覧の取得成功 */
 	public static final String SAVING_LIST_GET_SUCCESSED = "貯金一覧の取得が完了しました。";
+
+	/** 貯金詳細の取得成功 */
+	public static final String SAVING_DATA_GET_SUCCESSED = "貯金詳細の取得が完了しました。";
 }

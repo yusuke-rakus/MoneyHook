@@ -52,4 +52,7 @@ public class ErrorMessage {
 	/** 貯金目標の編集失敗 */
 	public static final String SAVING_TARGET_UPDATE_FAILED = "貯金目標の編集に失敗しました";
 	
+	// saving
+	/** 貯金データの取得失敗 */
+	public static final String SAVING_DATA_SELECT_FAILED = "貯金データの取得に失敗しました";
 }

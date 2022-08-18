@@ -15,6 +15,9 @@ import com.example.form.GetSavingForm;
 @Mapper
 public interface SavingMapper {
 
-	/** 貯金詳細の取得 */
+	/** 月別貯金一覧の取得 */
 	public List<Saving> getMonthlySavingList(GetMonthlySavingListForm form);
+	
+	/** 貯金詳細の取得 */
+	public Saving load(GetSavingForm form);
 }

@@ -19,4 +19,19 @@
 				AND  DATE_ADD(#{month}, INTERVAL 1 MONTH)
 		ORDER BY s.saving_date desc ,saving_target_id
 	</select>
+	<!-- 貯金詳細の取得 -->
+	<select id="load" resultType="com.example.domain.Saving">
+		SELECT
+			s.saving_id,
+			s.saving_name,
+			s.saving_date,
+			s.saving_amount, 
+			s.saving_target_id,
+			st.saving_target_name
+		FROM
+			saving s
+		INNER JOIN saving_target st using (saving_target_id) 
+		WHERE s.user_no = #{userNo} 
+		AND s.saving_id = #{savingId} 
+	</select>
 </mapper>

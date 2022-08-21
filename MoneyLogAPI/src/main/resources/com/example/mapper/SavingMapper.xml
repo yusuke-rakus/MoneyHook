@@ -19,6 +19,7 @@
 				AND  DATE_ADD(#{month}, INTERVAL 1 MONTH)
 		ORDER BY s.saving_date desc ,saving_target_id
 	</select>
+	
 	<!-- 貯金詳細の取得 -->
 	<select id="load" resultType="com.example.domain.Saving">
 		SELECT
@@ -34,4 +35,20 @@
 		WHERE s.user_no = #{userNo} 
 		AND s.saving_id = #{savingId} 
 	</select>
+	
+	<!-- 収支を編集 -->
+	<update id="editSaving">
+		UPDATE
+			saving
+		<set>
+			<if test="savingName != null">saving_name = #{savingName},</if>
+			<if test="savingAmount != null">saving_amount = #{savingAmount},</if>
+			<if test="savingDate != null">saving_date = #{savingDate},</if>
+			<if test="savingTargetId != null">saving_target_id = #{savingTargetId}</if>
+		</set>
+		WHERE
+			saving_id = #{savingId}
+		AND
+			user_no = #{userNo};
+	</update>
 </mapper>

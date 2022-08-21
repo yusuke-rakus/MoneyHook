@@ -12,6 +12,8 @@ import com.example.common.exception.DataNotFoundException;
 import com.example.common.exception.SystemException;
 import com.example.common.message.ErrorMessage;
 import com.example.domain.Saving;
+import com.example.domain.SavingTarget;
+import com.example.form.EditSavingForm;
 import com.example.form.GetMonthlySavingListForm;
 import com.example.form.GetSavingForm;
 import com.example.mapper.SavingMapper;
@@ -25,6 +27,9 @@ public class SavingService {
 
 	@Autowired
 	private AuthenticationService authenticationService;
+
+	@Autowired
+	private SavingTargetService savingTargetService;
 
 	/** 月別貯金一覧の取得 */
 	public List<Saving> getMonthlySavingList(GetMonthlySavingListForm form) throws SystemException {
@@ -54,5 +59,21 @@ public class SavingService {
 		}
 
 		return saving;
+	}
+
+	/** 貯金の編集 */
+	public void editSaving(EditSavingForm form) throws SystemException {
+
+		// ユーザーIDからユーザーNoを取得
+		Long userNo = authenticationService.authUser(form);
+		form.setUserNo(userNo);
+
+		// 貯金目標(振り分け先)を変更する場合
+		if (!Objects.isNull(form.getSavingTargetId())) {
+			// 対象としているsavingTargetIdを持ち、かつリクエスト元のuserNoを持つデータが有るかを検索、なければシステム例外
+			savingTargetService.findSavingTargetByTargetIdAndUserNo(form.getSavingTargetId(), form.getUserNo());
+		}
+
+		savingMapper.editSaving(form);
 	}
 }

@@ -11,11 +11,14 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.example.common.Status;
+import com.example.common.exception.AlreadyExistsException;
 import com.example.common.exception.DataNotFoundException;
 import com.example.common.message.SuccessMessage;
 import com.example.domain.Saving;
+import com.example.form.EditSavingForm;
 import com.example.form.GetMonthlySavingListForm;
 import com.example.form.GetSavingForm;
+import com.example.response.EditSavingResponse;
 import com.example.response.GetSavingListResponse;
 import com.example.response.GetSavingResponse;
 import com.example.service.SavingService;
@@ -94,4 +97,39 @@ public class SavingController {
 		res.setSaving(saving);
 		return res;
 	}
+	
+	/**
+	 * 貯金の編集
+	 * 
+	 * @param form
+	 * @param result
+	 * @return
+	 * @throws Throwable
+	 */
+	@PostMapping("/editSaving")
+	public EditSavingResponse editSaving(@RequestBody @Validated EditSavingForm form,
+			BindingResult result) throws Throwable {
+		
+		EditSavingResponse res = new EditSavingResponse();
+
+		if (result.hasErrors()) {
+			String errorMessage = validationService.getFirstErrorMessage(result);
+
+			res.setStatus(Status.ERROR.getStatus());
+			res.setMessage(errorMessage);
+			return res;
+		}
+
+		try {
+			savingService.editSaving(form);
+		} catch (DataNotFoundException e) {
+			res.setStatus(Status.ERROR.getStatus());
+			res.setMessage(e.getMessage());
+			return res;
+		}
+
+		res.setMessage(SuccessMessage.SAVING_EDIT_SUCCESSED);
+		return res;
+	}
+
 }

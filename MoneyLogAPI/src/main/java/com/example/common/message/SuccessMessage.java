@@ -15,7 +15,7 @@ public class SuccessMessage {
 	/** 貯金目標の編集成功 */
 	public static final String SAVING_TARGET_EDIT_SUCCESSED = "貯金目標の編集が完了しました。";
 
-	/** 貯金目標の編集成功 */
+	/** 貯金目標の削除成功 */
 	public static final String SAVING_TARGET_DELETE_SUCCESSED = "貯金目標の削除が完了しました。";
 
 	// saving
@@ -24,4 +24,7 @@ public class SuccessMessage {
 
 	/** 貯金詳細の取得成功 */
 	public static final String SAVING_DATA_GET_SUCCESSED = "貯金詳細の取得が完了しました。";
+	
+	/** 貯金の編集成功 */
+	public static final String SAVING_EDIT_SUCCESSED = "貯金の編集が完了しました。";
 }

@@ -11,6 +11,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.example.common.Status;
 import com.example.common.exception.AlreadyExistsException;
+import com.example.common.exception.DataNotFoundException;
 import com.example.common.exception.SystemException;
 import com.example.common.message.ErrorMessage;
 import com.example.domain.SavingTarget;
@@ -42,17 +43,17 @@ public class SavingTargetService {
 
 		return savingTargetList;
 	}
-	
+
 	/** 削除済み貯金目標一覧の取得 */
 	public List<SavingTarget> getDeletedSavingTargetList(GetSavingTargetListForm form) throws SystemException {
 		List<SavingTarget> savingTargetList = new ArrayList<>();
-		
+
 		// ユーザーIDからユーザーNoを取得
 		Long userNo = authenticationService.authUser(form);
 		form.setUserNo(userNo);
-		
+
 		savingTargetList = savingTargetMapper.getDeletedSavingTargetList(form);
-		
+
 		return savingTargetList;
 	}
 
@@ -136,8 +137,25 @@ public class SavingTargetService {
 		// ユーザーIDからユーザーNoを取得
 		Long userNo = authenticationService.authUser(form);
 		form.setUserNo(userNo);
-		
+
 		savingTargetMapper.deleteSavingTarget(form);
 
 	}
+
+	// 他サービスクラス用メソッド
+	public SavingTarget findSavingTargetByTargetIdAndUserNo(Long savingTargetId, Long userNo) throws SystemException {
+
+		SavingTarget savingTarget = new SavingTarget();
+		savingTarget.setSavingTargetId(savingTargetId);
+		savingTarget.setUserNo(userNo);
+
+		savingTarget = savingTargetMapper.findSavingTargetByIdAndUserNo(savingTarget);
+
+		if (Objects.isNull(savingTarget)) {
+			throw new DataNotFoundException(ErrorMessage.SAVING_TARGET_NOT_FOUND);
+		}
+
+		return savingTarget;
+	}
+
 }

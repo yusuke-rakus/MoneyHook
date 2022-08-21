@@ -51,6 +51,8 @@ public class ErrorMessage {
 	public static final String SAVING_TARGET_NAME_DUPLICATED = "貯金目標名が重複しています";
 	/** 貯金目標の編集失敗 */
 	public static final String SAVING_TARGET_UPDATE_FAILED = "貯金目標の編集に失敗しました";
+	/** 貯金目標の検索失敗 */
+	public static final String SAVING_TARGET_NOT_FOUND = "存在しない貯金目標です";
 	
 	// saving
 	/** 貯金データの取得失敗 */

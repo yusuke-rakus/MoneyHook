@@ -1,0 +1,27 @@
+.SavingTargetCardArea {
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.AddSavingTargetButton {
+  color: #bebebe;
+  font-size: 70px;
+  transition: 0.25s;
+  cursor: pointer;
+}
+
+.AddSavingTargetButton:hover {
+  color: #424242;
+  transform: scale(1.2);
+}
+
+.UncategorizedSavingCard {
+  transition: 0.25s;
+  cursor: pointer;
+}
+
+.UncategorizedSavingCard:hover {
+  transform: scale(1.03);
+}

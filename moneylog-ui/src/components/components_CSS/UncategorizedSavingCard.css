@@ -1,0 +1,27 @@
+.UncategorizedSavingCard {
+  display: flex;
+  justify-content: center;
+  border-radius: 15px;
+  padding: 15px;
+  border: 1px solid #424242;
+  position: relative;
+  background-color: #ffff;
+  max-width: 350px;
+}
+
+.UncategorizedSavingCard span:first-child {
+  margin-right: 20px;
+}
+
+.UncategorizedSavingCard span {
+  color: #212121;
+}
+
+.edit-icon {
+  position: absolute;
+  top: -5px;
+  right: -5px;
+  background-color: #ffff;
+  border-radius: 50%;
+  color: #757575;
+}

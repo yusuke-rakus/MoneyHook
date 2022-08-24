@@ -1,0 +1,39 @@
+table {
+  width: 50%;
+}
+
+tr {
+  height: 30px;
+}
+
+.card-body {
+  display: flex;
+  justify-content: space-between;
+  height: 100%;
+  align-items: center;
+  padding-right: 30px;
+  padding-left: 30px;
+}
+
+.saving-amount-area {
+  width: 20%;
+}
+
+.saving-amount-area p {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.saving-amount-area span {
+  font-size: 10px;
+}
+
+.card {
+  max-width: 800px;
+  transition: 0.25s;
+  cursor: pointer;
+}
+
+.card:hover {
+  transform: scale(1.01);
+}

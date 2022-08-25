@@ -1,17 +1,38 @@
+.TotalSavingTitleArea {
+  width: 100%;
+  height: 100px;
+  align-items: center;
+  display: flex;
+  font-size: 32px;
+}
+
+.TotalSavingTitleArea :first-child {
+  color: #616161;
+  margin-right: 30px;
+}
+
+.TotalSavingTitleArea :last-child {
+  color: #1b5e20;
+}
+
 .LineChartArea {
   width: 100%;
+  margin-bottom: 50px;
 }
 
 .SavingTargetCardArea {
+  width: 100%;
   padding: 20px;
   display: flex;
   flex-direction: column;
   align-items: center;
+  margin-bottom: 30px;
 }
 
 .AddSavingTargetButton {
   color: #bebebe;
   cursor: pointer;
+  margin-top: 20px;
 }
 
 .AddSavingTargetButton:hover {
@@ -27,4 +48,8 @@
 
 .UncategorizedSavingCard:hover {
   transform: scale(1.03);
+}
+
+.UncategorizedSavingCardArea {
+  width: 100%;
 }

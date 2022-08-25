@@ -19,7 +19,11 @@ const data = {
 
 const TotalSaving = () => {
   return (
-    <>
+    <div className="container">
+      <div className="TotalSavingTitleArea">
+        <span>貯金総額</span>
+        <span>nnn,nnn</span>
+      </div>
       <div className="LineChartArea">
         <Line data={data} />
       </div>
@@ -29,8 +33,10 @@ const TotalSaving = () => {
         <AddSharpIcon fontSize="large" className="AddSavingTargetButton" />
       </div>
 
-      <UncategorizedSavingCard className="UncategorizedSavingCard" />
-    </>
+      <div className="UncategorizedSavingCardArea">
+        <UncategorizedSavingCard className="UncategorizedSavingCard" />
+      </div>
+    </div>
   );
 };
 export default TotalSaving;

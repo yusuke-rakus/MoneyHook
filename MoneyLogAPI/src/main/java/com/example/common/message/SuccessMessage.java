@@ -27,4 +27,7 @@ public class SuccessMessage {
 	
 	/** 貯金の編集成功 */
 	public static final String SAVING_EDIT_SUCCESSED = "貯金の編集が完了しました。";
+
+	/** 貯金の追加成功 */
+	public static final String SAVING_INSERT_SUCCESSED = "貯金の追加が完了しました。";
 }

@@ -13,7 +13,7 @@ public class EditTransactionForm extends form {
 
 	private Long transactionId;
 
-	@NotNull(message = ValidatingMessage.TRANSACTION_DATE_EMPTY_ERROR)
+	@NotNull(message = ValidatingMessage.DATE_EMPTY_ERROR)
 	private Date transactionDate;
 
 	@NotNull(message = ValidatingMessage.TRANSACTION_AMOUNT_EMPTY_ERROR)

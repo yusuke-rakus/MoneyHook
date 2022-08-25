@@ -19,7 +19,7 @@ public class MonthlyTransactionList {
 	@NotBlank(message = ValidatingMessage.TRANSACTION_AMOUNT_EMPTY_ERROR)
 	private Integer monthlyTransactionAmount;
 
-	@NotBlank(message = ValidatingMessage.TRANSACTION_DATE_EMPTY_ERROR)
+	@NotBlank(message = ValidatingMessage.DATE_EMPTY_ERROR)
 	private Integer monthlyTransactionDate;
 
 	private Long categoryId;

@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -13,6 +14,7 @@ import com.example.common.exception.SystemException;
 import com.example.common.message.ErrorMessage;
 import com.example.domain.Saving;
 import com.example.domain.SavingTarget;
+import com.example.form.AddSavingForm;
 import com.example.form.EditSavingForm;
 import com.example.form.GetMonthlySavingListForm;
 import com.example.form.GetSavingForm;
@@ -70,10 +72,44 @@ public class SavingService {
 
 		// 貯金目標(振り分け先)を変更する場合
 		if (!Objects.isNull(form.getSavingTargetId())) {
-			// 対象としているsavingTargetIdを持ち、かつリクエスト元のuserNoを持つデータが有るかを検索、なければシステム例外
-			savingTargetService.findSavingTargetByTargetIdAndUserNo(form.getSavingTargetId(), form.getUserNo());
+
+			SavingTarget savingTarget = new SavingTarget();
+			BeanUtils.copyProperties(form, savingTarget);
+
+			// IDでの指定
+			// 対象としているsavingTargetIdを持ち、かつリクエスト元のuserNoを持つデータが有るかを検索
+			savingTarget = savingTargetService.findSavingTargetByTargetIdAndUserNo(savingTarget);
 		}
 
-		savingMapper.editSaving(form);
+		try {
+			savingMapper.editSaving(form);
+		} catch (Exception e) {
+			throw new SystemException(ErrorMessage.SAVING_DATA_EDIT_FAILED);
+		}
+	}
+
+	/** 貯金の登録 */
+	public void insertSaving(AddSavingForm form) throws SystemException {
+
+		// ユーザーIDからユーザーNoを取得
+		Long userNo = authenticationService.authUser(form);
+		form.setUserNo(userNo);
+
+		// 貯金目標(振り分け先)を登録する場合
+		if (!Objects.isNull(form.getSavingTargetId())) {
+
+			SavingTarget savingTarget = new SavingTarget();
+			BeanUtils.copyProperties(form, savingTarget);
+
+			// IDでの指定
+			// 対象としているsavingTargetIdを持ち、かつリクエスト元のuserNoを持つデータが有るかを検索
+			savingTarget = savingTargetService.findSavingTargetByTargetIdAndUserNo(savingTarget);
+		}
+
+		try {
+			savingMapper.insertSaving(form);
+		} catch (Exception e) {
+			throw new SystemException(ErrorMessage.SAVING_DATA_INSERT_FAILED);
+		}
 	}
 }

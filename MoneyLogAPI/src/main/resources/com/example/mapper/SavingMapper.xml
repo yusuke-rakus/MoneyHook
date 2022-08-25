@@ -36,7 +36,26 @@
 		AND s.saving_id = #{savingId} 
 	</select>
 	
-	<!-- 収支を編集 -->
+	<!-- 貯金を登録 -->
+	<insert id="insertSaving" parameterType="com.example.form.AddSavingForm">
+		INSERT INTO
+		saving(
+			user_no,
+			saving_name,
+			saving_amount,
+			saving_date,
+			saving_target_id
+		)
+		VALUES(
+			#{userNo},
+			#{savingName},
+			#{savingAmount},
+			#{savingDate},
+			#{savingTargetId}
+		);
+	</insert>
+	
+	<!-- 貯金を編集 -->
 	<update id="editSaving">
 		UPDATE
 			saving

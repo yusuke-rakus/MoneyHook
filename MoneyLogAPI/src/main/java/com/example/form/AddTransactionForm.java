@@ -14,7 +14,7 @@ import com.example.common.validation.AnyOneNotEmpty;
 		"subCategoryName" }, message = ValidatingMessage.SUB_CATEGORY_NO_SELECT_AND_INPUT_ERROR)
 public class AddTransactionForm extends form {
 
-	@NotNull(message = ValidatingMessage.TRANSACTION_DATE_EMPTY_ERROR)
+	@NotNull(message = ValidatingMessage.DATE_EMPTY_ERROR)
 	private Date transactionDate;
 
 	@NotNull(message = ValidatingMessage.TRANSACTION_AMOUNT_EMPTY_ERROR)

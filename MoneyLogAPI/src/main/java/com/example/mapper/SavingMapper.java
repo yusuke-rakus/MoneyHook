@@ -23,5 +23,8 @@ public interface SavingMapper {
 	
 	/** 貯金の編集 */
 	public void editSaving(EditSavingForm form);
+
+	/** 貯金の追加 */
+	public void insertSaving(AddSavingForm form);
 	
 }

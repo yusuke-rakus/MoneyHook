@@ -80,7 +80,7 @@ public class SavingTargetService {
 			savingTarget.setSavingTargetName(form.getSavingTargetName());
 
 			// 名称で検索
-			SavingTarget searchedSavingTarget = savingTargetMapper.findSavingTargetByNameAndUserNo(savingTarget);
+			SavingTarget searchedSavingTarget = findSavingTargetByTargetNameAndUserNo(savingTarget);
 
 			if (!Objects.isNull(searchedSavingTarget)) {
 				// 既にあれば、その内容を返す用のインスタンスに詰め替え
@@ -121,7 +121,7 @@ public class SavingTargetService {
 			savingTarget.setSavingTargetName(form.getSavingTargetName());
 
 			// 名称で検索
-			SavingTarget searchedSavingTarget = savingTargetMapper.findSavingTargetByNameAndUserNo(savingTarget);
+			SavingTarget searchedSavingTarget = findSavingTargetByTargetNameAndUserNo(savingTarget);
 
 			if (!Objects.isNull(searchedSavingTarget)
 					&& !(savingTarget.getSavingTargetId().equals(searchedSavingTarget.getSavingTargetId()))) {
@@ -142,15 +142,19 @@ public class SavingTargetService {
 
 	}
 
-	// 他サービスクラス用メソッド
-	public SavingTarget findSavingTargetByTargetIdAndUserNo(Long savingTargetId, Long userNo) throws SystemException {
-
-		SavingTarget savingTarget = new SavingTarget();
-		savingTarget.setSavingTargetId(savingTargetId);
-		savingTarget.setUserNo(userNo);
+	/**
+	 * 貯金目標IDとユーザーNOで貯金目標を検索します。
+	 * 
+	 * @param savingTargetId
+	 * @param userNo
+	 * @return
+	 * @throws SystemException
+	 */
+	public SavingTarget findSavingTargetByTargetIdAndUserNo(SavingTarget savingTarget) throws SystemException {
 
 		savingTarget = savingTargetMapper.findSavingTargetByIdAndUserNo(savingTarget);
 
+		// 該当する貯金目標がない場合は、システム例外をスロー
 		if (Objects.isNull(savingTarget)) {
 			throw new DataNotFoundException(ErrorMessage.SAVING_TARGET_NOT_FOUND);
 		}
@@ -158,4 +162,23 @@ public class SavingTargetService {
 		return savingTarget;
 	}
 
+	/**
+	 * 貯金目標名とユーザーNOで貯金目標を検索します。
+	 * 
+	 * @param savingTargetName
+	 * @param userNo
+	 * @return
+	 * @throws SystemException
+	 */
+	public SavingTarget findSavingTargetByTargetNameAndUserNo(SavingTarget savingTarget) throws SystemException {
+
+		savingTarget = savingTargetMapper.findSavingTargetByNameAndUserNo(savingTarget);
+
+		// 該当する貯金目標がない場合は、システム例外をスロー
+		if (Objects.isNull(savingTarget)) {
+			throw new DataNotFoundException(ErrorMessage.SAVING_TARGET_NOT_FOUND);
+		}
+
+		return savingTarget;
+	}
 }

@@ -11,13 +11,15 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.example.common.Status;
-import com.example.common.exception.AlreadyExistsException;
 import com.example.common.exception.DataNotFoundException;
+import com.example.common.exception.SystemException;
 import com.example.common.message.SuccessMessage;
 import com.example.domain.Saving;
+import com.example.form.AddSavingForm;
 import com.example.form.EditSavingForm;
 import com.example.form.GetMonthlySavingListForm;
 import com.example.form.GetSavingForm;
+import com.example.response.AddSavingResponse;
 import com.example.response.EditSavingResponse;
 import com.example.response.GetSavingListResponse;
 import com.example.response.GetSavingResponse;
@@ -97,6 +99,41 @@ public class SavingController {
 		res.setSaving(saving);
 		return res;
 	}
+
+	/**
+	 * 貯金を追加
+	 * 
+	 * @param form
+	 * @param result
+	 * @return
+	 * @throws Throwable
+	 */
+	@PostMapping("/addSaving")
+	public AddSavingResponse addSaving(@RequestBody @Validated AddSavingForm form,
+			BindingResult result) throws Throwable {
+		AddSavingResponse res = new AddSavingResponse();
+
+		if (result.hasErrors()) {
+			String errorMessage = validationService.getFirstErrorMessage(result);
+
+			res.setStatus(Status.ERROR.getStatus());
+			res.setMessage(errorMessage);
+			return res;
+		}
+
+		// 追加処理
+		try {
+			savingService.insertSaving(form);
+		} catch (SystemException e) {
+			res.setStatus(Status.ERROR.getStatus());
+			res.setMessage(e.getMessage());
+			return res;
+		}
+
+		res.setMessage(SuccessMessage.SAVING_INSERT_SUCCESSED);
+		return res;
+	}
+
 	
 	/**
 	 * 貯金の編集

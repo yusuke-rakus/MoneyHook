@@ -17,8 +17,8 @@ const Settings = () => {
     <div className="container">
       {/* ユーザー設定変更 */}
       <div className="container-box">
-        <p>ユーザー設定変更</p>
-        <hr />
+        <p className="SettingsTitle">ユーザー設定変更</p>
+        <hr className="border" />
         <div className="email-box">
           <span>メールアドレス</span>
           <TextField id="standard-basic" variant="standard" fullWidth={true} />
@@ -34,8 +34,8 @@ const Settings = () => {
 
       {/* パスワード変更 */}
       <div className="container-box">
-        <p>パスワード変更</p>
-        <hr />
+        <p className="SettingsTitle">パスワード変更</p>
+        <hr className="border" />
         <div className="password-box">
           <span>現在のパスワード</span>
           <TextField id="standard-basic" variant="standard" fullWidth={true} />
@@ -59,8 +59,8 @@ const Settings = () => {
 
       {/* 固定費の編集 */}
       <div className="container-box">
-        <p>固定費の編集</p>
-        <hr />
+        <p className="SettingsTitle">固定費の編集</p>
+        <hr className="border" />
         <div className="fixed-list-area">
           <div className="fixed-data">
             <div className="category-data">

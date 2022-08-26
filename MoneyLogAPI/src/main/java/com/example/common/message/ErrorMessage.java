@@ -61,4 +61,6 @@ public class ErrorMessage {
 	public static final String SAVING_DATA_INSERT_FAILED = "貯金データの登録に失敗しました";
 	/** 貯金データの編集失敗 */
 	public static final String SAVING_DATA_EDIT_FAILED = "貯金データの編集に失敗しました";
+	/** 貯金データの削除失敗 */
+	public static final String SAVING_DATA_DELETE_FAILED = "貯金データの削除に失敗しました";
 }

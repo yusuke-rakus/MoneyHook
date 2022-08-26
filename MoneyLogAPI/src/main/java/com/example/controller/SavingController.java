@@ -16,10 +16,12 @@ import com.example.common.exception.SystemException;
 import com.example.common.message.SuccessMessage;
 import com.example.domain.Saving;
 import com.example.form.AddSavingForm;
+import com.example.form.DeleteSavingForm;
 import com.example.form.EditSavingForm;
 import com.example.form.GetMonthlySavingListForm;
 import com.example.form.GetSavingForm;
 import com.example.response.AddSavingResponse;
+import com.example.response.DeleteSavingResponse;
 import com.example.response.EditSavingResponse;
 import com.example.response.GetSavingListResponse;
 import com.example.response.GetSavingResponse;
@@ -86,7 +88,7 @@ public class SavingController {
 		}
 
 		Saving saving = new Saving();
-		
+
 		try {
 			saving = savingService.getSavingDetailBySavingId(form);
 		} catch (DataNotFoundException e) {
@@ -109,8 +111,8 @@ public class SavingController {
 	 * @throws Throwable
 	 */
 	@PostMapping("/addSaving")
-	public AddSavingResponse addSaving(@RequestBody @Validated AddSavingForm form,
-			BindingResult result) throws Throwable {
+	public AddSavingResponse addSaving(@RequestBody @Validated AddSavingForm form, BindingResult result)
+			throws Throwable {
 		AddSavingResponse res = new AddSavingResponse();
 
 		if (result.hasErrors()) {
@@ -134,7 +136,6 @@ public class SavingController {
 		return res;
 	}
 
-	
 	/**
 	 * 貯金の編集
 	 * 
@@ -144,9 +145,9 @@ public class SavingController {
 	 * @throws Throwable
 	 */
 	@PostMapping("/editSaving")
-	public EditSavingResponse editSaving(@RequestBody @Validated EditSavingForm form,
-			BindingResult result) throws Throwable {
-		
+	public EditSavingResponse editSaving(@RequestBody @Validated EditSavingForm form, BindingResult result)
+			throws Throwable {
+
 		EditSavingResponse res = new EditSavingResponse();
 
 		if (result.hasErrors()) {
@@ -166,6 +167,32 @@ public class SavingController {
 		}
 
 		res.setMessage(SuccessMessage.SAVING_EDIT_SUCCESSED);
+		return res;
+	}
+
+	/**
+	 * 貯金を削除
+	 * 
+	 * @param form
+	 * @return
+	 * @throws SystemException
+	 */
+	@PostMapping("/deleteSaving")
+	public DeleteSavingResponse deleteSaving(@RequestBody @Validated DeleteSavingForm form,
+			BindingResult result) throws SystemException {
+		DeleteSavingResponse res = new DeleteSavingResponse();
+
+		if (result.hasErrors()) {
+			String errorMessage = validationService.getFirstErrorMessage(result);
+
+			res.setStatus(Status.ERROR.getStatus());
+			res.setMessage(errorMessage);
+			return res;
+		}
+
+		savingService.deleteSaving(form);
+		
+		res.setMessage(SuccessMessage.SAVING_DATA_DELETE_SUCCESSED);
 		return res;
 	}
 

@@ -15,6 +15,7 @@ import com.example.common.message.ErrorMessage;
 import com.example.domain.Saving;
 import com.example.domain.SavingTarget;
 import com.example.form.AddSavingForm;
+import com.example.form.DeleteSavingForm;
 import com.example.form.EditSavingForm;
 import com.example.form.GetMonthlySavingListForm;
 import com.example.form.GetSavingForm;
@@ -110,6 +111,20 @@ public class SavingService {
 			savingMapper.insertSaving(form);
 		} catch (Exception e) {
 			throw new SystemException(ErrorMessage.SAVING_DATA_INSERT_FAILED);
+		}
+	}
+	
+	/** 貯金の削除 */
+	public void deleteSaving(DeleteSavingForm form) throws SystemException {
+
+		// ユーザーIDからユーザーNoを取得
+		Long userNo = authenticationService.authUser(form);
+		form.setUserNo(userNo);
+
+		try {
+			savingMapper.deleteSaving(form);
+		} catch (Exception e) {
+			throw new SystemException(ErrorMessage.SAVING_DATA_DELETE_FAILED);
 		}
 	}
 }

@@ -70,4 +70,12 @@
 		AND
 			user_no = #{userNo};
 	</update>
+	
+	<!-- 貯金を削除 -->
+	<delete id="deleteSaving" parameterType="com.example.form.DeleteSavingForm">
+		DELETE FROM 
+			saving
+		WHERE
+			saving_id = #{savingId} AND user_no = #{userNo};
+	</delete>
 </mapper>

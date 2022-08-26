@@ -21,9 +21,9 @@ const Timeline = () => {
   const option = {};
 
   return (
-    <>
+    <div className="container">
       <Bar data={data} options={option} />
-    </>
+    </div>
   );
 };
 export default Timeline;

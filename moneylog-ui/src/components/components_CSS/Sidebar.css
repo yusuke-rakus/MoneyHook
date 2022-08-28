@@ -1,14 +1,10 @@
 .sidebar {
   height: 100%;
   width: 300px;
+  flex-shrink: 0;
   background: #81d4fa;
   float: left;
-}
-
-.sidebarList {
-  height: auto;
-  padding: 0;
-  width: 100%;
+  position: fixed;
 }
 
 .sidebarList .row {
@@ -18,6 +14,7 @@
   color: white;
   justify-content: center;
   align-items: center;
+  transition: 0.25s;
 }
 
 .sidebarList .heading {
@@ -26,11 +23,6 @@
 
 .sidebarList .row:hover {
   cursor: pointer;
-  background-color: #94deff;
-  transition: 0.15s;
-}
-
-.sidebarList #active {
   background-color: #94deff;
 }
 

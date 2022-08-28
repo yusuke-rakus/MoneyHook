@@ -15,11 +15,6 @@ const App = () => {
     <BrowserRouter>
       <Sidebar />
       <div className="homeArea">
-        {/* <HouseholdBudgetButton BoxText={"追加"} /> */}
-        {/* <ModalWindow /> */}
-        {/* <AddSavingWindow /> */}
-        {/* <AddTargetWindow /> */}
-
         <Routes>
           <Route path="/" element={<Home />}></Route>
           <Route path="/home" element={<Home />}></Route>

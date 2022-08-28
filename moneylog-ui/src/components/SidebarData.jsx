@@ -23,13 +23,13 @@ export const SidebarData = [
   {
     title: "月別変動費",
     icon: <TelegramIcon />,
-    link: "/variable",
+    link: "/monthlyVariable",
     heading: false,
   },
   {
     title: "月別固定費",
     icon: <AccountTreeIcon />,
-    link: "/fixed",
+    link: "/monthlyFixed",
     heading: false,
   },
   {
@@ -40,11 +40,11 @@ export const SidebarData = [
   {
     title: "したつもり貯金総額",
     icon: <AutoGraphIcon />,
-    link: "/amount",
+    link: "/totalSaving",
   },
   {
     title: "設定",
     icon: <SettingsIcon />,
-    link: "/settings",
+    link: "/settingsPage",
   },
 ];

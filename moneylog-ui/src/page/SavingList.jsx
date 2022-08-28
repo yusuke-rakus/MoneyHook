@@ -9,62 +9,56 @@ import HouseholdBudgetButton from "../components/HouseholdBudgetButton";
 const SavingList = () => {
   return (
     <div className="container">
-      <div className="container-box">
+      <div className="containerBox">
         <div className="month">
-          <ArrowBackIosNewIcon
-            fontSize="large"
-            className="switch-month-button"
-          />
+          <ArrowBackIosNewIcon fontSize="large" className="switchMonthButton" />
           <span>6月</span>
-          <ArrowForwardIosIcon
-            fontSize="large"
-            className="switch-month-button"
-          />
+          <ArrowForwardIosIcon fontSize="large" className="switchMonthButton" />
         </div>
 
-        <div className="monthly-total-saving">
+        <div className="monthlyTotalSaving">
           <span>今月の貯金額</span>
-          <span className="total-saving-amount">1,200,000</span>
+          <span className="totalSavingAmount">1,200,000</span>
         </div>
 
-        <div className="saving-list">
+        <div className="savingList">
           <ul>
-            <li className="saving-data">
-              <div className="saving-date">20日</div>
-              <div className="saving-name">タバコ</div>
-              <div className="saving-amount">¥500</div>
+            <li className="savingData">
+              <div className="savingDate">20日</div>
+              <div className="savingName">タバコ</div>
+              <div className="savingAmount">¥500</div>
               <span>
                 <ChevronRightIcon />
               </span>
             </li>
-            <li className="saving-data">
-              <div className="saving-date">20日</div>
-              <div className="saving-name">タバコ</div>
-              <div className="saving-amount">¥500</div>
+            <li className="savingData">
+              <div className="savingDate">20日</div>
+              <div className="savingName">タバコ</div>
+              <div className="savingAmount">¥500</div>
               <span>
                 <ChevronRightIcon />
               </span>
             </li>
-            <li className="saving-data">
-              <div className="saving-date">20日</div>
-              <div className="saving-name">タバコ</div>
-              <div className="saving-amount">¥500</div>
+            <li className="savingData">
+              <div className="savingDate">20日</div>
+              <div className="savingName">タバコ</div>
+              <div className="savingAmount">¥500</div>
               <span>
                 <ChevronRightIcon />
               </span>
             </li>
-            <li className="saving-data">
-              <div className="saving-date">20日</div>
-              <div className="saving-name">タバコ</div>
-              <div className="saving-amount">¥500</div>
+            <li className="savingData">
+              <div className="savingDate">20日</div>
+              <div className="savingName">タバコ</div>
+              <div className="savingAmount">¥500</div>
               <span>
                 <ChevronRightIcon />
               </span>
             </li>
-            <li className="saving-data">
-              <div className="saving-date">20日</div>
-              <div className="saving-name">タバコ</div>
-              <div className="saving-amount">¥500</div>
+            <li className="savingData">
+              <div className="savingDate">20日</div>
+              <div className="savingName">タバコ</div>
+              <div className="savingAmount">¥500</div>
               <span>
                 <ChevronRightIcon />
               </span>

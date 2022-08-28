@@ -1,4 +1,4 @@
-.container-box {
+.containerBox {
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -12,9 +12,10 @@
   justify-content: space-between;
   color: #757575;
   font-size: 20px;
+  padding-bottom: 20px;
 }
 
-.switch-month-button {
+.switchMonthButton {
   border-radius: 10px;
   padding: 5px;
   transition: 0.25s;
@@ -22,13 +23,13 @@
   width: 50px;
 }
 
-.switch-month-button:hover {
+.switchMonthButton:hover {
   background-color: #eceff1;
   transform: scale(130%);
 }
 
 /* 金額 */
-.monthly-total-saving {
+.monthlyTotalSaving {
   display: flex;
   width: 80%;
   height: fit-content;
@@ -38,18 +39,18 @@
   padding-bottom: 20px;
 }
 
-.total-saving-amount {
+.totalSavingAmount {
   color: #4caf50;
   padding-left: 15px;
 }
 
 /* 貯金明細 */
-.saving-list {
+.savingList {
   height: fit-content;
   width: 70%;
 }
 
-.saving-data {
+.savingData {
   height: 25px;
   width: 100%;
   display: flex;
@@ -61,20 +62,20 @@
   margin-bottom: 10px;
 }
 
-.saving-data:hover {
+.savingData:hover {
   background-color: #eceff1;
   transform: translateX(5px);
 }
 
-.saving-date {
+.savingDate {
   width: 20%;
 }
-.saving-name {
+.savingName {
   width: 60%;
 }
-.saving-amount {
+.savingAmount {
   width: 10%;
 }
-.saving-data span {
+.savingData span {
   width: 10%;
 }

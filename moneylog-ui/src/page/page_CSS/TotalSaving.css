@@ -1,4 +1,4 @@
-.TotalSavingTitleArea {
+.totalSavingTitleArea {
   width: 100%;
   height: 100px;
   align-items: center;
@@ -6,21 +6,21 @@
   font-size: 32px;
 }
 
-.TotalSavingTitleArea :first-child {
+.totalSavingTitleArea :first-child {
   color: #616161;
   margin-right: 30px;
 }
 
-.TotalSavingTitleArea :last-child {
+.totalSavingTitleArea :last-child {
   color: #1b5e20;
 }
 
-.LineChartArea {
+.lineChartArea {
   width: 100%;
   margin-bottom: 50px;
 }
 
-.SavingTargetCardArea {
+.savingTargetCardArea {
   width: 100%;
   padding: 20px;
   display: flex;
@@ -29,27 +29,27 @@
   margin-bottom: 30px;
 }
 
-.AddSavingTargetButton {
+.addSavingTargetButton {
   color: #bebebe;
   cursor: pointer;
   margin-top: 20px;
 }
 
-.AddSavingTargetButton:hover {
+.addSavingTargetButton:hover {
   color: #424242;
   transform: scale(1.2);
   transition: 0.25s;
 }
 
-.UncategorizedSavingCard {
+.uncategorizedSavingCard {
   transition: 0.25s;
   cursor: pointer;
 }
 
-.UncategorizedSavingCard:hover {
+.uncategorizedSavingCard:hover {
   transform: scale(1.03);
 }
 
-.UncategorizedSavingCardArea {
+.uncategorizedSavingCardArea {
   width: 100%;
 }

@@ -16,15 +16,15 @@ const Settings = () => {
   return (
     <div className="container">
       {/* ユーザー設定変更 */}
-      <div className="container-box">
-        <p className="SettingsTitle">ユーザー設定変更</p>
+      <div className="containerBox">
+        <p className="settingsTitle">ユーザー設定変更</p>
         <hr className="border" />
-        <div className="email-box">
+        <div className="emailBox">
           <span>メールアドレス</span>
-          <TextField id="standard-basic" variant="standard" fullWidth={true} />
+          <TextField id="standardBasic" variant="standard" fullWidth={true} />
         </div>
 
-        <div className="user-settings-buttons">
+        <div className="userSettingsButtons">
           <Button variant="contained" color="inherit" sx={"color:#757575"}>
             キャンセル
           </Button>
@@ -33,23 +33,23 @@ const Settings = () => {
       </div>
 
       {/* パスワード変更 */}
-      <div className="container-box">
-        <p className="SettingsTitle">パスワード変更</p>
+      <div className="containerBox">
+        <p className="settingsTitle">パスワード変更</p>
         <hr className="border" />
-        <div className="password-box">
+        <div className="passwordBox">
           <span>現在のパスワード</span>
-          <TextField id="standard-basic" variant="standard" fullWidth={true} />
+          <TextField id="standardBasic" variant="standard" fullWidth={true} />
         </div>
-        <div className="password-box">
+        <div className="passwordBox">
           <span>変更後のパスワード</span>
-          <TextField id="standard-basic" variant="standard" fullWidth={true} />
+          <TextField id="standardBasic" variant="standard" fullWidth={true} />
         </div>
-        <div className="password-box">
+        <div className="passwordBox">
           <span>再入力</span>
-          <TextField id="standard-basic" variant="standard" fullWidth={true} />
+          <TextField id="standardBasic" variant="standard" fullWidth={true} />
         </div>
 
-        <div className="password-settings-buttons">
+        <div className="passwordSettingsButtons">
           <Button variant="contained" color="inherit" sx={"color:#757575"}>
             キャンセル
           </Button>
@@ -58,25 +58,25 @@ const Settings = () => {
       </div>
 
       {/* 固定費の編集 */}
-      <div className="container-box">
-        <p className="SettingsTitle">固定費の編集</p>
+      <div className="containerBox">
+        <p className="settingsTitle">固定費の編集</p>
         <hr className="border" />
-        <div className="fixed-list-area">
-          <div className="fixed-data">
-            <div className="category-data">
+        <div className="fixedListArea">
+          <div className="fixedData">
+            <div className="categoryData">
               <Button variant="text" sx={"color:#424242"}>
                 住宅/家賃
               </Button>
             </div>
-            <div className="transaction-name-data">
+            <div className="transactionNameData">
               <span>取引名</span>
-              <TextField id="standard-basic" variant="standard" />
+              <TextField id="standardBasic" variant="standard" />
             </div>
-            <div className="fixed-amount-data">
+            <div className="fixedAmountData">
               <span>金額</span>
-              <TextField id="standard-basic" variant="standard" />
+              <TextField id="standardBasic" variant="standard" />
             </div>
-            <div className="transfer-date">
+            <div className="transferDate">
               <span>振替日</span>
               <FormControl sx={{ minWidth: 60 }} size="small">
                 <NativeSelect>
@@ -88,10 +88,10 @@ const Settings = () => {
               </FormControl>
               日
             </div>
-            <div className="switch-balance-area">
+            <div className="switchBalanceArea">
               <SwitchBalanceButton />
             </div>
-            <div className="delete-area">
+            <div className="deleteArea">
               <IconButton aria-label="delete">
                 <DeleteIcon />
               </IconButton>
@@ -99,13 +99,13 @@ const Settings = () => {
           </div>
         </div>
 
-        <div className="add-area">
+        <div className="addArea">
           <IconButton>
             <AddCircleIcon />
           </IconButton>
         </div>
 
-        <div className="fixed-settings-buttons">
+        <div className="fixedSettingsButtons">
           <Button variant="contained" color="inherit" sx={"color:#757575"}>
             キャンセル
           </Button>

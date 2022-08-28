@@ -1,0 +1,49 @@
+.sidebar {
+  height: 100%;
+  width: 300px;
+  background: #81d4fa;
+  float: left;
+}
+
+.sidebarList {
+  height: auto;
+  padding: 0;
+  width: 100%;
+}
+
+.sidebarList .row {
+  width: 100%;
+  height: 60px;
+  display: flex;
+  color: white;
+  justify-content: center;
+  align-items: center;
+}
+
+.sidebarList .heading {
+  font-size: 25px;
+}
+
+.sidebarList .row:hover {
+  cursor: pointer;
+  background-color: #94deff;
+  transition: 0.15s;
+}
+
+.sidebarList #active {
+  background-color: #94deff;
+}
+
+.row #icon {
+  flex: 30%;
+  display: grid;
+  place-items: center;
+}
+
+.row #title {
+  flex: 70%;
+}
+
+a {
+  text-decoration: none;
+}

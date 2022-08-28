@@ -58,13 +58,13 @@ const Timeline = () => {
     <div className="container">
       {/* 月 */}
       <div className="month">
-        <ArrowBackIosNewIcon fontSize="large" className="switch-month-button" />
+        <ArrowBackIosNewIcon fontSize="large" className="switchMonthButton" />
         <span>6月</span>
-        <ArrowForwardIosIcon fontSize="large" className="switch-month-button" />
+        <ArrowForwardIosIcon fontSize="large" className="switchMonthButton" />
       </div>
 
       {/* グラフ */}
-      <Bar data={data} options={option} className="TimelineGraph" />
+      <Bar data={data} options={option} className="timelineGraph" />
 
       {/* 並べ替えプルダウン */}
       <div className="sortButtonArea">

@@ -10,11 +10,11 @@ span {
   color: #757575;
 }
 
-#standard-basic {
+#standardBasic {
   color: #424242;
 }
 
-.container-box {
+.containerBox {
   width: 80%;
   height: fit-content;
   background-color: #ffff;
@@ -24,7 +24,7 @@ span {
   border-radius: 5px;
 }
 
-.SettingsTitle {
+.settingsTitle {
   text-align: left;
   width: 100%;
 }

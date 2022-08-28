@@ -54,21 +54,21 @@ const option = {
 const TotalSaving = () => {
   return (
     <div className="container">
-      <div className="TotalSavingTitleArea">
+      <div className="totalSavingTitleArea">
         <span>貯金総額</span>
         <span>nnn,nnn</span>
       </div>
-      <div className="LineChartArea">
+      <div className="lineChartArea">
         <Line data={data} options={option} />
       </div>
-      <div className="SavingTargetCardArea">
+      <div className="savingTargetCardArea">
         <SavingTargetCard />
         <SavingTargetCard />
-        <AddSharpIcon fontSize="large" className="AddSavingTargetButton" />
+        <AddSharpIcon fontSize="large" className="addSavingTargetButton" />
       </div>
 
-      <div className="UncategorizedSavingCardArea">
-        <UncategorizedSavingCard className="UncategorizedSavingCard" />
+      <div className="uncategorizedSavingCardArea">
+        <UncategorizedSavingCard className="uncategorizedSavingCard" />
       </div>
     </div>
   );

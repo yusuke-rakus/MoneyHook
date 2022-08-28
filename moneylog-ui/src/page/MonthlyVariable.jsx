@@ -2,8 +2,34 @@ import React from "react";
 import ArrowBackIosNewIcon from "@mui/icons-material/ArrowBackIosNew";
 import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos";
 import "./page_CSS/MonthlyVariable.css";
+import VariableCategoryGroup from "../components/VariableCategoryGroup";
 
 const MonthlyVariable = () => {
+  const variableCategoryData = [
+    {
+      categoryName: "趣味",
+      categoryAmount: 100000,
+      variableSubCategoryData: [
+        {
+          subCategoryName: "スポーツ",
+          subCategoryAmount: 100000,
+          transactionList: [
+            { transactionName: "ゲートボール", transactionAmount: 100000 },
+            { transactionName: "少林寺拳法", transactionAmount: 100000 },
+          ],
+        },
+        {
+          subCategoryName: "スポーツ",
+          subCategoryAmount: 100000,
+          transactionList: [
+            { transactionName: "ゲートボール", transactionAmount: 100000 },
+            { transactionName: "少林寺拳法", transactionAmount: 100000 },
+          ],
+        },
+      ],
+    },
+  ];
+
   return (
     <div className="container">
       {/* 月 */}
@@ -20,7 +46,9 @@ const MonthlyVariable = () => {
       </div>
 
       {/* 変動費データ */}
-      <div className="variableDataArea"></div>
+      <div className="variableDataArea">
+        <VariableCategoryGroup variableCategoryData={variableCategoryData} />
+      </div>
     </div>
   );
 };

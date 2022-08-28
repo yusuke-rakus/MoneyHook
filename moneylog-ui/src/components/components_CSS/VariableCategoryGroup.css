@@ -1,0 +1,11 @@
+.variableCategoryGroup {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+}
+
+.variableCategoryData {
+  width: 90%;
+  display: flex;
+  justify-content: space-between;
+}

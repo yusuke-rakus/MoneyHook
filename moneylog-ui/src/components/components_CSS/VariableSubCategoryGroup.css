@@ -1,0 +1,23 @@
+.variableSubCategoryGroup {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+}
+
+.variableSubCategoryData {
+  width: 80%;
+  display: flex;
+  justify-content: space-between;
+}
+
+.variableTransactionGroup {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+}
+
+.variableTransactionData {
+  width: 70%;
+  display: flex;
+  justify-content: space-between;
+}

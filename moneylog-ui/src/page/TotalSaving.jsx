@@ -52,23 +52,46 @@ const option = {
 };
 
 const TotalSaving = () => {
+  // 貯金総額
+  const totalSaving = 100000;
+
+  // 未分類の貯金額
+  const uncategorizedSavingAmount = 100000;
+
+  // 貯金目標
+  const savingTargetData = [
+    {
+      savingTargetName: "沖縄旅行",
+      targetAmount: 100000,
+      savingCount: 4,
+      savingAmount: 50000,
+    },
+  ];
+
   return (
     <div className="container">
       <div className="totalSavingTitleArea">
         <span>貯金総額</span>
-        <span>nnn,nnn</span>
+        <span>{totalSaving.toLocaleString()}</span>
       </div>
       <div className="lineChartArea">
         <Line data={data} options={option} />
       </div>
       <div className="savingTargetCardArea">
-        <SavingTargetCard />
-        <SavingTargetCard />
+        {savingTargetData.map((data) => {
+          return (
+            <>
+              <SavingTargetCard savingTargetData={data} />
+            </>
+          );
+        })}
         <AddSharpIcon fontSize="large" className="addSavingTargetButton" />
       </div>
 
       <div className="uncategorizedSavingCardArea">
-        <UncategorizedSavingCard className="uncategorizedSavingCard" />
+        <UncategorizedSavingCard
+          UncategorizedSavingAmount={uncategorizedSavingAmount}
+        />
       </div>
     </div>
   );

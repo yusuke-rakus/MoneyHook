@@ -1,7 +1,6 @@
 import React from "react";
 import Accordion from "@mui/material/Accordion";
 import AccordionSummary from "@mui/material/AccordionSummary";
-import AccordionDetails from "@mui/material/AccordionDetails";
 import Typography from "@mui/material/Typography";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import "./components_CSS/VariableCategoryGroup.css";
@@ -24,7 +23,7 @@ const VariableCategoryGroup = (props) => {
                 <Typography className="variableCategoryGroup">
                   <div className="variableCategoryData">
                     <span>{data.categoryName}</span>
-                    <span>{data.categoryAmount}</span>
+                    <span>{"¥" + data.categoryAmount.toLocaleString()}</span>
                   </div>
                 </Typography>
               </AccordionSummary>

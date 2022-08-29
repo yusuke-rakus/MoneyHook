@@ -1,11 +1,11 @@
 import React from "react";
 import { Bar } from "react-chartjs-2";
 import { Chart, registerables } from "chart.js";
-import ChevronRightIcon from "@mui/icons-material/ChevronRight";
 import "./page_CSS/Timeline.css";
 import ArrowBackIosNewIcon from "@mui/icons-material/ArrowBackIosNew";
 import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos";
 import HouseholdBudgetButton from "../components/HouseholdBudgetButton";
+import TimelineDataList from "../components/TimelineDataList";
 
 Chart.register(...registerables);
 
@@ -54,6 +54,28 @@ const Timeline = () => {
     },
   };
 
+  /** タイムラインデータ */
+  const timelineDataList = [
+    {
+      transactionDate: "20",
+      transactionCategory: "住宅",
+      transactionName: "家賃",
+      transactionAmount: 70000,
+    },
+    {
+      transactionDate: "20",
+      transactionCategory: "住宅",
+      transactionName: "家賃",
+      transactionAmount: 7000,
+    },
+    {
+      transactionDate: "20",
+      transactionCategory: "住宅",
+      transactionName: "家賃",
+      transactionAmount: 7000,
+    },
+  ];
+
   return (
     <div className="container">
       {/* 月 */}
@@ -77,53 +99,7 @@ const Timeline = () => {
 
       {/* タイムラインデータ */}
       <div className="timelineArea">
-        <ul>
-          <li className="transactionData">
-            <div className="transactionDate">n日</div>
-            <div className="transactionCategory">カテゴリ</div>
-            <div className="transactionName">取引名</div>
-            <div className="transactionAmount">¥5,000</div>
-            <span>
-              <ChevronRightIcon />
-            </span>
-          </li>
-          <li className="transactionData">
-            <div className="transactionDate">n日</div>
-            <div className="transactionCategory">カテゴリ</div>
-            <div className="transactionName">取引名</div>
-            <div className="transactionAmount">¥5,000</div>
-            <span>
-              <ChevronRightIcon />
-            </span>
-          </li>
-          <li className="transactionData">
-            <div className="transactionDate">n日</div>
-            <div className="transactionCategory">カテゴリ</div>
-            <div className="transactionName">取引名</div>
-            <div className="transactionAmount">¥5,000</div>
-            <span>
-              <ChevronRightIcon />
-            </span>
-          </li>
-          <li className="transactionData">
-            <div className="transactionDate">n日</div>
-            <div className="transactionCategory">カテゴリ</div>
-            <div className="transactionName">取引名</div>
-            <div className="transactionAmount">¥5,000</div>
-            <span>
-              <ChevronRightIcon />
-            </span>
-          </li>
-          <li className="transactionData">
-            <div className="transactionDate">n日</div>
-            <div className="transactionCategory">カテゴリ</div>
-            <div className="transactionName">取引名</div>
-            <div className="transactionAmount">¥5,000</div>
-            <span>
-              <ChevronRightIcon />
-            </span>
-          </li>
-        </ul>
+        <TimelineDataList timelineDataList={timelineDataList} />
       </div>
       <HouseholdBudgetButton />
     </div>

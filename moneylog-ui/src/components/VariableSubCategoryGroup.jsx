@@ -23,7 +23,7 @@ const VariableSubCategoryGroup = (props) => {
                 <Typography className="variableSubCategoryGroup">
                   <div className="variableSubCategoryData">
                     <span>{data.subCategoryName}</span>
-                    <span>{data.subCategoryAmount}</span>
+                    <span>{"¥" + data.subCategoryAmount.toLocaleString()}</span>
                   </div>
                 </Typography>
               </AccordionSummary>
@@ -34,7 +34,10 @@ const VariableSubCategoryGroup = (props) => {
                       <Typography className="variableTransactionGroup">
                         <div className="variableTransactionData">
                           <span>{transactionData.transactionName}</span>
-                          <span>{transactionData.transactionAmount}</span>
+                          <span>
+                            {"¥" +
+                              transactionData.transactionAmount.toLocaleString()}
+                          </span>
                         </div>
                       </Typography>
                     </AccordionDetails>

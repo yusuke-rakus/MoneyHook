@@ -41,15 +41,6 @@
   transition: 0.25s;
 }
 
-.uncategorizedSavingCard {
-  transition: 0.25s;
-  cursor: pointer;
-}
-
-.uncategorizedSavingCard:hover {
-  transform: scale(1.03);
-}
-
 .uncategorizedSavingCardArea {
   width: 100%;
 }

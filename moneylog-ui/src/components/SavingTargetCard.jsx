@@ -2,7 +2,9 @@ import React from "react";
 import { Box } from "@mui/material";
 import "./components_CSS/SavingTargetCard.css";
 
-const SavingTargetCard = () => {
+const SavingTargetCard = (props) => {
+  const { savingTargetData } = props;
+
   return (
     <>
       <Box
@@ -19,24 +21,24 @@ const SavingTargetCard = () => {
         }}
         className="card"
       >
-        Title
+        <p className="title">{savingTargetData.savingTargetName}</p>
         <hr />
         <div className="card-body">
           <table>
             <tr>
               <td>目標</td>
-              <td>nnnnnn</td>
+              <td>{savingTargetData.targetAmount.toLocaleString()}</td>
               <td>円</td>
             </tr>
             <tr>
               <td>貯金回数</td>
-              <td>n</td>
+              <td>{savingTargetData.savingCount}</td>
               <td>回</td>
             </tr>
           </table>
           <div className="saving-amount-area">
             <span>貯金額</span>
-            <p>¥10,000</p>
+            <p>{"¥" + savingTargetData.savingAmount.toLocaleString()}</p>
           </div>
         </div>
       </Box>

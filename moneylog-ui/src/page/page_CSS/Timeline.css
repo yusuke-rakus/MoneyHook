@@ -38,40 +38,5 @@
 /* タイムラインデータ */
 .timelineArea {
   height: fit-content;
-  width: 100%;
-}
-
-.transactionData {
-  height: 25px;
-  width: 100%;
-  display: flex;
-  color: #757575;
-  list-style: none;
-  border-bottom: #757575 solid 1px;
-  cursor: pointer;
-  transition: 0.25s;
-  margin-bottom: 10px;
-}
-
-.transactionData:hover {
-  background-color: #eceff1;
-  transform: translateX(5px);
-}
-
-.transactionDate {
-  width: 10%;
-}
-.transactionCategory {
-  width: 20%;
-}
-.transactionName {
-  width: 32%;
-  text-align: center;
-}
-.transactionAmount {
-  width: 32%;
-  text-align: center;
-}
-.transactionData span {
-  width: 6%;
+  width: 90%;
 }

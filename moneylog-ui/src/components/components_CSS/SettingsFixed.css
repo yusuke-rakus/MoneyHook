@@ -1,0 +1,81 @@
+.fixedData {
+  width: 100%;
+  height: 50px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+/* カテゴリデータ */
+.categoryData {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 18%;
+  height: 40px;
+}
+
+/* 取引名 */
+.transactionNameData {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 18%;
+  height: 40px;
+  position: relative;
+}
+
+.transactionNameData span {
+  position: absolute;
+  font-size: 10px;
+  top: -5px;
+  left: 0;
+}
+
+.fixedAmountData {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 18%;
+  height: 40px;
+  position: relative;
+}
+
+.fixedAmountData span {
+  position: absolute;
+  font-size: 10px;
+  top: -5px;
+  left: 0;
+}
+
+/* 振替日 */
+.transferDate {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 18%;
+  height: 40px;
+  position: relative;
+  color: #757575;
+}
+
+.transferDate span {
+  position: absolute;
+  font-size: 10px;
+  top: -5px;
+  left: 0;
+}
+
+.switchBalanceArea {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 18%;
+  height: 40px;
+  position: relative;
+}
+
+.deleteArea {
+  width: 7%;
+  height: 40px;
+}

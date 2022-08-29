@@ -1,4 +1,4 @@
-.UncategorizedSavingCard {
+.uncategorizedSavingCard {
   display: flex;
   justify-content: center;
   border-radius: 15px;
@@ -7,13 +7,18 @@
   position: relative;
   background-color: #ffff;
   max-width: 350px;
+  transition: 0.25s;
+  cursor: pointer;
+}
+.uncategorizedSavingCard:hover {
+  transform: scale(1.03);
 }
 
-.UncategorizedSavingCard span:first-child {
+.uncategorizedSavingCard span:first-child {
   margin-right: 20px;
 }
 
-.UncategorizedSavingCard span {
+.uncategorizedSavingCard span {
   color: #212121;
 }
 

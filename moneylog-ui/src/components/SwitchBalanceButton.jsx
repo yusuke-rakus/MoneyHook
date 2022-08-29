@@ -2,15 +2,30 @@ import React, { useState } from "react";
 import AddIcon from "@mui/icons-material/Add";
 import RemoveIcon from "@mui/icons-material/Remove";
 import "./components_CSS/SwitchBalanceButton.css";
-import { CSSTransition } from "react-transition-group";
 
-const SwitchBalanceButton = () => {
-  const [switchBalance, setSwitchBalance] = useState({
-    text: "支出",
-    value: -1,
-    backgroundColor: "#e31826",
-    translateX: "0",
-  });
+const SwitchBalanceButton = (props) => {
+  // balanceの値に応じてボタンを切り替える
+  // 設定していない場合は"支出"となる
+  const { balance } = props;
+  let val = {};
+  if (balance > 0) {
+    val = {
+      text: "収入",
+      value: 1,
+      backgroundColor: "#2b9900",
+      circleTranslateX: "translateX(55px)",
+      labelTraslateX: "translateX(-35px)",
+    };
+  } else {
+    val = {
+      text: "支出",
+      value: -1,
+      backgroundColor: "#e31826",
+      translateX: "0",
+    };
+  }
+
+  const [switchBalance, setSwitchBalance] = useState(val);
 
   const handleChange = (e) => {
     if (switchBalance.value === -1) {

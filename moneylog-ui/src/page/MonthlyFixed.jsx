@@ -5,9 +5,7 @@ import "./page_CSS/MonthlyFixed.css";
 import FixedCategoryGroup from "../components/FixedCategoryGroup";
 import Accordion from "@mui/material/Accordion";
 import AccordionSummary from "@mui/material/AccordionSummary";
-import AccordionDetails from "@mui/material/AccordionDetails";
 import Typography from "@mui/material/Typography";
-import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 
 const MonthlyFixed = () => {
   const monthlyTotalFixed = 100000;
@@ -30,7 +28,7 @@ const MonthlyFixed = () => {
     },
   ];
 
-  const totalFixedSpending = 250000;
+  const totalFixedSpending = -141000;
   const fixedSpendingCategoryData = [
     {
       categoryName: "家賃",
@@ -97,7 +95,9 @@ const MonthlyFixed = () => {
               <div className="totalValue">
                 <span>合計</span>
                 <span>{"¥" + Math.abs(totalFixedIncome).toLocaleString()}</span>
-                <span>{"¥" + Math.abs(totalFixedIncome).toLocaleString()}</span>
+                <span>
+                  {"¥" + Math.abs(totalFixedSpending).toLocaleString()}
+                </span>
               </div>
             </Typography>
           </AccordionSummary>

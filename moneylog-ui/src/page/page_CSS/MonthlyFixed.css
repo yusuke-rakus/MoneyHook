@@ -1,0 +1,57 @@
+/* 月 */
+.month {
+  height: fit-content;
+  width: 70%;
+  display: flex;
+  justify-content: space-between;
+  color: #757575;
+  font-size: 20px;
+  padding-bottom: 20px;
+}
+
+.switchMonthButton {
+  border-radius: 10px;
+  padding: 5px;
+  transition: 0.25s;
+  cursor: pointer;
+  width: 50px;
+}
+
+.switchMonthButton:hover {
+  background-color: #eceff1;
+  transform: scale(130%);
+  transition: 0.25s;
+}
+
+/* 変動費合計 */
+.monthlyFixedTitleArea {
+  width: 100%;
+  height: 100px;
+  align-items: center;
+  display: flex;
+  font-size: 32px;
+}
+
+.monthlyFixedTitleArea :first-child {
+  margin-right: 30px;
+  color: #616161;
+}
+
+.monthlyFixedTitleArea :last-child {
+  color: #1b5e20;
+}
+
+/* 固定費データ */
+.fixedDataArea {
+  width: 100%;
+}
+
+/* 合計値 */
+.totalValueArea {
+  width: 95%;
+}
+
+.totalValue {
+  display: flex;
+  justify-content: space-between;
+}

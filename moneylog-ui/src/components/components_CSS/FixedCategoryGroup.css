@@ -1,0 +1,51 @@
+/* 固定収入時のレイアウト */
+.fixedIncomeCategoryGroup {
+  width: 100%;
+  display: flex;
+  justify-content: flex-start;
+}
+
+.fixedIncomeCategoryData {
+  width: 50%;
+  display: flex;
+  justify-content: space-between;
+}
+
+.fixedIncomeTransactionGroup {
+  width: 97%;
+  display: flex;
+  justify-content: flex-start;
+  margin-right: 0;
+  margin-left: auto;
+}
+
+.fixedIncomeTransactionData {
+  width: 45%;
+  display: flex;
+  justify-content: space-between;
+}
+
+/* 固定支出時のレイアウト */
+.fixedSpendingCategoryGroup {
+  width: 100%;
+  display: flex;
+  justify-content: flex-end;
+}
+
+.fixedSpendingCategoryData {
+  width: 50%;
+  display: flex;
+  justify-content: space-between;
+}
+
+.fixedSpendingTransactionGroup {
+  width: 95%;
+  display: flex;
+  justify-content: flex-end;
+}
+
+.fixedSpendingTransactionData {
+  width: 45%;
+  display: flex;
+  justify-content: space-between;
+}

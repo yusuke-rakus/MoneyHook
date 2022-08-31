@@ -29,8 +29,8 @@
 /* 並べ替えプルダウン */
 .sortButtonArea {
   width: 100%;
-  height: 20px;
-  margin-bottom: 20px;
+  height: 100%;
+  margin-bottom: 10px;
   display: flex;
   justify-content: flex-end;
 }

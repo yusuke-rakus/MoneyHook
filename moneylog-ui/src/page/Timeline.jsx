@@ -6,6 +6,10 @@ import ArrowBackIosNewIcon from "@mui/icons-material/ArrowBackIosNew";
 import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos";
 import HouseholdBudgetButton from "../components/HouseholdBudgetButton";
 import TimelineDataList from "../components/TimelineDataList";
+import InputLabel from "@mui/material/InputLabel";
+import MenuItem from "@mui/material/MenuItem";
+import FormControl from "@mui/material/FormControl";
+import Select from "@mui/material/Select";
 
 Chart.register(...registerables);
 
@@ -76,6 +80,13 @@ const Timeline = () => {
     },
   ];
 
+  const [sortCd, setSortCd] = React.useState("");
+
+  const handleChange = (event) => {
+    // ソート処理
+    setSortCd(event.target.value);
+  };
+
   return (
     <div className="container">
       {/* 月 */}
@@ -90,11 +101,21 @@ const Timeline = () => {
 
       {/* 並べ替えプルダウン */}
       <div className="sortButtonArea">
-        <select name="sort" id="sort">
-          <option value="">並べ替え</option>
-          <option value="sample1">sample1</option>
-          <option value="smaple2">sample2</option>
-        </select>
+        <FormControl sx={{ m: 1, minWidth: 120 }} size="small">
+          <InputLabel id="demo-select-small">並べ替え</InputLabel>
+          <Select
+            labelId="demo-select-small"
+            id="demo-select-small"
+            value={sortCd}
+            onChange={handleChange}
+            label="並べ替え"
+          >
+            <MenuItem value={1}>日付昇順</MenuItem>
+            <MenuItem value={2}>日付降順</MenuItem>
+            <MenuItem value={3}>金額昇順</MenuItem>
+            <MenuItem value={4}>金額降順</MenuItem>
+          </Select>
+        </FormControl>
       </div>
 
       {/* タイムラインデータ */}

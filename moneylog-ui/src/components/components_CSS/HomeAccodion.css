@@ -1,0 +1,21 @@
+.categoryGroup {
+  width: 95%;
+  display: flex;
+  justify-content: space-between;
+}
+
+.subCategoryGroup {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+}
+
+.subCategoryData {
+  width: 70%;
+  display: flex;
+  justify-content: space-between;
+}
+
+.text {
+  color: #ffffff;
+}

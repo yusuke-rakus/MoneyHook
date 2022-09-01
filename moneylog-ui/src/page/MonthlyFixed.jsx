@@ -82,7 +82,13 @@ const MonthlyFixed = () => {
       {/* 変動費合計 */}
       <div className="monthlyFixedTitleArea">
         <span>変動費合計</span>
-        <span>{monthlyTotalFixed.toLocaleString()}</span>
+        <span
+          style={
+            monthlyTotalFixed >= 0 ? { color: "#1B5E20" } : { color: "#B71C1C" }
+          }
+        >
+          {monthlyTotalFixed.toLocaleString()}
+        </span>
       </div>
 
       {/* 固定費データ */}

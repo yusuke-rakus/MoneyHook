@@ -13,6 +13,7 @@
 .transactionData:hover {
   background-color: #eceff1;
   transform: translateX(5px);
+  border-radius: 5px;
 }
 
 .transactionDate {

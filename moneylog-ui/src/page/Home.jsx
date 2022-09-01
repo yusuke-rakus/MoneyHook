@@ -6,6 +6,9 @@ import { Pie } from "react-chartjs-2";
 import HomeAccodion from "../components/HomeAccodion";
 
 const Home = () => {
+  /** 収支合計 */
+  const monthlyTotalAmount = -1000;
+
   /** アコーディオンデータ */
   const homeAccodionDataList = [
     {
@@ -84,12 +87,12 @@ const Home = () => {
 
   /** カラーリスト */
   const dataColorList = [
-    "#EF5350",
-    "#03A9F4",
-    "#66BB6A",
-    "#F57F17",
-    "#7e57c2",
-    "#9E9E9E",
+    "#e57373",
+    "#29b6f6",
+    "#81c784",
+    "#f9a825",
+    "#9575cd",
+    "#bdbdbd",
   ];
 
   /** グラフデータ */
@@ -120,6 +123,20 @@ const Home = () => {
         <ArrowBackIosNewIcon fontSize="large" className="switchMonthButton" />
         <span>6月</span>
         <ArrowForwardIosIcon fontSize="large" className="switchMonthButton" />
+      </div>
+
+      {/* 収支合計 */}
+      <div className="monthlyTotalAmountTitleArea">
+        <span>変動費合計</span>
+        <span
+          style={
+            monthlyTotalAmount >= 0
+              ? { color: "#1B5E20" }
+              : { color: "#B71C1C" }
+          }
+        >
+          {monthlyTotalAmount.toLocaleString()}
+        </span>
       </div>
 
       <div className="dataArea">

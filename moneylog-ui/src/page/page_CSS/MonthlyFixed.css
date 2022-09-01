@@ -37,10 +37,6 @@
   color: #616161;
 }
 
-.monthlyFixedTitleArea :last-child {
-  color: #1b5e20;
-}
-
 /* 固定費データ */
 .fixedDataArea {
   width: 100%;

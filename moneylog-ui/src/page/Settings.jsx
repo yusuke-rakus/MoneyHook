@@ -8,8 +8,37 @@ import SettingsFixed from "../components/SettingsFixed";
 const Settings = () => {
   const [email, setEmail] = useState("sample@sample.com");
 
+  const [monthlyTransactionList, setMonthlyTransactionList] = useState([
+    {
+      monthlyTransactionId: 1,
+      monthlyTransactionName: "家賃",
+      monthlyTransactionAmount: -70000,
+      monthlyTransactionDate: 25,
+      categoryName: "住宅",
+      subCategoryName: "家賃",
+    },
+    {
+      monthlyTransactionId: 2,
+      monthlyTransactionName: "電気代",
+      monthlyTransactionAmount: -7000,
+      monthlyTransactionDate: 30,
+      categoryName: "水道光熱費",
+      subCategoryName: "なし",
+    },
+  ]);
+
   const AddFixedDataInput = (e) => {
-    console.log("hej");
+    setMonthlyTransactionList([
+      ...monthlyTransactionList,
+      {
+        monthlyTransactionId: null,
+        monthlyTransactionName: null,
+        monthlyTransactionAmount: null,
+        monthlyTransactionDate: null,
+        categoryName: null,
+        subCategoryName: null,
+      },
+    ]);
   };
 
   return (
@@ -81,7 +110,13 @@ const Settings = () => {
         <p className="settingsTitle">固定費の編集</p>
         <hr className="border" />
         <div className="fixedListArea">
-          <SettingsFixed />
+          {monthlyTransactionList.map((data) => {
+            return (
+              <>
+                <SettingsFixed data={data} />
+              </>
+            );
+          })}
         </div>
 
         <div className="addArea" onClick={AddFixedDataInput}>

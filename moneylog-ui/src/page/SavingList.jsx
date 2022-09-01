@@ -36,39 +36,38 @@ const SavingList = () => {
 
   return (
     <div className="container">
-      <div className="containerBox">
-        <div className="month">
-          <ArrowBackIosNewIcon fontSize="large" className="switchMonthButton" />
-          <span>{month + "月"}</span>
-          <ArrowForwardIosIcon fontSize="large" className="switchMonthButton" />
-        </div>
-
-        <div className="monthlyTotalSaving">
-          <span>今月の貯金額</span>
-          <span className="totalSavingAmount">
-            {totalSavingAmount.toLocaleString()}
-          </span>
-        </div>
-
-        <div className="savingList">
-          <ul>
-            {savingData.map((data) => {
-              return (
-                <li className="savingData">
-                  <div className="savingDate">{data.savingDate + "日"}</div>
-                  <div className="savingName">{data.savingName}</div>
-                  <div className="savingAmount">
-                    {"¥" + data.savingAmount.toLocaleString()}
-                  </div>
-                  <span>
-                    <ChevronRightIcon />
-                  </span>
-                </li>
-              );
-            })}
-          </ul>
-        </div>
+      <div className="month">
+        <ArrowBackIosNewIcon fontSize="large" className="switchMonthButton" />
+        <span>{month + "月"}</span>
+        <ArrowForwardIosIcon fontSize="large" className="switchMonthButton" />
       </div>
+
+      <div className="monthlyTotalSaving">
+        <span>今月の貯金額</span>
+        <span className="totalSavingAmount">
+          {totalSavingAmount.toLocaleString()}
+        </span>
+      </div>
+
+      <div className="savingList">
+        <ul>
+          {savingData.map((data) => {
+            return (
+              <li className="savingData">
+                <div className="savingDate">{data.savingDate + "日"}</div>
+                <div className="savingName">{data.savingName}</div>
+                <div className="savingAmount">
+                  {"¥" + data.savingAmount.toLocaleString()}
+                </div>
+                <span>
+                  <ChevronRightIcon />
+                </span>
+              </li>
+            );
+          })}
+        </ul>
+      </div>
+
       <HouseholdBudgetButton />
     </div>
   );

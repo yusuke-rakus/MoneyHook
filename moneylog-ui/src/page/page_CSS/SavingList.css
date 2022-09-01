@@ -1,16 +1,3 @@
-.containerBox {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  width: 100%;
-  height: fit-content;
-  background-color: #ffff;
-  padding: 20px;
-  margin-bottom: 20px;
-  border: solid 1px #616161;
-  border-radius: 5px;
-}
-
 /* 月 */
 .month {
   height: fit-content;
@@ -47,7 +34,7 @@
 }
 
 .totalSavingAmount {
-  color: #4caf50;
+  color: #1b5e20;
   padding-left: 15px;
 }
 
@@ -72,6 +59,7 @@
 .savingData:hover {
   background-color: #eceff1;
   transform: translateX(5px);
+  border-radius: 5px;
 }
 
 .savingDate {

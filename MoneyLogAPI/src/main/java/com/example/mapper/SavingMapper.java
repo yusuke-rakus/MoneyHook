@@ -14,6 +14,7 @@ import com.example.form.GetMonthlySavingListForm;
 import com.example.form.GetSavingForm;
 import com.example.form.GetSavingListForm;
 import com.example.form.GetTotalSavingForm;
+import com.example.form.form;
 
 @Mapper
 public interface SavingMapper {
@@ -44,6 +45,9 @@ public interface SavingMapper {
 
 	/** 累計貯金金額を取得 */
 	public Integer getTotalSavingAmount(GetTotalSavingForm form);
+
+	/** 未振り分けの貯金金額を取得 */
+	public Integer getUncategorizedSavingAmount(form form);
 
 	
 }

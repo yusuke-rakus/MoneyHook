@@ -23,6 +23,7 @@ import com.example.form.GetMonthlySavingListForm;
 import com.example.form.GetSavingForm;
 import com.example.form.GetSavingListForm;
 import com.example.form.GetTotalSavingForm;
+import com.example.form.form;
 import com.example.mapper.SavingMapper;
 
 @Service
@@ -188,6 +189,15 @@ public class SavingService {
 		form.setUserNo(userNo);
 				
 		return savingMapper.getTotalSavingAmount(form);
+	}
+	
+	/** 未振り分け貯金金額を取得 */
+	public Integer getUncategorizedSavingAmount(form form) throws SystemException{
+		// ユーザーIDからユーザーNoを取得
+		Long userNo = authenticationService.authUser(form);
+		form.setUserNo(userNo);
+		
+		return savingMapper.getUncategorizedSavingAmount(form);
 	}
 
 }

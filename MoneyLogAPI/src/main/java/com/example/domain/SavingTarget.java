@@ -7,6 +7,7 @@ public class SavingTarget {
 	private String savingTargetName;
 	private Integer targetAmount;
 	private boolean deleteFlg;
+	private Integer totalSavedAmount;
 
 	public Long getSavingTargetId() {
 		return savingTargetId;
@@ -48,10 +49,19 @@ public class SavingTarget {
 		this.deleteFlg = deleteFlg;
 	}
 
+	public Integer getTotalSavedAmount() {
+		return totalSavedAmount;
+	}
+
+	public void setTotalSavedAmount(Integer totalSavedAmount) {
+		this.totalSavedAmount = totalSavedAmount;
+	}
+
 	@Override
 	public String toString() {
 		return "SavingTarget [savingTargetId=" + savingTargetId + ", userNo=" + userNo + ", savingTargetName="
-				+ savingTargetName + ", targetAmount=" + targetAmount + ", deleteFlg=" + deleteFlg + "]";
+				+ savingTargetName + ", targetAmount=" + targetAmount + ", deleteFlg=" + deleteFlg
+				+ ", totalSavedAmount=" + totalSavedAmount + "]";
 	}
 
 }

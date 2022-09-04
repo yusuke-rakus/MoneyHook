@@ -4,7 +4,7 @@ import "./page_CSS/common.css";
 import ArrowBackIosNewIcon from "@mui/icons-material/ArrowBackIosNew";
 import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos";
 import ChevronRightIcon from "@mui/icons-material/ChevronRight";
-import HouseholdBudgetButton from "../components/HouseholdBudgetButton";
+import AddSavingWindow from "../components/window/AddSavingWindow";
 
 const SavingList = () => {
   const month = 2;
@@ -68,7 +68,9 @@ const SavingList = () => {
         </ul>
       </div>
 
-      <HouseholdBudgetButton />
+      <div className="addSavingArea">
+        <AddSavingWindow />
+      </div>
     </div>
   );
 };

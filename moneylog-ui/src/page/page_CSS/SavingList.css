@@ -45,7 +45,7 @@
 }
 
 .savingData {
-  height: 25px;
+  height: 40px;
   width: 100%;
   display: flex;
   color: #757575;
@@ -53,7 +53,7 @@
   border-bottom: #757575 solid 1px;
   cursor: pointer;
   transition: 0.25s;
-  margin-bottom: 10px;
+  align-items: center;
 }
 
 .savingData:hover {
@@ -74,4 +74,10 @@
 .savingData span {
   width: 10%;
   text-align: right;
+}
+
+.addSavingArea {
+  position: fixed;
+  right: 50px;
+  bottom: 50px;
 }

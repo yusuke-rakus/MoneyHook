@@ -12,6 +12,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.example.common.exception.DataNotFoundException;
 import com.example.common.exception.SystemException;
 import com.example.common.message.ErrorMessage;
+import com.example.domain.MonthlySavingData;
 import com.example.domain.Saving;
 import com.example.domain.SavingTarget;
 import com.example.form.AddSavingForm;
@@ -21,6 +22,7 @@ import com.example.form.EditSavingForm;
 import com.example.form.GetMonthlySavingListForm;
 import com.example.form.GetSavingForm;
 import com.example.form.GetSavingListForm;
+import com.example.form.GetTotalSavingForm;
 import com.example.mapper.SavingMapper;
 
 @Service
@@ -163,6 +165,29 @@ public class SavingService {
 		savingList = savingMapper.getUncategorizedSavingList(form);
 
 		return savingList;
+	}
+
+	/** 月ごと貯金総額の取得 */
+	public List<MonthlySavingData> getTotalMonthlySavingAmount(GetTotalSavingForm form) throws SystemException{
+		// ユーザーIDからユーザーNoを取得
+		Long userNo = authenticationService.authUser(form);
+		form.setUserNo(userNo);
+
+		List<MonthlySavingData> savingAmountList = new ArrayList<>();
+		
+		savingAmountList = savingMapper.getTotalMonthlySavingAmount(form);
+		
+		return savingAmountList;
+	}
+
+	
+	/** 累計貯金金額を取得 */
+	public Integer getTotalSavingAmount(GetTotalSavingForm form) throws SystemException{
+		// ユーザーIDからユーザーNoを取得
+		Long userNo = authenticationService.authUser(form);
+		form.setUserNo(userNo);
+				
+		return savingMapper.getTotalSavingAmount(form);
 	}
 
 }

@@ -4,8 +4,8 @@ import java.util.List;
 
 import org.apache.ibatis.annotations.Mapper;
 
+import com.example.domain.MonthlySavingData;
 import com.example.domain.Saving;
-import com.example.domain.SavingTarget;
 import com.example.form.AddSavingForm;
 import com.example.form.AllotSavingForm;
 import com.example.form.DeleteSavingForm;
@@ -13,6 +13,7 @@ import com.example.form.EditSavingForm;
 import com.example.form.GetMonthlySavingListForm;
 import com.example.form.GetSavingForm;
 import com.example.form.GetSavingListForm;
+import com.example.form.GetTotalSavingForm;
 
 @Mapper
 public interface SavingMapper {
@@ -37,6 +38,12 @@ public interface SavingMapper {
 
 	/** 貯金を一括振り分け */
 	public void allotSaving(AllotSavingForm form);
+
+	/** 月別貯金金額をを取得 */
+	public List<MonthlySavingData> getTotalMonthlySavingAmount(GetTotalSavingForm form);
+
+	/** 累計貯金金額を取得 */
+	public Integer getTotalSavingAmount(GetTotalSavingForm form);
 
 	
 }

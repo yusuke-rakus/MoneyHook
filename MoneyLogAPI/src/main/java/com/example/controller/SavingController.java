@@ -21,6 +21,7 @@ import com.example.form.DeleteSavingForm;
 import com.example.form.EditSavingForm;
 import com.example.form.GetMonthlySavingListForm;
 import com.example.form.GetSavingForm;
+import com.example.form.GetSavingListForm;
 import com.example.response.AddSavingResponse;
 import com.example.response.AllotSavingResponse;
 import com.example.response.DeleteSavingResponse;
@@ -49,7 +50,7 @@ public class SavingController {
 	 * @throws Throwable
 	 */
 	@PostMapping("/getMonthlySavingData")
-	public GetSavingListResponse getSavingTargetList(@RequestBody @Validated GetMonthlySavingListForm form,
+	public GetSavingListResponse getMonthlySavingList(@RequestBody @Validated GetMonthlySavingListForm form,
 			BindingResult result) throws Throwable {
 
 		GetSavingListResponse res = new GetSavingListResponse();
@@ -63,6 +64,34 @@ public class SavingController {
 
 		List<Saving> savingList = savingService.getMonthlySavingList(form);
 
+		res.setMessage(SuccessMessage.SAVING_LIST_GET_SUCCESSED);
+		res.setSavingList(savingList);
+		return res;
+	}
+	
+	/**
+	 * 未振り分けの貯金一覧を取得
+	 * 
+	 * @param form
+	 * @param result
+	 * @return
+	 * @throws Throwable
+	 */
+	@PostMapping("/getUncategorizedSaving")
+	public GetSavingListResponse getUncategorizedSavingList(@RequestBody @Validated GetSavingListForm form,
+			BindingResult result) throws Throwable {
+		
+		GetSavingListResponse res = new GetSavingListResponse();
+		
+		if (result.hasErrors()) {
+			String errorMessage = validationService.getFirstErrorMessage(result);
+			res.setStatus(Status.ERROR.getStatus());
+			res.setMessage(errorMessage);
+			return res;
+		}
+		
+		List<Saving> savingList = savingService.getUncategorizedSavingList(form);
+		
 		res.setMessage(SuccessMessage.SAVING_LIST_GET_SUCCESSED);
 		res.setSavingList(savingList);
 		return res;

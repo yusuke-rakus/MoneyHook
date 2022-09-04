@@ -12,6 +12,7 @@ import com.example.form.DeleteSavingForm;
 import com.example.form.EditSavingForm;
 import com.example.form.GetMonthlySavingListForm;
 import com.example.form.GetSavingForm;
+import com.example.form.GetSavingListForm;
 
 @Mapper
 public interface SavingMapper {
@@ -19,6 +20,9 @@ public interface SavingMapper {
 	/** 月別貯金一覧の取得 */
 	public List<Saving> getMonthlySavingList(GetMonthlySavingListForm form);
 	
+	/** 未振り分け貯金一覧の取得 */
+	public List<Saving> getUncategorizedSavingList(GetSavingListForm form);
+
 	/** 貯金詳細の取得 */
 	public Saving load(GetSavingForm form);
 	
@@ -33,5 +37,6 @@ public interface SavingMapper {
 
 	/** 貯金を一括振り分け */
 	public void allotSaving(AllotSavingForm form);
+
 	
 }

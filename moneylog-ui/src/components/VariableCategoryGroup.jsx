@@ -1,10 +1,13 @@
 import React from "react";
+/** CSS */
+import "./components_CSS/VariableCategoryGroup.css";
+/** 自作コンポーネント */
+import VariableSubCategoryGroup from "../components/VariableSubCategoryGroup";
+/** 外部コンポーネント */
 import Accordion from "@mui/material/Accordion";
 import AccordionSummary from "@mui/material/AccordionSummary";
 import Typography from "@mui/material/Typography";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
-import "./components_CSS/VariableCategoryGroup.css";
-import VariableSubCategoryGroup from "../components/VariableSubCategoryGroup";
 
 const VariableCategoryGroup = (props) => {
   const { variableCategoryData } = props;

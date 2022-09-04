@@ -1,4 +1,11 @@
-import React, { useRef, useState } from "react";
+import React, { useState } from "react";
+/** CSS */
+import "../components_CSS/window_CSS/ModalBox.css";
+import "../components_CSS/window_CSS/CategoryWindow.css";
+/** 自作コンポーネント */
+import CategoryWindow from "./CategoryWindow";
+import SwitchBalanceButton from "../SwitchBalanceButton";
+/** 外部コンポーネント */
 import {
   Button,
   FormControl,
@@ -10,10 +17,6 @@ import {
   TextField,
 } from "@mui/material";
 import { CSSTransition } from "react-transition-group";
-import "../components_CSS/window_CSS/ModalBox.css";
-import "../components_CSS/window_CSS/CategoryWindow.css";
-import SwitchBalanceButton from "../SwitchBalanceButton";
-import CategoryWindow from "./CategoryWindow";
 import CloseIcon from "@mui/icons-material/Close";
 
 const ModalBox = (props) => {

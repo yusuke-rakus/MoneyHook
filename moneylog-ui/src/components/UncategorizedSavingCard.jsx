@@ -1,5 +1,7 @@
 import React from "react";
+/** CSS */
 import "./components_CSS/UncategorizedSavingCard.css";
+/** 外部コンポーネント */
 import EditIcon from "@mui/icons-material/Edit";
 
 const UncategorizedSavingCard = (props) => {

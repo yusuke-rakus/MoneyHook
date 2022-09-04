@@ -1,6 +1,8 @@
 import React from "react";
-import { Box } from "@mui/material";
+/** CSS */
 import "./components_CSS/SavingTargetCard.css";
+/** 外部コンポーネント */
+import { Box } from "@mui/material";
 
 const SavingTargetCard = (props) => {
   const {

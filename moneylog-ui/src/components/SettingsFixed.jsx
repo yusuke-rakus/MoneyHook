@@ -1,5 +1,9 @@
 import React from "react";
+/** CSS */
 import "./components_CSS/SettingsFixed.css";
+/** 自作コンポーネント */
+import SwitchBalanceButton from "../components/SwitchBalanceButton";
+/** 外部コンポーネント */
 import {
   TextField,
   Button,
@@ -8,7 +12,6 @@ import {
   NativeSelect,
 } from "@mui/material";
 import DeleteIcon from "@mui/icons-material/Delete";
-import SwitchBalanceButton from "../components/SwitchBalanceButton";
 
 const SettingsFixed = (props) => {
   const { data } = props;

@@ -1,7 +1,9 @@
 import React from "react";
+/** CSS */
+import "./components_CSS/Sidebar.css";
+/** 外部コンポーネント */
 import { SidebarData } from "./SidebarData";
 import { Link } from "react-router-dom";
-import "./components_CSS/Sidebar.css";
 
 const Sidebar = () => {
   return (

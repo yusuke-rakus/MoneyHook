@@ -1,5 +1,7 @@
 import React from "react";
+/** CSS */
 import "./components_CSS/SavingListData.css";
+/** 外部コンポーネント */
 import ChevronRightIcon from "@mui/icons-material/ChevronRight";
 
 const SavingListData = (props) => {

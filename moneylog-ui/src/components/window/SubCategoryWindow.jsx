@@ -1,5 +1,7 @@
 import React, { useState } from "react";
+/** CSS */
 import "../components_CSS/window_CSS/SubCategoryWindow.css";
+/** 外部コンポーネント */
 import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
 import ChevronRightIcon from "@mui/icons-material/ChevronRight";
 import CloseIcon from "@mui/icons-material/Close";

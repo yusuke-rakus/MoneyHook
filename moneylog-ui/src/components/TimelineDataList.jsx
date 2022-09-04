@@ -1,5 +1,7 @@
-import React, { useState } from "react";
+import React from "react";
+/** CSS */
 import "./components_CSS/TimelineDataList.css";
+/** 外部コンポーネント */
 import ChevronRightIcon from "@mui/icons-material/ChevronRight";
 
 const TimelineDataList = (props) => {

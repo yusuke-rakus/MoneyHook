@@ -1,10 +1,13 @@
 import React, { useState } from "react";
+/** CSS */
 import "../components_CSS/window_CSS/CategoryWindow.css";
+/** 自作コンポーネント */
+import SubCategoryWindow from "./SubCategoryWindow.jsx";
+/** 外部コンポーネント */
 import { CSSTransition } from "react-transition-group";
 import CloseIcon from "@mui/icons-material/Close";
 import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
 import ChevronRightIcon from "@mui/icons-material/ChevronRight";
-import SubCategoryWindow from "./SubCategoryWindow.jsx";
 
 const CategoryWindow = (props) => {
   const {

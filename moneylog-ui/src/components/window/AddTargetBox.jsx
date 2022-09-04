@@ -1,7 +1,9 @@
 import React, { useState } from "react";
+/** CSS */
+import "../components_CSS/window_CSS/AddTargetBox.css";
+/** 外部コンポーネント */
 import CloseIcon from "@mui/icons-material/Close";
 import { TextField, Button } from "@mui/material";
-import "../components_CSS/window_CSS/AddTargetBox.css";
 
 const AddTargetBox = (props) => {
   const { setAddTargetStatus, savingTargetData, title } = props;

@@ -1,4 +1,5 @@
 import React from "react";
+/** 外部コンポーネント */
 import HomeIcon from "@mui/icons-material/Home";
 import TimelineIcon from "@mui/icons-material/Timeline";
 import TelegramIcon from "@mui/icons-material/Telegram";

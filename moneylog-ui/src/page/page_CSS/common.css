@@ -40,3 +40,26 @@ span {
   transform: scale(0.75);
   transition: 0.2s;
 }
+
+/* 月 */
+.month {
+  height: fit-content;
+  width: 70%;
+  display: flex;
+  justify-content: space-between;
+  color: #757575;
+  font-size: 20px;
+  margin-bottom: 40px;
+}
+
+.switchMonthButton {
+  border-radius: 10px;
+  padding: 5px;
+  cursor: pointer;
+  width: 50px;
+}
+
+.switchMonthButton:hover {
+  transform: scale(130%);
+  transition: 0.25s;
+}

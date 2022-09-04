@@ -1,10 +1,12 @@
 import React from "react";
+/** CSS */
+import "./components_CSS/FixedCategoryGroup.css";
+/** 外部コンポーネント */
 import Accordion from "@mui/material/Accordion";
 import AccordionSummary from "@mui/material/AccordionSummary";
 import AccordionDetails from "@mui/material/AccordionDetails";
 import Typography from "@mui/material/Typography";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
-import "./components_CSS/FixedCategoryGroup.css";
 
 const FixedCategoryGroup = (props) => {
   const { fixedCategoryData } = props;

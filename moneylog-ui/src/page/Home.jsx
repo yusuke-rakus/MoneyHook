@@ -154,10 +154,15 @@ const Home = () => {
       </div>
       <div className="dataArea">
         <div className="accodionDataArea">
-          <HomeAccodion
-            homeAccodionDataList={homeAccodionDataList}
-            colorList={dataColorList}
-          />
+          {homeAccodionDataList.map((data, index) => {
+            return (
+              <HomeAccodion
+                homeAccodionData={data}
+                bgcolor={dataColorList[index]}
+                key={index}
+              />
+            );
+          })}
         </div>
 
         {/* グラフ */}

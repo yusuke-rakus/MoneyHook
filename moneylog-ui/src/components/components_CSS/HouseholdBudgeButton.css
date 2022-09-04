@@ -1,48 +1,33 @@
-.add-house-hold-budget-button {
-  position: absolute;
-  right: 50px;
-  bottom: 50px;
-  display: flex;
-  justify-content: flex-end;
-  width: 100px;
+.householdBudgetButton {
+  position: relative;
+  width: 130px;
+  text-align: right;
+  overflow: hidden;
+  border-radius: 24px;
+  cursor: pointer;
 }
 
-.HouseholdBudgetButton-show-enter {
-  /* transform: translateX(50%); */
-  opacity: 0;
-}
-
-.HouseholdBudgetButton-show-enter-active {
-  /* transform: translateX(0); */
-  transition: 500ms, 500ms;
+.householdBudgetButton:hover .textArea {
+  transform: none;
   opacity: 1;
 }
 
-.HouseholdBudgetButton-show-exit-active {
-  /* transform: translateX(50%); */
-  transition: 500ms, 500ms;
-  opacity: 0;
-}
-
-.HouseholdBudgetButton {
-  position: fixed;
-  margin-right: 0;
-  height: 56px;
-  background-color: #d5d5d5;
-  border-radius: 28px;
+.textArea {
+  position: absolute;
+  background-color: #757575;
+  height: 100%;
+  width: 100%;
+  text-align: left;
   display: flex;
   align-items: center;
-  overflow: hidden;
+  border-radius: 24px;
+  transform: translateX(100%);
+  opacity: 0;
+  transition: 0.25s;
 }
 
-.button-style {
-}
-
-.box-text-style {
+.textStyle {
   color: #ffffff;
-  font-size: 20px;
-  padding-left: 20px;
-  padding-right: 70px;
-  display: table-cell;
-  vertical-align: middle;
+  margin-left: 20px;
+  font-size: 24px;
 }

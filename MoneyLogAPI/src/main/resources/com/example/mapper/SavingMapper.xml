@@ -19,6 +19,21 @@
 				AND  DATE_ADD(#{month}, INTERVAL 1 MONTH)
 		ORDER BY s.saving_date desc ,saving_target_id
 	</select>
+
+	<!-- 未振り分け貯金一覧の取得 -->
+	<select id="getUncategorizedSavingList" resultType="com.example.domain.Saving">
+		SELECT
+			s.saving_id,
+			s.saving_name,
+			s.saving_date,
+			s.saving_amount, 
+			s.saving_target_id
+		FROM
+			saving s
+		WHERE s.user_no = #{userNo} 
+		AND s.saving_target_id IS NULL
+		ORDER BY s.saving_date desc ,saving_target_id
+	</select>
 	
 	<!-- 貯金詳細の取得 -->
 	<select id="load" resultType="com.example.domain.Saving">

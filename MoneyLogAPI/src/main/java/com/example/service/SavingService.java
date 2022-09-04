@@ -20,6 +20,7 @@ import com.example.form.DeleteSavingForm;
 import com.example.form.EditSavingForm;
 import com.example.form.GetMonthlySavingListForm;
 import com.example.form.GetSavingForm;
+import com.example.form.GetSavingListForm;
 import com.example.mapper.SavingMapper;
 
 @Service
@@ -150,4 +151,18 @@ public class SavingService {
 			throw new SystemException(ErrorMessage.SAVING_DATA_ALLOT_FAILED);
 		}
 	}
+
+	/** 未振り分け貯金一覧の取得 */
+	public List<Saving> getUncategorizedSavingList(GetSavingListForm form) throws SystemException {
+		List<Saving> savingList = new ArrayList<>();
+
+		// ユーザーIDからユーザーNoを取得
+		Long userNo = authenticationService.authUser(form);
+		form.setUserNo(userNo);
+
+		savingList = savingMapper.getUncategorizedSavingList(form);
+
+		return savingList;
+	}
+
 }

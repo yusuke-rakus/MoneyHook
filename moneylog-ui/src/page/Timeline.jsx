@@ -15,6 +15,10 @@ import ModalWindow from "../components/window/ModalWindow";
 Chart.register(...registerables);
 
 const Timeline = () => {
+  /** 今月 */
+  let date = new Date();
+  let formatday = `${date.getFullYear()}-${date.getMonth() + 1}-1`;
+
   /** グラフデータ */
   const data = {
     labels: ["7月", "8月", "9月", "10月", "11月", "12月"],
@@ -93,7 +97,7 @@ const Timeline = () => {
       {/* 月 */}
       <div className="month">
         <ArrowBackIosNewIcon fontSize="large" className="switchMonthButton" />
-        <span>6月</span>
+        <span>{date.getMonth() + 1}月</span>
         <ArrowForwardIosIcon fontSize="large" className="switchMonthButton" />
       </div>
 

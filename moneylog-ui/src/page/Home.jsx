@@ -7,6 +7,10 @@ import HomeAccodion from "../components/HomeAccodion";
 import ModalWindow from "../components/window/ModalWindow";
 
 const Home = () => {
+  /** 今月 */
+  let date = new Date();
+  let formatday = `${date.getFullYear()}-${date.getMonth() + 1}-1`;
+
   /** 収支合計 */
   const monthlyTotalAmount = -1000;
 
@@ -122,7 +126,7 @@ const Home = () => {
       {/* 月 */}
       <div className="month">
         <ArrowBackIosNewIcon fontSize="large" className="switchMonthButton" />
-        <span>6月</span>
+        <span>{date.getMonth() + 1}月</span>
         <ArrowForwardIosIcon fontSize="large" className="switchMonthButton" />
       </div>
       {/* 収支合計 */}

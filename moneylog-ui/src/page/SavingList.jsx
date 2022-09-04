@@ -7,7 +7,9 @@ import ChevronRightIcon from "@mui/icons-material/ChevronRight";
 import AddSavingWindow from "../components/window/AddSavingWindow";
 
 const SavingList = () => {
-  const month = 2;
+  /** 今月 */
+  let date = new Date();
+  let formatday = `${date.getFullYear()}-${date.getMonth() + 1}-1`;
 
   const totalSavingAmount = 1500000;
 
@@ -38,7 +40,7 @@ const SavingList = () => {
     <div className="container">
       <div className="month">
         <ArrowBackIosNewIcon fontSize="large" className="switchMonthButton" />
-        <span>{month + "月"}</span>
+        <span>{date.getMonth() + 1}月</span>
         <ArrowForwardIosIcon fontSize="large" className="switchMonthButton" />
       </div>
 

@@ -5,6 +5,10 @@ import "./page_CSS/MonthlyVariable.css";
 import VariableCategoryGroup from "../components/VariableCategoryGroup";
 
 const MonthlyVariable = () => {
+  /** 今月 */
+  let date = new Date();
+  let formatday = `${date.getFullYear()}-${date.getMonth() + 1}-1`;
+
   const monthlyTotalVariable = 38000;
 
   const variableCategoryData = [
@@ -58,7 +62,7 @@ const MonthlyVariable = () => {
       {/* 月 */}
       <div className="month">
         <ArrowBackIosNewIcon fontSize="large" className="switchMonthButton" />
-        <span>6月</span>
+        <span>{date.getMonth() + 1}月</span>
         <ArrowForwardIosIcon fontSize="large" className="switchMonthButton" />
       </div>
 

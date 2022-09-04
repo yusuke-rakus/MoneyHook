@@ -8,6 +8,10 @@ import AccordionSummary from "@mui/material/AccordionSummary";
 import Typography from "@mui/material/Typography";
 
 const MonthlyFixed = () => {
+  /** 今月 */
+  let date = new Date();
+  let formatday = `${date.getFullYear()}-${date.getMonth() + 1}-1`;
+
   const monthlyTotalFixed = 100000;
 
   const totalFixedIncome = 250000;
@@ -75,7 +79,7 @@ const MonthlyFixed = () => {
       {/* 月 */}
       <div className="month">
         <ArrowBackIosNewIcon fontSize="large" className="switchMonthButton" />
-        <span>6月</span>
+        <span>{date.getMonth() + 1}月</span>
         <ArrowForwardIosIcon fontSize="large" className="switchMonthButton" />
       </div>
 

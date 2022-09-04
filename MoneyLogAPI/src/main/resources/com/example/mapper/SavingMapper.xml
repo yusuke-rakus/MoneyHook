@@ -78,4 +78,18 @@
 		WHERE
 			saving_id = #{savingId} AND user_no = #{userNo};
 	</delete>
+
+	<!-- 貯金を一括振り分け -->
+	<update id="allotSaving">
+		UPDATE
+			saving
+		SET
+			saving_target_id = #{savingTargetId}
+		WHERE
+			user_no = #{userNo}
+		<foreach item="savingIdList" collection="savingIdList"
+			open="AND saving_id in (" separator="," close=")">
+			#{savingIdList}
+		</foreach>
+	</update>
 </mapper>

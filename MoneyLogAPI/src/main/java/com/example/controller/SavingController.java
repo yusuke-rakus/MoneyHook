@@ -16,11 +16,13 @@ import com.example.common.exception.SystemException;
 import com.example.common.message.SuccessMessage;
 import com.example.domain.Saving;
 import com.example.form.AddSavingForm;
+import com.example.form.AllotSavingForm;
 import com.example.form.DeleteSavingForm;
 import com.example.form.EditSavingForm;
 import com.example.form.GetMonthlySavingListForm;
 import com.example.form.GetSavingForm;
 import com.example.response.AddSavingResponse;
+import com.example.response.AllotSavingResponse;
 import com.example.response.DeleteSavingResponse;
 import com.example.response.EditSavingResponse;
 import com.example.response.GetSavingListResponse;
@@ -160,7 +162,7 @@ public class SavingController {
 
 		try {
 			savingService.editSaving(form);
-		} catch (DataNotFoundException e) {
+		} catch (SystemException e) {
 			res.setStatus(Status.ERROR.getStatus());
 			res.setMessage(e.getMessage());
 			return res;
@@ -196,4 +198,38 @@ public class SavingController {
 		return res;
 	}
 
+	/**
+	 * 貯金の一括振り分けを行います。
+	 * 
+	 * @param form 
+	 * @param result
+	 * @return 
+	 * @throws Throwable
+	 */
+	@PostMapping("/sortSavingAmount")
+	public AllotSavingResponse allotSavingAmountsToNewTarget(@RequestBody @Validated AllotSavingForm form, BindingResult result)
+			throws Throwable {
+
+		AllotSavingResponse res = new AllotSavingResponse();
+
+		if (result.hasErrors()) {
+			String errorMessage = validationService.getFirstErrorMessage(result);
+
+			res.setStatus(Status.ERROR.getStatus());
+			res.setMessage(errorMessage);
+			return res;
+		}
+
+		try {
+			savingService.allotSaving(form);
+		} catch (SystemException e) {
+			res.setStatus(Status.ERROR.getStatus());
+			res.setMessage(e.getMessage());
+			return res;
+		}
+
+		res.setMessage(SuccessMessage.SAVING_ALLOT_SUCCESSED);
+		return res;
+	}
+	
 }

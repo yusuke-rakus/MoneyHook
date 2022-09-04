@@ -11,6 +11,8 @@ public class ValidatingMessage {
 	public static final String BOTH_OF_ID_AND_NAME_EMPTY_ERROR = "対象を選択するか、名前を入力してください";
 
 	// 貯金目標系
+	/** 貯金振り分け先未入力 */
+	public static final String SAVING_TARGET_ID_EMPTY_ERROR = "振り分け先の貯金目標を入力してください";
 	/** 貯金目標名未入力 */
 	public static final String SAVING_TARGET_NAME_EMPTY_ERROR = "貯金目標名を入力してください";
 	/** 貯金目標金額未入力 */

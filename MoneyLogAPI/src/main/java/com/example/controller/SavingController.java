@@ -264,8 +264,17 @@ public class SavingController {
 		return res;
 	}
 
+	/**
+	 * 貯金総額を取得します。
+	 * 
+	 * @param form
+	 * @param result
+	 * @return
+	 * @throws Throwable
+	 */
 	@PostMapping("/getTotalSaving")
-	public GetTotalSavingResponse getTotalSaving(@RequestBody @Validated GetTotalSavingForm form , BindingResult result) throws Throwable {
+	public GetTotalSavingResponse getTotalSaving(@RequestBody @Validated GetTotalSavingForm form, BindingResult result)
+			throws Throwable {
 		GetTotalSavingResponse res = new GetTotalSavingResponse();
 
 		if (result.hasErrors()) {
@@ -277,12 +286,44 @@ public class SavingController {
 		}
 
 		Integer totalSavingAmount = savingService.getTotalSavingAmount(form);
+
+		List<MonthlySavingData> monthlySavingDataList = savingService.getTotalMonthlySavingAmount(form);
+
+		res.setTotalSavingAmount(totalSavingAmount);
+		res.setSavingDataList(monthlySavingDataList);
+		res.setMessage(SuccessMessage.SAVING_TOTAL_DATA_GET_SUCCESSED);
+		return res;
+	}
+	
+	/**
+	 * 貯金目標ごとの貯金総額を取得します。
+	 * 
+	 * @param form
+	 * @param result
+	 * @return
+	 * @throws Throwable
+	 */
+	@PostMapping("/getTotalSaving")
+	public GetTotalSavingResponse getTotalSaving(@RequestBody @Validated GetTotalSavingForm form, BindingResult result)
+			throws Throwable {
+		GetTotalSavingResponse res = new GetTotalSavingResponse();
+		
+		if (result.hasErrors()) {
+			String errorMessage = validationService.getFirstErrorMessage(result);
+			
+			res.setStatus(Status.ERROR.getStatus());
+			res.setMessage(errorMessage);
+			return res;
+		}
+		
+		Integer totalSavingAmount = savingService.getTotalSavingAmount(form);
 		
 		List<MonthlySavingData> monthlySavingDataList = savingService.getTotalMonthlySavingAmount(form);
 		
 		res.setTotalSavingAmount(totalSavingAmount);
 		res.setSavingDataList(monthlySavingDataList);
 		res.setMessage(SuccessMessage.SAVING_TOTAL_DATA_GET_SUCCESSED);
-		return res;	}
+		return res;
+	}
 
 }

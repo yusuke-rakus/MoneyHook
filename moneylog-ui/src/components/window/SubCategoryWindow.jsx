@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import "./components_CSS/SubCategoryWindow.css";
+import "../components_CSS/window_CSS/SubCategoryWindow.css";
 import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
 import ChevronRightIcon from "@mui/icons-material/ChevronRight";
 import CloseIcon from "@mui/icons-material/Close";

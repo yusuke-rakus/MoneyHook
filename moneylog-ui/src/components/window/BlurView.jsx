@@ -6,6 +6,7 @@ const BlurView = (props) => {
   const BlurStyle = {
     position: "fixed",
     left: "0",
+    top: "0",
     height: "100%",
     width: "100%",
     backgroundColor: "rgba(128, 128, 128, 0.7)",

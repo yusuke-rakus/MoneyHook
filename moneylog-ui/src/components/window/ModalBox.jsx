@@ -10,9 +10,9 @@ import {
   TextField,
 } from "@mui/material";
 import { CSSTransition } from "react-transition-group";
-import "./components_CSS/ModalBox.css";
-import "./components_CSS/CategoryWindow.css";
-import SwitchBalanceButton from "./SwitchBalanceButton";
+import "../components_CSS/window_CSS/ModalBox.css";
+import "../components_CSS/window_CSS/CategoryWindow.css";
+import SwitchBalanceButton from "../SwitchBalanceButton";
 import CategoryWindow from "./CategoryWindow";
 import CloseIcon from "@mui/icons-material/Close";
 

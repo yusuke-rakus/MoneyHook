@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import "./components_CSS/CategoryWindow.css";
+import "../components_CSS/window_CSS/CategoryWindow.css";
 import { CSSTransition } from "react-transition-group";
 import CloseIcon from "@mui/icons-material/Close";
 import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";

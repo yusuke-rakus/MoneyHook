@@ -6,7 +6,7 @@ import "./components_CSS/SwitchBalanceButton.css";
 const SwitchBalanceButton = (props) => {
   // balanceの値に応じてボタンを切り替える
   // 設定していない場合は"支出"となる
-  const { balance } = props;
+  const { balance, id } = props;
   let val = {};
   if (balance > 0) {
     val = {
@@ -48,42 +48,37 @@ const SwitchBalanceButton = (props) => {
   };
 
   return (
-    <>
-      <div className="switch">
-        <input
-          onChange={handleChange}
-          type="checkbox"
-          id="switch-box"
-          value={switchBalance.value}
-        />
-        <div
-          onClick={handleChange}
-          style={{
-            backgroundColor: switchBalance.backgroundColor,
-            transform: switchBalance.circleTranslateX,
-          }}
-          className="switch-circle"
-        >
-          {switchBalance.value === -1 && (
-            <RemoveIcon fontSize="large" className="icon" />
-          )}
-          {switchBalance.value === 1 && (
-            <AddIcon fontSize="large" className="icon" />
-          )}
-        </div>
-        <label
-          style={{ transform: switchBalance.labelTraslateX }}
-          htmlFor="switch-box"
-        >
-          {switchBalance.text}
-        </label>
+    <div className="switch">
+      <input
+        onChange={handleChange}
+        type="checkbox"
+        id={"switch-box" + id}
+        value={switchBalance.value}
+        name={id && id}
+      />
+      <div
+        onClick={() => handleChange()}
+        style={{
+          backgroundColor: switchBalance.backgroundColor,
+          transform: switchBalance.circleTranslateX,
+        }}
+        className="switch-circle"
+      >
+        {switchBalance.value === -1 && (
+          <RemoveIcon fontSize="large" className="icon" />
+        )}
+        {switchBalance.value === 1 && (
+          <AddIcon fontSize="large" className="icon" />
+        )}
       </div>
-
-      <div className="box1">
-        <div className="box2"></div>
-      </div>
-    </>
+      <label
+        style={{ transform: switchBalance.labelTraslateX }}
+        htmlFor={"switch-box" + id}
+      >
+        {switchBalance.text}
+      </label>
+    </div>
   );
 };
-
+console.log();
 export default SwitchBalanceButton;

@@ -1,13 +1,15 @@
 import React, { useState } from "react";
-import SavingTargetCard from "../components/SavingTargetCard";
-import UncategorizedSavingCard from "../components/UncategorizedSavingCard";
+/** CSS */
 import "./page_CSS/TotalSaving.css";
 import "./page_CSS/common.css";
-import AddSharpIcon from "@mui/icons-material/AddSharp";
-import { Line } from "react-chartjs-2";
-import AddTargetWindow from "../components/window/AddTargetWindow";
+/** 自作コンポーネント */
+import SavingTargetCard from "../components/SavingTargetCard";
+import UncategorizedSavingCard from "../components/UncategorizedSavingCard";
 import BlurView from "../components/window/BlurView";
 import AddTargetBox from "../components/window/AddTargetBox";
+/** 外部コンポーネント */
+import AddSharpIcon from "@mui/icons-material/AddSharp";
+import { Line } from "react-chartjs-2";
 import { CSSTransition } from "react-transition-group";
 
 /** グラフデータ */
@@ -112,7 +114,9 @@ const TotalSaving = () => {
         })}
         <AddSharpIcon
           onClick={() => {
+            setEditSavingTarget();
             setAddTargetStatus(true);
+            setTitle("貯金目標を追加");
           }}
           fontSize="large"
           className="addSavingTargetButton"

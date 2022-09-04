@@ -1,8 +1,12 @@
 import React from "react";
+/** CSS */
+import "./page_CSS/MonthlyFixed.css";
+import "./page_CSS/common.css";
+/** 自作コンポーネント */
+import FixedCategoryGroup from "../components/FixedCategoryGroup";
+/** 外部コンポーネント */
 import ArrowBackIosNewIcon from "@mui/icons-material/ArrowBackIosNew";
 import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos";
-import "./page_CSS/MonthlyFixed.css";
-import FixedCategoryGroup from "../components/FixedCategoryGroup";
 import Accordion from "@mui/material/Accordion";
 import AccordionSummary from "@mui/material/AccordionSummary";
 import Typography from "@mui/material/Typography";
@@ -18,8 +22,8 @@ const MonthlyFixed = () => {
   const fixedIncomeCategoryData = [
     {
       categoryName: "給与",
-      categoryAmount: 250000,
-      fixedTransactionData: [
+      totalCategoryAmount: 250000,
+      transactionList: [
         {
           transactionName: "会社給与",
           transactionAmount: 200000,
@@ -36,8 +40,8 @@ const MonthlyFixed = () => {
   const fixedSpendingCategoryData = [
     {
       categoryName: "家賃",
-      categoryAmount: -100000,
-      fixedTransactionData: [
+      totalCategoryAmount: -100000,
+      transactionList: [
         {
           transactionName: "電気代",
           transactionAmount: -100000,
@@ -46,8 +50,8 @@ const MonthlyFixed = () => {
     },
     {
       categoryName: "水道光熱費",
-      categoryAmount: -21000,
-      fixedTransactionData: [
+      totalCategoryAmount: -21000,
+      transactionList: [
         {
           transactionName: "電気代",
           transactionAmount: -10000,
@@ -64,8 +68,8 @@ const MonthlyFixed = () => {
     },
     {
       categoryName: "返済",
-      categoryAmount: -20000,
-      fixedTransactionData: [
+      totalCategoryAmount: -20000,
+      transactionList: [
         {
           transactionName: "奨学金",
           transactionAmount: -20000,

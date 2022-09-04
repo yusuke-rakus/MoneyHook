@@ -1,8 +1,12 @@
 import React from "react";
+/** CSS */
+import "./page_CSS/MonthlyVariable.css";
+import "./page_CSS/common.css";
+/** 自作コンポーネント */
+import VariableCategoryGroup from "../components/VariableCategoryGroup";
+/** 外部コンポーネント */
 import ArrowBackIosNewIcon from "@mui/icons-material/ArrowBackIosNew";
 import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos";
-import "./page_CSS/MonthlyVariable.css";
-import VariableCategoryGroup from "../components/VariableCategoryGroup";
 
 const MonthlyVariable = () => {
   /** 今月 */
@@ -14,18 +18,18 @@ const MonthlyVariable = () => {
   const variableCategoryData = [
     {
       categoryName: "趣味",
-      categoryAmount: 20000,
-      variableSubCategoryData: [
+      categoryTotalAmount: 20000,
+      subCategoryList: [
         {
           subCategoryName: "園芸",
-          subCategoryAmount: 10000,
+          subCategoryTotalAmount: 10000,
           transactionList: [
             { transactionName: "盆栽", transactionAmount: 4000 },
           ],
         },
         {
           subCategoryName: "スポーツ",
-          subCategoryAmount: 10000,
+          subCategoryTotalAmount: 10000,
           transactionList: [
             { transactionName: "ゲートボール", transactionAmount: 8000 },
             { transactionName: "少林寺拳法", transactionAmount: 2000 },
@@ -35,11 +39,11 @@ const MonthlyVariable = () => {
     },
     {
       categoryName: "ショッピング",
-      categoryAmount: 18000,
-      variableSubCategoryData: [
+      categoryTotalAmount: 18000,
+      subCategoryList: [
         {
           subCategoryName: "調理器具",
-          subCategoryAmount: 8000,
+          subCategoryTotalAmount: 8000,
           transactionList: [
             { transactionName: "ボウル", transactionAmount: 2000 },
             { transactionName: "フライパン", transactionAmount: 8000 },
@@ -47,7 +51,7 @@ const MonthlyVariable = () => {
         },
         {
           subCategoryName: "自転車用品",
-          subCategoryAmount: 7000,
+          subCategoryTotalAmount: 7000,
           transactionList: [
             { transactionName: "タイヤチューブ", transactionAmount: 3000 },
             { transactionName: "サドル", transactionAmount: 4000 },

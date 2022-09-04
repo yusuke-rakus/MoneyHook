@@ -1,19 +1,19 @@
-import React, { useState } from "react";
+import React from "react";
 import "./components_CSS/SavingListData.css";
 import ChevronRightIcon from "@mui/icons-material/ChevronRight";
-import { CSSTransition } from "react-transition-group";
-import ModalBox from "./window/ModalBox";
-import BlurView from "./window/BlurView";
-import AddSavingBox from "./window/AddSavingBox";
 
 const SavingListData = (props) => {
-  const [addSavingStatus, setAddSavingStatus] = useState(false);
-  const { savingData } = props;
+  const { savingData, setAddSavingStatus, setSavingData } = props;
+
+  const openEditModal = () => {
+    setAddSavingStatus(true);
+    setSavingData(savingData);
+  };
 
   return (
     <>
       <ul>
-        <li className="savingData" onClick={() => setAddSavingStatus(true)}>
+        <li className="savingData" onClick={() => openEditModal()}>
           <div className="savingDate">{savingData.savingDate + "日"}</div>
           <div className="savingName">{savingData.savingName}</div>
           <div className="savingAmount">
@@ -24,21 +24,6 @@ const SavingListData = (props) => {
           </span>
         </li>
       </ul>
-
-      <BlurView status={addSavingStatus} setStatus={setAddSavingStatus} />
-
-      <CSSTransition
-        in={addSavingStatus}
-        timeout={100}
-        unmountOnExit
-        classNames="Modal-show"
-      >
-        <AddSavingBox
-          setAddSavingStatus={setAddSavingStatus}
-          savingData={savingData}
-          title={"貯金を編集"}
-        />
-      </CSSTransition>
     </>
   );
 };

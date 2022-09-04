@@ -1,13 +1,13 @@
 .transactionData {
-  height: 25px;
+  height: 40px;
   width: 100%;
   display: flex;
+  align-items: center;
   color: #757575;
   list-style: none;
   border-bottom: #757575 solid 1px;
   cursor: pointer;
   transition: 0.25s;
-  margin-bottom: 10px;
 }
 
 .transactionData:hover {

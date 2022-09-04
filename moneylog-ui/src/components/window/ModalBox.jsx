@@ -17,7 +17,7 @@ import CategoryWindow from "./CategoryWindow";
 import CloseIcon from "@mui/icons-material/Close";
 
 const ModalBox = (props) => {
-  const { ModalWindow, setModalWindow, transactionData } = props;
+  const { setModalWindow, transactionData } = props;
 
   const [date, setDate] = useState({ year: "", month: "", day: "" });
   const setYear = (event) => setDate({ ...date, year: event.target.value });
@@ -98,7 +98,9 @@ const ModalBox = (props) => {
 
         {/* 金額入力 */}
         <div className="input-amount-box">
-          <SwitchBalanceButton />
+          <SwitchBalanceButton
+            balance={transactionData && transactionData.transactionAmount}
+          />
           <div className="amount-group">
             <span className="input-span">金額</span>
             <div className="input-amount">

@@ -28,7 +28,6 @@
   border-radius: 22px;
   position: relative;
   transition: all 0.25s 0s ease;
-  z-index: 2;
   cursor: pointer;
 }
 

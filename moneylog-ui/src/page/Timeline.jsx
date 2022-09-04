@@ -1,16 +1,22 @@
-import React from "react";
+import React, { useState } from "react";
+/** CSS */
+import "./page_CSS/Timeline.css";
+import "./page_CSS/common.css";
+/** 自作コンポーネント */
+import TimelineDataList from "../components/TimelineDataList";
+import HouseholdBudgetButton from "../components/HouseholdBudgetButton";
+import ModalBox from "../components/window/ModalBox";
+import BlurView from "../components/window/BlurView";
+/** 外部コンポーネント */
 import { Bar } from "react-chartjs-2";
 import { Chart, registerables } from "chart.js";
-import "./page_CSS/Timeline.css";
 import ArrowBackIosNewIcon from "@mui/icons-material/ArrowBackIosNew";
 import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos";
-import HouseholdBudgetButton from "../components/HouseholdBudgetButton";
-import TimelineDataList from "../components/TimelineDataList";
 import InputLabel from "@mui/material/InputLabel";
 import MenuItem from "@mui/material/MenuItem";
 import FormControl from "@mui/material/FormControl";
 import Select from "@mui/material/Select";
-import ModalWindow from "../components/window/ModalWindow";
+import { CSSTransition } from "react-transition-group";
 
 Chart.register(...registerables);
 
@@ -64,36 +70,72 @@ const Timeline = () => {
   };
 
   /** タイムラインデータ */
-  const timelineDataList = [
+  const [timelineDataList, setTimelineDataList] = useState([
     {
-      transactionDate: "1",
+      transactionDate: 1,
       categoryName: "分類1",
       subCategoryName: "小類1",
       transactionName: "取引名1",
-      transactionAmount: -10000,
-    },
-    {
-      transactionDate: "2",
-      categoryName: "分類2",
-      subCategoryName: "小類2",
-      transactionName: "取引名2",
       transactionAmount: -20000,
     },
     {
-      transactionDate: "3",
+      transactionDate: 2,
+      categoryName: "分類2",
+      subCategoryName: "小類2",
+      transactionName: "取引名2",
+      transactionAmount: -40000,
+    },
+    {
+      transactionDate: 3,
       categoryName: "分類3",
       subCategoryName: "小類3",
       transactionName: "取引名3",
-      transactionAmount: -30000,
+      transactionAmount: -10000,
     },
-  ];
+    {
+      transactionDate: 4,
+      categoryName: "分類4",
+      subCategoryName: "小類4",
+      transactionName: "取引名4",
+      transactionAmount: 30000,
+    },
+  ]);
 
-  const [sortCd, setSortCd] = React.useState("");
+  const [sortCd, setSortCd] = React.useState(1);
 
-  const handleChange = (event) => {
-    // ソート処理
+  function compareDate(a, b) {
+    return a.transactionDate - b.transactionDate;
+  }
+
+  function compareAmount(a, b) {
+    return a.transactionAmount - b.transactionAmount;
+  }
+
+  const sorting = (event) => {
     setSortCd(event.target.value);
+    switch (event.target.value) {
+      case 1:
+        // 日付昇順
+        setTimelineDataList(timelineDataList.sort(compareDate));
+        break;
+      case 2:
+        // 日付降順
+        setTimelineDataList(timelineDataList.sort(compareDate).reverse());
+        break;
+      case 3:
+        // 金額昇順
+        setTimelineDataList(timelineDataList.sort(compareAmount).reverse());
+        break;
+      case 4:
+        // 金額降順
+        setTimelineDataList(timelineDataList.sort(compareAmount));
+        break;
+    }
   };
+
+  /** モーダルウィンドウ */
+  const [modalWindow, setModalWindow] = useState(false);
+  const [transactionData, setTransactionData] = useState({});
 
   return (
     <div className="container">
@@ -115,7 +157,7 @@ const Timeline = () => {
             labelId="demo-select-small"
             id="demo-select-small"
             value={sortCd}
-            onChange={handleChange}
+            onChange={sorting}
             label="並べ替え"
           >
             <MenuItem value={1}>日付昇順</MenuItem>
@@ -129,13 +171,38 @@ const Timeline = () => {
       {/* タイムラインデータ */}
       <div className="timelineArea">
         {timelineDataList.map((data) => {
-          return <TimelineDataList timelineData={data} />;
+          return (
+            <TimelineDataList
+              timelineData={data}
+              setModalWindow={setModalWindow}
+              setTransactionData={setTransactionData}
+            />
+          );
         })}
       </div>
 
+      {/* 追加ボタン */}
       <div className="addTransactionArea">
-        <ModalWindow />
+        <HouseholdBudgetButton
+          setModalWindow={setModalWindow}
+          buttonText={"追加"}
+          setData={setTransactionData}
+        />
       </div>
+
+      {/* 取引追加画面 */}
+      <BlurView status={modalWindow} setStatus={setModalWindow} />
+      <CSSTransition
+        in={modalWindow}
+        timeout={200}
+        unmountOnExit
+        classNames="Modal-show"
+      >
+        <ModalBox
+          setModalWindow={setModalWindow}
+          transactionData={transactionData}
+        />
+      </CSSTransition>
     </div>
   );
 };

@@ -4,10 +4,15 @@ import AddIcon from "@mui/icons-material/Add";
 import "./components_CSS/HouseholdBudgeButton.css";
 
 const HouseholdBudgetButton = (props) => {
-  const { setModalWindow, buttonText } = props;
+  const { setModalWindow, buttonText, setData } = props;
+
+  const openModalWindow = () => {
+    setModalWindow(true);
+    setData();
+  };
 
   return (
-    <div className="householdBudgetButton" onClick={() => setModalWindow(true)}>
+    <div className="householdBudgetButton" onClick={() => openModalWindow()}>
       <div className="textArea">
         <p className="textStyle">{buttonText}</p>
       </div>

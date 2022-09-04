@@ -22,39 +22,40 @@ const FixedCategoryGroup = (props) => {
               >
                 <Typography
                   className={
-                    data.categoryAmount > 0
+                    data.totalCategoryAmount > 0
                       ? "fixedIncomeCategoryGroup"
                       : "fixedSpendingCategoryGroup"
                   }
                 >
                   <div
                     className={
-                      data.categoryAmount > 0
+                      data.totalCategoryAmount > 0
                         ? "fixedIncomeCategoryData"
                         : "fixedSpendingCategoryData"
                     }
                   >
                     <span>{data.categoryName}</span>
                     <span>
-                      {"¥ " + Math.abs(data.categoryAmount).toLocaleString()}
+                      {"¥ " +
+                        Math.abs(data.totalCategoryAmount).toLocaleString()}
                     </span>
                   </div>
                 </Typography>
               </AccordionSummary>
-              {data.fixedTransactionData.map((transactionData) => {
+              {data.transactionList.map((transactionData) => {
                 return (
                   <>
                     <AccordionDetails>
                       <Typography
                         className={
-                          data.categoryAmount > 0
+                          data.totalCategoryAmount > 0
                             ? "fixedIncomeTransactionGroup"
                             : "fixedSpendingTransactionGroup"
                         }
                       >
                         <div
                           className={
-                            data.categoryAmount > 0
+                            data.totalCategoryAmount > 0
                               ? "fixedIncomeTransactionData"
                               : "fixedSpendingTransactionData"
                           }

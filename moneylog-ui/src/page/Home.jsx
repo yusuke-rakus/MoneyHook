@@ -1,10 +1,17 @@
 import React, { useState } from "react";
+/** CSS */
 import "./page_CSS/Home.css";
+import "./page_CSS/common.css";
+/** 自作コンポーネント */
+import HomeAccodion from "../components/HomeAccodion";
+import HouseholdBudgetButton from "../components/HouseholdBudgetButton";
+import ModalBox from "../components/window/ModalBox";
+import BlurView from "../components/window/BlurView";
+/** 外部コンポーネント */
 import ArrowBackIosNewIcon from "@mui/icons-material/ArrowBackIosNew";
 import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos";
 import { Pie } from "react-chartjs-2";
-import HomeAccodion from "../components/HomeAccodion";
-import ModalWindow from "../components/window/ModalWindow";
+import { CSSTransition } from "react-transition-group";
 
 const Home = () => {
   /** 今月 */
@@ -121,6 +128,8 @@ const Home = () => {
     },
   };
 
+  /** モーダルウィンドウ */
+  const [modalWindow, setModalWindow] = useState(false);
   return (
     <div className="container">
       {/* 月 */}
@@ -157,10 +166,24 @@ const Home = () => {
         </div>
       </div>
 
-      {/* 貯金追加ボタン */}
+      {/* 追加ボタン */}
       <div className="addTransactionArea">
-        <ModalWindow />
+        <HouseholdBudgetButton
+          setModalWindow={setModalWindow}
+          buttonText={"追加"}
+        />
       </div>
+
+      {/* 取引追加画面 */}
+      <BlurView status={modalWindow} setStatus={setModalWindow} />
+      <CSSTransition
+        in={modalWindow}
+        timeout={200}
+        unmountOnExit
+        classNames="Modal-show"
+      >
+        <ModalBox setModalWindow={setModalWindow} />
+      </CSSTransition>
     </div>
   );
 };

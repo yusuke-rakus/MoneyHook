@@ -56,7 +56,10 @@ const SettingsFixed = (props) => {
         日
       </div>
       <div className="switchBalanceArea">
-        <SwitchBalanceButton />
+        <SwitchBalanceButton
+          balance={data.monthlyTransactionAmount}
+          id={data.monthlyTransactionId}
+        />
       </div>
       <div className="deleteArea">
         <IconButton aria-label="delete">

@@ -1,11 +1,6 @@
-import React, { useState } from "react";
+import React from "react";
 import { Box } from "@mui/material";
 import "./components_CSS/SavingTargetCard.css";
-import BlurView from "../components/window/BlurView";
-import AddTargetBox from "../components/window/AddTargetBox";
-import { CSSTransition } from "react-transition-group";
-import zIndex from "@mui/material/styles/zIndex";
-import { style } from "@mui/system";
 
 const SavingTargetCard = (props) => {
   const {
@@ -36,7 +31,7 @@ const SavingTargetCard = (props) => {
           height: 200,
           bgcolor: (theme) =>
             theme.palette.mode === "dark" ? "#101010" : "#fff",
-          p: 1,
+          p: 2,
           m: 1,
           borderRadius: 2,
         }}

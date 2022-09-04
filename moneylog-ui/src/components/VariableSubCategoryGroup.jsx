@@ -23,7 +23,9 @@ const VariableSubCategoryGroup = (props) => {
                 <Typography className="variableSubCategoryGroup">
                   <div className="variableSubCategoryData">
                     <span>{data.subCategoryName}</span>
-                    <span>{"¥" + data.subCategoryAmount.toLocaleString()}</span>
+                    <span>
+                      {"¥" + data.subCategoryTotalAmount.toLocaleString()}
+                    </span>
                   </div>
                 </Typography>
               </AccordionSummary>

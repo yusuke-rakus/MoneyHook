@@ -1,9 +1,12 @@
 import React, { useState } from "react";
+/** CSS */
 import "./page_CSS/Settings.css";
 import "./page_CSS/common.css";
+/** 自作コンポーネント */
+import SettingsFixed from "../components/SettingsFixed";
+/** 外部コンポーネント */
 import { TextField, Button, IconButton } from "@mui/material";
 import AddCircleIcon from "@mui/icons-material/AddCircle";
-import SettingsFixed from "../components/SettingsFixed";
 
 const Settings = () => {
   const [email, setEmail] = useState("sample@sample.com");
@@ -24,6 +27,14 @@ const Settings = () => {
       monthlyTransactionDate: 30,
       categoryName: "水道光熱費",
       subCategoryName: "なし",
+    },
+    {
+      monthlyTransactionId: 3,
+      monthlyTransactionName: "給与",
+      monthlyTransactionAmount: 200000,
+      monthlyTransactionDate: 25,
+      categoryName: "収入",
+      subCategoryName: "給与",
     },
   ]);
 
@@ -109,6 +120,7 @@ const Settings = () => {
       <div className="containerBox">
         <p className="settingsTitle">固定費の編集</p>
         <hr className="border" />
+        {/* 月次費用 */}
         <div className="fixedListArea">
           {monthlyTransactionList.map((data) => {
             return (

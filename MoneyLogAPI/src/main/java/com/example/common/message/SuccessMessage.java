@@ -25,4 +25,6 @@ public class SuccessMessage {
 	public static final String SAVING_INSERT_SUCCESSED = "貯金の追加が完了しました。";
 	/** 貯金の削除成功 */
 	public static final String SAVING_DATA_DELETE_SUCCESSED = "貯金の削除が完了しました。";
+	/** 貯金の振り分け成功 */
+	public static final String SAVING_ALLOT_SUCCESSED = "貯金の振り分けが完了しました。";
 }

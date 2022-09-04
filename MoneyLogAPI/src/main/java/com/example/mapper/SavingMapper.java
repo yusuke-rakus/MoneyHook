@@ -7,6 +7,7 @@ import org.apache.ibatis.annotations.Mapper;
 import com.example.domain.Saving;
 import com.example.domain.SavingTarget;
 import com.example.form.AddSavingForm;
+import com.example.form.AllotSavingForm;
 import com.example.form.DeleteSavingForm;
 import com.example.form.EditSavingForm;
 import com.example.form.GetMonthlySavingListForm;
@@ -29,5 +30,8 @@ public interface SavingMapper {
 	
 	/** 貯金を削除 */
 	public void deleteSaving(DeleteSavingForm form);
+
+	/** 貯金を一括振り分け */
+	public void allotSaving(AllotSavingForm form);
 	
 }

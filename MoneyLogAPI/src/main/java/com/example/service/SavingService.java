@@ -15,6 +15,7 @@ import com.example.common.message.ErrorMessage;
 import com.example.domain.Saving;
 import com.example.domain.SavingTarget;
 import com.example.form.AddSavingForm;
+import com.example.form.AllotSavingForm;
 import com.example.form.DeleteSavingForm;
 import com.example.form.EditSavingForm;
 import com.example.form.GetMonthlySavingListForm;
@@ -125,6 +126,28 @@ public class SavingService {
 			savingMapper.deleteSaving(form);
 		} catch (Exception e) {
 			throw new SystemException(ErrorMessage.SAVING_DATA_DELETE_FAILED);
+		}
+	}
+	
+	/** 貯金の一括振り分け */
+	public void allotSaving(AllotSavingForm form) throws SystemException {
+
+		// ユーザーIDからユーザーNoを取得
+		Long userNo = authenticationService.authUser(form);
+		form.setUserNo(userNo);
+
+		SavingTarget savingTarget = new SavingTarget();
+		savingTarget.setSavingTargetId(form.getSavingTargetId());
+		savingTarget.setUserNo(form.getUserNo());
+
+		// IDでの指定
+		// 対象としているsavingTargetIdを持ち、かつリクエスト元のuserNoを持つデータが有るかを検索
+		savingTarget = savingTargetService.findSavingTargetByTargetIdAndUserNo(savingTarget);
+		
+		try {
+			savingMapper.allotSaving(form);
+		} catch (Exception e) {
+			throw new SystemException(ErrorMessage.SAVING_DATA_ALLOT_FAILED);
 		}
 	}
 }

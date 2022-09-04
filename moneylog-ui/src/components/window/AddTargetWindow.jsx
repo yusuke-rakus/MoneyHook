@@ -1,11 +1,11 @@
 import React, { useState } from "react";
-import BlurView from "./BlurView";
 import { Button } from "@mui/material";
+import BlurView from "./BlurView";
 import AddTargetBox from "./AddTargetBox";
 import { CSSTransition } from "react-transition-group";
 
 const AddTargetWindow = () => {
-  const [addTargetStatus, setAddTargetStatus] = useState(true);
+  const [addTargetStatus, setAddTargetStatus] = useState(false);
 
   return (
     <>

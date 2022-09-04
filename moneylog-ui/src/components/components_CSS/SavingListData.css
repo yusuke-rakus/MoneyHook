@@ -1,0 +1,31 @@
+.savingData {
+  height: 40px;
+  width: 100%;
+  display: flex;
+  color: #757575;
+  list-style: none;
+  border-bottom: #757575 solid 1px;
+  cursor: pointer;
+  transition: 0.25s;
+  align-items: center;
+}
+
+.savingData:hover {
+  background-color: #eceff1;
+  transform: translateX(5px);
+  border-radius: 5px;
+}
+
+.savingDate {
+  width: 20%;
+}
+.savingName {
+  width: 60%;
+}
+.savingAmount {
+  width: 10%;
+}
+.savingData span {
+  width: 10%;
+  text-align: right;
+}

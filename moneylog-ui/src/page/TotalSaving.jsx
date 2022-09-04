@@ -1,10 +1,14 @@
-import React from "react";
+import React, { useState } from "react";
 import SavingTargetCard from "../components/SavingTargetCard";
 import UncategorizedSavingCard from "../components/UncategorizedSavingCard";
 import "./page_CSS/TotalSaving.css";
 import "./page_CSS/common.css";
 import AddSharpIcon from "@mui/icons-material/AddSharp";
 import { Line } from "react-chartjs-2";
+import AddTargetWindow from "../components/window/AddTargetWindow";
+import BlurView from "../components/window/BlurView";
+import AddTargetBox from "../components/window/AddTargetBox";
+import { CSSTransition } from "react-transition-group";
 
 /** グラフデータ */
 const data = {
@@ -52,6 +56,7 @@ const option = {
 };
 
 const TotalSaving = () => {
+  const [addTargetStatus, setAddTargetStatus] = useState(false);
   // 貯金総額
   const totalSaving = 100000;
 
@@ -66,33 +71,75 @@ const TotalSaving = () => {
       savingCount: 4,
       savingAmount: 50000,
     },
+    {
+      savingTargetName: "長野旅行",
+      targetAmount: 10000,
+      savingCount: 3,
+      savingAmount: 4000,
+    },
   ];
+
+  // 貯金目標ウィンドウのタイトル
+  const [title, setTitle] = useState("貯金目標を追加");
+
+  // 貯金目標編集ウィンドウのデータ
+  const [editSavingTarget, setEditSavingTarget] = useState({});
 
   return (
     <div className="container">
+      {/* 貯金総額 */}
       <div className="totalSavingTitleArea">
         <span>貯金総額</span>
         <span>{totalSaving.toLocaleString()}</span>
       </div>
+
+      {/* グラフ */}
       <div className="lineChartArea">
         <Line data={data} options={option} />
       </div>
+
+      {/* 貯金目標 */}
       <div className="savingTargetCardArea">
         {savingTargetData.map((data) => {
           return (
-            <>
-              <SavingTargetCard savingTargetData={data} />
-            </>
+            <SavingTargetCard
+              savingTargetData={data}
+              setAddTargetStatus={setAddTargetStatus}
+              setTitle={setTitle}
+              setEditSavingTarget={setEditSavingTarget}
+            />
           );
         })}
-        <AddSharpIcon fontSize="large" className="addSavingTargetButton" />
+        <AddSharpIcon
+          onClick={() => {
+            setAddTargetStatus(true);
+          }}
+          fontSize="large"
+          className="addSavingTargetButton"
+        />
       </div>
 
+      {/* 未分類の貯金額 */}
       <div className="uncategorizedSavingCardArea">
         <UncategorizedSavingCard
           UncategorizedSavingAmount={uncategorizedSavingAmount}
         />
       </div>
+
+      {/* 貯金目標追加ウィンドウ */}
+      <BlurView status={addTargetStatus} setStatus={setAddTargetStatus} />
+      <CSSTransition
+        in={addTargetStatus}
+        timeout={100}
+        unmountOnExit
+        classNames="Modal-show"
+      >
+        <AddTargetBox
+          setAddTargetStatus={setAddTargetStatus}
+          title={title}
+          savingTargetData={editSavingTarget}
+        />
+      </CSSTransition>
     </div>
   );
 };

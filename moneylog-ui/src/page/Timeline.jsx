@@ -66,22 +66,25 @@ const Timeline = () => {
   /** タイムラインデータ */
   const timelineDataList = [
     {
-      transactionDate: "20",
-      transactionCategory: "住宅",
-      transactionName: "家賃",
-      transactionAmount: 70000,
+      transactionDate: "1",
+      categoryName: "分類1",
+      subCategoryName: "小類1",
+      transactionName: "取引名1",
+      transactionAmount: -10000,
     },
     {
-      transactionDate: "20",
-      transactionCategory: "住宅",
-      transactionName: "家賃",
-      transactionAmount: 7000,
+      transactionDate: "2",
+      categoryName: "分類2",
+      subCategoryName: "小類2",
+      transactionName: "取引名2",
+      transactionAmount: -20000,
     },
     {
-      transactionDate: "20",
-      transactionCategory: "住宅",
-      transactionName: "家賃",
-      transactionAmount: 7000,
+      transactionDate: "3",
+      categoryName: "分類3",
+      subCategoryName: "小類3",
+      transactionName: "取引名3",
+      transactionAmount: -30000,
     },
   ];
 
@@ -125,7 +128,9 @@ const Timeline = () => {
 
       {/* タイムラインデータ */}
       <div className="timelineArea">
-        <TimelineDataList timelineDataList={timelineDataList} />
+        {timelineDataList.map((data) => {
+          return <TimelineDataList timelineData={data} />;
+        })}
       </div>
 
       <div className="addTransactionArea">

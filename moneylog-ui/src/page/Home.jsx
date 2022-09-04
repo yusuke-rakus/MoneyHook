@@ -129,6 +129,7 @@ const Home = () => {
         <span>{date.getMonth() + 1}月</span>
         <ArrowForwardIosIcon fontSize="large" className="switchMonthButton" />
       </div>
+
       {/* 収支合計 */}
       <div className="monthlyTotalAmountTitleArea">
         <span>変動費合計</span>
@@ -155,6 +156,7 @@ const Home = () => {
           <Pie data={data} options={option} className="pieGraph" />
         </div>
       </div>
+
       {/* 貯金追加ボタン */}
       <div className="addTransactionArea">
         <ModalWindow />

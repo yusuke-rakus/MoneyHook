@@ -1,10 +1,10 @@
 import React, { useState } from "react";
 import CloseIcon from "@mui/icons-material/Close";
 import { TextField, Button } from "@mui/material";
-import "./components_CSS/AddTargetBox.css";
+import "../components_CSS/window_CSS/AddTargetBox.css";
 
 const AddTargetBox = (props) => {
-  const { setAddTargetStatus } = props;
+  const { setAddTargetStatus, savingTargetData, title } = props;
   const [targetAmount, setTargetAmount] = useState("");
 
   const closeAddTargetStatus = () => {
@@ -27,12 +27,17 @@ const AddTargetBox = (props) => {
           style={{ cursor: "pointer", color: "#a9a9a9" }}
           className="close-button"
         />
-        <h3 className="modal-title">目標を追加</h3>
+        <h3 className="modal-title">{title}</h3>
 
         {/* 目標名称 */}
         <div className="input-name-box">
           <span className="input-span">名称</span>
-          <TextField id="standard-basic" variant="standard" fullWidth={true} />
+          <TextField
+            id="standard-basic"
+            value={savingTargetData && savingTargetData.savingTargetName}
+            variant="standard"
+            fullWidth={true}
+          />
         </div>
 
         {/* 目標金額 */}
@@ -46,7 +51,7 @@ const AddTargetBox = (props) => {
               inputProps={{
                 style: { textAlign: "right", paddingRight: "5px" },
               }}
-              value={targetAmount}
+              value={savingTargetData && savingTargetData.targetAmount}
               onChange={changeAmount}
             />
             <span className="input-span">円</span>

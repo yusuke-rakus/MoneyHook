@@ -36,6 +36,7 @@ tr {
 
 .card {
   max-width: 800px;
+  width: 100%;
   transition: 0.25s;
   cursor: pointer;
 }

@@ -1,12 +1,33 @@
-import React from "react";
+import React, { useState } from "react";
 import { Box } from "@mui/material";
 import "./components_CSS/SavingTargetCard.css";
+import BlurView from "../components/window/BlurView";
+import AddTargetBox from "../components/window/AddTargetBox";
+import { CSSTransition } from "react-transition-group";
+import zIndex from "@mui/material/styles/zIndex";
+import { style } from "@mui/system";
 
 const SavingTargetCard = (props) => {
-  const { savingTargetData } = props;
+  const {
+    savingTargetData,
+    setAddTargetStatus,
+    setTitle,
+    setEditSavingTarget,
+  } = props;
+
+  const editSavingTarget = () => {
+    setTitle("貯金目標を編集");
+    setAddTargetStatus(true);
+    setEditSavingTarget(savingTargetData);
+  };
 
   return (
-    <>
+    <div
+      onClick={() => {
+        editSavingTarget();
+      }}
+      className="card"
+    >
       <Box
         sx={{
           boxShadow: 2,
@@ -42,7 +63,7 @@ const SavingTargetCard = (props) => {
           </div>
         </div>
       </Box>
-    </>
+    </div>
   );
 };
 export default SavingTargetCard;

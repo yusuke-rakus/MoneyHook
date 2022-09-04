@@ -10,7 +10,7 @@ import {
 } from "@mui/material";
 
 const AddSavingBox = (props) => {
-  const { setAddSavingStatus } = props;
+  const { setAddSavingStatus, savingData, title } = props;
 
   // 日付処理
   const [date, setDate] = useState({ year: "", month: "", day: "" });
@@ -48,7 +48,7 @@ const AddSavingBox = (props) => {
           style={{ cursor: "pointer", color: "#a9a9a9" }}
           className="close-button"
         />
-        <h3 className="modal-title">貯金を追加</h3>
+        <h3 className="modal-title">{title}</h3>
 
         {/* 日付入力 */}
         <div className="input-date-box">
@@ -85,7 +85,12 @@ const AddSavingBox = (props) => {
         {/* 名称 */}
         <div className="input-name-box">
           <span className="input-span">名称</span>
-          <TextField id="standard-basic" variant="standard" fullWidth={true} />
+          <TextField
+            value={savingData && savingData.savingName}
+            id="standard-basic"
+            variant="standard"
+            fullWidth={true}
+          />
         </div>
 
         {/* 貯金額 */}
@@ -97,9 +102,9 @@ const AddSavingBox = (props) => {
               variant="standard"
               fullWidth={true}
               inputProps={{
-                style: { textAlign: "right", paddingRight: "5px" },
+                style: { textAlign: "right", paddingRight: "20px" },
               }}
-              value={amount}
+              value={savingData && savingData.savingAmount}
               onChange={changeAmount}
             />
             <span className="input-span">円</span>

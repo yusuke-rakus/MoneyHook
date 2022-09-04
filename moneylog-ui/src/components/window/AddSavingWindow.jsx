@@ -24,7 +24,10 @@ const AddSavingWindow = () => {
         unmountOnExit
         classNames="Modal-show"
       >
-        <AddSavingBox setAddSavingStatus={setAddSavingStatus} />
+        <AddSavingBox
+          setAddSavingStatus={setAddSavingStatus}
+          title={"貯金を追加"}
+        />
       </CSSTransition>
     </>
   );

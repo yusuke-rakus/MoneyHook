@@ -17,7 +17,7 @@ import CategoryWindow from "./CategoryWindow";
 import CloseIcon from "@mui/icons-material/Close";
 
 const ModalBox = (props) => {
-  const { ModalWindow, setModalWindow } = props;
+  const { ModalWindow, setModalWindow, transactionData } = props;
 
   const [date, setDate] = useState({ year: "", month: "", day: "" });
   const setYear = (event) => setDate({ ...date, year: event.target.value });
@@ -109,7 +109,9 @@ const ModalBox = (props) => {
                 inputProps={{
                   style: { textAlign: "right", paddingRight: "5px" },
                 }}
-                value={amount}
+                value={
+                  transactionData && Math.abs(transactionData.transactionAmount)
+                }
                 onChange={changeAmount}
               />
               <span className="input-span">円</span>
@@ -125,6 +127,7 @@ const ModalBox = (props) => {
               id="standard-basic"
               variant="standard"
               fullWidth={true}
+              value={transactionData && transactionData.transactionName}
             />
           </div>
         </div>
@@ -134,9 +137,10 @@ const ModalBox = (props) => {
           <span className="input-span category-span">カテゴリ</span>
           <div onClick={openCategoryWindow} className="category-box">
             <span>
-              {category}
-              {category && " / "}
-              {subCategory}
+              {transactionData &&
+                transactionData.categoryName +
+                  " / " +
+                  transactionData.subCategoryName}
             </span>
             <span>&gt;</span>
           </div>

@@ -55,3 +55,9 @@
 .pieGraph {
   width: 49%;
 }
+
+.addTransactionArea {
+  position: fixed;
+  right: 50px;
+  bottom: 50px;
+}

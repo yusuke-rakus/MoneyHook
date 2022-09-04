@@ -1,9 +1,10 @@
-import React from "react";
+import React, { useState } from "react";
 import "./page_CSS/Home.css";
 import ArrowBackIosNewIcon from "@mui/icons-material/ArrowBackIosNew";
 import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos";
 import { Pie } from "react-chartjs-2";
 import HomeAccodion from "../components/HomeAccodion";
+import ModalWindow from "../components/window/ModalWindow";
 
 const Home = () => {
   /** 収支合計 */
@@ -124,7 +125,6 @@ const Home = () => {
         <span>6月</span>
         <ArrowForwardIosIcon fontSize="large" className="switchMonthButton" />
       </div>
-
       {/* 収支合計 */}
       <div className="monthlyTotalAmountTitleArea">
         <span>変動費合計</span>
@@ -138,7 +138,6 @@ const Home = () => {
           {monthlyTotalAmount.toLocaleString()}
         </span>
       </div>
-
       <div className="dataArea">
         <div className="accodionDataArea">
           <HomeAccodion
@@ -151,6 +150,10 @@ const Home = () => {
         <div className="pieGraph">
           <Pie data={data} options={option} className="pieGraph" />
         </div>
+      </div>
+      {/* 貯金追加ボタン */}
+      <div className="addTransactionArea">
+        <ModalWindow />
       </div>
     </div>
   );

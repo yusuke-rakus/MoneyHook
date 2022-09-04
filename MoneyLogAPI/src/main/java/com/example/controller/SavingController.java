@@ -14,6 +14,7 @@ import com.example.common.Status;
 import com.example.common.exception.DataNotFoundException;
 import com.example.common.exception.SystemException;
 import com.example.common.message.SuccessMessage;
+import com.example.domain.MonthlySavingData;
 import com.example.domain.Saving;
 import com.example.form.AddSavingForm;
 import com.example.form.AllotSavingForm;
@@ -22,12 +23,14 @@ import com.example.form.EditSavingForm;
 import com.example.form.GetMonthlySavingListForm;
 import com.example.form.GetSavingForm;
 import com.example.form.GetSavingListForm;
+import com.example.form.GetTotalSavingForm;
 import com.example.response.AddSavingResponse;
 import com.example.response.AllotSavingResponse;
 import com.example.response.DeleteSavingResponse;
 import com.example.response.EditSavingResponse;
 import com.example.response.GetSavingListResponse;
 import com.example.response.GetSavingResponse;
+import com.example.response.GetTotalSavingResponse;
 import com.example.service.SavingService;
 import com.example.service.ValidationService;
 
@@ -260,5 +263,26 @@ public class SavingController {
 		res.setMessage(SuccessMessage.SAVING_ALLOT_SUCCESSED);
 		return res;
 	}
-	
+
+	@PostMapping("/getTotalSaving")
+	public GetTotalSavingResponse getTotalSaving(@RequestBody @Validated GetTotalSavingForm form , BindingResult result) throws Throwable {
+		GetTotalSavingResponse res = new GetTotalSavingResponse();
+
+		if (result.hasErrors()) {
+			String errorMessage = validationService.getFirstErrorMessage(result);
+
+			res.setStatus(Status.ERROR.getStatus());
+			res.setMessage(errorMessage);
+			return res;
+		}
+
+		Integer totalSavingAmount = savingService.getTotalSavingAmount(form);
+		
+		List<MonthlySavingData> monthlySavingDataList = savingService.getTotalMonthlySavingAmount(form);
+		
+		res.setTotalSavingAmount(totalSavingAmount);
+		res.setSavingDataList(monthlySavingDataList);
+		res.setMessage(SuccessMessage.SAVING_TOTAL_DATA_GET_SUCCESSED);
+		return res;	}
+
 }

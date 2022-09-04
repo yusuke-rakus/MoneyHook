@@ -72,6 +72,17 @@
 		GROUP BY saving_month
 		ORDER BY saving_month asc 
 	</select>
+
+	<!-- 未振り分け貯金総額の取得 -->
+	<select id="getUncategorizedSavingAmount" resultType="java.lang.Integer">
+		SELECT 
+	      	SUM(`saving_amount`) as 'total_saving_amount'
+		FROM
+			saving s
+		WHERE s.user_no = #{userNo} 
+		AND s.saving_target_id IS NULL
+		GROUP BY s.user_no
+	</select>
 	
 	<!-- 貯金を登録 -->
 	<insert id="insertSaving" parameterType="com.example.form.AddSavingForm">

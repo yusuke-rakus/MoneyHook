@@ -16,6 +16,9 @@ public interface SavingTargetMapper {
 	/** 貯金目標一覧の取得 */
 	public List<SavingTarget> getSavingTargetList(GetSavingTargetListForm form);
 
+	/** 貯金金額含めた目標一覧の取得 */
+	public List<SavingTarget> getSavingTargetListWithSavedAmount(GetSavingTargetListForm form);
+	
 	/** 削除済み貯金目標一覧の取得 */
 	public List<SavingTarget> getDeletedSavingTargetList(GetSavingTargetListForm form);
 	
@@ -33,5 +36,6 @@ public interface SavingTargetMapper {
 
 	/** 貯金目標を削除 */
 	public void deleteSavingTarget(DeleteSavingTargetForm form);
+
 
 }

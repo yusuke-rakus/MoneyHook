@@ -22,6 +22,26 @@
 			delete_flg = false
 	</select>
 	
+	<!-- 貯金金額含めた貯金目標一覧の取得 -->
+		<select id="getSavingTargetListWithSavedAmount" resultType="com.example.domain.SavingTarget">
+		SELECT
+			saving_target_id,
+			saving_target_name,
+			target_amount,
+			SUM(s.saving_amount) total_saved_amount
+		FROM
+			saving_target st
+		LEFT JOIN 
+			saving s
+		USING (saving_target_id) 
+		WHERE 
+		 	st.user_no = #{userNo}
+		AND
+			st.delete_flg = false
+		GROUP BY saving_target_id
+		ORDER BY saving_target_id 
+	</select>
+	
 	<!-- 削除済み貯金目標一覧の取得 -->
 		<select id="getDeletedSavingTargetList" resultMap="savingTargetMap">
 		SELECT

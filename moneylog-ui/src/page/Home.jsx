@@ -129,7 +129,21 @@ const Home = () => {
   };
 
   /** モーダルウィンドウ */
-  const [modalWindow, setModalWindow] = useState(false);
+  const [modalWindow, openWindow] = useState(false);
+
+  /** 登録用データ */
+  const [transaction, setTransaction] = useState({
+    // userId: "",
+    // transactionDate: "",
+    // transactionAmount: "",
+    // transactionName: "",
+    // categoryId: "",
+    // categoryName: "",
+    // subCategoryId: "",
+    // subCategoryName: "",
+    // fixedFlg: "",
+  });
+
   return (
     <div className="container">
       {/* 月 */}
@@ -173,21 +187,26 @@ const Home = () => {
 
       {/* 追加ボタン */}
       <div className="addTransactionArea">
-        <HouseholdBudgetButton
-          setModalWindow={setModalWindow}
-          buttonText={"追加"}
-        />
+        <HouseholdBudgetButton openWindow={openWindow} buttonText={"追加"} />
       </div>
 
       {/* 取引追加画面 */}
-      <BlurView status={modalWindow} setStatus={setModalWindow} />
+      <BlurView
+        status={modalWindow}
+        setStatus={openWindow}
+        setTransaction={setTransaction}
+      />
       <CSSTransition
         in={modalWindow}
         timeout={200}
         unmountOnExit
         classNames="Modal-show"
       >
-        <ModalBox setModalWindow={setModalWindow} />
+        <ModalBox
+          transaction={transaction}
+          setTransaction={setTransaction}
+          openWindow={openWindow}
+        />
       </CSSTransition>
     </div>
   );

@@ -5,24 +5,22 @@ import "./components_CSS/TimelineDataList.css";
 import ChevronRightIcon from "@mui/icons-material/ChevronRight";
 
 const TimelineDataList = (props) => {
-  const { timelineData, setTransactionData, setModalWindow } = props;
+  const { timeline, setTransaction, setModalWindow } = props;
 
   const editTransactionData = () => {
     setModalWindow(true);
-    setTransactionData(timelineData);
+    setTransaction(timeline);
   };
 
   return (
     <ul>
       <li className="transactionData" onClick={() => editTransactionData()}>
-        <div className="transactionDate">
-          {timelineData.transactionDate + "日"}
-        </div>
-        <div className="transactionCategory">{timelineData.categoryName}</div>
-        <div className="transactionName">{timelineData.transactionName}</div>
+        <div className="transactionDate">{timeline.transactionDate + "日"}</div>
+        <div className="transactionCategory">{timeline.categoryName}</div>
+        <div className="transactionName">{timeline.transactionName}</div>
         <div className="transactionAmount">
-          {timelineData.transactionAmount < 0 ? "- " : ""}
-          {"¥" + Math.abs(timelineData.transactionAmount).toLocaleString()}
+          {timeline.transactionAmount < 0 ? "- " : ""}
+          {"¥" + Math.abs(timeline.transactionAmount).toLocaleString()}
         </div>
         <span>
           <ChevronRightIcon />

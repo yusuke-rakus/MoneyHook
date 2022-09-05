@@ -11,28 +11,37 @@ import ChevronRightIcon from "@mui/icons-material/ChevronRight";
 
 const CategoryWindow = (props) => {
   const {
-    CategoryWindowModal,
     setCategoryWindowModal,
     closeModalWindow,
-    setCategory,
-    setSubCategory,
+    // 以下必須
+    setTransaction,
+    transaction,
   } = props;
 
   const [SubCategoryWindowModal, setSubCategoryWindowModal] = useState(false);
 
   const CategoryList = [
-    { name: "食費", value: 1 },
-    { name: "外食", value: 2 },
-    { name: "コンビニ", value: 3 },
-    { name: "住宅", value: 4 },
+    { categoryId: 1, categoryName: "食費" },
+    { categoryId: 2, categoryName: "外食" },
+    { categoryId: 3, categoryName: "コンビニ" },
+    { categoryId: 4, categoryName: "住宅" },
   ];
 
+  /** カテゴリウィンドウを閉じる */
   const closeCategoryWindow = () => {
     setCategoryWindowModal(false);
   };
 
+  /** サブカテゴリウィンドウを開く */
   const openSubCategoryWindow = (category) => {
-    setCategory(category);
+    // カテゴリをセット
+    setTransaction({
+      ...transaction,
+      categoryId: category.categoryId,
+      categoryName: category.categoryName,
+    });
+
+    // サブカテゴリウィンドウを表示
     setSubCategoryWindowModal(true);
   };
 
@@ -56,11 +65,11 @@ const CategoryWindow = (props) => {
           {CategoryList.map((category) => {
             return (
               <div
-                onClick={() => openSubCategoryWindow(category.name)}
+                onClick={() => openSubCategoryWindow(category)}
                 className="category-item"
-                key={category}
+                key={category.categoryId}
               >
-                {category.name}{" "}
+                {category.categoryName}{" "}
                 <span>
                   <ChevronRightIcon />
                 </span>
@@ -78,10 +87,11 @@ const CategoryWindow = (props) => {
       >
         <SubCategoryWindow
           closeModalWindow={closeModalWindow}
-          SubCategoryWindowModal={SubCategoryWindowModal}
           setSubCategoryWindowModal={setSubCategoryWindowModal}
           closeCategoryWindow={closeCategoryWindow}
-          setSubCategory={setSubCategory}
+          // 以下必須
+          setTransaction={setTransaction}
+          transaction={transaction}
         />
       </CSSTransition>
     </>

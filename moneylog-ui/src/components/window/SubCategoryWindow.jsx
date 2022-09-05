@@ -10,38 +10,49 @@ import { TextField } from "@mui/material";
 const SubCategoryWindow = (props) => {
   const {
     closeModalWindow,
-    SubCategoryWindowModal,
     setSubCategoryWindowModal,
     closeCategoryWindow,
-    setSubCategory,
+    // 以下必須
+    setTransaction,
+    transaction,
   } = props;
 
   const SubCategoryList = [
-    { name: "住宅", value: 1 },
-    { name: "家賃", value: 2 },
-    { name: "住宅設備", value: 3 },
-    { name: "保険", value: 4 },
+    { subCategoryId: 1, subCategoryName: "住宅" },
+    { subCategoryId: 2, subCategoryName: "家賃" },
+    { subCategoryId: 3, subCategoryName: "住宅設備" },
+    { subCategoryId: 4, subCategoryName: "保険" },
   ];
 
-  const [userSubCategory, setUserSubCategory] = useState("");
-
+  /** サブカテゴリを閉じる処理 */
   const closeSubCategoryWindow = () => {
     setSubCategoryWindowModal(false);
   };
 
-  const backModalWindow = (subCategory) => {
-    setSubCategory(subCategory);
+  /** チェックボックスから選択 */
+  const registerSubCategory = (subCategory) => {
+    // サブカテゴリ設定
+    setTransaction({
+      ...transaction,
+      subCategoryId: subCategory.subCategoryId,
+      subCategoryName: subCategory.subCategoryName,
+    });
+
+    // サブカテゴリ画面非表示
     closeSubCategoryWindow();
+    // カテゴリ画面非表示
     closeCategoryWindow();
   };
 
+  /** サブカテゴリ名称の作成【Enterを2回押して登録】 */
   let enterCount = 0;
   const onEnter = (e) => {
     if (e.keyCode === 13) {
       enterCount++;
       if (enterCount === 2) {
-        setSubCategory(userSubCategory);
+        // サブカテゴリ画面非表示
         closeSubCategoryWindow();
+        // カテゴリ画面非表示
         closeCategoryWindow();
       }
     } else {
@@ -49,50 +60,56 @@ const SubCategoryWindow = (props) => {
     }
   };
 
-  return (
-    <>
-      <div className="sub-category-window">
-        {/* 戻る / Closeボタン */}
-        <span className="back-button" onClick={closeSubCategoryWindow}>
-          <ChevronLeftIcon />
-          戻る
-        </span>
-        <CloseIcon
-          onClick={closeModalWindow}
-          style={{ cursor: "pointer", color: "#a9a9a9" }}
-          className="close-button"
-        />
+  /** サブカテゴリテキストの変更を検知 */
+  const inputTextField = (inputData) => {
+    setTransaction({
+      ...transaction,
+      subCategoryId: "",
+      subCategoryName: inputData,
+    });
+  };
 
-        {/* カテゴリリスト */}
-        <h3 className="modal-title">サブカテゴリを選択</h3>
-        <div className="sub-category-items">
-          {SubCategoryList.map((category) => {
-            return (
-              <div
-                onClick={() => backModalWindow(category.name)}
-                className="sub-category-item"
-                key={category}
-              >
-                {category.name}{" "}
-                <span>
-                  <ChevronRightIcon />
-                </span>
-              </div>
-            );
-          })}
-          <TextField
-            label="カテゴリを作成"
-            variant="standard"
-            fullWidth={true}
-            onKeyUp={onEnter}
-            value={userSubCategory}
-            onChange={(e) => {
-              setUserSubCategory(e.target.value);
-            }}
-          />
-        </div>
+  return (
+    <div className="sub-category-window">
+      {/* 戻る / Closeボタン */}
+      <span className="back-button" onClick={closeSubCategoryWindow}>
+        <ChevronLeftIcon />
+        戻る
+      </span>
+      <CloseIcon
+        onClick={closeModalWindow}
+        style={{ cursor: "pointer", color: "#a9a9a9" }}
+        className="close-button"
+      />
+
+      {/* カテゴリリスト */}
+      <h3 className="modal-title">サブカテゴリを選択</h3>
+      <div className="sub-category-items">
+        {SubCategoryList.map((subCategory) => {
+          return (
+            <div
+              onClick={() => registerSubCategory(subCategory)}
+              className="sub-category-item"
+              key={subCategory.subCategoryId}
+            >
+              {subCategory.subCategoryName}{" "}
+              <span>
+                <ChevronRightIcon />
+              </span>
+            </div>
+          );
+        })}
+        <TextField
+          label="カテゴリを作成"
+          variant="standard"
+          fullWidth={true}
+          onKeyUp={onEnter}
+          onChange={(e) => {
+            inputTextField(e.target.value);
+          }}
+        />
       </div>
-    </>
+    </div>
   );
 };
 export default SubCategoryWindow;

@@ -1,7 +1,7 @@
 import React from "react";
 
 const BlurView = (props) => {
-  const { status, setStatus } = props;
+  const { status, setStatus, setTransaction } = props;
 
   const BlurStyle = {
     position: "fixed",
@@ -14,6 +14,7 @@ const BlurView = (props) => {
 
   const onClickEvent = () => {
     setStatus(false);
+    setTransaction({});
   };
 
   return (

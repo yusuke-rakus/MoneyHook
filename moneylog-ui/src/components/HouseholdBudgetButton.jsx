@@ -6,11 +6,10 @@ import Fab from "@mui/material/Fab";
 import AddIcon from "@mui/icons-material/Add";
 
 const HouseholdBudgetButton = (props) => {
-  const { setModalWindow, buttonText, setData } = props;
+  const { openWindow, buttonText } = props;
 
   const openModalWindow = () => {
-    setModalWindow(true);
-    setData();
+    openWindow(true);
   };
 
   return (

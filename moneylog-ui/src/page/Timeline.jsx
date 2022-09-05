@@ -135,7 +135,18 @@ const Timeline = () => {
 
   /** モーダルウィンドウ */
   const [modalWindow, setModalWindow] = useState(false);
-  const [transactionData, setTransactionData] = useState({});
+  /** 登録用データ */
+  const [transaction, setTransaction] = useState({
+    // userId: "",
+    // transactionDate: "",
+    // transactionAmount: "",
+    // transactionName: "",
+    // categoryId: "",
+    // categoryName: "",
+    // subCategoryId: "",
+    // subCategoryName: "",
+    // fixedFlg: "",
+  });
 
   return (
     <div className="container">
@@ -173,9 +184,9 @@ const Timeline = () => {
         {timelineDataList.map((data) => {
           return (
             <TimelineDataList
-              timelineData={data}
+              timeline={data}
               setModalWindow={setModalWindow}
-              setTransactionData={setTransactionData}
+              setTransaction={setTransaction}
             />
           );
         })}
@@ -184,14 +195,18 @@ const Timeline = () => {
       {/* 追加ボタン */}
       <div className="addTransactionArea">
         <HouseholdBudgetButton
-          setModalWindow={setModalWindow}
+          openWindow={setModalWindow}
           buttonText={"追加"}
-          setData={setTransactionData}
         />
       </div>
 
       {/* 取引追加画面 */}
-      <BlurView status={modalWindow} setStatus={setModalWindow} />
+      <BlurView
+        status={modalWindow}
+        setStatus={setModalWindow}
+        setTransaction={setTransaction}
+        transaction={transaction}
+      />
       <CSSTransition
         in={modalWindow}
         timeout={200}
@@ -199,8 +214,9 @@ const Timeline = () => {
         classNames="Modal-show"
       >
         <ModalBox
-          setModalWindow={setModalWindow}
-          transactionData={transactionData}
+          openWindow={setModalWindow}
+          transaction={transaction}
+          setTransaction={setTransaction}
         />
       </CSSTransition>
     </div>

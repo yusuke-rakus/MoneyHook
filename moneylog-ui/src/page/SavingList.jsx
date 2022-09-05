@@ -74,7 +74,7 @@ const SavingList = () => {
       {/* 貯金追加ボタン */}
       <div className="addSavingArea">
         <HouseholdBudgetButton
-          setModalWindow={setAddSavingStatus}
+          openWindow={setAddSavingStatus}
           buttonText={"貯金"}
           setData={setSavingData}
         />

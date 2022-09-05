@@ -20,29 +20,43 @@ import { CSSTransition } from "react-transition-group";
 import CloseIcon from "@mui/icons-material/Close";
 
 const ModalBox = (props) => {
-  const { setModalWindow, transactionData } = props;
-
   const [date, setDate] = useState({ year: "", month: "", day: "" });
-  const setYear = (event) => setDate({ ...date, year: event.target.value });
-  const setMonth = (event) => setDate({ ...date, month: event.target.value });
-  const setDay = (event) => setDate({ ...date, day: event.target.value });
+  const setYear = (e) => setDate({ ...date, year: e.target.value });
+  const setMonth = (e) => setDate({ ...date, month: e.target.value });
+  const setDay = (e) => setDate({ ...date, day: e.target.value });
+
+  /** 以下必須 */
+  const { transaction, setTransaction, openWindow } = props;
+
+  /** ウィンドウを閉じる */
+  const closeModalWindow = () => {
+    setTransaction({});
+    openWindow(false);
+  };
+
+  /** 登録ボタン押下 */
+  const registerTransaction = () => {
+    closeModalWindow();
+  };
+
+  /** 金額入力 */
+  const changeAmount = (e) => {
+    let tempNum = String(e.target.value).replace(/,/g, "");
+    setTransaction({
+      ...transaction,
+      transactionAmount: tempNum,
+      // transactionAmount: Number(tempNum).toLocaleString(),
+    });
+  };
 
   const [CategoryWindowModal, setCategoryWindowModal] = useState(false);
   const openCategoryWindow = () => {
     setCategoryWindowModal(true);
   };
-  const [category, setCategory] = useState("");
-  const [subCategory, setSubCategory] = useState("");
 
-  const closeModalWindow = () => {
-    setModalWindow(false);
-  };
-
-  const [amount, setAmount] = useState("");
-  const changeAmount = (e) => {
-    let tempNum = String(e.target.value).replace(/,/g, "");
-    console.log(tempNum);
-    setAmount(Number(tempNum).toLocaleString());
+  /** 取引名入力 */
+  const changeTransactionName = (e) => {
+    setTransaction({ ...transaction, transactionName: e.target.value });
   };
 
   return (
@@ -102,7 +116,11 @@ const ModalBox = (props) => {
         {/* 金額入力 */}
         <div className="input-amount-box">
           <SwitchBalanceButton
-            balance={transactionData && transactionData.transactionAmount}
+            balance={
+              isNaN(transaction.transactionAmount)
+                ? 0
+                : transaction.transactionAmount
+            }
           />
           <div className="amount-group">
             <span className="input-span">金額</span>
@@ -112,10 +130,18 @@ const ModalBox = (props) => {
                 variant="standard"
                 fullWidth={true}
                 inputProps={{
-                  style: { textAlign: "right", paddingRight: "5px" },
+                  style: {
+                    textAlign: "right",
+                    paddingRight: "20px",
+                    paddingLeft: "20px",
+                    fontSize: "20px",
+                    color: "#424242",
+                  },
                 }}
                 value={
-                  transactionData && Math.abs(transactionData.transactionAmount)
+                  isNaN(transaction.transactionAmount)
+                    ? 0
+                    : Math.abs(transaction.transactionAmount).toLocaleString()
                 }
                 onChange={changeAmount}
               />
@@ -132,7 +158,16 @@ const ModalBox = (props) => {
               id="standard-basic"
               variant="standard"
               fullWidth={true}
-              value={transactionData && transactionData.transactionName}
+              inputProps={{
+                style: {
+                  paddingRight: "20px",
+                  paddingLeft: "20px",
+                  fontSize: "20px",
+                  color: "#424242",
+                },
+              }}
+              value={transaction && transaction.transactionName}
+              onChange={changeTransactionName}
             />
           </div>
         </div>
@@ -142,10 +177,11 @@ const ModalBox = (props) => {
           <span className="input-span category-span">カテゴリ</span>
           <div onClick={openCategoryWindow} className="category-box">
             <span>
-              {transactionData &&
-                transactionData.categoryName +
+              {!transaction.subCategoryName
+                ? ""
+                : transaction.categoryName +
                   " / " +
-                  transactionData.subCategoryName}
+                  transaction.subCategoryName}
             </span>
             <span>&gt;</span>
           </div>
@@ -161,7 +197,7 @@ const ModalBox = (props) => {
         </FormGroup>
 
         {/* 登録ボタン */}
-        <Button onClick={closeModalWindow} variant="contained">
+        <Button onClick={registerTransaction} variant="contained">
           登録
         </Button>
       </div>
@@ -173,11 +209,11 @@ const ModalBox = (props) => {
         classNames="Category-show"
       >
         <CategoryWindow
-          CategoryWindowModal={CategoryWindowModal}
           setCategoryWindowModal={setCategoryWindowModal}
           closeModalWindow={closeModalWindow}
-          setCategory={setCategory}
-          setSubCategory={setSubCategory}
+          // 以下必須
+          setTransaction={setTransaction}
+          transaction={transaction}
         />
       </CSSTransition>
     </>

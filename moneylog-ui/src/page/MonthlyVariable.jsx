@@ -59,6 +59,94 @@ const MonthlyVariable = () => {
         },
       ],
     },
+    {
+      categoryName: "ショッピング",
+      categoryTotalAmount: 18000,
+      subCategoryList: [
+        {
+          subCategoryName: "調理器具",
+          subCategoryTotalAmount: 8000,
+          transactionList: [
+            { transactionName: "ボウル", transactionAmount: 2000 },
+            { transactionName: "フライパン", transactionAmount: 8000 },
+          ],
+        },
+        {
+          subCategoryName: "自転車用品",
+          subCategoryTotalAmount: 7000,
+          transactionList: [
+            { transactionName: "タイヤチューブ", transactionAmount: 3000 },
+            { transactionName: "サドル", transactionAmount: 4000 },
+          ],
+        },
+      ],
+    },
+    {
+      categoryName: "ショッピング",
+      categoryTotalAmount: 18000,
+      subCategoryList: [
+        {
+          subCategoryName: "調理器具",
+          subCategoryTotalAmount: 8000,
+          transactionList: [
+            { transactionName: "ボウル", transactionAmount: 2000 },
+            { transactionName: "フライパン", transactionAmount: 8000 },
+          ],
+        },
+        {
+          subCategoryName: "自転車用品",
+          subCategoryTotalAmount: 7000,
+          transactionList: [
+            { transactionName: "タイヤチューブ", transactionAmount: 3000 },
+            { transactionName: "サドル", transactionAmount: 4000 },
+          ],
+        },
+      ],
+    },
+    {
+      categoryName: "ショッピング",
+      categoryTotalAmount: 18000,
+      subCategoryList: [
+        {
+          subCategoryName: "調理器具",
+          subCategoryTotalAmount: 8000,
+          transactionList: [
+            { transactionName: "ボウル", transactionAmount: 2000 },
+            { transactionName: "フライパン", transactionAmount: 8000 },
+          ],
+        },
+        {
+          subCategoryName: "自転車用品",
+          subCategoryTotalAmount: 7000,
+          transactionList: [
+            { transactionName: "タイヤチューブ", transactionAmount: 3000 },
+            { transactionName: "サドル", transactionAmount: 4000 },
+          ],
+        },
+      ],
+    },
+    {
+      categoryName: "ショッピング",
+      categoryTotalAmount: 18000,
+      subCategoryList: [
+        {
+          subCategoryName: "調理器具",
+          subCategoryTotalAmount: 8000,
+          transactionList: [
+            { transactionName: "ボウル", transactionAmount: 2000 },
+            { transactionName: "フライパン", transactionAmount: 8000 },
+          ],
+        },
+        {
+          subCategoryName: "自転車用品",
+          subCategoryTotalAmount: 7000,
+          transactionList: [
+            { transactionName: "タイヤチューブ", transactionAmount: 3000 },
+            { transactionName: "サドル", transactionAmount: 4000 },
+          ],
+        },
+      ],
+    },
   ];
 
   return (

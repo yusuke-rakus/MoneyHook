@@ -72,28 +72,32 @@ const Timeline = () => {
   /** タイムラインデータ */
   const [timelineDataList, setTimelineDataList] = useState([
     {
-      transactionDate: 1,
+      transactionId: 1,
+      transactionDate: "2022-07-2",
       categoryName: "分類1",
       subCategoryName: "小類1",
       transactionName: "取引名1",
       transactionAmount: -20000,
     },
     {
-      transactionDate: 2,
+      transactionId: 2,
+      transactionDate: "2022-07-25",
       categoryName: "分類2",
       subCategoryName: "小類2",
       transactionName: "取引名2",
       transactionAmount: -40000,
     },
     {
-      transactionDate: 3,
+      transactionId: 3,
+      transactionDate: "2022-07-25",
       categoryName: "分類3",
       subCategoryName: "小類3",
       transactionName: "取引名3",
-      transactionAmount: -10000,
+      transactionAmount: -40000,
     },
     {
-      transactionDate: 4,
+      transactionId: 4,
+      transactionDate: "2022-07-30",
       categoryName: "分類4",
       subCategoryName: "小類4",
       transactionName: "取引名4",
@@ -104,11 +108,37 @@ const Timeline = () => {
   const [sortCd, setSortCd] = React.useState(1);
 
   function compareDate(a, b) {
-    return a.transactionDate - b.transactionDate;
+    if (a.transactionDate !== b.transactionDate) {
+      return new Date(a.transactionDate) - new Date(b.transactionDate);
+    }
+    if (a.transactionId !== b.transactionId) {
+      return a.transactionId - b.transactionId;
+    }
+  }
+  function compareDateReverse(a, b) {
+    if (a.transactionDate !== b.transactionDate) {
+      return new Date(b.transactionDate) - new Date(a.transactionDate);
+    }
+    if (a.transactionId !== b.transactionId) {
+      return a.transactionId - b.transactionId;
+    }
   }
 
   function compareAmount(a, b) {
-    return a.transactionAmount - b.transactionAmount;
+    if (a.transactionAmount !== b.transactionAmount) {
+      return a.transactionAmount - b.transactionAmount;
+    }
+    if (a.transactionId !== b.transactionId) {
+      return a.transactionId - b.transactionId;
+    }
+  }
+  function compareAmountReverse(a, b) {
+    if (a.transactionAmount !== b.transactionAmount) {
+      return b.transactionAmount - a.transactionAmount;
+    }
+    if (a.transactionId !== b.transactionId) {
+      return a.transactionId - b.transactionId;
+    }
   }
 
   const sorting = (event) => {
@@ -120,15 +150,15 @@ const Timeline = () => {
         break;
       case 2:
         // 日付降順
-        setTimelineDataList(timelineDataList.sort(compareDate).reverse());
+        setTimelineDataList(timelineDataList.sort(compareDateReverse));
         break;
       case 3:
         // 金額昇順
-        setTimelineDataList(timelineDataList.sort(compareAmount).reverse());
+        setTimelineDataList(timelineDataList.sort(compareAmount));
         break;
       case 4:
         // 金額降順
-        setTimelineDataList(timelineDataList.sort(compareAmount));
+        setTimelineDataList(timelineDataList.sort(compareAmountReverse));
         break;
     }
   };
@@ -204,8 +234,7 @@ const Timeline = () => {
       <BlurView
         status={modalWindow}
         setStatus={setModalWindow}
-        setTransaction={setTransaction}
-        transaction={transaction}
+        setObject={setTransaction}
       />
       <CSSTransition
         in={modalWindow}

@@ -20,13 +20,12 @@ import { CSSTransition } from "react-transition-group";
 import CloseIcon from "@mui/icons-material/Close";
 
 const ModalBox = (props) => {
-  const [date, setDate] = useState({ year: "", month: "", day: "" });
-  const setYear = (e) => setDate({ ...date, year: e.target.value });
-  const setMonth = (e) => setDate({ ...date, month: e.target.value });
-  const setDay = (e) => setDate({ ...date, day: e.target.value });
-
-  /** 以下必須 */
   const { transaction, setTransaction, openWindow } = props;
+
+  /** 貯金日がなければ当日をセット */
+  if (!transaction.transactionDate) {
+    setTransaction({ ...transaction, transactionDate: new Date() });
+  }
 
   /** ウィンドウを閉じる */
   const closeModalWindow = () => {
@@ -45,7 +44,6 @@ const ModalBox = (props) => {
     setTransaction({
       ...transaction,
       transactionAmount: tempNum,
-      // transactionAmount: Number(tempNum).toLocaleString(),
     });
   };
 
@@ -57,6 +55,23 @@ const ModalBox = (props) => {
   /** 取引名入力 */
   const changeTransactionName = (e) => {
     setTransaction({ ...transaction, transactionName: e.target.value });
+  };
+
+  /** 日付処理 */
+  const setYear = (e) => {
+    let d = new Date(transaction.transactionDate);
+    d.setFullYear(e.target.value);
+    setTransaction({ ...transaction, transactionDate: new Date(d) });
+  };
+  const setMonth = (e) => {
+    let d = new Date(transaction.transactionDate);
+    d.setMonth(e.target.value);
+    setTransaction({ ...transaction, transactionDate: new Date(d) });
+  };
+  const setDay = (e) => {
+    let d = new Date(transaction.transactionDate);
+    d.setDate(e.target.value);
+    setTransaction({ ...transaction, transactionDate: new Date(d) });
   };
 
   return (
@@ -77,12 +92,16 @@ const ModalBox = (props) => {
               <Select
                 labelId="demo-simple-select-label"
                 id="demo-simple-select"
-                value={date.year}
+                value={new Date(transaction.transactionDate).getFullYear()}
                 onChange={setYear}
-                defaultValue={2020}
               >
-                <MenuItem value={2020}>2020</MenuItem>
-                <MenuItem value={2021}>2021</MenuItem>
+                {[...Array(20)].map((v, i) => {
+                  return (
+                    <MenuItem value={new Date().getFullYear() - i}>
+                      {new Date().getFullYear() - i}
+                    </MenuItem>
+                  );
+                })}
               </Select>
             </FormControl>
             <span>年</span>
@@ -90,11 +109,12 @@ const ModalBox = (props) => {
               <Select
                 labelId="demo-simple-select-label"
                 id="demo-simple-select"
-                value={date.month}
+                value={new Date(transaction.transactionDate).getMonth()}
                 onChange={setMonth}
               >
-                <MenuItem value={6}>6</MenuItem>
-                <MenuItem value={7}>7</MenuItem>
+                {[...Array(12)].map((v, i) => {
+                  return <MenuItem value={i}>{i + 1}</MenuItem>;
+                })}
               </Select>
             </FormControl>
             <span>月</span>
@@ -102,11 +122,12 @@ const ModalBox = (props) => {
               <Select
                 labelId="demo-simple-select-label"
                 id="demo-simple-select"
-                value={date.day}
+                value={new Date(transaction.transactionDate).getDate()}
                 onChange={setDay}
               >
-                <MenuItem value={25}>25</MenuItem>
-                <MenuItem value={26}>26</MenuItem>
+                {[...Array(31)].map((v, i) => {
+                  return <MenuItem value={i + 1}>{i + 1}</MenuItem>;
+                })}
               </Select>
             </FormControl>
             <span>日</span>
@@ -157,6 +178,7 @@ const ModalBox = (props) => {
             <TextField
               id="standard-basic"
               variant="standard"
+              autoComplete="off"
               fullWidth={true}
               inputProps={{
                 style: {

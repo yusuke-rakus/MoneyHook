@@ -23,23 +23,23 @@ const SavingList = () => {
 
   const savingDataList = [
     {
-      savingDate: 20,
+      savingDate: "2022-07-25",
       savingName: "タバコ",
       savingAmount: 500,
     },
     {
-      savingDate: 20,
+      savingDate: "2022-07-25",
       savingName: "電車代",
       savingAmount: 200,
     },
     {
-      savingDate: 20,
+      savingDate: "2022-07-25",
       savingName: "ジュース",
       savingAmount: 300,
     },
   ];
 
-  const [savingData, setSavingData] = useState({});
+  const [saving, setSaving] = useState({});
 
   return (
     <div className="container">
@@ -64,8 +64,8 @@ const SavingList = () => {
           return (
             <SavingListData
               setAddSavingStatus={setAddSavingStatus}
-              savingData={data}
-              setSavingData={setSavingData}
+              saving={data}
+              setSaving={setSaving}
             />
           );
         })}
@@ -76,12 +76,16 @@ const SavingList = () => {
         <HouseholdBudgetButton
           openWindow={setAddSavingStatus}
           buttonText={"貯金"}
-          setData={setSavingData}
+          setData={setSaving}
         />
       </div>
 
       {/* 貯金追加ウィンドウ */}
-      <BlurView status={AddSavingStatus} setStatus={setAddSavingStatus} />
+      <BlurView
+        status={AddSavingStatus}
+        setStatus={setAddSavingStatus}
+        setObject={setSaving}
+      />
       <CSSTransition
         in={AddSavingStatus}
         timeout={100}
@@ -89,9 +93,10 @@ const SavingList = () => {
         classNames="Modal-show"
       >
         <AddSavingBox
-          setAddSavingStatus={setAddSavingStatus}
           title={"貯金を追加"}
-          savingData={savingData}
+          setAddSavingStatus={setAddSavingStatus}
+          saving={saving}
+          setSaving={setSaving}
         />
       </CSSTransition>
     </div>

@@ -12,14 +12,6 @@ import {
 } from "@mui/material";
 
 const AddSavingBox = (props) => {
-  const { setAddSavingStatus, savingData, title } = props;
-
-  // 日付処理
-  const [date, setDate] = useState({ year: "", month: "", day: "" });
-  const setYear = (e) => setDate({ ...date, year: e.target.value });
-  const setMonth = (e) => setDate({ ...date, month: e.target.value });
-  const setDay = (e) => setDate({ ...date, day: e.target.value });
-
   // 振り分け処理
   const [distribution, setDistribution] = useState("");
   const distributionList = ["M2 MacBookAir", "沖縄旅行"];
@@ -27,19 +19,49 @@ const AddSavingBox = (props) => {
     setDistribution(e.target.value);
   };
 
-  // 閉じる処理
+  // 以下必須
+  const { title, setAddSavingStatus, saving, setSaving } = props;
+
+  /** 貯金日がなければ当日をセット */
+  if (!saving.savingDate) {
+    setSaving({ ...saving, savingDate: new Date() });
+  }
+
+  /** 閉じる処理 */
   const closeAddSavingWindow = () => {
+    setSaving({});
     setAddSavingStatus(false);
   };
 
-  // 金額表示処理
-  const [amount, setAmount] = useState("");
+  /** 金額表示処理 */
   const changeAmount = (e) => {
     let tempNum = String(e.target.value).replace(/,/g, "");
-    if (isNaN(tempNum)) {
-      return;
-    }
-    setAmount(Number(tempNum).toLocaleString());
+    setSaving({
+      ...saving,
+      savingAmount: tempNum,
+    });
+  };
+
+  /** 取引名入力 */
+  const changeSavingName = (e) => {
+    setSaving({ ...saving, savingName: e.target.value });
+  };
+
+  /** 日付処理 */
+  const setYear = (e) => {
+    let d = new Date(saving.savingDate);
+    d.setFullYear(e.target.value);
+    setSaving({ ...saving, savingDate: new Date(d) });
+  };
+  const setMonth = (e) => {
+    let d = new Date(saving.savingDate);
+    d.setMonth(e.target.value);
+    setSaving({ ...saving, savingDate: new Date(d) });
+  };
+  const setDay = (e) => {
+    let d = new Date(saving.savingDate);
+    d.setDate(e.target.value);
+    setSaving({ ...saving, savingDate: new Date(d) });
   };
 
   return (
@@ -58,26 +80,38 @@ const AddSavingBox = (props) => {
           <div className="date-group">
             <FormControl sx={{ m: 1, minWidth: 120 }} size="small">
               <Select
-                value={date.year}
+                value={new Date(saving.savingDate).getFullYear()}
                 onChange={setYear}
-                defaultValue={date.year}
               >
-                <MenuItem value={2020}>2020</MenuItem>
-                <MenuItem value={2021}>2021</MenuItem>
+                {[...Array(20)].map((v, i) => {
+                  return (
+                    <MenuItem value={new Date().getFullYear() - i}>
+                      {new Date().getFullYear() - i}
+                    </MenuItem>
+                  );
+                })}
               </Select>
             </FormControl>
             <span>年</span>
             <FormControl sx={{ m: 1, minWidth: 60 }} size="small">
-              <Select value={date.month} onChange={setMonth}>
-                <MenuItem value={6}>6</MenuItem>
-                <MenuItem value={7}>7</MenuItem>
+              <Select
+                value={new Date(saving.savingDate).getMonth()}
+                onChange={setMonth}
+              >
+                {[...Array(12)].map((v, i) => {
+                  return <MenuItem value={i}>{i + 1}</MenuItem>;
+                })}
               </Select>
             </FormControl>
             <span>月</span>
             <FormControl sx={{ m: 1, minWidth: 60 }} size="small">
-              <Select value={date.day} onChange={setDay}>
-                <MenuItem value={25}>25</MenuItem>
-                <MenuItem value={26}>26</MenuItem>
+              <Select
+                value={new Date(saving.savingDate).getDate()}
+                onChange={setDay}
+              >
+                {[...Array(31)].map((v, i) => {
+                  return <MenuItem value={i + 1}>{i + 1}</MenuItem>;
+                })}
               </Select>
             </FormControl>
             <span>日</span>
@@ -88,10 +122,19 @@ const AddSavingBox = (props) => {
         <div className="input-name-box">
           <span className="input-span">名称</span>
           <TextField
-            value={savingData && savingData.savingName}
             id="standard-basic"
             variant="standard"
             fullWidth={true}
+            inputProps={{
+              style: {
+                paddingRight: "20px",
+                paddingLeft: "20px",
+                fontSize: "20px",
+                color: "#424242",
+              },
+            }}
+            value={saving && saving.savingName}
+            onChange={changeSavingName}
           />
         </div>
 
@@ -104,9 +147,19 @@ const AddSavingBox = (props) => {
               variant="standard"
               fullWidth={true}
               inputProps={{
-                style: { textAlign: "right", paddingRight: "20px" },
+                style: {
+                  textAlign: "right",
+                  paddingRight: "20px",
+                  paddingLeft: "20px",
+                  fontSize: "20px",
+                  color: "#424242",
+                },
               }}
-              value={savingData && savingData.savingAmount}
+              value={
+                isNaN(saving.savingAmount)
+                  ? 0
+                  : Math.abs(saving.savingAmount).toLocaleString()
+              }
               onChange={changeAmount}
             />
             <span className="input-span">円</span>

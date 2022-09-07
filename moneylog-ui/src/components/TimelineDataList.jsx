@@ -15,7 +15,9 @@ const TimelineDataList = (props) => {
   return (
     <ul>
       <li className="transactionData" onClick={() => editTransactionData()}>
-        <div className="transactionDate">{timeline.transactionDate + "日"}</div>
+        <div className="transactionDate">
+          {new Date(timeline.transactionDate).getDate() + "日"}
+        </div>
         <div className="transactionCategory">{timeline.categoryName}</div>
         <div className="transactionName">{timeline.transactionName}</div>
         <div className="transactionAmount">

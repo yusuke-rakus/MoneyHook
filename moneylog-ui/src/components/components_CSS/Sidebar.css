@@ -2,9 +2,9 @@
   height: 100%;
   width: 300px;
   flex-shrink: 0;
-  background: #81d4fa;
   float: left;
   position: fixed;
+  /* background-color: #94deff; */
 }
 
 .sidebarList .row {
@@ -23,7 +23,8 @@
 
 .sidebarList .row:hover {
   cursor: pointer;
-  background-color: #94deff;
+  border-radius: 10px;
+  /* background-color: #94deff; */
 }
 
 .row #icon {

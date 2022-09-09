@@ -8,7 +8,7 @@
 }
 
 .fixedData:hover {
-  background-color: aliceblue;
+  background-color: #fafafa;
   border-radius: 5px;
 }
 
@@ -84,4 +84,10 @@
 .deleteArea {
   width: 7%;
   height: 40px;
+  transition: 0.25s;
+  opacity: 0;
+}
+
+.fixedData:hover .deleteArea {
+  opacity: 1;
 }

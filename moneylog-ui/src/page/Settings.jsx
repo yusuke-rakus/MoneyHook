@@ -17,7 +17,9 @@ const Settings = () => {
       monthlyTransactionName: "家賃",
       monthlyTransactionAmount: -70000,
       monthlyTransactionDate: 25,
+      categoryId: "1",
       categoryName: "住宅",
+      subCategoryId: "1",
       subCategoryName: "家賃",
     },
     {
@@ -25,7 +27,9 @@ const Settings = () => {
       monthlyTransactionName: "電気代",
       monthlyTransactionAmount: -7000,
       monthlyTransactionDate: 30,
+      categoryId: "2",
       categoryName: "水道光熱費",
+      subCategoryId: "2",
       subCategoryName: "なし",
     },
     {
@@ -33,16 +37,20 @@ const Settings = () => {
       monthlyTransactionName: "給与",
       monthlyTransactionAmount: 200000,
       monthlyTransactionDate: 25,
+      categoryId: "3",
       categoryName: "収入",
+      subCategoryId: "3",
       subCategoryName: "給与",
     },
   ]);
 
-  const AddFixedDataInput = (e) => {
+  const AddFixedDataInput = () => {
+    let mtId = monthlyTransactionList.slice(-1)[0].monthlyTransactionId + 1;
+
     setMonthlyTransactionList([
       ...monthlyTransactionList,
       {
-        monthlyTransactionId: null,
+        monthlyTransactionId: mtId,
         monthlyTransactionName: null,
         monthlyTransactionAmount: null,
         monthlyTransactionDate: null,
@@ -61,7 +69,7 @@ const Settings = () => {
         <div className="emailBox">
           <span>メールアドレス</span>
           <TextField
-            defaultValue={email}
+            value={email}
             id="standardBasic"
             variant="standard"
             fullWidth={true}
@@ -122,11 +130,13 @@ const Settings = () => {
         <hr className="border" />
         {/* 月次費用 */}
         <div className="fixedListArea">
-          {monthlyTransactionList.map((data) => {
+          {monthlyTransactionList.map((data, i) => {
             return (
-              <>
-                <SettingsFixed data={data} />
-              </>
+              <SettingsFixed
+                data={data}
+                monthlyTransactionList={monthlyTransactionList}
+                setMonthlyTransactionList={setMonthlyTransactionList}
+              />
             );
           })}
         </div>

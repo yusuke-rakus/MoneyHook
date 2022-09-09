@@ -29,14 +29,14 @@ const Sidebar = () => {
   ];
 
   const user = {
-    // themeColorCode: themeColorCodeList[4],
-    // themeColorGradientCode: "",
-    themeColorCode: "",
-    themeColorGradientCode: themeColorGradientCodeList[0],
+    themeColorCode: themeColorCodeList[0],
+    themeColorGradientCode: "",
+    // themeColorCode: "",
+    // themeColorGradientCode: themeColorGradientCodeList[0],
   };
 
   if (!user.themeColorCode) {
-    user.themeColorCode += user.themeColorGradientCode.slice(0, 6);
+    user.themeColorCode += user.themeColorGradientCode.slice(0, 7);
   }
 
   const [isHover, setHover] = useState("");
@@ -57,20 +57,20 @@ const Sidebar = () => {
               to={value.link}
               key={key}
               id={window.location.pathname === value.link ? "active" : ""}
-              className={"row " + key + (value.heading ? " heading" : "")}
+              className={"row" + (value.heading ? " heading" : "")}
               onMouseEnter={() => setHover(key)}
               onMouseLeave={() => setHover("")}
               style={{
                 background:
                   isHover === key
-                    ? LightenDarkenColor(user.themeColorCode, -20)
+                    ? LightenDarkenColor(user.themeColorCode, 0)
                     : "",
                 boxShadow:
                   isHover === key
-                    ? "inset 5px 5px 10px " +
-                      LightenDarkenColor(user.themeColorCode, -30) +
-                      ", inset -5px -5px 10px " +
-                      LightenDarkenColor(user.themeColorCode, 0)
+                    ? "inset 5px 5px 12px " +
+                      LightenDarkenColor(user.themeColorCode, -20) +
+                      ", inset -5px -5px 12px " +
+                      LightenDarkenColor(user.themeColorCode, 20)
                     : "",
               }}
             >

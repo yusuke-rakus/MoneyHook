@@ -132,6 +132,7 @@ const AddSavingBox = (props) => {
           <TextField
             id="standard-basic"
             variant="standard"
+            autoComplete="off"
             fullWidth={true}
             inputProps={{
               style: {
@@ -153,6 +154,7 @@ const AddSavingBox = (props) => {
             <TextField
               id="standard-basic"
               variant="standard"
+              autoComplete="off"
               fullWidth={true}
               inputProps={{
                 style: {

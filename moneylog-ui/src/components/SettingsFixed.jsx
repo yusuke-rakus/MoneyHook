@@ -86,6 +86,7 @@ const SettingsFixed = (props) => {
         <span>金額</span>
         <TextField
           variant="standard"
+          autoComplete="off"
           inputProps={{
             style: {
               textAlign: "right",

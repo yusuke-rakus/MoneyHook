@@ -102,6 +102,7 @@ const SubCategoryWindow = (props) => {
         <TextField
           label="カテゴリを作成"
           variant="standard"
+          autoComplete="off"
           fullWidth={true}
           onKeyUp={onEnter}
           onChange={(e) => {

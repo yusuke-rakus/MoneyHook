@@ -80,9 +80,10 @@ const Settings = () => {
         <div className="emailBox">
           <span>メールアドレス</span>
           <TextField
+            variant="standard"
+            autoComplete="off"
             value={email}
             onChange={changeEmail}
-            variant="standard"
             fullWidth={true}
           />
         </div>

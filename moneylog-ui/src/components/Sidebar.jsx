@@ -31,7 +31,7 @@ const Sidebar = () => {
     // themeColorCode: themeColorCodeList[0],
     // themeColorGradientCode: "",
     themeColorCode: "",
-    themeColorGradientCode: themeColorGradientCodeList[2],
+    themeColorGradientCode: themeColorGradientCodeList[0],
   };
 
   if (!user.themeColorCode) {

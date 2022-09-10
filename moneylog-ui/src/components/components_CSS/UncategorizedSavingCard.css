@@ -3,12 +3,11 @@
   justify-content: center;
   border-radius: 15px;
   padding: 15px;
-  border: 1px solid #424242;
   position: relative;
-  background-color: #ffff;
   max-width: 350px;
   transition: 0.25s;
   cursor: pointer;
+  box-shadow: 0px 0px 15px -5px #bdbdbd;
 }
 .uncategorizedSavingCard:hover {
   transform: scale(1.03);
@@ -19,14 +18,13 @@
 }
 
 .uncategorizedSavingCard span {
-  color: #212121;
+  color: #616161;
 }
 
 .edit-icon {
   position: absolute;
   top: -5px;
   right: -5px;
-  background-color: #ffff;
   border-radius: 50%;
   color: #757575;
 }

@@ -62,12 +62,12 @@ const CategoryWindow = (props) => {
         {/* カテゴリリスト */}
         <h3 className="modal-title">カテゴリを選択</h3>
         <div className="category-items">
-          {CategoryList.map((category) => {
+          {CategoryList.map((category, i) => {
             return (
               <div
+                key={i}
                 onClick={() => openSubCategoryWindow(category)}
                 className="category-item"
-                key={category.categoryId}
               >
                 {category.categoryName}{" "}
                 <span>

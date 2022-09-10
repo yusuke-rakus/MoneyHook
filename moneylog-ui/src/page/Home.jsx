@@ -18,6 +18,9 @@ const Home = () => {
   let date = new Date();
   let formatday = `${date.getFullYear()}-${date.getMonth() + 1}-1`;
 
+  const [transactionTitle, setTransactionTitle] =
+    useState("支出または収入の入力");
+
   /** 収支合計 */
   const monthlyTotalAmount = -1000;
 
@@ -177,7 +180,11 @@ const Home = () => {
 
       {/* 追加ボタン */}
       <div className="addTransactionArea">
-        <HouseholdBudgetButton openWindow={openWindow} buttonText={"追加"} />
+        <HouseholdBudgetButton
+          openWindow={openWindow}
+          buttonText={"追加"}
+          setTransactionTitle={setTransactionTitle}
+        />
       </div>
 
       {/* 取引追加画面 */}
@@ -196,6 +203,7 @@ const Home = () => {
           transaction={transaction}
           setTransaction={setTransaction}
           openWindow={openWindow}
+          title={transactionTitle}
         />
       </CSSTransition>
     </div>

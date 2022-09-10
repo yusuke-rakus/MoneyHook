@@ -25,6 +25,9 @@ const Timeline = () => {
   let date = new Date();
   let formatday = `${date.getFullYear()}-${date.getMonth() + 1}-1`;
 
+  const [transactionTitle, setTransactionTitle] =
+    useState("支出または収入の入力");
+
   /** グラフデータ */
   const data = {
     labels: ["7月", "8月", "9月", "10月", "11月", "12月"],
@@ -218,6 +221,7 @@ const Timeline = () => {
               timeline={data}
               setModalWindow={setModalWindow}
               setTransaction={setTransaction}
+              setTransactionTitle={setTransactionTitle}
             />
           );
         })}
@@ -228,6 +232,7 @@ const Timeline = () => {
         <HouseholdBudgetButton
           openWindow={setModalWindow}
           buttonText={"追加"}
+          setTransactionTitle={setTransactionTitle}
         />
       </div>
 
@@ -247,6 +252,7 @@ const Timeline = () => {
           openWindow={setModalWindow}
           transaction={transaction}
           setTransaction={setTransaction}
+          title={transactionTitle}
         />
       </CSSTransition>
     </div>

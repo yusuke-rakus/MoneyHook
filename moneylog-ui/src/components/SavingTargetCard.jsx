@@ -33,7 +33,6 @@ const SavingTargetCard = (props) => {
           m: 1,
           borderRadius: 2,
         }}
-        className="card"
       >
         <p className="title">{savingTargetData.savingTargetName}</p>
         <hr />

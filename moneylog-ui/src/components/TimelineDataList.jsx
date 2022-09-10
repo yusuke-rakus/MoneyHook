@@ -5,11 +5,13 @@ import "./components_CSS/TimelineDataList.css";
 import ChevronRightIcon from "@mui/icons-material/ChevronRight";
 
 const TimelineDataList = (props) => {
-  const { timeline, setTransaction, setModalWindow } = props;
+  const { timeline, setTransaction, setModalWindow, setTransactionTitle } =
+    props;
 
   const editTransactionData = () => {
     setModalWindow(true);
     setTransaction(timeline);
+    setTransactionTitle("収支の編集");
   };
 
   return (

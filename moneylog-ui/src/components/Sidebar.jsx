@@ -6,7 +6,6 @@ import { SidebarData } from "./SidebarData";
 import { Link } from "react-router-dom";
 import { useState } from "react";
 import { LightenDarkenColor } from "lighten-darken-color";
-import { style } from "@mui/system";
 
 const Sidebar = () => {
   const themeColorCodeList = [

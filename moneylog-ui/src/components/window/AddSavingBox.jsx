@@ -85,7 +85,7 @@ const AddSavingBox = (props) => {
               >
                 {[...Array(20)].map((v, i) => {
                   return (
-                    <MenuItem value={new Date().getFullYear() - i}>
+                    <MenuItem key={i} value={new Date().getFullYear() - i}>
                       {new Date().getFullYear() - i}
                     </MenuItem>
                   );
@@ -99,7 +99,11 @@ const AddSavingBox = (props) => {
                 onChange={setMonth}
               >
                 {[...Array(12)].map((v, i) => {
-                  return <MenuItem value={i}>{i + 1}</MenuItem>;
+                  return (
+                    <MenuItem key={i} value={i}>
+                      {i + 1}
+                    </MenuItem>
+                  );
                 })}
               </Select>
             </FormControl>
@@ -110,7 +114,11 @@ const AddSavingBox = (props) => {
                 onChange={setDay}
               >
                 {[...Array(31)].map((v, i) => {
-                  return <MenuItem value={i + 1}>{i + 1}</MenuItem>;
+                  return (
+                    <MenuItem key={i} value={i + 1}>
+                      {i + 1}
+                    </MenuItem>
+                  );
                 })}
               </Select>
             </FormControl>
@@ -171,9 +179,9 @@ const AddSavingBox = (props) => {
           <span className="input-span">振り分ける</span>
           <FormControl size="small" sx={{ mt: "3px", minWidth: "250px" }}>
             <Select value={distribution} onChange={changeDistribution}>
-              {distributionList.map((distributionItem, index) => {
+              {distributionList.map((distributionItem, i) => {
                 return (
-                  <MenuItem value={distributionItem} key={index}>
+                  <MenuItem key={i} value={distributionItem}>
                     {distributionItem}
                   </MenuItem>
                 );

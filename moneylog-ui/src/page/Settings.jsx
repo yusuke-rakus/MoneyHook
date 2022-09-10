@@ -9,8 +9,13 @@ import { TextField, Button, IconButton } from "@mui/material";
 import AddCircleIcon from "@mui/icons-material/AddCircle";
 
 const Settings = () => {
+  /** ユーザー設定変更 */
   const [email, setEmail] = useState("sample@sample.com");
+  const changeEmail = (e) => {
+    setEmail(e.target.value);
+  };
 
+  /** 固定費の編集 */
   const [monthlyTransactionList, setMonthlyTransactionList] = useState([
     {
       monthlyTransactionId: 1,
@@ -74,7 +79,12 @@ const Settings = () => {
         <hr className="border" />
         <div className="emailBox">
           <span>メールアドレス</span>
-          <TextField value={email} variant="standard" fullWidth={true} />
+          <TextField
+            value={email}
+            onChange={changeEmail}
+            variant="standard"
+            fullWidth={true}
+          />
         </div>
 
         <div className="userSettingsButtons">

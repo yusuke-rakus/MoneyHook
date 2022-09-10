@@ -5,30 +5,29 @@ import "./components_CSS/SavingListData.css";
 import ChevronRightIcon from "@mui/icons-material/ChevronRight";
 
 const SavingListData = (props) => {
-  const { saving, setAddSavingStatus, setSaving } = props;
+  const { saving, setAddSavingStatus, setSaving, setSavingTitle } = props;
 
   const openEditModal = () => {
     setAddSavingStatus(true);
     setSaving(saving);
+    setSavingTitle("貯金を編集");
   };
 
   return (
-    <>
-      <ul>
-        <li className="savingData" onClick={() => openEditModal()}>
-          <div className="savingDate">
-            {new Date(saving.savingDate).getDate() + "日"}
-          </div>
-          <div className="savingName">{saving.savingName}</div>
-          <div className="savingAmount">
-            {"¥" + saving.savingAmount.toLocaleString()}
-          </div>
-          <span>
-            <ChevronRightIcon />
-          </span>
-        </li>
-      </ul>
-    </>
+    <ul>
+      <li className="savingData" onClick={() => openEditModal()}>
+        <div className="savingDate">
+          {new Date(saving.savingDate).getDate() + "日"}
+        </div>
+        <div className="savingName">{saving.savingName}</div>
+        <div className="savingAmount">
+          {"¥" + saving.savingAmount.toLocaleString()}
+        </div>
+        <span>
+          <ChevronRightIcon />
+        </span>
+      </li>
+    </ul>
   );
 };
 

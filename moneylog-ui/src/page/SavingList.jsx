@@ -41,6 +41,8 @@ const SavingList = () => {
 
   const [saving, setSaving] = useState({});
 
+  const [savingTitle, setSavingTitle] = useState("貯金を追加");
+
   return (
     <div className="container">
       {/* 月 */}
@@ -67,6 +69,7 @@ const SavingList = () => {
               setAddSavingStatus={setAddSavingStatus}
               saving={data}
               setSaving={setSaving}
+              setSavingTitle={setSavingTitle}
             />
           );
         })}
@@ -78,6 +81,7 @@ const SavingList = () => {
           openWindow={setAddSavingStatus}
           buttonText={"貯金"}
           setData={setSaving}
+          setSavingTitle={setSavingTitle}
         />
       </div>
 
@@ -94,7 +98,7 @@ const SavingList = () => {
         classNames="Modal-show"
       >
         <AddSavingBox
-          title={"貯金を追加"}
+          title={savingTitle}
           setAddSavingStatus={setAddSavingStatus}
           saving={saving}
           setSaving={setSaving}

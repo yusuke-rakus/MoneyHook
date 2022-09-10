@@ -28,9 +28,9 @@ const HomeAccodion = (props) => {
           </span>
         </Typography>
       </AccordionSummary>
-      {homeAccodionData.subCategoryList.map((subCategoryData, index) => {
+      {homeAccodionData.subCategoryList.map((subCategoryData, i) => {
         return (
-          <AccordionDetails key={index}>
+          <AccordionDetails key={i}>
             <Typography className="subCategoryGroup">
               <span className="subCategoryData">
                 <span>{subCategoryData.subCategoryName}</span>

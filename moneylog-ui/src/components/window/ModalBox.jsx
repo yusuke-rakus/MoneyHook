@@ -20,7 +20,7 @@ import { CSSTransition } from "react-transition-group";
 import CloseIcon from "@mui/icons-material/Close";
 
 const ModalBox = (props) => {
-  const { transaction, setTransaction, openWindow } = props;
+  const { title, transaction, setTransaction, openWindow } = props;
 
   /** 貯金日がなければ当日をセット */
   if (!transaction.transactionDate) {
@@ -83,7 +83,7 @@ const ModalBox = (props) => {
           style={{ cursor: "pointer", color: "#a9a9a9" }}
           className="close-button"
         />
-        <h3 className="modal-title">支出または収入の入力</h3>
+        <h3 className="modal-title">{title}</h3>
 
         {/* 日付入力 */}
         <div className="input-date-box">
@@ -98,7 +98,7 @@ const ModalBox = (props) => {
               >
                 {[...Array(20)].map((v, i) => {
                   return (
-                    <MenuItem value={new Date().getFullYear() - i}>
+                    <MenuItem key={i} value={new Date().getFullYear() - i}>
                       {new Date().getFullYear() - i}
                     </MenuItem>
                   );
@@ -114,7 +114,11 @@ const ModalBox = (props) => {
                 onChange={setMonth}
               >
                 {[...Array(12)].map((v, i) => {
-                  return <MenuItem value={i}>{i + 1}</MenuItem>;
+                  return (
+                    <MenuItem key={i} value={i}>
+                      {i + 1}
+                    </MenuItem>
+                  );
                 })}
               </Select>
             </FormControl>
@@ -127,7 +131,11 @@ const ModalBox = (props) => {
                 onChange={setDay}
               >
                 {[...Array(31)].map((v, i) => {
-                  return <MenuItem value={i + 1}>{i + 1}</MenuItem>;
+                  return (
+                    <MenuItem key={i} value={i + 1}>
+                      {i + 1}
+                    </MenuItem>
+                  );
                 })}
               </Select>
             </FormControl>

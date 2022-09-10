@@ -46,7 +46,6 @@ const Settings = () => {
 
   const AddFixedDataInput = () => {
     let mtId = monthlyTransactionList.slice(-1)[0].monthlyTransactionId + 1;
-
     setMonthlyTransactionList([
       ...monthlyTransactionList,
       {
@@ -60,6 +59,13 @@ const Settings = () => {
     ]);
   };
 
+  /** 固定費の編集画面での登録ボタン押下処理 */
+  const monthlyTransactionRegister = () => {
+    monthlyTransactionList.map((data) => {
+      console.log(data);
+    });
+  };
+
   return (
     <div className="container">
       {/* ユーザー設定変更 */}
@@ -68,16 +74,11 @@ const Settings = () => {
         <hr className="border" />
         <div className="emailBox">
           <span>メールアドレス</span>
-          <TextField
-            value={email}
-            id="standardBasic"
-            variant="standard"
-            fullWidth={true}
-          />
+          <TextField value={email} variant="standard" fullWidth={true} />
         </div>
 
         <div className="userSettingsButtons">
-          <Button variant="contained" color="inherit" sx={"color:#757575"}>
+          <Button variant="contained" color="inherit">
             キャンセル
           </Button>
           <Button variant="contained">登録</Button>
@@ -90,34 +91,19 @@ const Settings = () => {
         <hr className="border" />
         <div className="passwordBox">
           <span>現在のパスワード</span>
-          <TextField
-            id="standardBasic"
-            variant="standard"
-            fullWidth={true}
-            type="password"
-          />
+          <TextField variant="standard" fullWidth={true} type="password" />
         </div>
         <div className="passwordBox">
           <span>変更後のパスワード</span>
-          <TextField
-            id="standardBasic"
-            variant="standard"
-            fullWidth={true}
-            type="password"
-          />
+          <TextField variant="standard" fullWidth={true} type="password" />
         </div>
         <div className="passwordBox">
           <span>再入力</span>
-          <TextField
-            id="standardBasic"
-            variant="standard"
-            fullWidth={true}
-            type="password"
-          />
+          <TextField variant="standard" fullWidth={true} type="password" />
         </div>
 
         <div className="passwordSettingsButtons">
-          <Button variant="contained" color="inherit" sx={"color:#757575"}>
+          <Button variant="contained" color="inherit">
             キャンセル
           </Button>
           <Button variant="contained">登録</Button>
@@ -133,6 +119,7 @@ const Settings = () => {
           {monthlyTransactionList.map((data, i) => {
             return (
               <SettingsFixed
+                key={i}
                 data={data}
                 monthlyTransactionList={monthlyTransactionList}
                 setMonthlyTransactionList={setMonthlyTransactionList}
@@ -148,10 +135,12 @@ const Settings = () => {
         </div>
 
         <div className="fixedSettingsButtons">
-          <Button variant="contained" color="inherit" sx={"color:#757575"}>
+          <Button variant="contained" color="inherit">
             キャンセル
           </Button>
-          <Button variant="contained">登録</Button>
+          <Button onClick={monthlyTransactionRegister} variant="contained">
+            登録
+          </Button>
         </div>
       </div>
     </div>

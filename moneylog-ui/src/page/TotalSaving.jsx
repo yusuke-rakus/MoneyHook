@@ -58,7 +58,7 @@ const option = {
 };
 
 const TotalSaving = () => {
-  const [addTargetStatus, setAddTargetStatus] = useState(false);
+  const [windowStatus, setWindowStatus] = useState(false);
   // 貯金総額
   const totalSaving = 100000;
 
@@ -66,26 +66,36 @@ const TotalSaving = () => {
   const uncategorizedSavingAmount = 100000;
 
   // 貯金目標
-  const savingTargetData = [
+  const [savingTargetData, setSavingTargetData] = useState([
     {
+      savingTargetId: 1,
       savingTargetName: "沖縄旅行",
       targetAmount: 100000,
       savingCount: 4,
       savingAmount: 50000,
     },
     {
+      savingTargetId: 2,
       savingTargetName: "長野旅行",
       targetAmount: 10000,
       savingCount: 3,
       savingAmount: 4000,
     },
-  ];
+  ]);
 
   // 貯金目標ウィンドウのタイトル
   const [title, setTitle] = useState("貯金目標を追加");
 
   // 貯金目標編集ウィンドウのデータ
   const [editSavingTarget, setEditSavingTarget] = useState({});
+  const resetEditSavingTarget = () => {
+    setEditSavingTarget({
+      savingTargetName: "",
+      targetAmount: "",
+      savingCount: "",
+      savingAmount: "",
+    });
+  };
 
   return (
     <div className="container">
@@ -102,11 +112,12 @@ const TotalSaving = () => {
 
       {/* 貯金目標 */}
       <div className="savingTargetCardArea">
-        {savingTargetData.map((data) => {
+        {savingTargetData.map((data, i) => {
           return (
             <SavingTargetCard
+              key={i}
               savingTargetData={data}
-              setAddTargetStatus={setAddTargetStatus}
+              setWindowStatus={setWindowStatus}
               setTitle={setTitle}
               setEditSavingTarget={setEditSavingTarget}
             />
@@ -114,8 +125,8 @@ const TotalSaving = () => {
         })}
         <AddSharpIcon
           onClick={() => {
-            setEditSavingTarget();
-            setAddTargetStatus(true);
+            resetEditSavingTarget();
+            setWindowStatus(true);
             setTitle("貯金目標を追加");
           }}
           fontSize="large"
@@ -131,17 +142,18 @@ const TotalSaving = () => {
       </div>
 
       {/* 貯金目標追加ウィンドウ */}
-      <BlurView status={addTargetStatus} setStatus={setAddTargetStatus} />
+      <BlurView status={windowStatus} setStatus={setWindowStatus} />
       <CSSTransition
-        in={addTargetStatus}
+        in={windowStatus}
         timeout={100}
         unmountOnExit
         classNames="Modal-show"
       >
         <AddTargetBox
-          setAddTargetStatus={setAddTargetStatus}
+          setWindowStatus={setWindowStatus}
           title={title}
           savingTargetData={editSavingTarget}
+          setSavingTargetData={setEditSavingTarget}
         />
       </CSSTransition>
     </div>

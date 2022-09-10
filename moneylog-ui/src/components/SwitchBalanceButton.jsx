@@ -8,7 +8,7 @@ import RemoveIcon from "@mui/icons-material/Remove";
 const SwitchBalanceButton = (props) => {
   // balanceの値に応じてボタンを切り替える
   // 設定していない場合は"支出"となる
-  const { balance, id } = props;
+  const { id, balance, transaction, setTransaction } = props;
   let val = {};
   if (balance > 0) {
     val = {
@@ -38,6 +38,7 @@ const SwitchBalanceButton = (props) => {
         circleTranslateX: "translateX(55px)",
         labelTraslateX: "translateX(-35px)",
       });
+      setTransaction({ ...transaction, transactionSign: 1 });
     } else {
       setSwitchBalance({
         text: "支出",
@@ -46,6 +47,7 @@ const SwitchBalanceButton = (props) => {
         circleTranslateX: "translateX(0)",
         labelTraslateX: "translateX(0)",
       });
+      setTransaction({ ...transaction, transactionSign: -1 });
     }
   };
 

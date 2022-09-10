@@ -29,10 +29,10 @@ const Sidebar = () => {
   ];
 
   const user = {
-    themeColorCode: themeColorCodeList[0],
-    themeColorGradientCode: "",
-    // themeColorCode: "",
-    // themeColorGradientCode: themeColorGradientCodeList[0],
+    // themeColorCode: themeColorCodeList[0],
+    // themeColorGradientCode: "",
+    themeColorCode: "",
+    themeColorGradientCode: themeColorGradientCodeList[2],
   };
 
   if (!user.themeColorCode) {

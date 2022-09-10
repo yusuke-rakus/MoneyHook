@@ -13,43 +13,39 @@ const VariableSubCategoryGroup = (props) => {
 
   return (
     <>
-      {variableSubCategoryData.map((data) => {
+      {variableSubCategoryData.map((data, i) => {
         return (
-          <>
-            <Accordion>
-              <AccordionSummary
-                expandIcon={<ExpandMoreIcon />}
-                aria-controls="panel1a-content"
-                id="panel1a-header"
-              >
-                <Typography className="variableSubCategoryGroup">
-                  <div className="variableSubCategoryData">
-                    <span>{data.subCategoryName}</span>
-                    <span>
-                      {"¥" + data.subCategoryTotalAmount.toLocaleString()}
+          <Accordion key={i}>
+            <AccordionSummary
+              expandIcon={<ExpandMoreIcon />}
+              aria-controls="panel1a-content"
+              id="panel1a-header"
+            >
+              <Typography className="variableSubCategoryGroup">
+                <span className="variableSubCategoryData">
+                  <span>{data.subCategoryName}</span>
+                  <span>
+                    {"¥" + data.subCategoryTotalAmount.toLocaleString()}
+                  </span>
+                </span>
+              </Typography>
+            </AccordionSummary>
+            {data.transactionList.map((transactionData, i) => {
+              return (
+                <AccordionDetails key={i}>
+                  <Typography className="variableTransactionGroup">
+                    <span className="variableTransactionData">
+                      <span>{transactionData.transactionName}</span>
+                      <span>
+                        {"¥" +
+                          transactionData.transactionAmount.toLocaleString()}
+                      </span>
                     </span>
-                  </div>
-                </Typography>
-              </AccordionSummary>
-              {data.transactionList.map((transactionData) => {
-                return (
-                  <>
-                    <AccordionDetails>
-                      <Typography className="variableTransactionGroup">
-                        <div className="variableTransactionData">
-                          <span>{transactionData.transactionName}</span>
-                          <span>
-                            {"¥" +
-                              transactionData.transactionAmount.toLocaleString()}
-                          </span>
-                        </div>
-                      </Typography>
-                    </AccordionDetails>
-                  </>
-                );
-              })}
-            </Accordion>
-          </>
+                  </Typography>
+                </AccordionDetails>
+              );
+            })}
+          </Accordion>
         );
       })}
     </>

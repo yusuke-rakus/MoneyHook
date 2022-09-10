@@ -14,29 +14,25 @@ const VariableCategoryGroup = (props) => {
 
   return (
     <>
-      {variableCategoryData.map((data) => {
+      {variableCategoryData.map((data, i) => {
         return (
-          <>
-            <Accordion>
-              <AccordionSummary
-                expandIcon={<ExpandMoreIcon />}
-                aria-controls="panel1a-content"
-                id="panel1a-header"
-              >
-                <Typography className="variableCategoryGroup">
-                  <div className="variableCategoryData">
-                    <span>{data.categoryName}</span>
-                    <span>
-                      {"¥" + data.categoryTotalAmount.toLocaleString()}
-                    </span>
-                  </div>
-                </Typography>
-              </AccordionSummary>
-              <VariableSubCategoryGroup
-                variableSubCategoryData={data.subCategoryList}
-              />
-            </Accordion>
-          </>
+          <Accordion key={i}>
+            <AccordionSummary
+              expandIcon={<ExpandMoreIcon />}
+              aria-controls="panel1a-content"
+              id="panel1a-header"
+            >
+              <Typography className="variableCategoryGroup">
+                <span className="variableCategoryData">
+                  <span>{data.categoryName}</span>
+                  <span>{"¥" + data.categoryTotalAmount.toLocaleString()}</span>
+                </span>
+              </Typography>
+            </AccordionSummary>
+            <VariableSubCategoryGroup
+              variableSubCategoryData={data.subCategoryList}
+            />
+          </Accordion>
         );
       })}
     </>

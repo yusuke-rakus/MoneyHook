@@ -106,13 +106,13 @@ const MonthlyFixed = () => {
         <Accordion>
           <AccordionSummary>
             <Typography className="totalValueArea">
-              <div className="totalValue">
+              <span className="totalValue">
                 <span>合計</span>
                 <span>{"¥" + Math.abs(totalFixedIncome).toLocaleString()}</span>
                 <span>
                   {"¥" + Math.abs(totalFixedSpending).toLocaleString()}
                 </span>
-              </div>
+              </span>
             </Typography>
           </AccordionSummary>
         </Accordion>

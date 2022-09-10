@@ -132,17 +132,7 @@ const Home = () => {
   const [modalWindow, openWindow] = useState(false);
 
   /** 登録用データ */
-  const [transaction, setTransaction] = useState({
-    // userId: "",
-    // transactionDate: "",
-    // transactionAmount: "",
-    // transactionName: "",
-    // categoryId: "",
-    // categoryName: "",
-    // subCategoryId: "",
-    // subCategoryName: "",
-    // fixedFlg: "",
-  });
+  const [transaction, setTransaction] = useState({});
 
   return (
     <div className="container">

@@ -60,9 +60,10 @@ const SavingList = () => {
 
       {/* 貯金データ */}
       <div className="savingList">
-        {savingDataList.map((data) => {
+        {savingDataList.map((data, i) => {
           return (
             <SavingListData
+              key={i}
               setAddSavingStatus={setAddSavingStatus}
               saving={data}
               setSaving={setSaving}

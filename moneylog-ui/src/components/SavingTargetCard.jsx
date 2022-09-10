@@ -5,16 +5,12 @@ import "./components_CSS/SavingTargetCard.css";
 import { Box } from "@mui/material";
 
 const SavingTargetCard = (props) => {
-  const {
-    savingTargetData,
-    setAddTargetStatus,
-    setTitle,
-    setEditSavingTarget,
-  } = props;
+  const { savingTargetData, setWindowStatus, setTitle, setEditSavingTarget } =
+    props;
 
   const editSavingTarget = () => {
     setTitle("貯金目標を編集");
-    setAddTargetStatus(true);
+    setWindowStatus(true);
     setEditSavingTarget(savingTargetData);
   };
 
@@ -43,16 +39,18 @@ const SavingTargetCard = (props) => {
         <hr />
         <div className="card-body">
           <table>
-            <tr>
-              <td>目標</td>
-              <td>{savingTargetData.targetAmount.toLocaleString()}</td>
-              <td>円</td>
-            </tr>
-            <tr>
-              <td>貯金回数</td>
-              <td>{savingTargetData.savingCount}</td>
-              <td>回</td>
-            </tr>
+            <tbody>
+              <tr>
+                <td>目標</td>
+                <td>{savingTargetData.targetAmount.toLocaleString()}</td>
+                <td>円</td>
+              </tr>
+              <tr>
+                <td>貯金回数</td>
+                <td>{savingTargetData.savingCount}</td>
+                <td>回</td>
+              </tr>
+            </tbody>
           </table>
           <div className="saving-amount-area">
             <span>貯金額</span>

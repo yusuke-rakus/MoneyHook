@@ -211,9 +211,10 @@ const Timeline = () => {
 
       {/* タイムラインデータ */}
       <div className="timelineArea">
-        {timelineDataList.map((data) => {
+        {timelineDataList.map((data, i) => {
           return (
             <TimelineDataList
+              key={i}
               timeline={data}
               setModalWindow={setModalWindow}
               setTransaction={setTransaction}

@@ -13,70 +13,65 @@ const FixedCategoryGroup = (props) => {
 
   return (
     <>
-      {fixedCategoryData.map((data) => {
+      {fixedCategoryData.map((data, i) => {
         return (
-          <>
-            <Accordion>
-              <AccordionSummary
-                expandIcon={<ExpandMoreIcon />}
-                aria-controls="panel1a-content"
-                id="panel1a-header"
+          <Accordion key={i}>
+            <AccordionSummary
+              expandIcon={<ExpandMoreIcon />}
+              aria-controls="panel1a-content"
+              id="panel1a-header"
+            >
+              <Typography
+                className={
+                  data.totalCategoryAmount > 0
+                    ? "fixedIncomeCategoryGroup"
+                    : "fixedSpendingCategoryGroup"
+                }
               >
-                <Typography
+                <span
                   className={
                     data.totalCategoryAmount > 0
-                      ? "fixedIncomeCategoryGroup"
-                      : "fixedSpendingCategoryGroup"
+                      ? "fixedIncomeCategoryData"
+                      : "fixedSpendingCategoryData"
                   }
                 >
-                  <div
+                  <span>{data.categoryName}</span>
+                  <span>
+                    {"¥ " + Math.abs(data.totalCategoryAmount).toLocaleString()}
+                  </span>
+                </span>
+              </Typography>
+            </AccordionSummary>
+            {data.transactionList.map((transactionData, i) => {
+              return (
+                <AccordionDetails key={i}>
+                  <Typography
                     className={
                       data.totalCategoryAmount > 0
-                        ? "fixedIncomeCategoryData"
-                        : "fixedSpendingCategoryData"
+                        ? "fixedIncomeTransactionGroup"
+                        : "fixedSpendingTransactionGroup"
                     }
                   >
-                    <span>{data.categoryName}</span>
-                    <span>
-                      {"¥ " +
-                        Math.abs(data.totalCategoryAmount).toLocaleString()}
+                    <span
+                      className={
+                        data.totalCategoryAmount > 0
+                          ? "fixedIncomeTransactionData"
+                          : "fixedSpendingTransactionData"
+                      }
+                    >
+                      <span>{transactionData.transactionName}</span>
+                      <span>
+                        {"¥ " +
+                          Math.abs(
+                            transactionData.transactionAmount
+                          ).toLocaleString()}
+                      </span>
                     </span>
-                  </div>
-                </Typography>
-              </AccordionSummary>
-              {data.transactionList.map((transactionData) => {
-                return (
-                  <>
-                    <AccordionDetails>
-                      <Typography
-                        className={
-                          data.totalCategoryAmount > 0
-                            ? "fixedIncomeTransactionGroup"
-                            : "fixedSpendingTransactionGroup"
-                        }
-                      >
-                        <div
-                          className={
-                            data.totalCategoryAmount > 0
-                              ? "fixedIncomeTransactionData"
-                              : "fixedSpendingTransactionData"
-                          }
-                        >
-                          <span>{transactionData.transactionName}</span>
-                          <span>
-                            {"¥ " +
-                              Math.abs(
-                                transactionData.transactionAmount
-                              ).toLocaleString()}
-                          </span>
-                        </div>
-                      </Typography>
-                    </AccordionDetails>
-                  </>
-                );
-              })}
-            </Accordion>
-          </>
+                  </Typography>
+                </AccordionDetails>
+              );
+            })}
+          </Accordion>
         );
       })}
     </>

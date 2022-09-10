@@ -35,7 +35,8 @@ const ModalBox = (props) => {
 
   /** 登録ボタン押下 */
   const registerTransaction = () => {
-    closeModalWindow();
+    console.log(transaction);
+    // closeModalWindow();
   };
 
   /** 金額入力 */
@@ -142,6 +143,8 @@ const ModalBox = (props) => {
                 ? 0
                 : transaction.transactionAmount
             }
+            transaction={transaction}
+            setTransaction={setTransaction}
           />
           <div className="amount-group">
             <span className="input-span">金額</span>
@@ -149,6 +152,7 @@ const ModalBox = (props) => {
               <TextField
                 id="standard-basic"
                 variant="standard"
+                autoComplete="off"
                 fullWidth={true}
                 inputProps={{
                   style: {

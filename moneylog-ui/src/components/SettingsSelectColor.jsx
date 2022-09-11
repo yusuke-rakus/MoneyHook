@@ -42,7 +42,7 @@ const SettingsSelectColor = (props) => {
               key={i}
               onClick={() => selectColor(data)}
               style={{
-                background: "linear-gradient(" + data + ")",
+                background: `linear-gradient(${data})`,
                 border: data == themeColor ? "3px solid #2196f3" : "",
                 transform: data == themeColor ? "scale(1.2)" : "",
               }}

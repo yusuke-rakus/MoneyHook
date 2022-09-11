@@ -27,7 +27,7 @@ const Sidebar = (props) => {
         background:
           themeColor.length == 7
             ? themeColor
-            : "linear-gradient(" + themeColor + ")",
+            : `linear-gradient(${themeColor})`,
       }}
     >
       <ul className="sidebarList">
@@ -43,10 +43,10 @@ const Sidebar = (props) => {
               style={{
                 boxShadow:
                   isHover === key
-                    ? "inset 5px 5px 12px " +
-                      LightenDarkenColor(bgcolor, -20) +
-                      ", inset -5px -5px 12px " +
-                      LightenDarkenColor(bgcolor, 20)
+                    ? `inset 5px 5px 12px 
+                      ${LightenDarkenColor(bgcolor, -25)} 
+                      , inset -5px -5px 12px 
+                      ${LightenDarkenColor(bgcolor, 25)}`
                     : "",
               }}
             >

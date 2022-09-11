@@ -3,6 +3,7 @@ import React, { useState } from "react";
 import "./page_CSS/Settings.css";
 import "./page_CSS/common.css";
 /** 自作コンポーネント */
+import SettingsSelectColor from "../components/SettingsSelectColor";
 import SettingsFixed from "../components/SettingsFixed";
 /** 外部コンポーネント */
 import { TextField, Button, IconButton } from "@mui/material";
@@ -69,6 +70,28 @@ const Settings = () => {
     monthlyTransactionList.map((data) => {
       console.log(data);
     });
+  };
+
+  /** イメージカラーの選択 */
+  const colorList = {
+    themeColorCodeList: [
+      "#76d5ff",
+      "#607d8b",
+      "#212121",
+      "#43a047",
+      "#00acc1",
+      "#e53935",
+      "#8e24aa",
+    ],
+    themeColorGradientCodeList: [
+      "#355C7D, #C06C84",
+      "#11998e, #38ef7d",
+      "#108dc7, #ef8e38",
+      "#FC5C7D, #6A82FB",
+      "#74ebd5, #ACB6E5",
+      "#36D1DC, #5B86E5",
+      "#D9AFD9, #97D9E1",
+    ],
   };
 
   return (
@@ -154,6 +177,9 @@ const Settings = () => {
           </Button>
         </div>
       </div>
+
+      {/* カラーの選択 */}
+      <SettingsSelectColor colorList={colorList} />
     </div>
   );
 };

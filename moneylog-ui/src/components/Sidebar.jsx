@@ -1,6 +1,7 @@
 import React from "react";
 /** CSS */
 import "./components_CSS/Sidebar.css";
+/** 自作コンポーネント */
 /** 外部コンポーネント */
 import { SidebarData } from "./SidebarData";
 import { Link } from "react-router-dom";
@@ -25,13 +26,12 @@ const Sidebar = () => {
     "#FC5C7D, #6A82FB",
     "#74ebd5, #ACB6E5",
     "#36D1DC, #5B86E5",
+    "#D9AFD9, #97D9E1",
   ];
 
   const user = {
-    // themeColorCode: themeColorCodeList[0],
-    // themeColorGradientCode: "",
     themeColorCode: "",
-    themeColorGradientCode: themeColorGradientCodeList[0],
+    themeColorGradientCode: themeColorGradientCodeList[6],
   };
 
   if (!user.themeColorCode) {
@@ -48,6 +48,7 @@ const Sidebar = () => {
           ? "linear-gradient(" + user.themeColorGradientCode + ")"
           : user.themeColorCode,
       }}
+      // style={{ background: themeColorCode }}
     >
       <ul className="sidebarList">
         {SidebarData.map((value, key) => {

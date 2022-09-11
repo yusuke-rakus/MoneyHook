@@ -18,7 +18,8 @@ VALUES
     ('#108dc7, #ef8e38'),
     ('#FC5C7D, #6A82FB'),
     ('#74ebd5, #ACB6E5'),
-    ('#36D1DC, #5B86E5');
+    ('#36D1DC, #5B86E5'),
+    ('#D9AFD9, #97D9E1');
 
 -- ユーザー
 INSERT INTO

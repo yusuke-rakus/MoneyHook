@@ -4,7 +4,6 @@
   flex-shrink: 0;
   float: left;
   position: fixed;
-  /* background-color: #94deff; */
 }
 
 .sidebarList .row {
@@ -24,7 +23,6 @@
 .sidebarList .row:hover {
   cursor: pointer;
   border-radius: 10px;
-  /* background-color: #94deff; */
 }
 
 .row #icon {

@@ -1,17 +1,18 @@
 import React from "react";
+import { useCookies } from "react-cookie";
 /** CSS */
 import "./components_CSS/SettingsSelectColor.css";
 
 const SettingsSelectColor = (props) => {
   /** カラーリスト */
-  const { colorList } = props;
+  const { colorList, themeColor, setThemeColor } = props;
 
-  /** 選択されているカラー */
-  const selectedColor = "#D9AFD9, #97D9E1";
+  const [cookie, setCookie] = useCookies();
 
   /** カラー選択処理 */
   const selectColor = (colorCode) => {
-    console.log(colorCode);
+    setThemeColor(colorCode);
+    setCookie("themeColor", colorCode);
   };
 
   return (
@@ -26,8 +27,8 @@ const SettingsSelectColor = (props) => {
               onClick={() => selectColor(data)}
               style={{
                 background: data,
-                border: data == selectedColor ? "4px solid #2196f3" : "",
-                transform: data == selectedColor ? "scale(1.2)" : "",
+                border: data == themeColor ? "3px solid #2196f3" : "",
+                transform: data == themeColor ? "scale(1.2)" : "",
               }}
               className="colorBox"
             ></div>
@@ -42,8 +43,8 @@ const SettingsSelectColor = (props) => {
               onClick={() => selectColor(data)}
               style={{
                 background: "linear-gradient(" + data + ")",
-                border: data == selectedColor ? "4px solid #2196f3" : "",
-                transform: data == selectedColor ? "scale(1.2)" : "",
+                border: data == themeColor ? "3px solid #2196f3" : "",
+                transform: data == themeColor ? "scale(1.2)" : "",
               }}
               className="gradientColorBox"
             ></div>

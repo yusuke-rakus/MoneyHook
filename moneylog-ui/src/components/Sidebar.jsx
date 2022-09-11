@@ -8,34 +8,14 @@ import { Link } from "react-router-dom";
 import { useState } from "react";
 import { LightenDarkenColor } from "lighten-darken-color";
 
-const Sidebar = () => {
-  const themeColorCodeList = [
-    "#76d5ff",
-    "#607d8b",
-    "#212121",
-    "#43a047",
-    "#00acc1",
-    "#e53935",
-    "#8e24aa",
-  ];
+const Sidebar = (props) => {
+  const { themeColor } = props;
 
-  const themeColorGradientCodeList = [
-    "#355C7D, #C06C84",
-    "#11998e, #38ef7d",
-    "#108dc7, #ef8e38",
-    "#FC5C7D, #6A82FB",
-    "#74ebd5, #ACB6E5",
-    "#36D1DC, #5B86E5",
-    "#D9AFD9, #97D9E1",
-  ];
-
-  const user = {
-    themeColorCode: "",
-    themeColorGradientCode: themeColorGradientCodeList[6],
-  };
-
-  if (!user.themeColorCode) {
-    user.themeColorCode += user.themeColorGradientCode.slice(0, 7);
+  let bgcolor = "";
+  if (themeColor.length > 7) {
+    bgcolor = themeColor.slice(0, 7);
+  } else {
+    bgcolor = themeColor;
   }
 
   const [isHover, setHover] = useState("");
@@ -44,11 +24,11 @@ const Sidebar = () => {
     <div
       className="sidebar"
       style={{
-        background: user.themeColorGradientCode
-          ? "linear-gradient(" + user.themeColorGradientCode + ")"
-          : user.themeColorCode,
+        background:
+          themeColor.length == 7
+            ? themeColor
+            : "linear-gradient(" + themeColor + ")",
       }}
-      // style={{ background: themeColorCode }}
     >
       <ul className="sidebarList">
         {SidebarData.map((value, key) => {
@@ -61,16 +41,12 @@ const Sidebar = () => {
               onMouseEnter={() => setHover(key)}
               onMouseLeave={() => setHover("")}
               style={{
-                background:
-                  isHover === key
-                    ? LightenDarkenColor(user.themeColorCode, 0)
-                    : "",
                 boxShadow:
                   isHover === key
                     ? "inset 5px 5px 12px " +
-                      LightenDarkenColor(user.themeColorCode, -20) +
+                      LightenDarkenColor(bgcolor, -20) +
                       ", inset -5px -5px 12px " +
-                      LightenDarkenColor(user.themeColorCode, 20)
+                      LightenDarkenColor(bgcolor, 20)
                     : "",
               }}
             >

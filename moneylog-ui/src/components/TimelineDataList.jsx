@@ -18,13 +18,13 @@ const TimelineDataList = (props) => {
     <ul>
       <li className="transactionData" onClick={() => editTransactionData()}>
         <div className="transactionDate">
-          {new Date(timeline.transactionDate).getDate() + "日"}
+          {`${new Date(timeline.transactionDate).getDate()}日`}
         </div>
         <div className="transactionCategory">{timeline.categoryName}</div>
         <div className="transactionName">{timeline.transactionName}</div>
         <div className="transactionAmount">
-          {timeline.transactionAmount < 0 ? "- " : ""}
-          {"¥" + Math.abs(timeline.transactionAmount).toLocaleString()}
+          {timeline.transactionAmount < 0 ? "-" : ""}
+          {`${Math.abs(timeline.transactionAmount).toLocaleString()}円`}
         </div>
         <span>
           <ChevronRightIcon />

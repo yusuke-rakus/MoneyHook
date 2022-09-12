@@ -17,11 +17,11 @@ const SavingListData = (props) => {
     <ul>
       <li className="savingData" onClick={() => openEditModal()}>
         <div className="savingDate">
-          {new Date(saving.savingDate).getDate() + "日"}
+          {`${new Date(saving.savingDate).getDate()}日`}
         </div>
         <div className="savingName">{saving.savingName}</div>
         <div className="savingAmount">
-          {"¥" + saving.savingAmount.toLocaleString()}
+          {`¥${saving.savingAmount.toLocaleString()}`}
         </div>
         <span>
           <ChevronRightIcon />

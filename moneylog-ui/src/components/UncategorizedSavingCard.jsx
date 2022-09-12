@@ -9,7 +9,7 @@ const UncategorizedSavingCard = (props) => {
   return (
     <div className="uncategorizedSavingCard">
       <span>未分類の貯金額:</span>
-      <span>{"¥" + UncategorizedSavingAmount.toLocaleString()}</span>
+      <span>{`¥${UncategorizedSavingAmount.toLocaleString()}`}</span>
       <EditIcon className="edit-icon" />
     </div>
   );

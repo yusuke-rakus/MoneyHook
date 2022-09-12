@@ -108,9 +108,9 @@ const MonthlyFixed = () => {
             <Typography className="totalValueArea">
               <span className="totalValue">
                 <span>合計</span>
-                <span>{"¥" + Math.abs(totalFixedIncome).toLocaleString()}</span>
+                <span>{`¥${Math.abs(totalFixedIncome).toLocaleString()}`}</span>
                 <span>
-                  {"¥" + Math.abs(totalFixedSpending).toLocaleString()}
+                  {`¥${Math.abs(totalFixedSpending).toLocaleString()}`}
                 </span>
               </span>
             </Typography>

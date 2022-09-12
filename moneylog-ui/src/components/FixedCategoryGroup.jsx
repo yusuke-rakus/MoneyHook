@@ -37,7 +37,7 @@ const FixedCategoryGroup = (props) => {
                 >
                   <span>{data.categoryName}</span>
                   <span>
-                    {"¥ " + Math.abs(data.totalCategoryAmount).toLocaleString()}
+                    {`¥ ${Math.abs(data.totalCategoryAmount).toLocaleString()}`}
                   </span>
                 </span>
               </Typography>
@@ -61,10 +61,9 @@ const FixedCategoryGroup = (props) => {
                     >
                       <span>{transactionData.transactionName}</span>
                       <span>
-                        {"¥ " +
-                          Math.abs(
-                            transactionData.transactionAmount
-                          ).toLocaleString()}
+                        {`¥ ${Math.abs(
+                          transactionData.transactionAmount
+                        ).toLocaleString()}`}
                       </span>
                     </span>
                   </Typography>

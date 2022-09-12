@@ -56,7 +56,7 @@ const SwitchBalanceButton = (props) => {
       <input
         onChange={handleChange}
         type="checkbox"
-        id={"switch-box" + id}
+        id={`switch-box${id}`}
         value={switchBalance.value}
         name={id && id}
       />
@@ -77,7 +77,7 @@ const SwitchBalanceButton = (props) => {
       </div>
       <label
         style={{ transform: switchBalance.labelTraslateX }}
-        htmlFor={"switch-box" + id}
+        htmlFor={`switch-box${id}`}
       >
         {switchBalance.text}
       </label>

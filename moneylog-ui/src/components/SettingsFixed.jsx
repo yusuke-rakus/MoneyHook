@@ -69,7 +69,7 @@ const SettingsFixed = (props) => {
           }}
         >
           {data.categoryName !== null
-            ? data.categoryName + "/" + data.subCategoryName
+            ? `${data.categoryName}/${data.subCategoryName}`
             : "カテゴリ選択"}
         </Button>
       </div>

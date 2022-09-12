@@ -33,26 +33,28 @@ const Sidebar = (props) => {
       <ul className="sidebarList">
         {SidebarData.map((value, key) => {
           return (
-            <Link
-              to={value.link}
-              key={key}
-              id={window.location.pathname === value.link ? "active" : ""}
-              className={"row" + (value.heading ? " heading" : "")}
-              onMouseEnter={() => setHover(key)}
-              onMouseLeave={() => setHover("")}
-              style={{
-                boxShadow:
-                  isHover === key
-                    ? `inset 5px 5px 12px 
+            <li>
+              <Link
+                to={value.link}
+                key={key}
+                id={window.location.pathname === value.link ? "active" : ""}
+                className={"row" + (value.heading ? " heading" : "")}
+                onMouseEnter={() => setHover(key)}
+                onMouseLeave={() => setHover("")}
+                style={{
+                  boxShadow:
+                    isHover === key
+                      ? `inset 5px 5px 12px 
                       ${LightenDarkenColor(bgcolor, -25)} 
                       , inset -5px -5px 12px 
                       ${LightenDarkenColor(bgcolor, 25)}`
-                    : "",
-              }}
-            >
-              <div id="icon">{value.icon}</div>
-              <div id="title">{value.title}</div>
-            </Link>
+                      : "",
+                }}
+              >
+                <div id="icon">{value.icon}</div>
+                <div id="title">{value.title}</div>
+              </Link>
+            </li>
           );
         })}
       </ul>

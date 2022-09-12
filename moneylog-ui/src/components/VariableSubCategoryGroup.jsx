@@ -25,7 +25,9 @@ const VariableSubCategoryGroup = (props) => {
                 <span className="variableSubCategoryData">
                   <span>{data.subCategoryName}</span>
                   <span>
-                    {`¥${data.subCategoryTotalAmount.toLocaleString()}`}
+                    {`¥${Math.abs(
+                      data.subCategoryTotalAmount
+                    ).toLocaleString()}`}
                   </span>
                 </span>
               </Typography>
@@ -37,7 +39,9 @@ const VariableSubCategoryGroup = (props) => {
                     <span className="variableTransactionData">
                       <span>{transactionData.transactionName}</span>
                       <span>
-                        {`¥${transactionData.transactionAmount.toLocaleString()}`}
+                        {`¥${Math.abs(
+                          transactionData.transactionAmount
+                        ).toLocaleString()}`}
                       </span>
                     </span>
                   </Typography>

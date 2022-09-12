@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 /** CSS */
 import "./page_CSS/Timeline.css";
 import "./page_CSS/common.css";
@@ -29,12 +29,14 @@ const Timeline = () => {
     useState("支出または収入の入力");
 
   /** グラフデータ */
+  const [graphData, setGraphData] = useState([]);
+  const [graphMonth, setGraphMonth] = useState([]);
   const data = {
-    labels: ["7月", "8月", "9月", "10月", "11月", "12月"],
+    labels: graphMonth,
     datasets: [
       // 表示するデータセット
       {
-        data: [220000, 170000, 240000, 190000, 200000, 180000],
+        data: graphData,
         backgroundColor: "#03A9F4",
         label: "月別支出推移",
       },
@@ -74,41 +76,41 @@ const Timeline = () => {
 
   /** タイムラインデータ */
   const [timelineDataList, setTimelineDataList] = useState([
-    {
-      transactionId: 1,
-      transactionDate: "2022-07-2",
-      categoryName: "分類1",
-      subCategoryName: "小類1",
-      transactionName: "取引名1",
-      transactionAmount: -20000,
-    },
-    {
-      transactionId: 2,
-      transactionDate: "2022-07-25",
-      categoryName: "分類2",
-      subCategoryName: "小類2",
-      transactionName: "取引名2",
-      transactionAmount: -40000,
-    },
-    {
-      transactionId: 3,
-      transactionDate: "2022-07-25",
-      categoryName: "分類3",
-      subCategoryName: "小類3",
-      transactionName: "取引名3",
-      transactionAmount: -40000,
-    },
-    {
-      transactionId: 4,
-      transactionDate: "2022-07-30",
-      categoryName: "分類4",
-      subCategoryName: "小類4",
-      transactionName: "取引名4",
-      transactionAmount: 30000,
-    },
+    // {
+    //   transactionId: 1,
+    //   transactionDate: "2022-07-2",
+    //   categoryName: "分類1",
+    //   subCategoryName: "小類1",
+    //   transactionName: "取引名1",
+    //   transactionAmount: -20000,
+    // },
+    // {
+    //   transactionId: 2,
+    //   transactionDate: "2022-07-25",
+    //   categoryName: "分類2",
+    //   subCategoryName: "小類2",
+    //   transactionName: "取引名2",
+    //   transactionAmount: -40000,
+    // },
+    // {
+    //   transactionId: 3,
+    //   transactionDate: "2022-07-25",
+    //   categoryName: "分類3",
+    //   subCategoryName: "小類3",
+    //   transactionName: "取引名3",
+    //   transactionAmount: -40000,
+    // },
+    // {
+    //   transactionId: 4,
+    //   transactionDate: "2022-07-30",
+    //   categoryName: "分類4",
+    //   subCategoryName: "小類4",
+    //   transactionName: "取引名4",
+    //   transactionAmount: 30000,
+    // },
   ]);
 
-  const [sortCd, setSortCd] = React.useState(1);
+  const [sortCd, setSortCd] = useState(2);
 
   function compareDate(a, b) {
     if (a.transactionDate !== b.transactionDate) {
@@ -169,17 +171,54 @@ const Timeline = () => {
   /** モーダルウィンドウ */
   const [modalWindow, setModalWindow] = useState(false);
   /** 登録用データ */
-  const [transaction, setTransaction] = useState({
-    // userId: "",
-    // transactionDate: "",
-    // transactionAmount: "",
-    // transactionName: "",
-    // categoryId: "",
-    // categoryName: "",
-    // subCategoryId: "",
-    // subCategoryName: "",
-    // fixedFlg: "",
-  });
+  const [transaction, setTransaction] = useState({});
+
+  /** API関連 */
+  const rootURI = "http://localhost:8080";
+
+  // 当月のTransactionを取得
+  useEffect(() => {
+    fetch(`${rootURI}/transaction/getTimelineData`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        userId: "a77a6e94-6aa2-47ea-87dd-129f580fb669",
+        month: "2022-06-01",
+      }),
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        if (data.status == "success") {
+          setTimelineDataList(data.transactionList);
+        }
+      });
+  }, [setTimelineDataList]);
+
+  // 6ヶ月分の合計支出を取得
+  useEffect(() => {
+    fetch(`${rootURI}/transaction/getMonthlySpendingData`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        userId: "a77a6e94-6aa2-47ea-87dd-129f580fb669",
+        month: "2022-06-01",
+      }),
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        if (data.status == "success") {
+          setGraphData(data.monthlyTotalAmountList.map((d) => d.totalAmount));
+          setGraphMonth(
+            data.monthlyTotalAmountList.map((d) => `${Number(d.month)}月`)
+          );
+          console.log(data.monthlyTotalAmountList);
+        }
+      });
+  }, [setGraphData]);
 
   return (
     <div className="container">

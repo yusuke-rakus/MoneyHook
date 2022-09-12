@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 /** CSS */
 import "./page_CSS/SavingList.css";
 import "./page_CSS/common.css";
@@ -19,29 +19,42 @@ const SavingList = () => {
   let date = new Date();
   let formatday = `${date.getFullYear()}-${date.getMonth() + 1}-1`;
 
-  const totalSavingAmount = 1500000;
+  const [totalSavingAmount, setTotalSavingAmount] = useState(0);
 
-  const savingDataList = [
-    {
-      savingDate: "2022-07-25",
-      savingName: "タバコ",
-      savingAmount: 500,
-    },
-    {
-      savingDate: "2022-07-25",
-      savingName: "電車代",
-      savingAmount: 200,
-    },
-    {
-      savingDate: "2022-07-25",
-      savingName: "ジュース",
-      savingAmount: 300,
-    },
-  ];
+  const [savingDataList, setSavingDataList] = useState([]);
 
   const [saving, setSaving] = useState({});
 
   const [savingTitle, setSavingTitle] = useState("貯金を追加");
+
+  /** API関連 */
+  const rootURI = "http://localhost:8080";
+
+  // 月別固定収入の取得
+  useEffect(() => {
+    fetch(`${rootURI}/saving/getMonthlySavingData`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        userId: "a77a6e94-6aa2-47ea-87dd-129f580fb669",
+        month: "2022-06-01",
+      }),
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        if (data.status == "success") {
+          setSavingDataList(data.savingList);
+          setTotalSavingAmount(
+            data.savingList.reduce(
+              (sum, element) => sum + element.savingAmount,
+              0
+            )
+          );
+        }
+      });
+  }, [setSavingDataList]);
 
   return (
     <div className="container">

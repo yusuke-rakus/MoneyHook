@@ -24,7 +24,9 @@ const HomeAccodion = (props) => {
         <Typography className="categoryGroup">
           <span className="text">{homeAccodionData.categoryName}</span>
           <span className="text">
-            {`¥${Math.abs(homeAccodionData.categoryAmount).toLocaleString()}`}
+            {`¥${Math.abs(
+              homeAccodionData.categoryTotalAmount
+            ).toLocaleString()}`}
           </span>
         </Typography>
       </AccordionSummary>
@@ -36,7 +38,7 @@ const HomeAccodion = (props) => {
                 <span>{subCategoryData.subCategoryName}</span>
                 <span>
                   {`¥${Math.abs(
-                    subCategoryData.subCategoryAmount
+                    subCategoryData.subCategoryTotalAmount
                   ).toLocaleString()}`}
                 </span>
               </span>

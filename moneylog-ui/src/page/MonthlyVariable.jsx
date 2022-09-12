@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 /** CSS */
 import "./page_CSS/MonthlyVariable.css";
 import "./page_CSS/common.css";
@@ -13,141 +13,33 @@ const MonthlyVariable = () => {
   let date = new Date();
   let formatday = `${date.getFullYear()}-${date.getMonth() + 1}-1`;
 
-  const monthlyTotalVariable = 38000;
+  const [monthlyTotalVariable, setMonthlyTotalVariable] = useState(0);
 
-  const variableCategoryData = [
-    {
-      categoryName: "趣味",
-      categoryTotalAmount: 20000,
-      subCategoryList: [
-        {
-          subCategoryName: "園芸",
-          subCategoryTotalAmount: 10000,
-          transactionList: [
-            { transactionName: "盆栽", transactionAmount: 4000 },
-          ],
-        },
-        {
-          subCategoryName: "スポーツ",
-          subCategoryTotalAmount: 10000,
-          transactionList: [
-            { transactionName: "ゲートボール", transactionAmount: 8000 },
-            { transactionName: "少林寺拳法", transactionAmount: 2000 },
-          ],
-        },
-      ],
-    },
-    {
-      categoryName: "ショッピング",
-      categoryTotalAmount: 18000,
-      subCategoryList: [
-        {
-          subCategoryName: "調理器具",
-          subCategoryTotalAmount: 8000,
-          transactionList: [
-            { transactionName: "ボウル", transactionAmount: 2000 },
-            { transactionName: "フライパン", transactionAmount: 8000 },
-          ],
-        },
-        {
-          subCategoryName: "自転車用品",
-          subCategoryTotalAmount: 7000,
-          transactionList: [
-            { transactionName: "タイヤチューブ", transactionAmount: 3000 },
-            { transactionName: "サドル", transactionAmount: 4000 },
-          ],
-        },
-      ],
-    },
-    {
-      categoryName: "ショッピング",
-      categoryTotalAmount: 18000,
-      subCategoryList: [
-        {
-          subCategoryName: "調理器具",
-          subCategoryTotalAmount: 8000,
-          transactionList: [
-            { transactionName: "ボウル", transactionAmount: 2000 },
-            { transactionName: "フライパン", transactionAmount: 8000 },
-          ],
-        },
-        {
-          subCategoryName: "自転車用品",
-          subCategoryTotalAmount: 7000,
-          transactionList: [
-            { transactionName: "タイヤチューブ", transactionAmount: 3000 },
-            { transactionName: "サドル", transactionAmount: 4000 },
-          ],
-        },
-      ],
-    },
-    {
-      categoryName: "ショッピング",
-      categoryTotalAmount: 18000,
-      subCategoryList: [
-        {
-          subCategoryName: "調理器具",
-          subCategoryTotalAmount: 8000,
-          transactionList: [
-            { transactionName: "ボウル", transactionAmount: 2000 },
-            { transactionName: "フライパン", transactionAmount: 8000 },
-          ],
-        },
-        {
-          subCategoryName: "自転車用品",
-          subCategoryTotalAmount: 7000,
-          transactionList: [
-            { transactionName: "タイヤチューブ", transactionAmount: 3000 },
-            { transactionName: "サドル", transactionAmount: 4000 },
-          ],
-        },
-      ],
-    },
-    {
-      categoryName: "ショッピング",
-      categoryTotalAmount: 18000,
-      subCategoryList: [
-        {
-          subCategoryName: "調理器具",
-          subCategoryTotalAmount: 8000,
-          transactionList: [
-            { transactionName: "ボウル", transactionAmount: 2000 },
-            { transactionName: "フライパン", transactionAmount: 8000 },
-          ],
-        },
-        {
-          subCategoryName: "自転車用品",
-          subCategoryTotalAmount: 7000,
-          transactionList: [
-            { transactionName: "タイヤチューブ", transactionAmount: 3000 },
-            { transactionName: "サドル", transactionAmount: 4000 },
-          ],
-        },
-      ],
-    },
-    {
-      categoryName: "ショッピング",
-      categoryTotalAmount: 18000,
-      subCategoryList: [
-        {
-          subCategoryName: "調理器具",
-          subCategoryTotalAmount: 8000,
-          transactionList: [
-            { transactionName: "ボウル", transactionAmount: 2000 },
-            { transactionName: "フライパン", transactionAmount: 8000 },
-          ],
-        },
-        {
-          subCategoryName: "自転車用品",
-          subCategoryTotalAmount: 7000,
-          transactionList: [
-            { transactionName: "タイヤチューブ", transactionAmount: 3000 },
-            { transactionName: "サドル", transactionAmount: 4000 },
-          ],
-        },
-      ],
-    },
-  ];
+  const [variableCategoryData, setVariableCategoryData] = useState([]);
+
+  /** API関連 */
+  const rootURI = "http://localhost:8080";
+
+  // 当月の変動費を取得
+  useEffect(() => {
+    fetch(`${rootURI}/transaction/getMonthlyVariableData`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        userId: "a77a6e94-6aa2-47ea-87dd-129f580fb669",
+        month: "2022-06-01",
+      }),
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        if (data.status == "success") {
+          setVariableCategoryData(data.monthlyVariableList);
+          setMonthlyTotalVariable(data.totalVariable);
+        }
+      });
+  }, [setVariableCategoryData]);
 
   return (
     <div className="container">
@@ -161,7 +53,7 @@ const MonthlyVariable = () => {
       {/* 変動費合計 */}
       <div className="monthlyVariableTitleArea">
         <span>変動費合計</span>
-        <span>{monthlyTotalVariable.toLocaleString()}</span>
+        <span>{Math.abs(monthlyTotalVariable).toLocaleString()}</span>
       </div>
 
       {/* 変動費データ */}

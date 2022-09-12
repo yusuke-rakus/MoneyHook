@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 /** CSS */
 import "./page_CSS/Home.css";
 import "./page_CSS/common.css";
@@ -25,80 +25,80 @@ const Home = () => {
   const monthlyTotalAmount = -1000;
 
   /** アコーディオンデータ */
-  const homeAccodionDataList = [
-    {
-      categoryName: "住宅",
-      categoryAmount: -100000,
-      subCategoryList: [
-        {
-          subCategoryName: "家賃",
-          subCategoryAmount: -100000,
-        },
-      ],
-    },
-    {
-      categoryName: "食費",
-      categoryAmount: -75000,
-      subCategoryList: [
-        {
-          subCategoryName: "スーパー",
-          subCategoryAmount: -45000,
-        },
-        {
-          subCategoryName: "外食",
-          subCategoryAmount: -30000,
-        },
-      ],
-    },
-    {
-      categoryName: "趣味",
-      categoryAmount: -70000,
-      subCategoryList: [
-        {
-          subCategoryName: "旅行",
-          subCategoryAmount: -50000,
-        },
-        {
-          subCategoryName: "温泉",
-          subCategoryAmount: -10000,
-        },
-        {
-          subCategoryName: "スポーツ",
-          subCategoryAmount: -10000,
-        },
-      ],
-    },
-    {
-      categoryName: "ショッピング",
-      categoryAmount: -50000,
-      subCategoryList: [
-        {
-          subCategoryName: "調理器具",
-          subCategoryAmount: -50000,
-        },
-      ],
-    },
-    {
-      categoryName: "光熱費",
-      categoryAmount: -20000,
-      subCategoryList: [
-        {
-          subCategoryName: "電気代",
-          subCategoryAmount: -20000,
-        },
-      ],
-    },
-    {
-      categoryName: "返済",
-      categoryAmount: -10000,
-      subCategoryList: [
-        {
-          subCategoryName: "奨学金",
-          subCategoryAmount: -10000,
-        },
-      ],
-    },
-  ];
+  const [homeAccodionDataList, setHomeAccodionDataList] = useState([
+    // {
+    //   categoryName: "住宅",
+    //   categoryAmount: -100000,
+    //   subCategoryList: [
+    //     {
+    //       subCategoryName: "家賃",
+    //       subCategoryAmount: -100000,
+    //     },
+    //   ],
+    // },
+    // {
+    //   categoryName: "食費",
+    //   categoryAmount: -75000,
+    //   subCategoryList: [
+    //     {
+    //       subCategoryName: "スーパー",
+    //       subCategoryAmount: -45000,
+    //     },
+    //     {
+    //       subCategoryName: "外食",
+    //       subCategoryAmount: -30000,
+    //     },
+    //   ],
+    // },
+    // {
+    //   categoryName: "趣味",
+    //   categoryAmount: -70000,
+    //   subCategoryList: [
+    //     {
+    //       subCategoryName: "旅行",
+    //       subCategoryAmount: -50000,
+    //     },
+    //     {
+    //       subCategoryName: "温泉",
+    //       subCategoryAmount: -10000,
+    //     },
+    //     {
+    //       subCategoryName: "スポーツ",
+    //       subCategoryAmount: -10000,
+    //     },
+    //   ],
+    // },
+    // {
+    //   categoryName: "ショッピング",
+    //   categoryAmount: -50000,
+    //   subCategoryList: [
+    //     {
+    //       subCategoryName: "調理器具",
+    //       subCategoryAmount: -50000,
+    //     },
+    //   ],
+    // },
+    // {
+    //   categoryName: "光熱費",
+    //   categoryAmount: -20000,
+    //   subCategoryList: [
+    //     {
+    //       subCategoryName: "電気代",
+    //       subCategoryAmount: -20000,
+    //     },
+    //   ],
+    // },
+    // {
+    //   categoryName: "返済",
+    //   categoryAmount: -10000,
+    //   subCategoryList: [
+    //     {
+    //       subCategoryName: "奨学金",
+    //       subCategoryAmount: -10000,
+    //     },
+    //   ],
+    // },
+  ]);
 
   /** カラーリスト */
   const dataColorList = [
@@ -108,6 +108,14 @@ const Home = () => {
     "#f9a825",
     "#9575cd",
     "#bdbdbd",
+    "#0097a7",
+    "#9e9d24",
+    "#ab47bc",
+    "#3f51b5",
+    "#78909c",
+    "#8d6e63",
+    "#ef6c00",
+    "#26a69a",
   ];
 
   /** グラフデータ */
@@ -115,7 +123,7 @@ const Home = () => {
     labels: homeAccodionDataList.map((e) => e.categoryName),
     datasets: [
       {
-        data: homeAccodionDataList.map((e) => Math.abs(e.categoryAmount)),
+        data: homeAccodionDataList.map((e) => Math.abs(e.categoryTotalAmount)),
         backgroundColor: dataColorList,
         borderWidth: 0,
       },
@@ -136,6 +144,26 @@ const Home = () => {
 
   /** 登録用データ */
   const [transaction, setTransaction] = useState({});
+
+  /** API関連 */
+  const rootURI = "http://localhost:8080";
+
+  useEffect(() => {
+    fetch(`${rootURI}/transaction/getHome`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        userId: "a77a6e94-6aa2-47ea-87dd-129f580fb669",
+        month: "2022-06-01",
+      }),
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        setHomeAccodionDataList(data.categoryList);
+      });
+  }, [setHomeAccodionDataList]);
 
   return (
     <div className="container">

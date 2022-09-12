@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 /** CSS */
 import "./page_CSS/TotalSaving.css";
 import "./page_CSS/common.css";
@@ -12,52 +12,53 @@ import AddSharpIcon from "@mui/icons-material/AddSharp";
 import { Line } from "react-chartjs-2";
 import { CSSTransition } from "react-transition-group";
 
-/** グラフデータ */
-const data = {
-  labels: ["2月", "3月", "4月", "5月", "6月", "7月"],
-  datasets: [
-    {
-      label: "累計額",
-      borderColor: "#03A9F4",
-      pointBorderColor: "#03A9F4",
-      pointBackgroundColor: "#03A9F4",
-      data: [300, 1000, 2100, 3100, 3400, 4000, 4800],
-    },
-  ],
-};
+const TotalSaving = () => {
+  /** グラフデータ */
+  const [graphData, setGraphData] = useState([]);
+  const [graphMonth, setGraphMonth] = useState([]);
+  const data = {
+    labels: graphMonth,
+    datasets: [
+      {
+        label: "累計額",
+        borderColor: "#03A9F4",
+        pointBorderColor: "#03A9F4",
+        pointBackgroundColor: "#03A9F4",
+        data: graphData,
+      },
+    ],
+  };
 
-/** グラフオプション */
-const option = {
-  plugins: {
-    legend: {
-      display: false,
+  /** グラフオプション */
+  const option = {
+    plugins: {
+      legend: {
+        display: false,
+      },
     },
-  },
-  scales: {
-    x: {
-      ticks: {
-        font: {
-          size: 18,
+    scales: {
+      x: {
+        ticks: {
+          font: {
+            size: 18,
+          },
+        },
+        grid: {
+          display: false,
+          drawBorder: false,
         },
       },
-      grid: {
-        display: false,
-        drawBorder: false,
+      y: {
+        ticks: {
+          display: false,
+        },
+        grid: {
+          display: false,
+          drawBorder: false,
+        },
       },
     },
-    y: {
-      ticks: {
-        display: false,
-      },
-      grid: {
-        display: false,
-        drawBorder: false,
-      },
-    },
-  },
-};
-
-const TotalSaving = () => {
+  };
   const [windowStatus, setWindowStatus] = useState(false);
   // 貯金総額
   const totalSaving = 100000;
@@ -66,22 +67,7 @@ const TotalSaving = () => {
   const uncategorizedSavingAmount = 100000;
 
   // 貯金目標
-  const [savingTargetData, setSavingTargetData] = useState([
-    {
-      savingTargetId: 1,
-      savingTargetName: "沖縄旅行",
-      targetAmount: 100000,
-      savingCount: 4,
-      savingAmount: 50000,
-    },
-    {
-      savingTargetId: 2,
-      savingTargetName: "長野旅行",
-      targetAmount: 10000,
-      savingCount: 3,
-      savingAmount: 4000,
-    },
-  ]);
+  const [savingTargetData, setSavingTargetData] = useState([]);
 
   // 貯金目標ウィンドウのタイトル
   const [title, setTitle] = useState("貯金目標を追加");
@@ -96,6 +82,61 @@ const TotalSaving = () => {
       savingAmount: "",
     });
   };
+
+  /** API関連 */
+  const rootURI = "http://localhost:8080";
+
+  // 貯金目標リストの取得
+  useEffect(() => {
+    fetch(`${rootURI}/savingTarget/getSavingTargetList`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        userId: "a77a6e94-6aa2-47ea-87dd-129f580fb669",
+      }),
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        if (data.status == "success") {
+          // setSavingTargetData(data.savingTarget);
+          console.log("---------------");
+          console.log(data.savingTarget[0].savingTargetId);
+          console.log(data.savingTarget[0].savingTargetName);
+          console.log(data.savingTarget[0].targetAmount);
+          console.log(data.savingTarget[0].savingCount); // undefined
+          console.log(data.savingTarget[0].savingAmount); // undefined
+        }
+      });
+  }, [setSavingTargetData]);
+
+  // 貯金総額の取得
+  useEffect(() => {
+    fetch(`${rootURI}/saving/getTotalSaving`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        userId: "a77a6e94-6aa2-47ea-87dd-129f580fb669",
+        month: "2022-06-01",
+      }),
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        if (data.status == "success") {
+          setGraphData(
+            data.savingDataList.map((d) => d.monthlyTotalSavingAmount)
+          );
+          setGraphMonth(
+            data.savingDataList.map(
+              (d) => new Date(d.savingMonth).getMonth() + 1
+            )
+          );
+        }
+      });
+  }, [setGraphData]);
 
   return (
     <div className="container">

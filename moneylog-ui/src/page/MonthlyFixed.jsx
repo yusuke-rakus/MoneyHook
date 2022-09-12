@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 /** CSS */
 import "./page_CSS/MonthlyFixed.css";
 import "./page_CSS/common.css";
@@ -16,67 +16,58 @@ const MonthlyFixed = () => {
   let date = new Date();
   let formatday = `${date.getFullYear()}-${date.getMonth() + 1}-1`;
 
-  const monthlyTotalFixed = 100000;
+  const [totalFixedIncome, setTotalFixedIncome] = useState(0);
+  const [fixedIncomeCategoryData, setFixedIncomeCategoryData] = useState([]);
 
-  const totalFixedIncome = 250000;
-  const fixedIncomeCategoryData = [
-    {
-      categoryName: "給与",
-      totalCategoryAmount: 250000,
-      transactionList: [
-        {
-          transactionName: "会社給与",
-          transactionAmount: 200000,
-        },
-        {
-          transactionName: "副業収入",
-          transactionAmount: 50000,
-        },
-      ],
-    },
-  ];
+  const [totalFixedSpending, setTotalFixedSpending] = useState(0);
+  const [fixedSpendingCategoryData, setFixedSpendingCategoryData] = useState(
+    []
+  );
 
-  const totalFixedSpending = -141000;
-  const fixedSpendingCategoryData = [
-    {
-      categoryName: "家賃",
-      totalCategoryAmount: -100000,
-      transactionList: [
-        {
-          transactionName: "電気代",
-          transactionAmount: -100000,
-        },
-      ],
-    },
-    {
-      categoryName: "水道光熱費",
-      totalCategoryAmount: -21000,
-      transactionList: [
-        {
-          transactionName: "電気代",
-          transactionAmount: -10000,
-        },
-        {
-          transactionName: "ガス代",
-          transactionAmount: -10000,
-        },
-        {
-          transactionName: "水道代",
-          transactionAmount: -1000,
-        },
-      ],
-    },
-    {
-      categoryName: "返済",
-      totalCategoryAmount: -20000,
-      transactionList: [
-        {
-          transactionName: "奨学金",
-          transactionAmount: -20000,
-        },
-      ],
-    },
-  ];
+  /** API関連 */
+  const rootURI = "http://localhost:8080";
+
+  // 月別固定収入の取得
+  useEffect(() => {
+    fetch(`${rootURI}/transaction/getMonthlyFixedIncome`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        userId: "a77a6e94-6aa2-47ea-87dd-129f580fb669",
+        month: "2022-06-01",
+      }),
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        if (data.status == "success") {
+          setFixedIncomeCategoryData(data.monthlyFixedList);
+          setTotalFixedIncome(data.disposableIncome);
+        }
+      });
+  }, [setFixedSpendingCategoryData]);
+
+  // 月別固定支出の取得
+  useEffect(() => {
+    fetch(`${rootURI}/transaction/getMonthlyFixedSpending`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        userId: "a77a6e94-6aa2-47ea-87dd-129f580fb669",
+        month: "2022-06-01",
+      }),
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        if (data.status == "success") {
+          setFixedSpendingCategoryData(data.monthlyFixedList);
+          setTotalFixedSpending(data.disposableIncome);
+        }
+      });
+  }, [setFixedSpendingCategoryData]);
 
   return (
     <div className="container">
@@ -87,15 +78,17 @@ const MonthlyFixed = () => {
         <ArrowForwardIosIcon fontSize="large" className="switchMonthButton" />
       </div>
 
-      {/* 変動費合計 */}
+      {/* 可処分所得 */}
       <div className="monthlyFixedTitleArea">
-        <span>変動費合計</span>
+        <span>可処分所得額</span>
         <span
           style={
-            monthlyTotalFixed >= 0 ? { color: "#1B5E20" } : { color: "#B71C1C" }
+            totalFixedSpending + totalFixedIncome >= 0
+              ? { color: "#1B5E20" }
+              : { color: "#B71C1C" }
           }
         >
-          {monthlyTotalFixed.toLocaleString()}
+          {(totalFixedSpending + totalFixedIncome).toLocaleString()}
         </span>
       </div>
 

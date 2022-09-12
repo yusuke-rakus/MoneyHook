@@ -25,7 +25,9 @@ const VariableCategoryGroup = (props) => {
               <Typography className="variableCategoryGroup">
                 <span className="variableCategoryData">
                   <span>{data.categoryName}</span>
-                  <span>{`¥${data.categoryTotalAmount.toLocaleString()}`}</span>
+                  <span>{`¥${Math.abs(
+                    data.categoryTotalAmount
+                  ).toLocaleString()}`}</span>
                 </span>
               </Typography>
             </AccordionSummary>

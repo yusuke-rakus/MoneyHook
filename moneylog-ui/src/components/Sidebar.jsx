@@ -33,10 +33,9 @@ const Sidebar = (props) => {
       <ul className="sidebarList">
         {SidebarData.map((value, key) => {
           return (
-            <li>
+            <li key={key}>
               <Link
                 to={value.link}
-                key={key}
                 id={window.location.pathname === value.link ? "active" : ""}
                 className={"row" + (value.heading ? " heading" : "")}
                 onMouseEnter={() => setHover(key)}

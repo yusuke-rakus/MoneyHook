@@ -201,8 +201,11 @@
 			) sub_tran ON sub_tran.sub_category_id = t.sub_category_id
 		WHERE t.user_no = #{userNo}
 			AND t.transaction_date BETWEEN #{month} AND  DATE_ADD(#{month}, INTERVAL 1 MONTH)
+			AND 0 > t.transaction_amount
 		group by t.sub_category_id
-		ORDER BY t.sub_category_id;
+		ORDER BY
+			category_total_amount,
+			t.sub_category_id;
 	</select>
 	
 	<!-- 指定月の変動費用・変動費合計を取得 -->

@@ -64,7 +64,7 @@ const TotalSaving = () => {
   const totalSaving = 100000;
 
   // 未分類の貯金額
-  const uncategorizedSavingAmount = 100000;
+  const [uncategorizedSavingAmount, setUncategorizedSavingAmount] = useState(0);
 
   // 貯金目標
   const [savingTargetData, setSavingTargetData] = useState([]);
@@ -88,7 +88,7 @@ const TotalSaving = () => {
 
   // 貯金目標リストの取得
   useEffect(() => {
-    fetch(`${rootURI}/savingTarget/getSavingTargetList`, {
+    fetch(`${rootURI}/saving/getSavingAmountForTarget`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -100,13 +100,14 @@ const TotalSaving = () => {
       .then((res) => res.json())
       .then((data) => {
         if (data.status == "success") {
-          // setSavingTargetData(data.savingTarget);
-          console.log("---------------");
-          console.log(data.savingTarget[0].savingTargetId);
-          console.log(data.savingTarget[0].savingTargetName);
-          console.log(data.savingTarget[0].targetAmount);
-          console.log(data.savingTarget[0].savingCount); // undefined
-          console.log(data.savingTarget[0].savingAmount); // undefined
+          setUncategorizedSavingAmount(
+            data.uncategorizedSavingAmount == void 0
+              ? 0
+              : data.uncategorizedSavingAmount
+          );
+          setSavingTargetData(data.savingTargetList);
+
+          console.log(`undefined: ${data.savingTargetList[0].savingCount}`);
         }
       });
   }, [setSavingTargetData]);

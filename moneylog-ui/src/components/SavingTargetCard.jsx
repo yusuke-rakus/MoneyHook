@@ -46,14 +46,15 @@ const SavingTargetCard = (props) => {
               </tr>
               <tr>
                 <td>貯金回数</td>
-                <td>{savingTargetData.savingCount}</td>
+                {/* <td>{savingTargetData.savingCount}</td> */}
+                <td>dummy</td>
                 <td>回</td>
               </tr>
             </tbody>
           </table>
           <div className="saving-amount-area">
             <span>貯金額</span>
-            <p>{`¥ ${savingTargetData.savingAmount.toLocaleString()}`}</p>
+            <p>{`¥ ${savingTargetData.totalSavedAmount.toLocaleString()}`}</p>
           </div>
         </div>
       </Box>

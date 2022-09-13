@@ -13,6 +13,9 @@ import { Line } from "react-chartjs-2";
 import { CSSTransition } from "react-transition-group";
 
 const TotalSaving = () => {
+  /** 今月 */
+  const [date, setDate] = useState(new Date("2022-06-01").setDate(1));
+
   /** グラフデータ */
   const [graphData, setGraphData] = useState([]);
   const [graphMonth, setGraphMonth] = useState([]);
@@ -121,7 +124,7 @@ const TotalSaving = () => {
       },
       body: JSON.stringify({
         userId: "a77a6e94-6aa2-47ea-87dd-129f580fb669",
-        month: "2022-06-01",
+        month: date,
       }),
     })
       .then((res) => res.json())

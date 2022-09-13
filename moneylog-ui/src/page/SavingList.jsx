@@ -13,11 +13,11 @@ import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos";
 import { CSSTransition } from "react-transition-group";
 
 const SavingList = () => {
-  const [AddSavingStatus, setAddSavingStatus] = useState(false);
-
   /** 今月 */
-  let date = new Date();
-  let formatday = `${date.getFullYear()}-${date.getMonth() + 1}-1`;
+  const [date, setDate] = useState(new Date("2022-06-01"));
+  date.setDate(1);
+
+  const [AddSavingStatus, setAddSavingStatus] = useState(false);
 
   const [totalSavingAmount, setTotalSavingAmount] = useState(0);
 
@@ -39,7 +39,7 @@ const SavingList = () => {
       },
       body: JSON.stringify({
         userId: "a77a6e94-6aa2-47ea-87dd-129f580fb669",
-        month: "2022-06-01",
+        month: date,
       }),
     })
       .then((res) => res.json())
@@ -61,7 +61,8 @@ const SavingList = () => {
       {/* 月 */}
       <div className="month">
         <ArrowBackIosNewIcon fontSize="large" className="switchMonthButton" />
-        <span>{date.getMonth() + 1}月</span>
+        {/* <span>{date.getMonth() + 1}月</span> */}
+        <span>{1}月</span>
         <ArrowForwardIosIcon fontSize="large" className="switchMonthButton" />
       </div>
 

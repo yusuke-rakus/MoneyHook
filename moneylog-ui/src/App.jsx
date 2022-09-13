@@ -15,6 +15,7 @@ import { Routes, Route, BrowserRouter } from "react-router-dom";
 import { useCookies } from "react-cookie";
 
 const App = () => {
+  /** 背景色のリスト */
   const colorList = {
     themeColorCodeList: [
       "#76d5ff",

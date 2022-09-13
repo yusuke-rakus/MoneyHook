@@ -15,90 +15,17 @@ import { CSSTransition } from "react-transition-group";
 
 const Home = () => {
   /** 今月 */
-  let date = new Date();
-  let formatday = `${date.getFullYear()}-${date.getMonth() + 1}-1`;
+  const [date, setDate] = useState(new Date("2022-06-01"));
+  date.setDate(1);
 
   const [transactionTitle, setTransactionTitle] =
     useState("支出または収入の入力");
 
   /** 収支合計 */
-  const monthlyTotalAmount = -1000;
+  const [monthlyTotalAmount, setMonthlyTotalAmount] = useState(0);
 
   /** アコーディオンデータ */
-  const [homeAccodionDataList, setHomeAccodionDataList] = useState([
-    // {
-    //   categoryName: "住宅",
-    //   categoryAmount: -100000,
-    //   subCategoryList: [
-    //     {
-    //       subCategoryName: "家賃",
-    //       subCategoryAmount: -100000,
-    //     },
-    //   ],
-    // },
-    // {
-    //   categoryName: "食費",
-    //   categoryAmount: -75000,
-    //   subCategoryList: [
-    //     {
-    //       subCategoryName: "スーパー",
-    //       subCategoryAmount: -45000,
-    //     },
-    //     {
-    //       subCategoryName: "外食",
-    //       subCategoryAmount: -30000,
-    //     },
-    //   ],
-    // },
-    // {
-    //   categoryName: "趣味",
-    //   categoryAmount: -70000,
-    //   subCategoryList: [
-    //     {
-    //       subCategoryName: "旅行",
-    //       subCategoryAmount: -50000,
-    //     },
-    //     {
-    //       subCategoryName: "温泉",
-    //       subCategoryAmount: -10000,
-    //     },
-    //     {
-    //       subCategoryName: "スポーツ",
-    //       subCategoryAmount: -10000,
-    //     },
-    //   ],
-    // },
-    // {
-    //   categoryName: "ショッピング",
-    //   categoryAmount: -50000,
-    //   subCategoryList: [
-    //     {
-    //       subCategoryName: "調理器具",
-    //       subCategoryAmount: -50000,
-    //     },
-    //   ],
-    // },
-    // {
-    //   categoryName: "光熱費",
-    //   categoryAmount: -20000,
-    //   subCategoryList: [
-    //     {
-    //       subCategoryName: "電気代",
-    //       subCategoryAmount: -20000,
-    //     },
-    //   ],
-    // },
-    // {
-    //   categoryName: "返済",
-    //   categoryAmount: -10000,
-    //   subCategoryList: [
-    //     {
-    //       subCategoryName: "奨学金",
-    //       subCategoryAmount: -10000,
-    //     },
-    //   ],
-    // },
-  ]);
+  const [homeAccodionDataList, setHomeAccodionDataList] = useState([]);
 
   /** カラーリスト */
   const dataColorList = [
@@ -156,12 +83,13 @@ const Home = () => {
       },
       body: JSON.stringify({
         userId: "a77a6e94-6aa2-47ea-87dd-129f580fb669",
-        month: "2022-06-01",
+        month: date,
       }),
     })
       .then((res) => res.json())
       .then((data) => {
         setHomeAccodionDataList(data.categoryList);
+        setMonthlyTotalAmount(data.balance);
       });
   }, [setHomeAccodionDataList]);
 
@@ -176,7 +104,7 @@ const Home = () => {
 
       {/* 収支合計 */}
       <div className="monthlyTotalAmountTitleArea">
-        <span>変動費合計</span>
+        <span>合計支出</span>
         <span
           style={
             monthlyTotalAmount >= 0

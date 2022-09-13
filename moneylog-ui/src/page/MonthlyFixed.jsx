@@ -13,8 +13,8 @@ import Typography from "@mui/material/Typography";
 
 const MonthlyFixed = () => {
   /** 今月 */
-  let date = new Date();
-  let formatday = `${date.getFullYear()}-${date.getMonth() + 1}-1`;
+  const [date, setDate] = useState(new Date("2022-06-01"));
+  date.setDate(1);
 
   const [totalFixedIncome, setTotalFixedIncome] = useState(0);
   const [fixedIncomeCategoryData, setFixedIncomeCategoryData] = useState([]);
@@ -36,7 +36,7 @@ const MonthlyFixed = () => {
       },
       body: JSON.stringify({
         userId: "a77a6e94-6aa2-47ea-87dd-129f580fb669",
-        month: "2022-06-01",
+        month: date,
       }),
     })
       .then((res) => res.json())
@@ -57,7 +57,7 @@ const MonthlyFixed = () => {
       },
       body: JSON.stringify({
         userId: "a77a6e94-6aa2-47ea-87dd-129f580fb669",
-        month: "2022-06-01",
+        month: date,
       }),
     })
       .then((res) => res.json())

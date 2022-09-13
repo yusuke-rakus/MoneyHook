@@ -22,8 +22,8 @@ Chart.register(...registerables);
 
 const Timeline = () => {
   /** 今月 */
-  let date = new Date();
-  let formatday = `${date.getFullYear()}-${date.getMonth() + 1}-1`;
+  const [date, setDate] = useState(new Date("2022-06-01"));
+  date.setDate(1);
 
   const [transactionTitle, setTransactionTitle] =
     useState("支出または収入の入力");
@@ -75,40 +75,7 @@ const Timeline = () => {
   };
 
   /** タイムラインデータ */
-  const [timelineDataList, setTimelineDataList] = useState([
-    // {
-    //   transactionId: 1,
-    //   transactionDate: "2022-07-2",
-    //   categoryName: "分類1",
-    //   subCategoryName: "小類1",
-    //   transactionName: "取引名1",
-    //   transactionAmount: -20000,
-    // },
-    // {
-    //   transactionId: 2,
-    //   transactionDate: "2022-07-25",
-    //   categoryName: "分類2",
-    //   subCategoryName: "小類2",
-    //   transactionName: "取引名2",
-    //   transactionAmount: -40000,
-    // },
-    // {
-    //   transactionId: 3,
-    //   transactionDate: "2022-07-25",
-    //   categoryName: "分類3",
-    //   subCategoryName: "小類3",
-    //   transactionName: "取引名3",
-    //   transactionAmount: -40000,
-    // },
-    // {
-    //   transactionId: 4,
-    //   transactionDate: "2022-07-30",
-    //   categoryName: "分類4",
-    //   subCategoryName: "小類4",
-    //   transactionName: "取引名4",
-    //   transactionAmount: 30000,
-    // },
-  ]);
+  const [timelineDataList, setTimelineDataList] = useState([]);
 
   const [sortCd, setSortCd] = useState(2);
 
@@ -185,7 +152,7 @@ const Timeline = () => {
       },
       body: JSON.stringify({
         userId: "a77a6e94-6aa2-47ea-87dd-129f580fb669",
-        month: "2022-06-01",
+        month: date,
       }),
     })
       .then((res) => res.json())
@@ -205,7 +172,7 @@ const Timeline = () => {
       },
       body: JSON.stringify({
         userId: "a77a6e94-6aa2-47ea-87dd-129f580fb669",
-        month: "2022-06-01",
+        month: date,
       }),
     })
       .then((res) => res.json())
@@ -215,7 +182,6 @@ const Timeline = () => {
           setGraphMonth(
             data.monthlyTotalAmountList.map((d) => `${Number(d.month)}月`)
           );
-          console.log(data.monthlyTotalAmountList);
         }
       });
   }, [setGraphData]);

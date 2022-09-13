@@ -10,8 +10,8 @@ import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos";
 
 const MonthlyVariable = () => {
   /** 今月 */
-  let date = new Date();
-  let formatday = `${date.getFullYear()}-${date.getMonth() + 1}-1`;
+  const [date, setDate] = useState(new Date("2022-06-01"));
+  date.setDate(1);
 
   const [monthlyTotalVariable, setMonthlyTotalVariable] = useState(0);
 
@@ -29,7 +29,7 @@ const MonthlyVariable = () => {
       },
       body: JSON.stringify({
         userId: "a77a6e94-6aa2-47ea-87dd-129f580fb669",
-        month: "2022-06-01",
+        month: date,
       }),
     })
       .then((res) => res.json())

@@ -89,7 +89,7 @@
 		AND
 			transaction_date 
 				BETWEEN DATE_SUB(#{month}, INTERVAL 5 MONTH)
-				AND  DATE_ADD(#{month}, INTERVAL 1 MONTH)
+				AND LAST_DAY(#{month})
 		GROUP BY month
 		LIMIT 6;
 	</select>
@@ -120,7 +120,7 @@
 		AND
 			t.transaction_date 
 				BETWEEN #{month}
-				AND  DATE_ADD(#{month}, INTERVAL 1 MONTH)
+				AND LAST_DAY(#{month})
 		AND
 			0 > transaction_amount
 		AND t.fixed_flg = true
@@ -143,7 +143,7 @@
 		AND
 			t.transaction_date 
 				BETWEEN #{month}
-				AND  DATE_ADD(#{month}, INTERVAL 1 MONTH)
+				AND LAST_DAY(#{month})
 		AND
 			transaction_amount > 0
 		AND t.fixed_flg = true
@@ -164,7 +164,7 @@
 		WHERE user_no = #{userNo}
 		AND 0 > t.transaction_amount
 		AND t.transaction_date 
-			BETWEEN #{month} AND  DATE_ADD(#{month}, INTERVAL 1 MONTH)
+			BETWEEN #{month} AND LAST_DAY(#{month})
 		ORDER BY t.transaction_date DESC;
 	</select>
 	
@@ -196,11 +196,11 @@
 				FROM transaction st
 				INNER JOIN sub_category ssc ON ssc.sub_category_id = st.sub_category_id
 				WHERE st.user_no = #{userNo}
-				AND st.transaction_date BETWEEN #{month} AND  DATE_ADD(#{month}, INTERVAL 1 MONTH)
+				AND st.transaction_date BETWEEN #{month} AND LAST_DAY(#{month})
 				GROUP BY st.sub_category_id
 			) sub_tran ON sub_tran.sub_category_id = t.sub_category_id
 		WHERE t.user_no = #{userNo}
-			AND t.transaction_date BETWEEN #{month} AND  DATE_ADD(#{month}, INTERVAL 1 MONTH)
+			AND t.transaction_date BETWEEN #{month} AND LAST_DAY(#{month})
 			AND 0 > t.transaction_amount
 		group by t.sub_category_id
 		ORDER BY
@@ -239,18 +239,18 @@
 			SELECT transaction_id, transaction_name, transaction_amount
 			FROM transaction
 			WHERE user_no=#{userNo}
-			AND transaction_date BETWEEN #{month} AND  DATE_ADD(#{month}, INTERVAL 1 MONTH)
+			AND transaction_date BETWEEN #{month} AND LAST_DAY(#{month})
 			) tran_list ON tran_list.transaction_id = t.transaction_id
 		RIGHT JOIN (
 			SELECT t.sub_category_id, sc.sub_category_name, SUM(t.transaction_amount) AS sub_category_total_amount
 			FROM transaction t
 			INNER JOIN sub_category sc ON t.sub_category_id = sc.sub_category_id
 			WHERE t.user_no=#{userNo}
-			AND transaction_date BETWEEN #{month} AND DATE_ADD(#{month}, INTERVAL 1 MONTH)
+			AND transaction_date BETWEEN #{month} AND LAST_DAY(#{month})
 			GROUP BY t.sub_category_id
 			) sub_clist ON sub_clist.sub_category_id = t.sub_category_id
 		WHERE t.user_no=#{userNo}
-		AND transaction_date BETWEEN #{month} AND  DATE_ADD(#{month}, INTERVAL 1 MONTH)
+		AND transaction_date BETWEEN #{month} AND LAST_DAY(#{month})
 		AND 0 > t.transaction_amount
 		AND t.fixed_flg = false
 		ORDER BY category_total_amount, sub_category_total_amount, transaction_amount;

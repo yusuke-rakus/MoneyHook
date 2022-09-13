@@ -16,7 +16,7 @@
 		WHERE s.user_no = #{userNo} 
 		AND s.saving_date 
 				BETWEEN #{month} 
-				AND  DATE_ADD(#{month}, INTERVAL 1 MONTH)
+				AND LAST_DAY(#{month})
 		ORDER BY s.saving_date desc ,saving_target_id
 	</select>
 

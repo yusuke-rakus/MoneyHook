@@ -62,7 +62,7 @@ const SavingList = () => {
       <div className="month">
         <ArrowBackIosNewIcon fontSize="large" className="switchMonthButton" />
         {/* <span>{date.getMonth() + 1}月</span> */}
-        <span>{1}月</span>
+        <span>{date.getMonth() + 1}月</span>
         <ArrowForwardIosIcon fontSize="large" className="switchMonthButton" />
       </div>
 

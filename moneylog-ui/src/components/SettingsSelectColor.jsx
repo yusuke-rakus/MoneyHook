@@ -15,25 +15,6 @@ const SettingsSelectColor = (props) => {
     setCookie("themeColor", colorCode);
   };
 
-  /** API関連 */
-  const rootURI = "http://localhost:8080";
-
-  fetch(`${rootURI}/user/login`, {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify({
-      email: "sample@sample.com",
-      password: "passworda",
-    }),
-  })
-    .then((res) => res.json())
-    .then((data) => {
-      console.log(data.status);
-      console.log("Settings");
-    });
-
   return (
     <div className="containerBox">
       <p className="settingsTitle">イメージカラーを選択</p>

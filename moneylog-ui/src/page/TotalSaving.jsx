@@ -109,8 +109,6 @@ const TotalSaving = () => {
               : data.uncategorizedSavingAmount
           );
           setSavingTargetData(data.savingTargetList);
-
-          console.log(`undefined: ${data.savingTargetList[0].savingCount}`);
         }
       });
   }, [setSavingTargetData]);

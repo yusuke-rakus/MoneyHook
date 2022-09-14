@@ -14,8 +14,8 @@ import { CSSTransition } from "react-transition-group";
 
 const SavingList = () => {
   /** 今月 */
-  const [date, setDate] = useState(new Date("2022-06-01"));
-  date.setDate(1);
+  const [sysDate, setSysDate] = useState(new Date("2022-06-01"));
+  sysDate.setDate(1);
 
   const [AddSavingStatus, setAddSavingStatus] = useState(false);
 
@@ -30,8 +30,8 @@ const SavingList = () => {
   /** API関連 */
   const rootURI = "http://localhost:8080";
 
-  // 月別固定収入の取得
-  useEffect(() => {
+  const getInit = (month) => {
+    // 月別固定収入の取得
     fetch(`${rootURI}/saving/getMonthlySavingData`, {
       method: "POST",
       headers: {
@@ -39,7 +39,7 @@ const SavingList = () => {
       },
       body: JSON.stringify({
         userId: "a77a6e94-6aa2-47ea-87dd-129f580fb669",
-        month: date,
+        month: month,
       }),
     })
       .then((res) => res.json())
@@ -54,16 +54,39 @@ const SavingList = () => {
           );
         }
       });
+  };
+
+  /** 前月データを取得 */
+  const getPastMonth = () => {
+    let tempDate = new Date(sysDate);
+    tempDate.setMonth(tempDate.getMonth() - 1);
+    setSysDate(tempDate);
+    getInit(tempDate);
+  };
+
+  /** 次月データを取得 */
+  const getForwardMonth = () => {
+    let tempDate = new Date(sysDate);
+    tempDate.setMonth(tempDate.getMonth() + 1);
+    setSysDate(tempDate);
+    getInit(tempDate);
+  };
+
+  useEffect(() => {
+    getInit(sysDate);
   }, [setSavingDataList]);
 
   return (
     <div className="container">
       {/* 月 */}
       <div className="month">
-        <ArrowBackIosNewIcon fontSize="large" className="switchMonthButton" />
-        {/* <span>{date.getMonth() + 1}月</span> */}
-        <span>{date.getMonth() + 1}月</span>
-        <ArrowForwardIosIcon fontSize="large" className="switchMonthButton" />
+        <span onClick={getPastMonth}>
+          <ArrowBackIosNewIcon fontSize="large" className="switchMonthButton" />
+        </span>
+        <span>{sysDate.getMonth() + 1}月</span>
+        <span onClick={getForwardMonth}>
+          <ArrowForwardIosIcon fontSize="large" className="switchMonthButton" />
+        </span>
       </div>
 
       {/* 今月の貯金額 */}

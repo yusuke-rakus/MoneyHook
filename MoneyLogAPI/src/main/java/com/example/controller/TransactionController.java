@@ -187,7 +187,7 @@ public class TransactionController {
 	@PostMapping("/getTimelineData")
 	public GetTimelineDataResponse getMonthlyFixedIncome(@RequestBody GetTimelineDataForm form) throws SystemException {
 		GetTimelineDataResponse res = new GetTimelineDataResponse();
-
+		System.out.println(form.getMonth());
 		// ユーザー認証
 		Long userNo = authenticationService.authUser(form);
 		form.setUserNo(userNo);
@@ -203,6 +203,7 @@ public class TransactionController {
 	@PostMapping("/getHome")
 	public GetHomeResponse getHome(@RequestBody GetHomeForm form) throws SystemException {
 		GetHomeResponse res = new GetHomeResponse();
+		System.out.println(form.getMonth());
 
 		// ユーザー認証
 		Long userNo = authenticationService.authUser(form);

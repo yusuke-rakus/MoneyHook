@@ -13,8 +13,8 @@ import Typography from "@mui/material/Typography";
 
 const MonthlyFixed = () => {
   /** 今月 */
-  const [date, setDate] = useState(new Date("2022-06-01"));
-  date.setDate(1);
+  const [sysDate, setSysDate] = useState(new Date("2022-06-01"));
+  sysDate.setDate(1);
 
   const [totalFixedIncome, setTotalFixedIncome] = useState(0);
   const [fixedIncomeCategoryData, setFixedIncomeCategoryData] = useState([]);
@@ -27,8 +27,8 @@ const MonthlyFixed = () => {
   /** API関連 */
   const rootURI = "http://localhost:8080";
 
-  // 月別固定収入の取得
-  useEffect(() => {
+  const getInit = (month) => {
+    // 月別固定収入の取得
     fetch(`${rootURI}/transaction/getMonthlyFixedIncome`, {
       method: "POST",
       headers: {
@@ -36,7 +36,7 @@ const MonthlyFixed = () => {
       },
       body: JSON.stringify({
         userId: "a77a6e94-6aa2-47ea-87dd-129f580fb669",
-        month: date,
+        month: month,
       }),
     })
       .then((res) => res.json())
@@ -46,10 +46,8 @@ const MonthlyFixed = () => {
           setTotalFixedIncome(data.disposableIncome);
         }
       });
-  }, [setFixedSpendingCategoryData]);
 
-  // 月別固定支出の取得
-  useEffect(() => {
+    // 月別固定支出の取得
     fetch(`${rootURI}/transaction/getMonthlyFixedSpending`, {
       method: "POST",
       headers: {
@@ -57,7 +55,7 @@ const MonthlyFixed = () => {
       },
       body: JSON.stringify({
         userId: "a77a6e94-6aa2-47ea-87dd-129f580fb669",
-        month: date,
+        month: month,
       }),
     })
       .then((res) => res.json())
@@ -67,15 +65,39 @@ const MonthlyFixed = () => {
           setTotalFixedSpending(data.disposableIncome);
         }
       });
-  }, [setFixedSpendingCategoryData]);
+  };
+
+  /** 前月データを取得 */
+  const getPastMonth = () => {
+    let tempDate = new Date(sysDate);
+    tempDate.setMonth(tempDate.getMonth() - 1);
+    setSysDate(tempDate);
+    getInit(tempDate);
+  };
+
+  /** 次月データを取得 */
+  const getForwardMonth = () => {
+    let tempDate = new Date(sysDate);
+    tempDate.setMonth(tempDate.getMonth() + 1);
+    setSysDate(tempDate);
+    getInit(tempDate);
+  };
+
+  useEffect(() => {
+    getInit(sysDate);
+  }, [setFixedIncomeCategoryData, setFixedSpendingCategoryData]);
 
   return (
     <div className="container">
       {/* 月 */}
       <div className="month">
-        <ArrowBackIosNewIcon fontSize="large" className="switchMonthButton" />
-        <span>{date.getMonth() + 1}月</span>
-        <ArrowForwardIosIcon fontSize="large" className="switchMonthButton" />
+        <span onClick={getPastMonth}>
+          <ArrowBackIosNewIcon fontSize="large" className="switchMonthButton" />
+        </span>
+        <span>{sysDate.getMonth() + 1}月</span>
+        <span onClick={getForwardMonth}>
+          <ArrowForwardIosIcon fontSize="large" className="switchMonthButton" />
+        </span>
       </div>
 
       {/* 可処分所得 */}

@@ -22,8 +22,8 @@ Chart.register(...registerables);
 
 const Timeline = () => {
   /** 今月 */
-  const [date, setDate] = useState(new Date("2022-06-01"));
-  date.setDate(1);
+  const [sysDate, setSysDate] = useState(new Date("2022-06-01"));
+  sysDate.setDate(1);
 
   const [transactionTitle, setTransactionTitle] =
     useState("支出または収入の入力");
@@ -32,11 +32,11 @@ const Timeline = () => {
   const [graphData, setGraphData] = useState([]);
   const [graphMonth, setGraphMonth] = useState([]);
   const data = {
-    labels: graphMonth,
+    labels: [...graphMonth].reverse(),
     datasets: [
       // 表示するデータセット
       {
-        data: graphData,
+        data: [...graphData].reverse(),
         backgroundColor: "#03A9F4",
         label: "月別支出推移",
       },
@@ -143,28 +143,8 @@ const Timeline = () => {
   /** API関連 */
   const rootURI = "http://localhost:8080";
 
-  // 当月のTransactionを取得
-  useEffect(() => {
-    fetch(`${rootURI}/transaction/getTimelineData`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        userId: "a77a6e94-6aa2-47ea-87dd-129f580fb669",
-        month: date,
-      }),
-    })
-      .then((res) => res.json())
-      .then((data) => {
-        if (data.status == "success") {
-          setTimelineDataList(data.transactionList);
-        }
-      });
-  }, [setTimelineDataList]);
-
-  // 6ヶ月分の合計支出を取得
-  useEffect(() => {
+  const getInit = (month) => {
+    // 6ヶ月分の合計支出を取得
     fetch(`${rootURI}/transaction/getMonthlySpendingData`, {
       method: "POST",
       headers: {
@@ -172,7 +152,7 @@ const Timeline = () => {
       },
       body: JSON.stringify({
         userId: "a77a6e94-6aa2-47ea-87dd-129f580fb669",
-        month: date,
+        month: month,
       }),
     })
       .then((res) => res.json())
@@ -184,15 +164,57 @@ const Timeline = () => {
           );
         }
       });
-  }, [setGraphData]);
+
+    // 当月のTransactionを取得
+    fetch(`${rootURI}/transaction/getTimelineData`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        userId: "a77a6e94-6aa2-47ea-87dd-129f580fb669",
+        month: month,
+      }),
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        if (data.status == "success") {
+          setTimelineDataList(data.transactionList);
+        }
+      });
+  };
+
+  /** 前月データを取得 */
+  const getPastMonth = () => {
+    let tempDate = new Date(sysDate);
+    tempDate.setMonth(tempDate.getMonth() - 1);
+    setSysDate(tempDate);
+    getInit(tempDate);
+  };
+
+  /** 次月データを取得 */
+  const getForwardMonth = () => {
+    let tempDate = new Date(sysDate);
+    tempDate.setMonth(tempDate.getMonth() + 1);
+    setSysDate(tempDate);
+    getInit(tempDate);
+  };
+
+  useEffect(() => {
+    getInit(sysDate);
+  }, [setGraphMonth, setGraphData]);
 
   return (
     <div className="container">
       {/* 月 */}
       <div className="month">
-        <ArrowBackIosNewIcon fontSize="large" className="switchMonthButton" />
-        <span>{date.getMonth() + 1}月</span>
-        <ArrowForwardIosIcon fontSize="large" className="switchMonthButton" />
+        <span onClick={getPastMonth}>
+          <ArrowBackIosNewIcon fontSize="large" className="switchMonthButton" />
+        </span>
+        <span>{sysDate.getMonth() + 1}月</span>
+        <span onClick={getForwardMonth}>
+          <ArrowForwardIosIcon fontSize="large" className="switchMonthButton" />
+        </span>
       </div>
 
       {/* グラフ */}

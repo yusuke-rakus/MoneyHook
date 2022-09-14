@@ -46,8 +46,7 @@ const SavingTargetCard = (props) => {
               </tr>
               <tr>
                 <td>貯金回数</td>
-                {/* <td>{savingTargetData.savingCount}</td> */}
-                <td>dummy</td>
+                <td>{savingTargetData.savingCount}</td>
                 <td>回</td>
               </tr>
             </tbody>

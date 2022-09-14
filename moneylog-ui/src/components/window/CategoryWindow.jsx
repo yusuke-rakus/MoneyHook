@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 /** CSS */
 import "../components_CSS/window_CSS/CategoryWindow.css";
 /** 自作コンポーネント */
@@ -20,12 +20,29 @@ const CategoryWindow = (props) => {
 
   const [SubCategoryWindowModal, setSubCategoryWindowModal] = useState(false);
 
-  const CategoryList = [
-    { categoryId: 1, categoryName: "食費" },
-    { categoryId: 2, categoryName: "外食" },
-    { categoryId: 3, categoryName: "コンビニ" },
-    { categoryId: 4, categoryName: "住宅" },
-  ];
+  const [categoryList, setCategoryList] = useState([]);
+
+  /** API関連 */
+  const rootURI = "http://localhost:8080";
+
+  // カテゴリデータを取得
+  const getInit = () => {
+    fetch(`${rootURI}/category/getCategoryList`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({}),
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        setCategoryList(data.categoryList);
+      });
+  };
+
+  useEffect(() => {
+    getInit();
+  }, [setCategoryList]);
 
   /** カテゴリウィンドウを閉じる */
   const closeCategoryWindow = () => {
@@ -62,7 +79,7 @@ const CategoryWindow = (props) => {
         {/* カテゴリリスト */}
         <h3 className="modal-title">カテゴリを選択</h3>
         <div className="category-items">
-          {CategoryList.map((category, i) => {
+          {categoryList.map((category, i) => {
             return (
               <div
                 key={i}

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 /** CSS */
 import "../components_CSS/window_CSS/SubCategoryWindow.css";
 /** 外部コンポーネント */
@@ -17,12 +17,7 @@ const SubCategoryWindow = (props) => {
     transaction,
   } = props;
 
-  const SubCategoryList = [
-    { subCategoryId: 1, subCategoryName: "住宅" },
-    { subCategoryId: 2, subCategoryName: "家賃" },
-    { subCategoryId: 3, subCategoryName: "住宅設備" },
-    { subCategoryId: 4, subCategoryName: "保険" },
-  ];
+  const [subCategoryList, setSubCategoryList] = useState([]);
 
   /** サブカテゴリを閉じる処理 */
   const closeSubCategoryWindow = () => {
@@ -68,6 +63,30 @@ const SubCategoryWindow = (props) => {
       subCategoryName: inputData,
     });
   };
+  /** API関連 */
+  const rootURI = "http://localhost:8080";
+
+  // カテゴリデータを取得
+  const getInit = () => {
+    fetch(`${rootURI}/subCategory/getSubCategoryList`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        userId: "a77a6e94-6aa2-47ea-87dd-129f580fb669",
+        categoryId: transaction.categoryId,
+      }),
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        setSubCategoryList(data.subCategoryList);
+      });
+  };
+
+  useEffect(() => {
+    getInit();
+  }, [setSubCategoryList]);
 
   return (
     <div className="sub-category-window">
@@ -85,7 +104,7 @@ const SubCategoryWindow = (props) => {
       {/* カテゴリリスト */}
       <h3 className="modal-title">サブカテゴリを選択</h3>
       <div className="sub-category-items">
-        {SubCategoryList.map((subCategory, i) => {
+        {subCategoryList.map((subCategory, i) => {
           return (
             <div
               key={i}

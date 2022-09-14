@@ -8,6 +8,7 @@ public class SavingTarget {
 	private Integer targetAmount;
 	private boolean deleteFlg;
 	private Integer totalSavedAmount;
+	private Integer savingCount;
 
 	public Long getSavingTargetId() {
 		return savingTargetId;
@@ -55,6 +56,14 @@ public class SavingTarget {
 
 	public void setTotalSavedAmount(Integer totalSavedAmount) {
 		this.totalSavedAmount = totalSavedAmount;
+	}
+
+	public Integer getSavingCount() {
+		return savingCount;
+	}
+
+	public void setSavingCount(Integer savingCount) {
+		this.savingCount = savingCount;
 	}
 
 	@Override

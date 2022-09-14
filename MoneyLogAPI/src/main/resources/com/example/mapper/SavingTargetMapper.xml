@@ -28,7 +28,8 @@
 			saving_target_id,
 			saving_target_name,
 			target_amount,
-			SUM(s.saving_amount) total_saved_amount
+			SUM(s.saving_amount) total_saved_amount,
+			COUNT(s.saving_target_id) saving_count
 		FROM
 			saving_target st
 		LEFT JOIN 

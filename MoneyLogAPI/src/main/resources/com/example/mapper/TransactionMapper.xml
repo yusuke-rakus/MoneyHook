@@ -247,6 +247,7 @@
 			INNER JOIN sub_category sc ON t.sub_category_id = sc.sub_category_id
 			WHERE t.user_no=#{userNo}
 			AND transaction_date BETWEEN #{month} AND LAST_DAY(#{month})
+			AND t.fixed_flg = false
 			GROUP BY t.sub_category_id
 			) sub_clist ON sub_clist.sub_category_id = t.sub_category_id
 		WHERE t.user_no=#{userNo}

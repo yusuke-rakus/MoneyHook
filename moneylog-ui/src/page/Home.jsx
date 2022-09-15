@@ -12,8 +12,10 @@ import ArrowBackIosNewIcon from "@mui/icons-material/ArrowBackIosNew";
 import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos";
 import { Pie } from "react-chartjs-2";
 import { CSSTransition } from "react-transition-group";
+import Sidebar from "../components/Sidebar";
 
-const Home = () => {
+const Home = (props) => {
+  const { themeColor } = props;
   /** 今月 */
   const [sysDate, setSysDate] = useState(new Date("2022-06-01"));
   sysDate.setDate(1);
@@ -115,79 +117,91 @@ const Home = () => {
   }, [setHomeAccodionDataList]);
 
   return (
-    <div className="container">
-      {/* 月 */}
-      <div className="month">
-        <span onClick={getPastMonth}>
-          <ArrowBackIosNewIcon fontSize="large" className="switchMonthButton" />
-        </span>
-        <span>{sysDate.getMonth() + 1}月</span>
-        <span onClick={getForwardMonth}>
-          <ArrowForwardIosIcon fontSize="large" className="switchMonthButton" />
-        </span>
-      </div>
+    <>
+      <Sidebar themeColor={themeColor} />
 
-      {/* 収支合計 */}
-      <div className="monthlyTotalAmountTitleArea">
-        <span>合計支出</span>
-        <span
-          style={
-            monthlyTotalAmount >= 0
-              ? { color: "#1B5E20" }
-              : { color: "#B71C1C" }
-          }
-        >
-          {monthlyTotalAmount.toLocaleString()}
-        </span>
-      </div>
-      <div className="dataArea">
-        <div className="accodionDataArea">
-          {homeAccodionDataList.map((data, index) => {
-            return (
-              <HomeAccodion
-                homeAccodionData={data}
-                bgcolor={dataColorList[index]}
-                key={index}
+      <div className="homeArea">
+        <div className="container">
+          {/* 月 */}
+          <div className="month">
+            <span onClick={getPastMonth}>
+              <ArrowBackIosNewIcon
+                fontSize="large"
+                className="switchMonthButton"
               />
-            );
-          })}
-        </div>
+            </span>
+            <span>{sysDate.getMonth() + 1}月</span>
+            <span onClick={getForwardMonth}>
+              <ArrowForwardIosIcon
+                fontSize="large"
+                className="switchMonthButton"
+              />
+            </span>
+          </div>
 
-        {/* グラフ */}
-        <div className="pieGraph">
-          <Pie data={data} options={option} className="pieGraph" />
+          {/* 収支合計 */}
+          <div className="monthlyTotalAmountTitleArea">
+            <span>合計支出</span>
+            <span
+              style={
+                monthlyTotalAmount >= 0
+                  ? { color: "#1B5E20" }
+                  : { color: "#B71C1C" }
+              }
+            >
+              {monthlyTotalAmount.toLocaleString()}
+            </span>
+          </div>
+          <div className="dataArea">
+            <div className="accodionDataArea">
+              {homeAccodionDataList.map((data, index) => {
+                return (
+                  <HomeAccodion
+                    homeAccodionData={data}
+                    bgcolor={dataColorList[index]}
+                    key={index}
+                  />
+                );
+              })}
+            </div>
+
+            {/* グラフ */}
+            <div className="pieGraph">
+              <Pie data={data} options={option} className="pieGraph" />
+            </div>
+          </div>
+
+          {/* 追加ボタン */}
+          <div className="addTransactionArea">
+            <HouseholdBudgetButton
+              openWindow={openWindow}
+              buttonText={"追加"}
+              setTransactionTitle={setTransactionTitle}
+            />
+          </div>
+
+          {/* 取引追加画面 */}
+          <BlurView
+            status={modalWindow}
+            setStatus={openWindow}
+            setTransaction={setTransaction}
+          />
+          <CSSTransition
+            in={modalWindow}
+            timeout={200}
+            unmountOnExit
+            classNames="Modal-show"
+          >
+            <ModalBox
+              transaction={transaction}
+              setTransaction={setTransaction}
+              openWindow={openWindow}
+              title={transactionTitle}
+            />
+          </CSSTransition>
         </div>
       </div>
-
-      {/* 追加ボタン */}
-      <div className="addTransactionArea">
-        <HouseholdBudgetButton
-          openWindow={openWindow}
-          buttonText={"追加"}
-          setTransactionTitle={setTransactionTitle}
-        />
-      </div>
-
-      {/* 取引追加画面 */}
-      <BlurView
-        status={modalWindow}
-        setStatus={openWindow}
-        setTransaction={setTransaction}
-      />
-      <CSSTransition
-        in={modalWindow}
-        timeout={200}
-        unmountOnExit
-        classNames="Modal-show"
-      >
-        <ModalBox
-          transaction={transaction}
-          setTransaction={setTransaction}
-          openWindow={openWindow}
-          title={transactionTitle}
-        />
-      </CSSTransition>
-    </div>
+    </>
   );
 };
 export default Home;

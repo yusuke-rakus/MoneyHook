@@ -10,8 +10,10 @@ import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos";
 import Accordion from "@mui/material/Accordion";
 import AccordionSummary from "@mui/material/AccordionSummary";
 import Typography from "@mui/material/Typography";
+import Sidebar from "../components/Sidebar";
 
-const MonthlyFixed = () => {
+const MonthlyFixed = (props) => {
+  const { themeColor } = props;
   /** 今月 */
   const [sysDate, setSysDate] = useState(new Date("2022-06-01"));
   sysDate.setDate(1);
@@ -88,51 +90,65 @@ const MonthlyFixed = () => {
   }, [setFixedIncomeCategoryData, setFixedSpendingCategoryData]);
 
   return (
-    <div className="container">
-      {/* 月 */}
-      <div className="month">
-        <span onClick={getPastMonth}>
-          <ArrowBackIosNewIcon fontSize="large" className="switchMonthButton" />
-        </span>
-        <span>{sysDate.getMonth() + 1}月</span>
-        <span onClick={getForwardMonth}>
-          <ArrowForwardIosIcon fontSize="large" className="switchMonthButton" />
-        </span>
-      </div>
+    <>
+      <Sidebar themeColor={themeColor} />
 
-      {/* 可処分所得 */}
-      <div className="monthlyFixedTitleArea">
-        <span>可処分所得額</span>
-        <span
-          style={
-            totalFixedSpending + totalFixedIncome >= 0
-              ? { color: "#1B5E20" }
-              : { color: "#B71C1C" }
-          }
-        >
-          {(totalFixedSpending + totalFixedIncome).toLocaleString()}
-        </span>
-      </div>
+      <div className="homeArea">
+        <div className="container">
+          {/* 月 */}
+          <div className="month">
+            <span onClick={getPastMonth}>
+              <ArrowBackIosNewIcon
+                fontSize="large"
+                className="switchMonthButton"
+              />
+            </span>
+            <span>{sysDate.getMonth() + 1}月</span>
+            <span onClick={getForwardMonth}>
+              <ArrowForwardIosIcon
+                fontSize="large"
+                className="switchMonthButton"
+              />
+            </span>
+          </div>
 
-      {/* 固定費データ */}
-      <div className="fixedDataArea">
-        <FixedCategoryGroup fixedCategoryData={fixedIncomeCategoryData} />
-        <FixedCategoryGroup fixedCategoryData={fixedSpendingCategoryData} />
-        <Accordion>
-          <AccordionSummary>
-            <Typography className="totalValueArea">
-              <span className="totalValue">
-                <span>合計</span>
-                <span>{`¥${Math.abs(totalFixedIncome).toLocaleString()}`}</span>
-                <span>
-                  {`¥${Math.abs(totalFixedSpending).toLocaleString()}`}
-                </span>
-              </span>
-            </Typography>
-          </AccordionSummary>
-        </Accordion>
+          {/* 可処分所得 */}
+          <div className="monthlyFixedTitleArea">
+            <span>可処分所得額</span>
+            <span
+              style={
+                totalFixedSpending + totalFixedIncome >= 0
+                  ? { color: "#1B5E20" }
+                  : { color: "#B71C1C" }
+              }
+            >
+              {(totalFixedSpending + totalFixedIncome).toLocaleString()}
+            </span>
+          </div>
+
+          {/* 固定費データ */}
+          <div className="fixedDataArea">
+            <FixedCategoryGroup fixedCategoryData={fixedIncomeCategoryData} />
+            <FixedCategoryGroup fixedCategoryData={fixedSpendingCategoryData} />
+            <Accordion>
+              <AccordionSummary>
+                <Typography className="totalValueArea">
+                  <span className="totalValue">
+                    <span>合計</span>
+                    <span>{`¥${Math.abs(
+                      totalFixedIncome
+                    ).toLocaleString()}`}</span>
+                    <span>
+                      {`¥${Math.abs(totalFixedSpending).toLocaleString()}`}
+                    </span>
+                  </span>
+                </Typography>
+              </AccordionSummary>
+            </Accordion>
+          </div>
+        </div>
       </div>
-    </div>
+    </>
   );
 };
 export default MonthlyFixed;

@@ -1,21 +1,71 @@
 import { Button, TextField } from "@mui/material";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 
 const SettingsUserSettings = () => {
   /** ユーザー設定変更 */
-  const [email, setEmail] = useState("sample@sample.com");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
 
   /** メールアドレス変更 */
   const changeEmail = () => {
     // メールアドレス変更APIを実施する
-    console.log(email);
+    changeEmailApi(email, password);
   };
 
   /** キャンセル */
   const cansel = () => {
-    // もとに戻す
-    console.log(email);
+    getInit();
+    setPassword("");
   };
+
+  /** API関連 */
+  const rootURI = "http://localhost:8080";
+
+  // ユーザー情報の取得
+  const getInit = () => {
+    fetch(`${rootURI}/user/getUserInfo`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        userId: "a77a6e94-6aa2-47ea-87dd-129f580fb669",
+      }),
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        if (data.status == "success") {
+          setEmail(data.userInfo.email);
+        }
+      });
+  };
+
+  // メールアドレス変更
+  const changeEmailApi = (email, password) => {
+    fetch(`${rootURI}/user/changeEmail`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        userId: "a77a6e94-6aa2-47ea-87dd-129f580fb669",
+        email: email,
+        password: password,
+      }),
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        if (data.status == "success") {
+          setEmail("");
+          setPassword("");
+          getInit();
+        }
+      });
+  };
+
+  useEffect(() => {
+    getInit();
+  }, [setEmail]);
 
   return (
     <div className="containerBox">
@@ -34,6 +84,18 @@ const SettingsUserSettings = () => {
               color: "#424242",
             },
           }}
+        />
+      </div>
+
+      <div className="emailBox">
+        <span>パスワード</span>
+        <TextField
+          variant="standard"
+          type="password"
+          autoComplete="off"
+          value={password}
+          onChange={(e) => setPassword(e.target.value)}
+          fullWidth={true}
         />
       </div>
 

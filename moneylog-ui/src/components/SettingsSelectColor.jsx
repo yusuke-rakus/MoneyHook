@@ -5,7 +5,7 @@ import "./components_CSS/SettingsSelectColor.css";
 
 const SettingsSelectColor = (props) => {
   /** カラーリスト */
-  const { colorList, themeColor, setThemeColor } = props;
+  const { colorList, setColorList, themeColor, setThemeColor } = props;
 
   const [cookie, setCookie] = useCookies();
 
@@ -13,7 +13,56 @@ const SettingsSelectColor = (props) => {
   const selectColor = (colorCode) => {
     setThemeColor(colorCode);
     setCookie("themeColor", colorCode);
+    // editThemeColorApi(themeColorId入れる)
   };
+
+  /** API関連 */
+  const rootURI = "http://localhost:8080";
+
+  // テーマカラーリストを取得
+  const getInit = () => {
+    fetch(`${rootURI}/user/getThemeColor`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        userId: "a77a6e94-6aa2-47ea-87dd-129f580fb669",
+      }),
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        if (data.status == "success") {
+          setColorList(data.themeColorList);
+        }
+      });
+  };
+
+  // テーマカラー変更
+  const editThemeColorApi = (themeColorId) => {
+    fetch(`${rootURI}/user/getThemeColor`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        userId: "a77a6e94-6aa2-47ea-87dd-129f580fb669",
+        themeColorId: themeColorId,
+      }),
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        if (data.status == "success") {
+          // 成功処理
+        } else {
+          // 失敗処理
+        }
+      });
+  };
+
+  // useEffect(() => {
+  //   getInit();
+  // }, [setColorList]);
 
   return (
     <div className="containerBox">

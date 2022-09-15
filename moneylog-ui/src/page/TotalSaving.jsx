@@ -11,14 +11,27 @@ import AddTargetBox from "../components/window/AddTargetBox";
 import AddSharpIcon from "@mui/icons-material/AddSharp";
 import { Line } from "react-chartjs-2";
 import { CSSTransition } from "react-transition-group";
+import Sidebar from "../components/Sidebar";
 
-const TotalSaving = () => {
+const TotalSaving = (props) => {
+  const { themeColor } = props;
   /** 今月 */
-  const [date, setDate] = useState(new Date("2022-06-01").setDate(1));
+  const [sysDate, setSysDate] = useState(new Date("2022-06-01"));
+  sysDate.setDate(1);
+
+  /** 貯金総額 */
+  const [totalSaving, setTotalSaving] = useState(0);
 
   /** グラフデータ */
   const [graphData, setGraphData] = useState([]);
   const [graphMonth, setGraphMonth] = useState([]);
+
+  /** 未分類の貯金額 */
+  const [uncategorizedSavingAmount, setUncategorizedSavingAmount] = useState(0);
+
+  /** 貯金目標 */
+  const [savingTargetData, setSavingTargetData] = useState([]);
+
   const data = {
     labels: graphMonth,
     datasets: [
@@ -63,14 +76,6 @@ const TotalSaving = () => {
     },
   };
   const [windowStatus, setWindowStatus] = useState(false);
-  // 貯金総額
-  const totalSaving = 100000;
-
-  // 未分類の貯金額
-  const [uncategorizedSavingAmount, setUncategorizedSavingAmount] = useState(0);
-
-  // 貯金目標
-  const [savingTargetData, setSavingTargetData] = useState([]);
 
   // 貯金目標ウィンドウのタイトル
   const [title, setTitle] = useState("貯金目標を追加");
@@ -89,8 +94,8 @@ const TotalSaving = () => {
   /** API関連 */
   const rootURI = "http://localhost:8080";
 
-  // 貯金目標リストの取得
-  useEffect(() => {
+  const getInit = (month) => {
+    // 貯金目標リストの取得
     fetch(`${rootURI}/saving/getSavingAmountForTarget`, {
       method: "POST",
       headers: {
@@ -111,10 +116,8 @@ const TotalSaving = () => {
           setSavingTargetData(data.savingTargetList);
         }
       });
-  }, [setSavingTargetData]);
 
-  // 貯金総額の取得
-  useEffect(() => {
+    // 貯金総額の取得
     fetch(`${rootURI}/saving/getTotalSaving`, {
       method: "POST",
       headers: {
@@ -122,84 +125,98 @@ const TotalSaving = () => {
       },
       body: JSON.stringify({
         userId: "a77a6e94-6aa2-47ea-87dd-129f580fb669",
-        month: date,
+        month: month,
       }),
     })
       .then((res) => res.json())
       .then((data) => {
         if (data.status == "success") {
+          // グラフを設定
           setGraphData(
             data.savingDataList.map((d) => d.monthlyTotalSavingAmount)
           );
+          // グラフの月を設定
           setGraphMonth(
             data.savingDataList.map(
               (d) => new Date(d.savingMonth).getMonth() + 1
             )
           );
+          // 貯金総額を設定
+          setTotalSaving(data.totalSavingAmount);
         }
       });
-  }, [setGraphData]);
+  };
+
+  useEffect(() => {
+    getInit(sysDate);
+  }, [setGraphData, setSavingTargetData]);
 
   return (
-    <div className="container">
-      {/* 貯金総額 */}
-      <div className="totalSavingTitleArea">
-        <span>貯金総額</span>
-        <span>{totalSaving.toLocaleString()}</span>
-      </div>
+    <>
+      <Sidebar themeColor={themeColor} />
 
-      {/* グラフ */}
-      <div className="lineChartArea">
-        <Line data={data} options={option} />
-      </div>
+      <div className="homeArea">
+        <div className="container">
+          {/* 貯金総額 */}
+          <div className="totalSavingTitleArea">
+            <span>貯金総額</span>
+            <span>{totalSaving.toLocaleString()}</span>
+          </div>
 
-      {/* 貯金目標 */}
-      <div className="savingTargetCardArea">
-        {savingTargetData.map((data, i) => {
-          return (
-            <SavingTargetCard
-              key={i}
-              savingTargetData={data}
-              setWindowStatus={setWindowStatus}
-              setTitle={setTitle}
-              setEditSavingTarget={setEditSavingTarget}
+          {/* グラフ */}
+          <div className="lineChartArea">
+            <Line data={data} options={option} />
+          </div>
+
+          {/* 貯金目標 */}
+          <div className="savingTargetCardArea">
+            {savingTargetData.map((data, i) => {
+              return (
+                <SavingTargetCard
+                  key={i}
+                  savingTargetData={data}
+                  setWindowStatus={setWindowStatus}
+                  setTitle={setTitle}
+                  setEditSavingTarget={setEditSavingTarget}
+                />
+              );
+            })}
+            <AddSharpIcon
+              onClick={() => {
+                resetEditSavingTarget();
+                setWindowStatus(true);
+                setTitle("貯金目標を追加");
+              }}
+              fontSize="large"
+              className="addSavingTargetButton"
             />
-          );
-        })}
-        <AddSharpIcon
-          onClick={() => {
-            resetEditSavingTarget();
-            setWindowStatus(true);
-            setTitle("貯金目標を追加");
-          }}
-          fontSize="large"
-          className="addSavingTargetButton"
-        />
-      </div>
+          </div>
 
-      {/* 未分類の貯金額 */}
-      <div className="uncategorizedSavingCardArea">
-        <UncategorizedSavingCard
-          UncategorizedSavingAmount={uncategorizedSavingAmount}
-        />
-      </div>
+          {/* 未分類の貯金額 */}
+          <div className="uncategorizedSavingCardArea">
+            <UncategorizedSavingCard
+              UncategorizedSavingAmount={uncategorizedSavingAmount}
+            />
+          </div>
 
-      {/* 貯金目標追加ウィンドウ */}
-      <BlurView status={windowStatus} setStatus={setWindowStatus} />
-      <CSSTransition
-        in={windowStatus}
-        timeout={100}
-        unmountOnExit
-        classNames="Modal-show"
-      >
-        <AddTargetBox
-          setWindowStatus={setWindowStatus}
-          title={title}
-          savingTargetData={editSavingTarget}
-          setSavingTargetData={setEditSavingTarget}
-        />
-      </CSSTransition>
-    </div>
+          {/* 貯金目標追加ウィンドウ */}
+          <BlurView status={windowStatus} setStatus={setWindowStatus} />
+          <CSSTransition
+            in={windowStatus}
+            timeout={100}
+            unmountOnExit
+            classNames="Modal-show"
+          >
+            <AddTargetBox
+              setWindowStatus={setWindowStatus}
+              title={title}
+              savingTargetData={editSavingTarget}
+              setSavingTargetData={setEditSavingTarget}
+            />
+          </CSSTransition>
+        </div>
+      </div>
+    </>
   );
 };
 export default TotalSaving;

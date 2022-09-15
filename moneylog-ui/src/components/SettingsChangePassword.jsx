@@ -9,12 +9,12 @@ const SettingsChangePassword = () => {
 
   const [matchError, setMatchError] = useState(false);
 
-  /** 登録処理 */
+  /** パスワード変更 */
   const changePassword = () => {
     // パスワード1と2が一致しているか確認
     if (newPassword1 == newPassword2) {
       // API通信
-      console.log("OK");
+      changePasswordApi(currentPassword, newPassword1);
     } else {
       setMatchError(true);
     }
@@ -30,6 +30,34 @@ const SettingsChangePassword = () => {
     setMatchError(false);
   };
 
+  /** API関連 */
+  const rootURI = "http://localhost:8080";
+
+  // パスワード変更
+  const changePasswordApi = (password, newPassword) => {
+    fetch(`${rootURI}/user/changePassword`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        userId: "a77a6e94-6aa2-47ea-87dd-129f580fb669",
+        password: password,
+        newPassword: newPassword,
+      }),
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        if (data.status == "success") {
+          setCurrentPassword("");
+          setNewPassword1("");
+          setNewPassword2("");
+        } else {
+          // エラー処理
+        }
+      });
+  };
+
   return (
     <div className="containerBox">
       <p className="settingsTitle">パスワード変更</p>
@@ -40,7 +68,7 @@ const SettingsChangePassword = () => {
           value={currentPassword}
           onChange={(e) => setCurrentPassword(e.target.value)}
           variant="standard"
-          type="password"
+          // type="password"
           fullWidth={true}
         />
       </div>
@@ -50,7 +78,7 @@ const SettingsChangePassword = () => {
           value={newPassword1}
           onChange={(e) => setNewPassword1(e.target.value)}
           variant="standard"
-          type="password"
+          // type="password"
           fullWidth={true}
           error={matchError && matchError}
         />
@@ -61,7 +89,7 @@ const SettingsChangePassword = () => {
           value={newPassword2}
           onChange={(e) => setNewPassword2(e.target.value)}
           variant="standard"
-          type="password"
+          // type="password"
           fullWidth={true}
           error={matchError && matchError}
         />

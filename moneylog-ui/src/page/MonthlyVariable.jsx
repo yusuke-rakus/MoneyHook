@@ -7,8 +7,10 @@ import VariableCategoryGroup from "../components/VariableCategoryGroup";
 /** 外部コンポーネント */
 import ArrowBackIosNewIcon from "@mui/icons-material/ArrowBackIosNew";
 import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos";
+import Sidebar from "../components/Sidebar";
 
-const MonthlyVariable = () => {
+const MonthlyVariable = (props) => {
+  const { themeColor } = props;
   /** 今月 */
   const [sysDate, setSysDate] = useState(new Date("2022-06-01"));
   sysDate.setDate(1);
@@ -62,29 +64,43 @@ const MonthlyVariable = () => {
   }, [setVariableCategoryData]);
 
   return (
-    <div className="container">
-      {/* 月 */}
-      <div className="month">
-        <span onClick={getPastMonth}>
-          <ArrowBackIosNewIcon fontSize="large" className="switchMonthButton" />
-        </span>
-        <span>{sysDate.getMonth() + 1}月</span>
-        <span onClick={getForwardMonth}>
-          <ArrowForwardIosIcon fontSize="large" className="switchMonthButton" />
-        </span>
-      </div>
+    <>
+      <Sidebar themeColor={themeColor} />
 
-      {/* 変動費合計 */}
-      <div className="monthlyVariableTitleArea">
-        <span>変動費合計</span>
-        <span>{Math.abs(monthlyTotalVariable).toLocaleString()}</span>
-      </div>
+      <div className="homeArea">
+        <div className="container">
+          {/* 月 */}
+          <div className="month">
+            <span onClick={getPastMonth}>
+              <ArrowBackIosNewIcon
+                fontSize="large"
+                className="switchMonthButton"
+              />
+            </span>
+            <span>{sysDate.getMonth() + 1}月</span>
+            <span onClick={getForwardMonth}>
+              <ArrowForwardIosIcon
+                fontSize="large"
+                className="switchMonthButton"
+              />
+            </span>
+          </div>
 
-      {/* 変動費データ */}
-      <div className="variableDataArea">
-        <VariableCategoryGroup variableCategoryData={variableCategoryData} />
+          {/* 変動費合計 */}
+          <div className="monthlyVariableTitleArea">
+            <span>変動費合計</span>
+            <span>{Math.abs(monthlyTotalVariable).toLocaleString()}</span>
+          </div>
+
+          {/* 変動費データ */}
+          <div className="variableDataArea">
+            <VariableCategoryGroup
+              variableCategoryData={variableCategoryData}
+            />
+          </div>
+        </div>
       </div>
-    </div>
+    </>
   );
 };
 export default MonthlyVariable;

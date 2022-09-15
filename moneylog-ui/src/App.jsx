@@ -13,10 +13,11 @@ import SettingsPage from "./page/Settings";
 /** 外部コンポーネント */
 import { Routes, Route, BrowserRouter } from "react-router-dom";
 import { useCookies } from "react-cookie";
+import NotFound from "./page/NotFound";
 
 const App = () => {
   /** 背景色のリスト */
-  const colorList = {
+  const [colorList, setColorList] = useState({
     themeColorCodeList: [
       "#76d5ff",
       "#607d8b",
@@ -35,7 +36,7 @@ const App = () => {
       "#36D1DC, #5B86E5",
       "#D9AFD9, #97D9E1",
     ],
-  };
+  });
 
   const [cookie, setCookie] = useCookies();
 
@@ -45,28 +46,42 @@ const App = () => {
 
   return (
     <BrowserRouter>
-      <Sidebar themeColor={themeColor} />
-      <div className="homeArea">
-        <Routes>
-          <Route path="/" element={<Home />}></Route>
-          <Route path="/home" element={<Home />}></Route>
-          <Route path="/timeline" element={<Timeline />}></Route>
-          <Route path="/monthlyVariable" element={<MonthlyVariable />}></Route>
-          <Route path="/monthlyFixed" element={<MonthlyFixed />}></Route>
-          <Route path="/savingList" element={<SavingList />}></Route>
-          <Route path="/totalSaving" element={<TotalSaving />}></Route>
-          <Route
-            path="/settingsPage"
-            element={
-              <SettingsPage
-                colorList={colorList}
-                themeColor={themeColor}
-                setThemeColor={setThemeColor}
-              />
-            }
-          ></Route>
-        </Routes>
-      </div>
+      <Routes>
+        <Route path="/" element={<Home themeColor={themeColor} />}></Route>
+        <Route path="/home" element={<Home themeColor={themeColor} />}></Route>
+        <Route
+          path="/timeline"
+          element={<Timeline themeColor={themeColor} />}
+        ></Route>
+        <Route
+          path="/monthlyVariable"
+          element={<MonthlyVariable themeColor={themeColor} />}
+        ></Route>
+        <Route
+          path="/monthlyFixed"
+          element={<MonthlyFixed themeColor={themeColor} />}
+        ></Route>
+        <Route
+          path="/savingList"
+          element={<SavingList themeColor={themeColor} />}
+        ></Route>
+        <Route
+          path="/totalSaving"
+          element={<TotalSaving themeColor={themeColor} />}
+        ></Route>
+        <Route
+          path="/settingsPage"
+          element={
+            <SettingsPage
+              colorList={colorList}
+              setColorList={setColorList}
+              themeColor={themeColor}
+              setThemeColor={setThemeColor}
+            />
+          }
+        ></Route>
+        <Route path="*" element={<NotFound />} />
+      </Routes>
     </BrowserRouter>
   );
 };

@@ -11,8 +11,10 @@ import BlurView from "../components/window/BlurView";
 import ArrowBackIosNewIcon from "@mui/icons-material/ArrowBackIosNew";
 import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos";
 import { CSSTransition } from "react-transition-group";
+import Sidebar from "../components/Sidebar";
 
-const SavingList = () => {
+const SavingList = (props) => {
+  const { themeColor } = props;
   /** 今月 */
   const [sysDate, setSysDate] = useState(new Date("2022-06-01"));
   sysDate.setDate(1);
@@ -77,71 +79,83 @@ const SavingList = () => {
   }, [setSavingDataList]);
 
   return (
-    <div className="container">
-      {/* 月 */}
-      <div className="month">
-        <span onClick={getPastMonth}>
-          <ArrowBackIosNewIcon fontSize="large" className="switchMonthButton" />
-        </span>
-        <span>{sysDate.getMonth() + 1}月</span>
-        <span onClick={getForwardMonth}>
-          <ArrowForwardIosIcon fontSize="large" className="switchMonthButton" />
-        </span>
-      </div>
+    <>
+      <Sidebar themeColor={themeColor} />
 
-      {/* 今月の貯金額 */}
-      <div className="monthlyTotalSaving">
-        <span>今月の貯金額</span>
-        <span className="totalSavingAmount">
-          {totalSavingAmount.toLocaleString()}
-        </span>
-      </div>
+      <div className="homeArea">
+        <div className="container">
+          {/* 月 */}
+          <div className="month">
+            <span onClick={getPastMonth}>
+              <ArrowBackIosNewIcon
+                fontSize="large"
+                className="switchMonthButton"
+              />
+            </span>
+            <span>{sysDate.getMonth() + 1}月</span>
+            <span onClick={getForwardMonth}>
+              <ArrowForwardIosIcon
+                fontSize="large"
+                className="switchMonthButton"
+              />
+            </span>
+          </div>
 
-      {/* 貯金データ */}
-      <div className="savingList">
-        {savingDataList.map((data, i) => {
-          return (
-            <SavingListData
-              key={i}
-              setAddSavingStatus={setAddSavingStatus}
-              saving={data}
-              setSaving={setSaving}
+          {/* 今月の貯金額 */}
+          <div className="monthlyTotalSaving">
+            <span>今月の貯金額</span>
+            <span className="totalSavingAmount">
+              {totalSavingAmount.toLocaleString()}
+            </span>
+          </div>
+
+          {/* 貯金データ */}
+          <div className="savingList">
+            {savingDataList.map((data, i) => {
+              return (
+                <SavingListData
+                  key={i}
+                  setAddSavingStatus={setAddSavingStatus}
+                  saving={data}
+                  setSaving={setSaving}
+                  setSavingTitle={setSavingTitle}
+                />
+              );
+            })}
+          </div>
+
+          {/* 貯金追加ボタン */}
+          <div className="addSavingArea">
+            <HouseholdBudgetButton
+              openWindow={setAddSavingStatus}
+              buttonText={"貯金"}
+              setData={setSaving}
               setSavingTitle={setSavingTitle}
             />
-          );
-        })}
-      </div>
+          </div>
 
-      {/* 貯金追加ボタン */}
-      <div className="addSavingArea">
-        <HouseholdBudgetButton
-          openWindow={setAddSavingStatus}
-          buttonText={"貯金"}
-          setData={setSaving}
-          setSavingTitle={setSavingTitle}
-        />
+          {/* 貯金追加ウィンドウ */}
+          <BlurView
+            status={AddSavingStatus}
+            setStatus={setAddSavingStatus}
+            setObject={setSaving}
+          />
+          <CSSTransition
+            in={AddSavingStatus}
+            timeout={100}
+            unmountOnExit
+            classNames="Modal-show"
+          >
+            <AddSavingBox
+              title={savingTitle}
+              setAddSavingStatus={setAddSavingStatus}
+              saving={saving}
+              setSaving={setSaving}
+            />
+          </CSSTransition>
+        </div>
       </div>
-
-      {/* 貯金追加ウィンドウ */}
-      <BlurView
-        status={AddSavingStatus}
-        setStatus={setAddSavingStatus}
-        setObject={setSaving}
-      />
-      <CSSTransition
-        in={AddSavingStatus}
-        timeout={100}
-        unmountOnExit
-        classNames="Modal-show"
-      >
-        <AddSavingBox
-          title={savingTitle}
-          setAddSavingStatus={setAddSavingStatus}
-          saving={saving}
-          setSaving={setSaving}
-        />
-      </CSSTransition>
-    </div>
+    </>
   );
 };
 export default SavingList;

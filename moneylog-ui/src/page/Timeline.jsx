@@ -17,10 +17,12 @@ import MenuItem from "@mui/material/MenuItem";
 import FormControl from "@mui/material/FormControl";
 import Select from "@mui/material/Select";
 import { CSSTransition } from "react-transition-group";
+import Sidebar from "../components/Sidebar";
 
 Chart.register(...registerables);
 
-const Timeline = () => {
+const Timeline = (props) => {
+  const { themeColor } = props;
   /** 今月 */
   const [sysDate, setSysDate] = useState(new Date("2022-06-01"));
   sysDate.setDate(1);
@@ -205,84 +207,96 @@ const Timeline = () => {
   }, [setGraphMonth, setGraphData]);
 
   return (
-    <div className="container">
-      {/* 月 */}
-      <div className="month">
-        <span onClick={getPastMonth}>
-          <ArrowBackIosNewIcon fontSize="large" className="switchMonthButton" />
-        </span>
-        <span>{sysDate.getMonth() + 1}月</span>
-        <span onClick={getForwardMonth}>
-          <ArrowForwardIosIcon fontSize="large" className="switchMonthButton" />
-        </span>
-      </div>
+    <>
+      <Sidebar themeColor={themeColor} />
 
-      {/* グラフ */}
-      <Bar data={data} options={option} className="timelineGraph" />
+      <div className="homeArea">
+        <div className="container">
+          {/* 月 */}
+          <div className="month">
+            <span onClick={getPastMonth}>
+              <ArrowBackIosNewIcon
+                fontSize="large"
+                className="switchMonthButton"
+              />
+            </span>
+            <span>{sysDate.getMonth() + 1}月</span>
+            <span onClick={getForwardMonth}>
+              <ArrowForwardIosIcon
+                fontSize="large"
+                className="switchMonthButton"
+              />
+            </span>
+          </div>
 
-      {/* 並べ替えプルダウン */}
-      <div className="sortButtonArea">
-        <FormControl sx={{ m: 1, minWidth: 120 }} size="small">
-          <InputLabel id="demo-select-small">並べ替え</InputLabel>
-          <Select
-            labelId="demo-select-small"
-            id="demo-select-small"
-            value={sortCd}
-            onChange={sorting}
-            label="並べ替え"
-          >
-            <MenuItem value={1}>日付昇順</MenuItem>
-            <MenuItem value={2}>日付降順</MenuItem>
-            <MenuItem value={3}>金額昇順</MenuItem>
-            <MenuItem value={4}>金額降順</MenuItem>
-          </Select>
-        </FormControl>
-      </div>
+          {/* グラフ */}
+          <Bar data={data} options={option} className="timelineGraph" />
 
-      {/* タイムラインデータ */}
-      <div className="timelineArea">
-        {timelineDataList.map((data, i) => {
-          return (
-            <TimelineDataList
-              key={i}
-              timeline={data}
-              setModalWindow={setModalWindow}
-              setTransaction={setTransaction}
+          {/* 並べ替えプルダウン */}
+          <div className="sortButtonArea">
+            <FormControl sx={{ m: 1, minWidth: 120 }} size="small">
+              <InputLabel id="demo-select-small">並べ替え</InputLabel>
+              <Select
+                labelId="demo-select-small"
+                id="demo-select-small"
+                value={sortCd}
+                onChange={sorting}
+                label="並べ替え"
+              >
+                <MenuItem value={1}>日付昇順</MenuItem>
+                <MenuItem value={2}>日付降順</MenuItem>
+                <MenuItem value={3}>金額昇順</MenuItem>
+                <MenuItem value={4}>金額降順</MenuItem>
+              </Select>
+            </FormControl>
+          </div>
+
+          {/* タイムラインデータ */}
+          <div className="timelineArea">
+            {timelineDataList.map((data, i) => {
+              return (
+                <TimelineDataList
+                  key={i}
+                  timeline={data}
+                  setModalWindow={setModalWindow}
+                  setTransaction={setTransaction}
+                  setTransactionTitle={setTransactionTitle}
+                />
+              );
+            })}
+          </div>
+
+          {/* 追加ボタン */}
+          <div className="addTransactionArea">
+            <HouseholdBudgetButton
+              openWindow={setModalWindow}
+              buttonText={"追加"}
               setTransactionTitle={setTransactionTitle}
             />
-          );
-        })}
-      </div>
+          </div>
 
-      {/* 追加ボタン */}
-      <div className="addTransactionArea">
-        <HouseholdBudgetButton
-          openWindow={setModalWindow}
-          buttonText={"追加"}
-          setTransactionTitle={setTransactionTitle}
-        />
+          {/* 取引追加画面 */}
+          <BlurView
+            status={modalWindow}
+            setStatus={setModalWindow}
+            setObject={setTransaction}
+          />
+          <CSSTransition
+            in={modalWindow}
+            timeout={200}
+            unmountOnExit
+            classNames="Modal-show"
+          >
+            <ModalBox
+              openWindow={setModalWindow}
+              transaction={transaction}
+              setTransaction={setTransaction}
+              title={transactionTitle}
+            />
+          </CSSTransition>
+        </div>
       </div>
-
-      {/* 取引追加画面 */}
-      <BlurView
-        status={modalWindow}
-        setStatus={setModalWindow}
-        setObject={setTransaction}
-      />
-      <CSSTransition
-        in={modalWindow}
-        timeout={200}
-        unmountOnExit
-        classNames="Modal-show"
-      >
-        <ModalBox
-          openWindow={setModalWindow}
-          transaction={transaction}
-          setTransaction={setTransaction}
-          title={transactionTitle}
-        />
-      </CSSTransition>
-    </div>
+    </>
   );
 };
 export default Timeline;

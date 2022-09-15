@@ -8,28 +8,36 @@ import SettingsSelectColor from "../components/SettingsSelectColor";
 import SettingsUserSettings from "../components/SettingsUserSettings";
 import SettingsChangePassword from "../components/SettingsChangePassword";
 import SettingsFixedList from "../components/SettingsFixedList";
+import Sidebar from "../components/Sidebar";
 
 const Settings = (props) => {
-  const { colorList, themeColor, setThemeColor } = props;
+  const { colorList, setColorList, themeColor, setThemeColor } = props;
 
   return (
-    <div className="container">
-      {/* ユーザー設定変更 */}
-      <SettingsUserSettings />
+    <>
+      <Sidebar themeColor={themeColor} />
 
-      {/* パスワード変更 */}
-      <SettingsChangePassword />
+      <div className="homeArea">
+        <div className="container">
+          {/* ユーザー設定変更 */}
+          <SettingsUserSettings />
 
-      {/* 固定費の編集 */}
-      <SettingsFixedList />
+          {/* パスワード変更 */}
+          <SettingsChangePassword />
 
-      {/* カラーの選択 */}
-      <SettingsSelectColor
-        colorList={colorList}
-        themeColor={themeColor}
-        setThemeColor={setThemeColor}
-      />
-    </div>
+          {/* 固定費の編集 */}
+          <SettingsFixedList />
+
+          {/* カラーの選択 */}
+          <SettingsSelectColor
+            colorList={colorList}
+            setColorList={setColorList}
+            themeColor={themeColor}
+            setThemeColor={setThemeColor}
+          />
+        </div>
+      </div>
+    </>
   );
 };
 export default Settings;

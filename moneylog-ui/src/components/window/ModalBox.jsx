@@ -15,11 +15,13 @@ import {
   FormControlLabel,
   Checkbox,
   TextField,
+  CircularProgress,
 } from "@mui/material";
 import { CSSTransition } from "react-transition-group";
 import CloseIcon from "@mui/icons-material/Close";
 
 const ModalBox = (props) => {
+  const [isLoading, setLoading] = useState(false);
   const { title, transaction, setTransaction, openWindow } = props;
 
   /** 貯金日がなければ当日をセット */
@@ -31,12 +33,6 @@ const ModalBox = (props) => {
   const closeModalWindow = () => {
     setTransaction({});
     openWindow(false);
-  };
-
-  /** 登録ボタン押下 */
-  const registerTransaction = () => {
-    console.log(transaction);
-    // closeModalWindow();
   };
 
   /** 金額入力 */
@@ -73,6 +69,36 @@ const ModalBox = (props) => {
     let d = new Date(transaction.transactionDate);
     d.setDate(e.target.value);
     setTransaction({ ...transaction, transactionDate: new Date(d) });
+  };
+
+  /** API関連 */
+  const rootURI = "http://localhost:8080";
+
+  /** 登録ボタン押下 */
+  const registerTransaction = () => {
+    setLoading(true);
+    fetch(`${rootURI}/transaction/addTransaction`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        userId: "a77a6e94-6aa2-47ea-87dd-129f580fb669",
+        transaction: transaction,
+      }),
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        if (data.status == "success") {
+          // 成功
+        } else {
+          // 失敗
+        }
+      })
+      .finally(() => {
+        setLoading(false);
+        closeModalWindow();
+      });
   };
 
   return (
@@ -231,8 +257,12 @@ const ModalBox = (props) => {
         </FormGroup>
 
         {/* 登録ボタン */}
-        <Button onClick={registerTransaction} variant="contained">
-          登録
+        <Button
+          onClick={registerTransaction}
+          variant="contained"
+          disabled={isLoading}
+        >
+          {isLoading ? <CircularProgress size={20} /> : "登録"}
         </Button>
       </div>
 

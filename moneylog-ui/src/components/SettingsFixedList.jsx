@@ -1,42 +1,12 @@
-import { Button, IconButton } from "@mui/material";
-import React, { useState } from "react";
+import { Button, CircularProgress, IconButton } from "@mui/material";
+import React, { useEffect, useState } from "react";
 import SettingsFixed from "./SettingsFixed";
 import AddCircleIcon from "@mui/icons-material/AddCircle";
 
 const SettingsFixedList = () => {
   /** 固定費の編集 */
-  const [monthlyTransactionList, setMonthlyTransactionList] = useState([
-    {
-      monthlyTransactionId: 1,
-      monthlyTransactionName: "家賃",
-      monthlyTransactionAmount: -70000,
-      monthlyTransactionDate: 25,
-      categoryId: "1",
-      categoryName: "住宅",
-      subCategoryId: "1",
-      subCategoryName: "家賃",
-    },
-    {
-      monthlyTransactionId: 2,
-      monthlyTransactionName: "電気代",
-      monthlyTransactionAmount: -7000,
-      monthlyTransactionDate: 30,
-      categoryId: "2",
-      categoryName: "水道光熱費",
-      subCategoryId: "2",
-      subCategoryName: "なし",
-    },
-    {
-      monthlyTransactionId: 3,
-      monthlyTransactionName: "給与",
-      monthlyTransactionAmount: 200000,
-      monthlyTransactionDate: 25,
-      categoryId: "3",
-      categoryName: "収入",
-      subCategoryId: "3",
-      subCategoryName: "給与",
-    },
-  ]);
+  const [monthlyTransactionList, setMonthlyTransactionList] = useState([]);
+  const [isLoading, setLoading] = useState(false);
 
   /** 固定費データ入力欄の追加 */
   const AddFixedDataInput = () => {
@@ -56,15 +26,60 @@ const SettingsFixedList = () => {
 
   /** 登録処理 */
   const register = () => {
-    monthlyTransactionList.map((data) => {
-      console.log(data);
-    });
+    setLoading(true);
+    fetch(`${rootURI}/fixed/editFixed`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        userId: "a77a6e94-6aa2-47ea-87dd-129f580fb669",
+        monthlyTransactionList: monthlyTransactionList,
+      }),
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        if (data.status == "success") {
+          // 成功処理
+        } else {
+          // 失敗処理
+        }
+      })
+      .finally(() => {
+        setLoading(false);
+      });
   };
 
   /** キャンセル */
   const cancel = () => {
-    console.log(monthlyTransactionList);
+    getInit();
   };
+
+  /** API関連 */
+  const rootURI = "http://localhost:8080";
+
+  // ユーザー情報の取得
+  const getInit = () => {
+    fetch(`${rootURI}/fixed/getFixed`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        userId: "a77a6e94-6aa2-47ea-87dd-129f580fb669",
+      }),
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        if (data.status == "success") {
+          setMonthlyTransactionList(data.monthlyTransactionList);
+        }
+      });
+  };
+
+  useEffect(() => {
+    getInit();
+  }, [setMonthlyTransactionList]);
 
   return (
     <div className="containerBox">
@@ -92,11 +107,16 @@ const SettingsFixedList = () => {
       </div>
 
       <div className="fixedSettingsButtons">
-        <Button onClick={cancel} variant="contained" color="inherit">
+        <Button
+          onClick={cancel}
+          variant="contained"
+          color="inherit"
+          disabled={isLoading}
+        >
           キャンセル
         </Button>
-        <Button onClick={register} variant="contained">
-          登録
+        <Button onClick={register} variant="contained" disabled={isLoading}>
+          {isLoading ? <CircularProgress size={20} /> : "登録"}
         </Button>
       </div>
     </div>

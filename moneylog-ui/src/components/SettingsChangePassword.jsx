@@ -1,4 +1,4 @@
-import { Button, TextField } from "@mui/material";
+import { Button, CircularProgress, TextField } from "@mui/material";
 import React from "react";
 import { useState } from "react";
 
@@ -8,6 +8,7 @@ const SettingsChangePassword = () => {
   const [newPassword2, setNewPassword2] = useState("");
 
   const [matchError, setMatchError] = useState(false);
+  const [isLoading, setLoading] = useState(false);
 
   /** パスワード変更 */
   const changePassword = () => {
@@ -35,6 +36,7 @@ const SettingsChangePassword = () => {
 
   // パスワード変更
   const changePasswordApi = (password, newPassword) => {
+    setLoading(true);
     fetch(`${rootURI}/user/changePassword`, {
       method: "POST",
       headers: {
@@ -49,12 +51,16 @@ const SettingsChangePassword = () => {
       .then((res) => res.json())
       .then((data) => {
         if (data.status == "success") {
-          setCurrentPassword("");
-          setNewPassword1("");
-          setNewPassword2("");
+          // 成功処理
         } else {
-          // エラー処理
+          // 失敗処理
         }
+      })
+      .finally(() => {
+        setCurrentPassword("");
+        setNewPassword1("");
+        setNewPassword2("");
+        setLoading(false);
       });
   };
 
@@ -96,11 +102,20 @@ const SettingsChangePassword = () => {
       </div>
 
       <div className="passwordSettingsButtons">
-        <Button onClick={cancel} variant="contained" color="inherit">
+        <Button
+          onClick={cancel}
+          variant="contained"
+          color="inherit"
+          disabled={isLoading}
+        >
           キャンセル
         </Button>
-        <Button onClick={changePassword} variant="contained">
-          登録
+        <Button
+          onClick={changePassword}
+          variant="contained"
+          disabled={isLoading}
+        >
+          {isLoading ? <CircularProgress size={20} /> : "登録"}
         </Button>
       </div>
     </div>

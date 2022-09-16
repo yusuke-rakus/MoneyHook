@@ -6,7 +6,7 @@ import javax.validation.Valid;
 
 public class EditFixedForm extends form {
 
-	private List<@Valid MonthlyTransactionList> monthlyTransactionList;
+	private List<MonthlyTransactionList> monthlyTransactionList;
 
 	public List<MonthlyTransactionList> getMonthlyTransactionList() {
 		return monthlyTransactionList;

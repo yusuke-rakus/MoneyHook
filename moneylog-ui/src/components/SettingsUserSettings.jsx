@@ -1,14 +1,14 @@
-import { Button, TextField } from "@mui/material";
+import { Button, CircularProgress, TextField } from "@mui/material";
 import React, { useEffect, useState } from "react";
 
 const SettingsUserSettings = () => {
   /** ユーザー設定変更 */
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [isLoading, setLoading] = useState(false);
 
   /** メールアドレス変更 */
   const changeEmail = () => {
-    // メールアドレス変更APIを実施する
     changeEmailApi(email, password);
   };
 
@@ -42,6 +42,7 @@ const SettingsUserSettings = () => {
 
   // メールアドレス変更
   const changeEmailApi = (email, password) => {
+    setLoading(true);
     fetch(`${rootURI}/user/changeEmail`, {
       method: "POST",
       headers: {
@@ -56,10 +57,16 @@ const SettingsUserSettings = () => {
       .then((res) => res.json())
       .then((data) => {
         if (data.status == "success") {
-          setEmail("");
-          setPassword("");
-          getInit();
+          // 成功処理
+        } else {
+          // 失敗処理
         }
+      })
+      .finally(() => {
+        setEmail("");
+        setPassword("");
+        getInit();
+        setLoading(false);
       });
   };
 
@@ -100,11 +107,16 @@ const SettingsUserSettings = () => {
       </div>
 
       <div className="userSettingsButtons">
-        <Button onClick={cansel} variant="contained" color="inherit">
+        <Button
+          onClick={cansel}
+          variant="contained"
+          color="inherit"
+          disabled={isLoading}
+        >
           キャンセル
         </Button>
-        <Button onClick={changeEmail} variant="contained">
-          登録
+        <Button onClick={changeEmail} variant="contained" disabled={isLoading}>
+          {isLoading ? <CircularProgress size={20} /> : "登録"}
         </Button>
       </div>
     </div>

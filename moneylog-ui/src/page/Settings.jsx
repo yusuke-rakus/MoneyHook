@@ -9,6 +9,8 @@ import SettingsUserSettings from "../components/SettingsUserSettings";
 import SettingsChangePassword from "../components/SettingsChangePassword";
 import SettingsFixedList from "../components/SettingsFixedList";
 import Sidebar from "../components/Sidebar";
+import DeletedSavingTarget from "../components/DeletedSavingTarget";
+import DeletedFixed from "../components/DeletedFixed";
 
 const Settings = (props) => {
   const { colorList, setColorList, themeColor, setThemeColor } = props;
@@ -19,6 +21,12 @@ const Settings = (props) => {
 
       <div className="homeArea">
         <div className="container">
+          {/* 削除済み目標 */}
+          <DeletedSavingTarget />
+
+          {/* 削除済み固定費 */}
+          <DeletedFixed />
+
           {/* ユーザー設定変更 */}
           <SettingsUserSettings />
 

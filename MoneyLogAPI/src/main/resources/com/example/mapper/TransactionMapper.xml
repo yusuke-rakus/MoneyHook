@@ -157,15 +157,21 @@
 			t.transaction_name,
 			t.transaction_amount,
 			t.transaction_date,
-			c.category_name
+			c.category_name,
+			t.category_id,
+			sc.sub_category_name,
+			t.sub_category_id,
+			t.fixed_flg
 		FROM
 			transaction t
 		INNER JOIN category c ON c.category_id = t.category_id
-		WHERE user_no = #{userNo}
-		AND 0 > t.transaction_amount
+		INNER JOIN sub_category sc ON sc.sub_category_id = t.sub_category_id
+		WHERE t.user_no = #{userNo}
 		AND t.transaction_date 
 			BETWEEN #{month} AND LAST_DAY(#{month})
-		ORDER BY t.transaction_date DESC;
+		ORDER BY
+			t.transaction_date DESC,
+			t.transaction_id DESC;
 	</select>
 	
 	<!-- ホーム画面情報の取得 -->
@@ -256,5 +262,8 @@
 		AND t.fixed_flg = false
 		ORDER BY category_total_amount, sub_category_total_amount, transaction_amount;
 	</select>
-		
+	
+	<select id="getFrequentTransactionName" resultType="java.lang.String">
+	</select>
+
 </mapper>

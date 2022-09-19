@@ -1,23 +1,27 @@
-import React from "react";
+import React, { useState } from "react";
 /** CSS */
 import "../components_CSS/window_CSS/AddTargetBox.css";
 /** 外部コンポーネント */
 import CloseIcon from "@mui/icons-material/Close";
-import { TextField, Button } from "@mui/material";
+import { TextField, Button, CircularProgress } from "@mui/material";
 
 const AddTargetBox = (props) => {
-  const { setWindowStatus, savingTargetData, setSavingTargetData, title } =
-    props;
+  const {
+    setWindowStatus,
+    savingTargetData,
+    setSavingTargetData,
+    title,
+    getInit,
+    setBanner,
+    setBannerMessage,
+    setBannerType,
+  } = props;
+
+  const [isLoading, setLoading] = useState(false);
 
   /** モーダルウィンドウを閉じる */
   const closeAddTargetStatus = () => {
     setWindowStatus(false);
-  };
-
-  /** 登録ボタン押下 */
-  const register = () => {
-    console.log(savingTargetData);
-    closeAddTargetStatus();
   };
 
   /** 金額入力 */
@@ -32,6 +36,84 @@ const AddTargetBox = (props) => {
       ...savingTargetData,
       savingTargetName: e.target.value,
     });
+  };
+
+  /** API関連 */
+  const rootURI = "http://localhost:8080";
+
+  /** 登録処理 */
+  const register = () => {
+    if (savingTargetData.savingTargetId == void 0) {
+      // 登録処理
+      addSavingTarget();
+    } else {
+      // 編集処理
+      editSavingTarget();
+    }
+    setBanner(true);
+  };
+
+  /** 貯金目標を追加 */
+  const addSavingTarget = () => {
+    setLoading(true);
+    fetch(`${rootURI}/savingTarget/addSavingTarget`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        userId: "a77a6e94-6aa2-47ea-87dd-129f580fb669",
+        savingTargetName: savingTargetData.savingTargetName,
+        targetAmount: savingTargetData.targetAmount,
+      }),
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        if (data.status == "success") {
+          // 成功
+        } else {
+          // 失敗
+        }
+        setBannerMessage(data.message);
+        setBannerType(data.status);
+      })
+      .finally(() => {
+        setLoading(false);
+        getInit();
+        closeAddTargetStatus();
+      });
+  };
+
+  /** 貯金目標を編集 */
+  const editSavingTarget = () => {
+    setLoading(true);
+    fetch(`${rootURI}/savingTarget/editSavingTarget`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        userId: "a77a6e94-6aa2-47ea-87dd-129f580fb669",
+        savingTargetId: savingTargetData.savingTargetId,
+        savingTargetName: savingTargetData.savingTargetName,
+        targetAmount: savingTargetData.targetAmount,
+      }),
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        if (data.status == "success") {
+          // 成功
+        } else {
+          // 失敗
+        }
+        setBannerMessage(data.message);
+        setBannerType(data.status);
+      })
+      .finally(() => {
+        setLoading(false);
+        getInit();
+        closeAddTargetStatus();
+      });
   };
 
   return (
@@ -83,7 +165,7 @@ const AddTargetBox = (props) => {
             }}
             value={
               isNaN(savingTargetData.targetAmount)
-                ? 0
+                ? ""
                 : Math.abs(savingTargetData.targetAmount).toLocaleString()
             }
             onChange={changeAmount}
@@ -93,8 +175,8 @@ const AddTargetBox = (props) => {
       </div>
 
       {/* 登録ボタン */}
-      <Button onClick={register} variant="contained">
-        登録
+      <Button onClick={register} variant="contained" disabled={isLoading}>
+        {isLoading ? <CircularProgress size={20} /> : "登録"}
       </Button>
     </div>
   );

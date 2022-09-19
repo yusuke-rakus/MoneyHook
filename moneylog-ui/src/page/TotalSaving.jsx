@@ -12,9 +12,18 @@ import AddSharpIcon from "@mui/icons-material/AddSharp";
 import { Line } from "react-chartjs-2";
 import { CSSTransition } from "react-transition-group";
 import Sidebar from "../components/Sidebar";
+import Alert from "@mui/material/Alert";
+import IconButton from "@mui/material/IconButton";
+import Collapse from "@mui/material/Collapse";
+import CloseIcon from "@mui/icons-material/Close";
 
 const TotalSaving = (props) => {
   const { themeColor } = props;
+  /** バナーのステータス */
+  const [banner, setBanner] = useState(false);
+  const [bannerMessage, setBannerMessage] = useState("");
+  const [bannerType, setBannerType] = useState("success");
+
   /** 今月 */
   const [sysDate, setSysDate] = useState(new Date("2022-06-01"));
   sysDate.setDate(1);
@@ -83,12 +92,7 @@ const TotalSaving = (props) => {
   // 貯金目標編集ウィンドウのデータ
   const [editSavingTarget, setEditSavingTarget] = useState({});
   const resetEditSavingTarget = () => {
-    setEditSavingTarget({
-      savingTargetName: "",
-      targetAmount: "",
-      savingCount: "",
-      savingAmount: "",
-    });
+    setEditSavingTarget({});
   };
 
   /** API関連 */
@@ -154,6 +158,30 @@ const TotalSaving = (props) => {
       <Sidebar themeColor={themeColor} />
 
       <div className="homeArea">
+        {/* バーナー */}
+        <div className="bannerArea">
+          <Collapse in={banner}>
+            <Alert
+              severity={bannerType}
+              action={
+                <IconButton
+                  aria-label="close"
+                  color="inherit"
+                  size="small"
+                  onClick={() => {
+                    setBanner(false);
+                  }}
+                >
+                  <CloseIcon fontSize="inherit" />
+                </IconButton>
+              }
+              sx={{ mb: 2 }}
+            >
+              {bannerMessage}
+            </Alert>
+          </Collapse>
+        </div>
+
         <div className="container">
           {/* 貯金総額 */}
           <div className="totalSavingTitleArea">
@@ -210,6 +238,10 @@ const TotalSaving = (props) => {
               title={title}
               savingTargetData={editSavingTarget}
               setSavingTargetData={setEditSavingTarget}
+              getInit={getInit}
+              setBanner={setBanner}
+              setBannerMessage={setBannerMessage}
+              setBannerType={setBannerType}
             />
           </CSSTransition>
         </div>

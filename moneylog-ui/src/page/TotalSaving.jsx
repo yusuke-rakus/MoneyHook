@@ -109,9 +109,7 @@ const TotalSaving = (props) => {
       .then((data) => {
         if (data.status == "success") {
           setUncategorizedSavingAmount(
-            data.uncategorizedSavingAmount == void 0
-              ? 0
-              : data.uncategorizedSavingAmount
+            data.uncategorizedAmount == void 0 ? 0 : data.uncategorizedAmount
           );
           setSavingTargetData(data.savingTargetList);
         }

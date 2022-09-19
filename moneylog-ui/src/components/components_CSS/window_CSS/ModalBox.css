@@ -105,3 +105,11 @@
   justify-content: center;
   margin-bottom: 20px;
 }
+
+/* 削除ボタン */
+.deleteButton {
+  position: absolute;
+  display: block;
+  right: 15px;
+  bottom: 15px;
+}

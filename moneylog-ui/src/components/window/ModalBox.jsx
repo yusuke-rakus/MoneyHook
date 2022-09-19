@@ -151,13 +151,11 @@ const ModalBox = (props) => {
       .then((data) => {
         if (data.status == "success") {
           // 成功
-          setBannerMessage(data.message);
-          setBannerType(data.status);
         } else {
           // 失敗
-          setBannerMessage(data.message);
-          setBannerType(data.status);
         }
+        setBannerMessage(data.message);
+        setBannerType(data.status);
       })
       .finally(() => {
         setLoading(false);
@@ -195,11 +193,44 @@ const ModalBox = (props) => {
         } else {
           // 失敗
         }
+        setBannerMessage(data.message);
+        setBannerType(data.status);
       })
       .finally(() => {
         setLoading(false);
         closeModalWindow();
         getInit(month);
+      });
+  };
+
+  /** 削除処理 */
+  const deleteTransaction = () => {
+    setLoading(true);
+    fetch(`${rootURI}/transaction/deleteTransaction`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        userId: "a77a6e94-6aa2-47ea-87dd-129f580fb669",
+        transactionId: transaction.transactionId,
+      }),
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        if (data.status == "success") {
+          // 成功
+        } else {
+          // 失敗
+        }
+        setBannerMessage(data.message);
+        setBannerType(data.status);
+      })
+      .finally(() => {
+        setLoading(false);
+        closeModalWindow();
+        getInit(month);
+        setBanner(true);
       });
   };
 
@@ -240,7 +271,6 @@ const ModalBox = (props) => {
           className="close-button"
         />
         <h3 className="modal-title">{title}</h3>
-
         {/* 日付入力 */}
         <div className="input-date-box">
           <span className="input-span">日付</span>
@@ -298,7 +328,6 @@ const ModalBox = (props) => {
             <span>日</span>
           </div>
         </div>
-
         {/* 金額入力 */}
         <div className="input-amount-box">
           <SwitchBalanceButton
@@ -338,7 +367,6 @@ const ModalBox = (props) => {
             </div>
           </div>
         </div>
-
         {/* 取引名入力 */}
         <div className="input-transaction-box">
           <span className="input-span">取引名</span>
@@ -369,7 +397,6 @@ const ModalBox = (props) => {
             />
           </div>
         </div>
-
         {/* カテゴリ入力 */}
         <div className="input-category-box">
           <span className="input-span category-span">カテゴリ</span>
@@ -386,7 +413,6 @@ const ModalBox = (props) => {
             </p>
           </div>
         </div>
-
         {/* 固定費チェックボックス */}
         <FormGroup>
           <FormControlLabel
@@ -406,6 +432,20 @@ const ModalBox = (props) => {
         >
           {isLoading ? <CircularProgress size={20} /> : "登録"}
         </Button>
+
+        {/* 削除ボタン */}
+        {transaction.transactionId && (
+          <div className="deleteButton">
+            <Button
+              onClick={deleteTransaction}
+              disabled={isLoading}
+              size="small"
+              sx={{ color: "#9e9e9e" }}
+            >
+              削除
+            </Button>
+          </div>
+        )}
       </div>
 
       <CSSTransition

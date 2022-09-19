@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 /** CSS */
 import "../components_CSS/window_CSS/AddSavingBox.css";
 /** 外部コンポーネント */
@@ -9,29 +9,34 @@ import {
   MenuItem,
   TextField,
   Button,
+  CircularProgress,
 } from "@mui/material";
 
 const AddSavingBox = (props) => {
-  // 振り分け処理
-  const [distribution, setDistribution] = useState("");
-  const distributionList = ["M2 MacBookAir", "沖縄旅行"];
-  const changeDistribution = (e) => {
-    setDistribution(e.target.value);
-  };
+  const {
+    title,
+    setAddSavingStatus,
+    saving,
+    setSaving,
+    getInit,
+    month,
+    setBanner,
+    setBannerMessage,
+    setBannerType,
+  } = props;
 
-  // 以下必須
-  const { title, setAddSavingStatus, saving, setSaving } = props;
+  const [isLoading, setLoading] = useState(false);
+
+  // 振り分け処理
+  const [distributionList, setDistributionList] = useState([]);
+  const changeDistribution = (e) => {
+    setSaving({ ...saving, savingTargetId: e.target.value });
+  };
 
   /** 貯金日がなければ当日をセット */
   if (!saving.savingDate) {
     setSaving({ ...saving, savingDate: new Date() });
   }
-
-  /** 閉じる処理 */
-  const closeAddSavingWindow = () => {
-    setSaving({});
-    setAddSavingStatus(false);
-  };
 
   /** 金額表示処理 */
   const changeAmount = (e) => {
@@ -63,6 +68,151 @@ const AddSavingBox = (props) => {
     d.setDate(e.target.value);
     setSaving({ ...saving, savingDate: new Date(d) });
   };
+
+  /** 閉じる処理 */
+  const closeAddSavingWindow = () => {
+    setSaving({});
+    setAddSavingStatus(false);
+  };
+
+  /** API関連 */
+  const rootURI = "http://localhost:8080";
+
+  /** 登録処理 */
+  const register = () => {
+    if (saving.savingId == void 0) {
+      // 登録処理
+      addSaving();
+    } else {
+      // 編集処理
+      editSaving();
+    }
+    setBanner(true);
+  };
+
+  /** 貯金追加 */
+  const addSaving = () => {
+    setLoading(true);
+    fetch(`${rootURI}/saving/addSaving`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        userId: "a77a6e94-6aa2-47ea-87dd-129f580fb669",
+        savingDate: saving.savingDate,
+        savingName: saving.savingName,
+        savingAmount: saving.savingAmount,
+        savingTargetId: saving.savingTargetId,
+      }),
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        if (data.status == "success") {
+          // 成功
+        } else {
+          // 失敗
+        }
+        setBannerMessage(data.message);
+        setBannerType(data.status);
+      })
+      .finally(() => {
+        setLoading(false);
+        closeAddSavingWindow();
+        getInit(month);
+      });
+  };
+
+  /** 貯金編集 */
+  const editSaving = () => {
+    setLoading(true);
+    fetch(`${rootURI}/saving/editSaving`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        userId: "a77a6e94-6aa2-47ea-87dd-129f580fb669",
+        savingId: saving.savingId,
+        savingDate: saving.savingDate,
+        savingName: saving.savingName,
+        savingAmount: saving.savingAmount,
+        savingTargetId: saving.savingTargetId,
+      }),
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        if (data.status == "success") {
+          // 成功
+        } else {
+          // 失敗
+        }
+        setBannerMessage(data.message);
+        setBannerType(data.status);
+      })
+      .finally(() => {
+        setLoading(false);
+        closeAddSavingWindow();
+        getInit(month);
+      });
+  };
+
+  /** 貯金削除 */
+  const deleteSaving = () => {
+    setLoading(true);
+    fetch(`${rootURI}/saving/deleteSaving`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        userId: "a77a6e94-6aa2-47ea-87dd-129f580fb669",
+        savingId: saving.savingId,
+      }),
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        if (data.status == "success") {
+          // 成功
+        } else {
+          // 失敗
+        }
+        setBannerMessage(data.message);
+        setBannerType(data.status);
+      })
+      .finally(() => {
+        setLoading(false);
+        closeAddSavingWindow();
+        getInit(month);
+        setBanner(true);
+      });
+  };
+
+  /** 目標一覧取得処理 */
+  const getSavingTargetList = () => {
+    fetch(`${rootURI}/savingTarget/getSavingTargetList`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        userId: "a77a6e94-6aa2-47ea-87dd-129f580fb669",
+      }),
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        if (data.status == "success") {
+          // 成功
+          setDistributionList(data.savingTarget);
+        } else {
+          // 失敗
+        }
+      });
+  };
+
+  useEffect(() => {
+    getSavingTargetList();
+  }, [setDistributionList]);
 
   return (
     <>
@@ -167,7 +317,7 @@ const AddSavingBox = (props) => {
               }}
               value={
                 isNaN(saving.savingAmount)
-                  ? 0
+                  ? ""
                   : Math.abs(saving.savingAmount).toLocaleString()
               }
               onChange={changeAmount}
@@ -180,11 +330,11 @@ const AddSavingBox = (props) => {
         <div className="distribution-group">
           <span className="input-span">振り分ける</span>
           <FormControl size="small" sx={{ mt: "3px", minWidth: "250px" }}>
-            <Select value={distribution} onChange={changeDistribution}>
+            <Select value={saving.savingTargetId} onChange={changeDistribution}>
               {distributionList.map((distributionItem, i) => {
                 return (
-                  <MenuItem key={i} value={distributionItem}>
-                    {distributionItem}
+                  <MenuItem key={i} value={distributionItem.savingTargetId}>
+                    {distributionItem.savingTargetName}
                   </MenuItem>
                 );
               })}
@@ -193,9 +343,23 @@ const AddSavingBox = (props) => {
         </div>
 
         {/* 登録ボタン */}
-        <Button onClick={closeAddSavingWindow} variant="contained">
-          登録
+        <Button onClick={register} variant="contained" disabled={isLoading}>
+          {isLoading ? <CircularProgress size={20} /> : "登録"}
         </Button>
+
+        {/* 削除ボタン */}
+        {saving.savingId && (
+          <div className="deleteButton">
+            <Button
+              onClick={deleteSaving}
+              disabled={isLoading}
+              size="small"
+              sx={{ color: "#9e9e9e" }}
+            >
+              削除
+            </Button>
+          </div>
+        )}
       </div>
     </>
   );

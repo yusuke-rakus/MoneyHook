@@ -68,7 +68,11 @@
       	SUM(`saving_amount`) as 'monthly_total_saving_amount'
 		FROM
 			saving s
-		WHERE s.user_no = #{userNo} 
+		WHERE s.user_no = #{userNo}
+		AND
+			saving_date
+				BETWEEN DATE_SUB(#{month}, INTERVAL 5 MONTH)
+				AND LAST_DAY(#{month})
 		GROUP BY saving_month
 		ORDER BY saving_month asc 
 	</select>

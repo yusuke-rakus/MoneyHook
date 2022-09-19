@@ -12,12 +12,14 @@ import com.example.common.Status;
 import com.example.form.ChangeEmailForm;
 import com.example.form.ChangePasswordForm;
 import com.example.form.EditThemeColorForm;
+import com.example.form.GetThemeColorForm;
 import com.example.form.GetUserInfoForm;
 import com.example.form.LoginForm;
 import com.example.form.RegistUserForm;
 import com.example.response.ChangeEmailResponse;
 import com.example.response.ChangePasswordResponse;
 import com.example.response.EditThemeColorResponse;
+import com.example.response.GetThemeColorResponse;
 import com.example.response.GetUserInfoResponse;
 import com.example.response.LoginResponse;
 import com.example.response.RegistUserResponse;
@@ -130,6 +132,22 @@ public class UserController {
 		form.setUserNo(userNo);
 
 		return userService.editThemeColor(form, res);
+	}
+
+	/**
+	 * テーマカラーの取得
+	 * 
+	 * @throws Exception
+	 */
+	@PostMapping("/getThemeColor")
+	public GetThemeColorResponse getThemeColor(@RequestBody GetThemeColorForm form) throws Exception {
+		GetThemeColorResponse res = new GetThemeColorResponse();
+
+		// ユーザー認証
+		Long userNo = authenticationService.authUser(form);
+		form.setUserNo(userNo);
+
+		return userService.getThemeColor(form, res);
 	}
 
 }

@@ -1,5 +1,6 @@
 package com.example.service;
 
+import java.util.List;
 import java.util.Objects;
 import java.util.UUID;
 
@@ -13,6 +14,7 @@ import com.example.domain.User;
 import com.example.form.ChangeEmailForm;
 import com.example.form.ChangePasswordForm;
 import com.example.form.EditThemeColorForm;
+import com.example.form.GetThemeColorForm;
 import com.example.form.GetUserInfoForm;
 import com.example.form.LoginForm;
 import com.example.form.RegistUserForm;
@@ -20,6 +22,7 @@ import com.example.mapper.UserMapper;
 import com.example.response.ChangeEmailResponse;
 import com.example.response.ChangePasswordResponse;
 import com.example.response.EditThemeColorResponse;
+import com.example.response.GetThemeColorResponse;
 import com.example.response.GetUserInfoResponse;
 import com.example.response.LoginResponse;
 import com.example.response.RegistUserResponse;
@@ -150,6 +153,27 @@ public class UserService {
 		boolean updateResult = userMapper.editThemeColor(form);
 		if (!updateResult) {
 			throw new Exception();
+		}
+
+		return res;
+	}
+
+	/**
+	 * テーマカラー取得
+	 * 
+	 * @throws Exception
+	 */
+	public GetThemeColorResponse getThemeColor(GetThemeColorForm form, GetThemeColorResponse res) throws Exception {
+
+		try {
+			List<User> themeColorList = userMapper.getThemeColor(form);
+			if (Objects.isNull(themeColorList)) {
+				throw new Exception();
+			}
+			res.setThemeColorList(themeColorList);
+		} catch (Exception e) {
+			res.setStatus(Status.ERROR.getStatus());
+			res.setMessage(ErrorMessage.USER_INFO_GET_FAILED);
 		}
 
 		return res;

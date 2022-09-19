@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { useCookies } from "react-cookie";
 /** CSS */
 import "./components_CSS/SettingsSelectColor.css";
@@ -10,17 +10,20 @@ const SettingsSelectColor = (props) => {
   const [cookie, setCookie] = useCookies();
 
   /** カラー選択処理 */
-  const selectColor = (colorCode) => {
+  const selectColor = (colorData) => {
+    let colorCode = !colorData.themeColorCode
+      ? colorData.themeColorGradientCode
+      : colorData.themeColorCode;
     setThemeColor(colorCode);
     setCookie("themeColor", colorCode);
-    // editThemeColorApi(themeColorId入れる)
+    editThemeColorApi(colorData.themeColorId);
   };
 
   /** API関連 */
   const rootURI = "http://localhost:8080";
 
-  // テーマカラーリストを取得
   const getInit = () => {
+    // テーマカラーリストを取得
     fetch(`${rootURI}/user/getThemeColor`, {
       method: "POST",
       headers: {
@@ -33,14 +36,22 @@ const SettingsSelectColor = (props) => {
       .then((res) => res.json())
       .then((data) => {
         if (data.status == "success") {
-          setColorList(data.themeColorList);
+          setColorList({
+            ...colorList,
+            themeColorGradientCodeList: data.themeColorList.filter(
+              (data) => !data.themeColorCode
+            ),
+            themeColorCodeList: data.themeColorList.filter(
+              (data) => !data.themeColorGradientCode
+            ),
+          });
         }
       });
   };
 
   // テーマカラー変更
   const editThemeColorApi = (themeColorId) => {
-    fetch(`${rootURI}/user/getThemeColor`, {
+    fetch(`${rootURI}/user/editThemeColor`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -60,9 +71,9 @@ const SettingsSelectColor = (props) => {
       });
   };
 
-  // useEffect(() => {
-  //   getInit();
-  // }, [setColorList]);
+  useEffect(() => {
+    getInit();
+  }, [setColorList]);
 
   return (
     <div className="containerBox">
@@ -75,9 +86,11 @@ const SettingsSelectColor = (props) => {
               key={i}
               onClick={() => selectColor(data)}
               style={{
-                background: data,
-                border: data == themeColor ? "3px solid #2196f3" : "",
-                transform: data == themeColor ? "scale(1.2)" : "",
+                background: data.themeColorCode,
+                border:
+                  data.themeColorCode == themeColor ? "3px solid #2196f3" : "",
+                transform:
+                  data.themeColorCode == themeColor ? "scale(1.2)" : "",
               }}
               className="colorBox"
             ></div>
@@ -91,9 +104,13 @@ const SettingsSelectColor = (props) => {
               key={i}
               onClick={() => selectColor(data)}
               style={{
-                background: `linear-gradient(${data})`,
-                border: data == themeColor ? "3px solid #2196f3" : "",
-                transform: data == themeColor ? "scale(1.2)" : "",
+                background: `linear-gradient(${data.themeColorGradientCode})`,
+                border:
+                  data.themeColorGradientCode == themeColor
+                    ? "3px solid #2196f3"
+                    : "",
+                transform:
+                  data.themeColorGradientCode == themeColor ? "scale(1.2)" : "",
               }}
               className="gradientColorBox"
             ></div>

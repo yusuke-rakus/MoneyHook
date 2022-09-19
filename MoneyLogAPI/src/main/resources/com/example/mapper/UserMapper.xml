@@ -92,9 +92,19 @@
 		UPDATE
 			user
 		SET
-			theme_color_id=#{themeColorId};
+			theme_color_id=#{themeColorId}
 		WHERE
 			user_no=#{userNo};
 	</update>
+	
+	<!-- テーマカラーリストの取得 -->
+	<select id="getThemeColor" resultType="com.example.domain.User">
+		SELECT
+			theme_color_id,
+			theme_color_code,
+			theme_color_gradient_code
+		FROM
+			theme_color;
+	</select>
 
 </mapper>

@@ -226,7 +226,11 @@ const TotalSaving = (props) => {
           </div>
 
           {/* 貯金目標追加ウィンドウ */}
-          <BlurView status={windowStatus} setStatus={setWindowStatus} />
+          <BlurView
+            status={windowStatus}
+            setStatus={setWindowStatus}
+            setObject={setEditSavingTarget}
+          />
           <CSSTransition
             in={windowStatus}
             timeout={100}

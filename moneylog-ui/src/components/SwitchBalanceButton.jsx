@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 /** CSS */
 import "./components_CSS/SwitchBalanceButton.css";
 /** 外部コンポーネント */

@@ -14,6 +14,7 @@ import com.example.common.exception.SystemException;
 import com.example.form.AddTransactionForm;
 import com.example.form.DeleteTransactionForm;
 import com.example.form.EditTransactionForm;
+import com.example.form.FrequentTransactionNameForm;
 import com.example.form.GetHomeForm;
 import com.example.form.GetMonthlyFixedIncomeForm;
 import com.example.form.GetMonthlyFixedSpendingForm;
@@ -24,6 +25,7 @@ import com.example.form.GetTransactionForm;
 import com.example.response.AddTransactionResponse;
 import com.example.response.DeleteTransactionResponse;
 import com.example.response.EditTransactionResponse;
+import com.example.response.FrequentTransactionNameResponse;
 import com.example.response.GetHomeResponse;
 import com.example.response.GetMonthlyFixedIncomeResponse;
 import com.example.response.GetMonthlyFixedSpendingResponse;
@@ -226,5 +228,22 @@ public class TransactionController {
 		form.setUserNo(userNo);
 
 		return transactionService.getMonthlyVariableData(form, res);
+	}
+
+	/**
+	 * 取引名レコメンド
+	 * 
+	 * @throws AuthenticationException
+	 */
+	@PostMapping("/getFrequentTransactionName")
+	public FrequentTransactionNameResponse getFrequentTransactionName(@RequestBody FrequentTransactionNameForm form)
+			throws SystemException {
+		FrequentTransactionNameResponse res = new FrequentTransactionNameResponse();
+
+		// ユーザー認証
+		Long userNo = authenticationService.authUser(form);
+		form.setUserNo(userNo);
+
+		return transactionService.getFrequentTransactionName(form, res);
 	}
 }

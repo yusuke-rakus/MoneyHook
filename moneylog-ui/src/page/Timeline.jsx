@@ -18,11 +18,21 @@ import FormControl from "@mui/material/FormControl";
 import Select from "@mui/material/Select";
 import { CSSTransition } from "react-transition-group";
 import Sidebar from "../components/Sidebar";
+import Alert from "@mui/material/Alert";
+import IconButton from "@mui/material/IconButton";
+import Collapse from "@mui/material/Collapse";
+import CloseIcon from "@mui/icons-material/Close";
 
 Chart.register(...registerables);
 
 const Timeline = (props) => {
   const { themeColor } = props;
+
+  /** バナーのステータス */
+  const [banner, setBanner] = useState(false);
+  const [bannerMessage, setBannerMessage] = useState("");
+  const [bannerType, setBannerType] = useState("success");
+
   /** 今月 */
   const [sysDate, setSysDate] = useState(new Date("2022-06-01"));
   sysDate.setDate(1);
@@ -33,12 +43,12 @@ const Timeline = (props) => {
   /** グラフデータ */
   const [graphData, setGraphData] = useState([]);
   const [graphMonth, setGraphMonth] = useState([]);
-  const data = {
-    labels: [...graphMonth].reverse(),
+  const graphDatasets = {
+    labels: graphMonth,
     datasets: [
       // 表示するデータセット
       {
-        data: [...graphData].reverse(),
+        data: graphData,
         backgroundColor: "#03A9F4",
         label: "月別支出推移",
       },
@@ -160,9 +170,16 @@ const Timeline = (props) => {
       .then((res) => res.json())
       .then((data) => {
         if (data.status == "success") {
-          setGraphData(data.monthlyTotalAmountList.map((d) => d.totalAmount));
+          setGraphData(
+            data.monthlyTotalAmountList
+              .map((d) => Math.abs(d.totalAmount))
+              .reverse()
+          );
+
           setGraphMonth(
-            data.monthlyTotalAmountList.map((d) => `${Number(d.month)}月`)
+            data.monthlyTotalAmountList
+              .map((d) => `${Number(d.month)}月`)
+              .reverse()
           );
         }
       });
@@ -211,6 +228,30 @@ const Timeline = (props) => {
       <Sidebar themeColor={themeColor} />
 
       <div className="homeArea">
+        {/* バーナー */}
+        <div className="bannerArea">
+          <Collapse in={banner}>
+            <Alert
+              severity={bannerType}
+              action={
+                <IconButton
+                  aria-label="close"
+                  color="inherit"
+                  size="small"
+                  onClick={() => {
+                    setBanner(false);
+                  }}
+                >
+                  <CloseIcon fontSize="inherit" />
+                </IconButton>
+              }
+              sx={{ mb: 2 }}
+            >
+              {bannerMessage}
+            </Alert>
+          </Collapse>
+        </div>
+
         <div className="container">
           {/* 月 */}
           <div className="month">
@@ -230,7 +271,11 @@ const Timeline = (props) => {
           </div>
 
           {/* グラフ */}
-          <Bar data={data} options={option} className="timelineGraph" />
+          <Bar
+            data={graphDatasets}
+            options={option}
+            className="timelineGraph"
+          />
 
           {/* 並べ替えプルダウン */}
           <div className="sortButtonArea">
@@ -292,6 +337,11 @@ const Timeline = (props) => {
               transaction={transaction}
               setTransaction={setTransaction}
               title={transactionTitle}
+              getInit={getInit}
+              month={sysDate}
+              setBanner={setBanner}
+              setBannerMessage={setBannerMessage}
+              setBannerType={setBannerType}
             />
           </CSSTransition>
         </div>

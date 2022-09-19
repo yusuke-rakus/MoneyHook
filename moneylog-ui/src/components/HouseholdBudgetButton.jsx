@@ -10,7 +10,7 @@ const HouseholdBudgetButton = (props) => {
 
   const openModalWindow = () => {
     openWindow(true);
-    setSavingTitle("貯金を追加");
+    // setSavingTitle("貯金を追加");
     setTransactionTitle("支出または収入の入力");
   };
 

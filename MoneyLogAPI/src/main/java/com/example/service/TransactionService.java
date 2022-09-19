@@ -11,6 +11,7 @@ import com.example.common.Status;
 import com.example.common.exception.AuthenticationException;
 import com.example.common.exception.SystemException;
 import com.example.common.message.ErrorMessage;
+import com.example.common.message.SuccessMessage;
 import com.example.domain.CategoryList;
 import com.example.domain.MonthlyFixedList;
 import com.example.domain.SubCategory;
@@ -18,6 +19,7 @@ import com.example.domain.Transaction;
 import com.example.form.AddTransactionForm;
 import com.example.form.DeleteTransactionForm;
 import com.example.form.EditTransactionForm;
+import com.example.form.FrequentTransactionNameForm;
 import com.example.form.GetHomeForm;
 import com.example.form.GetMonthlyFixedIncomeForm;
 import com.example.form.GetMonthlyFixedSpendingForm;
@@ -30,6 +32,7 @@ import com.example.mapper.TransactionMapper;
 import com.example.response.AddTransactionResponse;
 import com.example.response.DeleteTransactionResponse;
 import com.example.response.EditTransactionResponse;
+import com.example.response.FrequentTransactionNameResponse;
 import com.example.response.GetHomeResponse;
 import com.example.response.GetMonthlyFixedIncomeResponse;
 import com.example.response.GetMonthlyFixedSpendingResponse;
@@ -80,6 +83,7 @@ public class TransactionService {
 
 		try {
 			transactionMapper.addTransaction(form);
+			res.setMessage(SuccessMessage.TRANSACTION_INSERT_SUCCESSED);
 		} catch (Exception e) {
 			res.setStatus(Status.ERROR.getStatus());
 		}
@@ -97,6 +101,7 @@ public class TransactionService {
 		// 削除処理
 		try {
 			transactionMapper.deleteTransaction(form);
+			res.setMessage(SuccessMessage.TRANSACTION_DELETE_SUCCESSED);
 		} catch (Exception e) {
 			res.setStatus(Status.ERROR.getStatus());
 			return res;
@@ -138,6 +143,7 @@ public class TransactionService {
 		// 編集
 		try {
 			transactionMapper.editTransaction(form);
+			res.setMessage(SuccessMessage.TRANSACTION_EDIT_SUCCESSED);
 		} catch (Exception e) {
 			res.setStatus(Status.ERROR.getStatus());
 			return res;
@@ -297,6 +303,25 @@ public class TransactionService {
 		} catch (Exception e) {
 			res.setStatus(Status.ERROR.getStatus());
 			res.setMessage(ErrorMessage.MONTHLY_VARIABLE_DATA_GET_FAILED);
+		}
+
+		return res;
+	}
+
+	/**
+	 * 取引名レコメンド
+	 * 
+	 * @throws AuthenticationException
+	 */
+	public FrequentTransactionNameResponse getFrequentTransactionName(FrequentTransactionNameForm form,
+			FrequentTransactionNameResponse res) throws SystemException {
+
+		// データを取得
+		try {
+			List<Transaction> transactionList = transactionMapper.getFrequentTransactionName(form);
+			res.setTransactionList(transactionList);
+		} catch (Exception e) {
+			res.setStatus(Status.ERROR.getStatus());
 		}
 
 		return res;

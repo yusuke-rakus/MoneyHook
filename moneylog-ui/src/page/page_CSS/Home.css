@@ -1,3 +1,10 @@
+/* バナー */
+.bannerArea {
+  position: fixed;
+  top: 15px;
+  right: 15px;
+}
+
 /* 収支合計 */
 .monthlyTotalAmountTitleArea {
   width: 100%;

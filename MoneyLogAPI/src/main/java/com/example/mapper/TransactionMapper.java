@@ -10,6 +10,7 @@ import com.example.domain.Transaction;
 import com.example.form.AddTransactionForm;
 import com.example.form.DeleteTransactionForm;
 import com.example.form.EditTransactionForm;
+import com.example.form.FrequentTransactionNameForm;
 import com.example.form.GetHomeForm;
 import com.example.form.GetMonthlyFixedIncomeForm;
 import com.example.form.GetMonthlyFixedSpendingForm;
@@ -50,5 +51,8 @@ public interface TransactionMapper {
 
 	/** 指定月の変動費・変動費合計を取得 */
 	public List<CategoryList> getMonthlyVariableData(GetMonthlyVariableDataForm form);
+
+	/** 取引名のレコメンドを取得 */
+	public List<Transaction> getFrequentTransactionName(FrequentTransactionNameForm form);
 
 }

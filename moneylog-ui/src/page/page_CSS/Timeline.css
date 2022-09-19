@@ -24,3 +24,10 @@
   right: 50px;
   bottom: 50px;
 }
+
+/* バナー */
+.bannerArea {
+  position: fixed;
+  top: 15px;
+  right: 15px;
+}

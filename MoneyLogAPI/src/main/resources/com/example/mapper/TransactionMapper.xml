@@ -263,7 +263,23 @@
 		ORDER BY category_total_amount, sub_category_total_amount, transaction_amount;
 	</select>
 	
-	<select id="getFrequentTransactionName" resultType="java.lang.String">
+	<select id="getFrequentTransactionName" resultType="com.example.domain.Transaction">
+		(SELECT
+			transaction_name
+		FROM
+			transaction
+		WHERE user_no = #{userNo}
+		GROUP BY transaction_name
+		ORDER BY COUNT(transaction_name) DESC
+		LIMIT 3)
+		UNION
+		(SELECT
+			transaction_name
+		FROM
+			transaction
+		WHERE user_no = #{userNo}
+		ORDER BY transaction_id DESC
+		LIMIT 3)
 	</select>
 
 </mapper>

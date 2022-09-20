@@ -19,6 +19,7 @@ import com.example.form.AddSavingTargetForm;
 import com.example.form.DeleteSavingTargetForm;
 import com.example.form.EditSavingTargetForm;
 import com.example.form.GetSavingTargetListForm;
+import com.example.form.ReturnSavingTargetForm;
 import com.example.mapper.SavingTargetMapper;
 
 @Service
@@ -45,14 +46,14 @@ public class SavingTargetService {
 	}
 
 	/** 貯金金額含めた貯金目標一覧の取得 */
-	public List<SavingTarget> getSavingTargetListWithSavedAmount(GetSavingTargetListForm form) throws SystemException  {
+	public List<SavingTarget> getSavingTargetListWithSavedAmount(GetSavingTargetListForm form) throws SystemException {
 		// ユーザーIDからユーザーNoを取得
 		Long userNo = authenticationService.authUser(form);
 		form.setUserNo(userNo);
-		
+
 		List<SavingTarget> savingTargetList = new ArrayList<>();
 		savingTargetList = savingTargetMapper.getSavingTargetListWithSavedAmount(form);
-		
+
 		return savingTargetList;
 	}
 
@@ -145,12 +146,54 @@ public class SavingTargetService {
 		savingTargetMapper.editSavingTarget(form);
 	}
 
+	/**
+	 * 貯金目標IDとユーザーNOで貯金目標を検索します。
+	 * 
+	 * @param savingTargetId
+	 * @param userNo
+	 * @return
+	 * @throws SystemException
+	 */
 	public void deleteSavingTarget(DeleteSavingTargetForm form) throws SystemException {
 		// ユーザーIDからユーザーNoを取得
 		Long userNo = authenticationService.authUser(form);
 		form.setUserNo(userNo);
 
 		savingTargetMapper.deleteSavingTarget(form);
+
+	}
+
+	/**
+	 * 貯金目標IDとユーザーNOで貯金目標を検索します。
+	 * 
+	 * @param savingTargetId
+	 * @param userNo
+	 * @return
+	 * @throws SystemException
+	 */
+	public void returnSavingTarget(ReturnSavingTargetForm form) throws SystemException {
+		// ユーザーIDからユーザーNoを取得
+		Long userNo = authenticationService.authUser(form);
+		form.setUserNo(userNo);
+
+		savingTargetMapper.returnSavingTarget(form);
+
+	}
+
+	/**
+	 * 貯金目標IDとユーザーNOで貯金目標を検索します。
+	 * 
+	 * @param savingTargetId
+	 * @param userNo
+	 * @return
+	 * @throws SystemException
+	 */
+	public void deleteSavingTargetFromTable(DeleteSavingTargetForm form) throws SystemException {
+		// ユーザーIDからユーザーNoを取得
+		Long userNo = authenticationService.authUser(form);
+		form.setUserNo(userNo);
+
+		savingTargetMapper.deleteSavingTargetFromTable(form);
 
 	}
 

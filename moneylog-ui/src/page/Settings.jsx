@@ -21,20 +21,14 @@ const Settings = (props) => {
 
       <div className="homeArea">
         <div className="container">
-          {/* 削除済み目標 */}
-          <DeletedSavingTarget />
-
-          {/* 削除済み固定費 */}
-          <DeletedFixed />
+          {/* 固定費の編集 */}
+          <SettingsFixedList />
 
           {/* ユーザー設定変更 */}
           <SettingsUserSettings />
 
           {/* パスワード変更 */}
           <SettingsChangePassword />
-
-          {/* 固定費の編集 */}
-          <SettingsFixedList />
 
           {/* カラーの選択 */}
           <SettingsSelectColor
@@ -43,6 +37,12 @@ const Settings = (props) => {
             themeColor={themeColor}
             setThemeColor={setThemeColor}
           />
+
+          {/* 削除済み目標 */}
+          <DeletedSavingTarget />
+
+          {/* 削除済み固定費 */}
+          <DeletedFixed />
         </div>
       </div>
     </>

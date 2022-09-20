@@ -20,10 +20,12 @@ import com.example.form.AddSavingTargetForm;
 import com.example.form.DeleteSavingTargetForm;
 import com.example.form.EditSavingTargetForm;
 import com.example.form.GetSavingTargetListForm;
+import com.example.form.ReturnSavingTargetForm;
 import com.example.response.AddSavingTargetResponse;
 import com.example.response.DeleteSavingTargetResponse;
 import com.example.response.EditSavingTargetResponse;
 import com.example.response.GetSavingTargetListResponse;
+import com.example.response.ReturnSavingTargetResponse;
 import com.example.service.SavingService;
 import com.example.service.SavingTargetService;
 import com.example.service.ValidationService;
@@ -68,7 +70,7 @@ public class SavingTargetController {
 		res.setSavingTarget(savingTargetList);
 		return res;
 	}
-	
+
 	/**
 	 * 削除済み貯金目標を取得
 	 * 
@@ -89,7 +91,7 @@ public class SavingTargetController {
 			res.setMessage(errorMessage);
 			return res;
 		}
-		
+
 		List<SavingTarget> savingTargetList = savingTargetService.getDeletedSavingTargetList(form);
 
 		res.setMessage(SuccessMessage.DELETED_SAVING_TARGET_LIST_GET_SUCCESSED);
@@ -163,7 +165,7 @@ public class SavingTargetController {
 	}
 
 	/**
-	 * 貯金目標を削除
+	 * 貯金目標を削除(論理)
 	 * 
 	 * @param form
 	 * @param result
@@ -182,9 +184,75 @@ public class SavingTargetController {
 			res.setMessage(errorMessage);
 			return res;
 		}
-		
+
 		try {
 			savingTargetService.deleteSavingTarget(form);
+		} catch (AlreadyExistsException e) {
+			res.setStatus(Status.ERROR.getStatus());
+			res.setMessage(e.getMessage());
+			return res;
+		}
+
+		res.setMessage(SuccessMessage.SAVING_TARGET_DELETE_SUCCESSED);
+		return res;
+	}
+
+	/**
+	 * 貯金目標を戻す
+	 * 
+	 * @param form
+	 * @param result
+	 * @return
+	 * @throws Throwable
+	 */
+	@PostMapping("/returnSavingTarget")
+	public ReturnSavingTargetResponse returnSavingTargetTarget(@RequestBody @Validated ReturnSavingTargetForm form,
+			BindingResult result) throws Throwable {
+		ReturnSavingTargetResponse res = new ReturnSavingTargetResponse();
+
+		if (result.hasErrors()) {
+			String errorMessage = validationService.getFirstErrorMessage(result);
+
+			res.setStatus(Status.ERROR.getStatus());
+			res.setMessage(errorMessage);
+			return res;
+		}
+
+		try {
+			savingTargetService.returnSavingTarget(form);
+		} catch (AlreadyExistsException e) {
+			res.setStatus(Status.ERROR.getStatus());
+			res.setMessage(e.getMessage());
+			return res;
+		}
+
+		res.setMessage(SuccessMessage.SAVING_TARGET_RETURN_SUCCESSED);
+		return res;
+	}
+
+	/**
+	 * 貯金目標を削除(物理)
+	 * 
+	 * @param form
+	 * @param result
+	 * @return
+	 * @throws Throwable
+	 */
+	@PostMapping("/deleteSavingTargetFromTable")
+	public DeleteSavingTargetResponse deleteSavingTargetFromTable(@RequestBody @Validated DeleteSavingTargetForm form,
+			BindingResult result) throws Throwable {
+		DeleteSavingTargetResponse res = new DeleteSavingTargetResponse();
+
+		if (result.hasErrors()) {
+			String errorMessage = validationService.getFirstErrorMessage(result);
+
+			res.setStatus(Status.ERROR.getStatus());
+			res.setMessage(errorMessage);
+			return res;
+		}
+
+		try {
+			savingTargetService.deleteSavingTargetFromTable(form);
 		} catch (AlreadyExistsException e) {
 			res.setStatus(Status.ERROR.getStatus());
 			res.setMessage(e.getMessage());

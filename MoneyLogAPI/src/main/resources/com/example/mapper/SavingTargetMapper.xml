@@ -111,7 +111,7 @@
 			user_no = #{userNo} ;
 	</update>
 		
-	<!-- 貯金目標の削除 -->
+	<!-- 貯金目標の削除(論理) -->
 	<delete id="deleteSavingTarget">
 		UPDATE
 			saving_target
@@ -119,6 +119,29 @@
 			delete_flg = true
 		</set>
 		WHERE 
+			saving_target_id = #{savingTargetId} 
+		AND 
+			user_no = #{userNo} ;
+	</delete>
+		
+	<!-- 貯金目標を戻す -->
+	<delete id="returnSavingTarget">
+		UPDATE
+			saving_target
+		<set>
+			delete_flg = false
+		</set>
+		WHERE 
+			saving_target_id = #{savingTargetId} 
+		AND 
+			user_no = #{userNo} ;
+	</delete>
+		
+	<!-- 貯金目標の削除(物理) -->
+	<delete id="deleteSavingTargetFromTable">
+		DELETE FROM
+			saving_target
+		WHERE
 			saving_target_id = #{savingTargetId} 
 		AND 
 			user_no = #{userNo} ;

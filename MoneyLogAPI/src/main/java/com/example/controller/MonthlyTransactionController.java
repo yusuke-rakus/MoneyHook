@@ -13,10 +13,12 @@ import com.example.form.DeleteFixedForm;
 import com.example.form.EditFixedForm;
 import com.example.form.GetDeletedFixedForm;
 import com.example.form.GetFixedForm;
+import com.example.form.ReturnTargetForm;
 import com.example.response.DeleteFixedResponse;
 import com.example.response.EditFixedResponse;
 import com.example.response.GetDeletedFixedResponse;
 import com.example.response.GetFixedResponse;
+import com.example.response.ReturnTargetResponse;
 import com.example.service.AuthenticationService;
 import com.example.service.MonthlyTransactionService;
 
@@ -30,7 +32,7 @@ public class MonthlyTransactionController {
 	@Autowired
 	private AuthenticationService authenticationService;
 
-	/** カテゴリ一覧の取得 */
+	/** 月次データ一覧の取得 */
 	@PostMapping("/getFixed")
 	public GetFixedResponse getCategoryList(@RequestBody GetFixedForm form) throws SystemException {
 		GetFixedResponse res = new GetFixedResponse();
@@ -52,6 +54,30 @@ public class MonthlyTransactionController {
 		form.setUserNo(userNo);
 
 		return monthlyTransactionService.deleteFixed(form, res);
+	}
+
+	/** 固定費データの削除 */
+	@PostMapping("/deleteFixedFromTable")
+	public DeleteFixedResponse deleteFixedFromTable(@RequestBody DeleteFixedForm form) throws SystemException {
+		DeleteFixedResponse res = new DeleteFixedResponse();
+
+		// ユーザー認証
+		Long userNo = authenticationService.authUser(form);
+		form.setUserNo(userNo);
+
+		return monthlyTransactionService.deleteFixedFromTable(form, res);
+	}
+
+	/** 計算対象外データを戻す */
+	@PostMapping("/returnTarget")
+	public ReturnTargetResponse returnTarget(@RequestBody ReturnTargetForm form) throws SystemException {
+		ReturnTargetResponse res = new ReturnTargetResponse();
+
+		// ユーザー認証
+		Long userNo = authenticationService.authUser(form);
+		form.setUserNo(userNo);
+
+		return monthlyTransactionService.returnTarget(form, res);
 	}
 
 	/** 計算対象外の固定費一覧取得 */

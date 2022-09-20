@@ -1,0 +1,19 @@
+/* データ */
+.tableRow {
+  transition: 0.25s;
+}
+
+.tableRow:hover {
+  cursor: pointer;
+  background-color: #fafafa;
+}
+
+/* 操作ボタン */
+.hideButton {
+  transition: 0.25s;
+  opacity: 0;
+}
+
+.tableRow:hover .hideButton {
+  opacity: 1;
+}

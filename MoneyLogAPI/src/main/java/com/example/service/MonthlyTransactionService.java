@@ -17,11 +17,13 @@ import com.example.form.EditFixedForm;
 import com.example.form.GetDeletedFixedForm;
 import com.example.form.GetFixedForm;
 import com.example.form.MonthlyTransactionList;
+import com.example.form.ReturnTargetForm;
 import com.example.mapper.MonthlyTransactionMapper;
 import com.example.response.DeleteFixedResponse;
 import com.example.response.EditFixedResponse;
 import com.example.response.GetDeletedFixedResponse;
 import com.example.response.GetFixedResponse;
+import com.example.response.ReturnTargetResponse;
 
 @Service
 @Transactional
@@ -58,6 +60,40 @@ public class MonthlyTransactionService {
 
 		try {
 			monthlyTransactionMapper.deleteFixed(form);
+		} catch (Exception e) {
+			res.setStatus(Status.ERROR.getStatus());
+			res.setMessage(ErrorMessage.DELETE_FIXED_ERROR);
+		}
+
+		return res;
+	}
+
+	/**
+	 * 固定費データの削除(物理)
+	 * 
+	 * @throws SystemException
+	 */
+	public DeleteFixedResponse deleteFixedFromTable(DeleteFixedForm form, DeleteFixedResponse res) throws SystemException {
+
+		try {
+			monthlyTransactionMapper.deleteFixedFromTable(form);
+		} catch (Exception e) {
+			res.setStatus(Status.ERROR.getStatus());
+			res.setMessage(ErrorMessage.DELETE_FIXED_ERROR);
+		}
+
+		return res;
+	}
+
+	/**
+	 * 計算対象外データを戻す
+	 * 
+	 * @throws SystemException
+	 */
+	public ReturnTargetResponse returnTarget(ReturnTargetForm form, ReturnTargetResponse res) throws SystemException {
+
+		try {
+			monthlyTransactionMapper.returnTarget(form);
 		} catch (Exception e) {
 			res.setStatus(Status.ERROR.getStatus());
 			res.setMessage(ErrorMessage.DELETE_FIXED_ERROR);

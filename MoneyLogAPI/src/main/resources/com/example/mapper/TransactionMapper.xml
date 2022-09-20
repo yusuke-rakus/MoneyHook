@@ -91,6 +91,7 @@
 				BETWEEN DATE_SUB(#{month}, INTERVAL 5 MONTH)
 				AND LAST_DAY(#{month})
 		GROUP BY month
+		ORDER BY month DESC
 		LIMIT 6;
 	</select>
 	

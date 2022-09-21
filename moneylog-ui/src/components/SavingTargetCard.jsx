@@ -53,7 +53,11 @@ const SavingTargetCard = (props) => {
           </table>
           <div className="saving-amount-area">
             <span>貯金額</span>
-            <p>{`¥ ${savingTargetData.totalSavedAmount.toLocaleString()}`}</p>
+            <p>
+              {savingTargetData.totalSavedAmount == void 0
+                ? 0
+                : `¥ ${savingTargetData.totalSavedAmount.toLocaleString()}`}
+            </p>
           </div>
         </div>
       </Box>

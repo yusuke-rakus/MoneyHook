@@ -10,6 +10,7 @@ import {
   TextField,
   Button,
   CircularProgress,
+  Autocomplete,
 } from "@mui/material";
 
 const AddSavingBox = (props) => {
@@ -52,6 +53,10 @@ const AddSavingBox = (props) => {
     setSaving({ ...saving, savingName: e.target.value });
   };
 
+  const selectSavingName = (e, v) => {
+    setSaving({ ...saving, savingName: v });
+  };
+
   /** 日付処理 */
   const setYear = (e) => {
     let d = new Date(saving.savingDate);
@@ -74,6 +79,9 @@ const AddSavingBox = (props) => {
     setSaving({});
     setAddSavingStatus(false);
   };
+
+  /** 貯金名レコメンドリスト */
+  const [recommendList, setRecommendList] = useState([]);
 
   /** API関連 */
   const rootURI = "http://localhost:8080";
@@ -210,9 +218,32 @@ const AddSavingBox = (props) => {
       });
   };
 
+  /** 貯金名レコメンド取得 */
+  const getFrequentSavingName = () => {
+    fetch(`${rootURI}/saving/getFrequentSavingName`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        userId: "a77a6e94-6aa2-47ea-87dd-129f580fb669",
+      }),
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        if (data.status == "success") {
+          // 成功
+          setRecommendList(data.savingList.map((data) => data.savingName));
+        } else {
+          // 失敗
+        }
+      });
+  };
+
   useEffect(() => {
     getSavingTargetList();
-  }, [setDistributionList]);
+    getFrequentSavingName();
+  }, [setDistributionList, setRecommendList]);
 
   return (
     <>
@@ -279,21 +310,29 @@ const AddSavingBox = (props) => {
         {/* 名称 */}
         <div className="input-name-box">
           <span className="input-span">名称</span>
-          <TextField
-            id="standard-basic"
-            variant="standard"
-            autoComplete="off"
-            fullWidth={true}
-            inputProps={{
-              style: {
-                paddingRight: "20px",
-                paddingLeft: "20px",
-                fontSize: "20px",
-                color: "#424242",
-              },
-            }}
-            value={saving && saving.savingName}
-            onChange={changeSavingName}
+          <Autocomplete
+            freeSolo
+            options={recommendList}
+            defaultValue={saving && saving.savingName}
+            onChange={selectSavingName}
+            renderInput={(params) => (
+              <TextField
+                {...params}
+                variant="standard"
+                fullWidth={true}
+                autoComplete="off"
+                onChange={changeSavingName}
+                InputProps={{
+                  ...params.InputProps,
+                  style: {
+                    paddingRight: "20px",
+                    paddingLeft: "20px",
+                    fontSize: "20px",
+                    color: "#424242",
+                  },
+                }}
+              />
+            )}
           />
         </div>
 

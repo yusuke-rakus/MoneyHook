@@ -116,6 +116,37 @@ const AddTargetBox = (props) => {
       });
   };
 
+  /** 貯金削除 */
+  const deleteSavingTarget = () => {
+    setLoading(true);
+    fetch(`${rootURI}/savingTarget/deleteSavingTarget`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        userId: "a77a6e94-6aa2-47ea-87dd-129f580fb669",
+        savingTargetId: savingTargetData.savingTargetId,
+      }),
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        if (data.status == "success") {
+          // 成功
+        } else {
+          // 失敗
+        }
+        setBannerMessage(data.message);
+        setBannerType(data.status);
+      })
+      .finally(() => {
+        setLoading(false);
+        closeAddTargetStatus();
+        getInit();
+        setBanner(true);
+      });
+  };
+
   return (
     <div className="mini-modal-window">
       <CloseIcon
@@ -178,6 +209,20 @@ const AddTargetBox = (props) => {
       <Button onClick={register} variant="contained" disabled={isLoading}>
         {isLoading ? <CircularProgress size={20} /> : "登録"}
       </Button>
+
+      {/* 削除ボタン */}
+      {savingTargetData.savingTargetId && (
+        <div className="deleteButton">
+          <Button
+            onClick={deleteSavingTarget}
+            disabled={isLoading}
+            size="small"
+            sx={{ color: "#9e9e9e" }}
+          >
+            削除
+          </Button>
+        </div>
+      )}
     </div>
   );
 };

@@ -8,7 +8,9 @@
 		<result column="monthly_transaction_name" property="monthlyTransactionName" />
 		<result column="monthly_transaction_amount" property="monthlyTransactionAmount" />
 		<result column="monthly_transaction_date" property="monthlyTransactionDate" />
+		<result column="category_id" property="categoryId" />
 		<result column="category_name" property="categoryName" />
+		<result column="sub_category_id" property="subCategoryId" />
 		<result column="sub_category_name" property="subCategoryName" />
 	</resultMap>
 	
@@ -18,7 +20,9 @@
 			mt.monthly_transaction_name,
 			mt.monthly_transaction_amount,
 			mt.monthly_transaction_date,
+			mt.category_id,
 			c.category_name,
+			mt.sub_category_id,
 			sc.sub_category_name
 		FROM
 			monthly_transaction mt
@@ -119,8 +123,7 @@
 			monthly_transaction_amount=#{monthlyTransactionAmount},
 			monthly_transaction_date=#{monthlyTransactionDate},
 			category_id=#{categoryId},
-			sub_category_id=#{subCategoryId},
-			include_flg=#{includeFlg}
+			sub_category_id=#{subCategoryId}
 		WHERE
 			monthly_transaction_id=#{monthlyTransactionId}
 		AND

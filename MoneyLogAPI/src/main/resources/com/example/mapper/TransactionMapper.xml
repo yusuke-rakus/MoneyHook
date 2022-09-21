@@ -264,6 +264,7 @@
 		ORDER BY category_total_amount, sub_category_total_amount, transaction_amount;
 	</select>
 	
+	<!-- 取引名の候補 -->
 	<select id="getFrequentTransactionName" resultType="com.example.domain.Transaction">
 		(SELECT
 			transaction_name

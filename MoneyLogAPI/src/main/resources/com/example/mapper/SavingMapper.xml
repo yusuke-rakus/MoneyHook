@@ -144,4 +144,25 @@
 			#{savingIdList}
 		</foreach>
 	</update>
+	
+	<!-- 貯金名の候補 -->
+	<select id="getFrequentSavingName" resultType="com.example.domain.Saving">
+		(SELECT
+			saving_name
+		FROM
+			saving
+		WHERE user_no = 2
+		GROUP BY saving_name
+		ORDER BY COUNT(saving_name) DESC
+		LIMIT 3)
+		UNION
+		(SELECT
+			saving_name
+		FROM
+			saving
+		WHERE user_no = 2
+		ORDER BY saving_id DESC
+		LIMIT 3)
+	</select>
+
 </mapper>

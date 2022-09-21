@@ -10,11 +10,19 @@ import {
   FormControl,
   IconButton,
   NativeSelect,
+  CircularProgress,
 } from "@mui/material";
 import DeleteIcon from "@mui/icons-material/Delete";
 
 const SettingsFixed = (props) => {
-  const { data, monthlyTransactionList, setMonthlyTransactionList } = props;
+  const {
+    data,
+    monthlyTransactionList,
+    setMonthlyTransactionList,
+    getInit,
+    isLoading,
+    setLoading,
+  } = props;
 
   /** 取引名の変更 */
   const transactionChange = (e) => {
@@ -46,17 +54,39 @@ const SettingsFixed = (props) => {
     );
   };
 
+  /** API関連 */
+  const rootURI = "http://localhost:8080";
+
   /** 削除 */
   const deleteData = () => {
-    setMonthlyTransactionList(
-      monthlyTransactionList.filter(
-        (mt) => mt.monthlyTransactionId !== data.monthlyTransactionId
-      )
-    );
+    setLoading(true);
+    fetch(`${rootURI}/fixed/deleteFixed`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        userId: "a77a6e94-6aa2-47ea-87dd-129f580fb669",
+        monthlyTransactionId: data.monthlyTransactionId,
+      }),
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        if (data.status == "success") {
+          // 成功
+        } else {
+          // 失敗
+        }
+      })
+      .finally(() => {
+        setLoading(false);
+        getInit();
+      });
   };
 
   return (
     <div className="fixedData">
+      {/* カテゴリ */}
       <div className="categoryData">
         <Button
           variant="text"
@@ -73,6 +103,8 @@ const SettingsFixed = (props) => {
             : "カテゴリ選択"}
         </Button>
       </div>
+
+      {/* 取引名 */}
       <div className="transactionNameData">
         <span>取引名</span>
         <TextField
@@ -82,6 +114,8 @@ const SettingsFixed = (props) => {
           onChange={transactionChange}
         />
       </div>
+
+      {/* 金額 */}
       <div className="fixedAmountData">
         <span>金額</span>
         <TextField
@@ -102,6 +136,8 @@ const SettingsFixed = (props) => {
           onChange={amountChange}
         />
       </div>
+
+      {/* 振替日 */}
       <div className="transferDate">
         <span>振替日</span>
         <FormControl sx={{ minWidth: 60 }} size="small">
@@ -126,16 +162,22 @@ const SettingsFixed = (props) => {
         </FormControl>
         日
       </div>
+
+      {/* 収支ボタン */}
       <div className="switchBalanceArea">
         <SwitchBalanceButton
           balance={data.monthlyTransactionAmount}
           id={data.monthlyTransactionId}
         />
       </div>
-      <div onClick={() => deleteData()} className="deleteArea">
-        <IconButton aria-label="delete">
-          <DeleteIcon />
-        </IconButton>
+      <div className="deleteArea">
+        {isLoading ? (
+          <CircularProgress size={20} />
+        ) : (
+          <IconButton onClick={deleteData} aria-label="delete">
+            <DeleteIcon />
+          </IconButton>
+        )}
       </div>
     </div>
   );

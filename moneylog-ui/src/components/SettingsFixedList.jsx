@@ -10,11 +10,10 @@ const SettingsFixedList = () => {
 
   /** 固定費データ入力欄の追加 */
   const AddFixedDataInput = () => {
-    let mtId = monthlyTransactionList.slice(-1)[0].monthlyTransactionId + 1;
     setMonthlyTransactionList([
       ...monthlyTransactionList,
       {
-        monthlyTransactionId: mtId,
+        monthlyTransactionId: null,
         monthlyTransactionName: null,
         monthlyTransactionAmount: null,
         monthlyTransactionDate: null,
@@ -26,28 +25,30 @@ const SettingsFixedList = () => {
 
   /** 登録処理 */
   const register = () => {
-    setLoading(true);
-    fetch(`${rootURI}/fixed/editFixed`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        userId: "a77a6e94-6aa2-47ea-87dd-129f580fb669",
-        monthlyTransactionList: monthlyTransactionList,
-      }),
-    })
-      .then((res) => res.json())
-      .then((data) => {
-        if (data.status == "success") {
-          // 成功処理
-        } else {
-          // 失敗処理
-        }
-      })
-      .finally(() => {
-        setLoading(false);
-      });
+    console.log(monthlyTransactionList);
+    // setLoading(true);
+    // fetch(`${rootURI}/fixed/editFixed`, {
+    //   method: "POST",
+    //   headers: {
+    //     "Content-Type": "application/json",
+    //   },
+    //   body: JSON.stringify({
+    //     userId: "a77a6e94-6aa2-47ea-87dd-129f580fb669",
+    //     monthlyTransactionList: monthlyTransactionList,
+    //   }),
+    // })
+    //   .then((res) => res.json())
+    //   .then((data) => {
+    //     if (data.status == "success") {
+    //       // 成功処理
+    //     } else {
+    //       // 失敗処理
+    //     }
+    //   })
+    //   .finally(() => {
+    //     setLoading(false);
+    //     getInit();
+    //   });
   };
 
   /** キャンセル */
@@ -95,6 +96,9 @@ const SettingsFixedList = () => {
               data={data}
               monthlyTransactionList={monthlyTransactionList}
               setMonthlyTransactionList={setMonthlyTransactionList}
+              getInit={getInit}
+              isLoading={isLoading}
+              setLoading={setLoading}
             />
           );
         })}

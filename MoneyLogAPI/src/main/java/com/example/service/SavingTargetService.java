@@ -229,8 +229,8 @@ public class SavingTargetService {
 
 		savingTarget = savingTargetMapper.findSavingTargetByNameAndUserNo(savingTarget);
 
-		// 該当する貯金目標がない場合は、システム例外をスロー
-		if (Objects.isNull(savingTarget)) {
+		// 該当する貯金目標がある場合は、システム例外をスロー
+		if (!Objects.isNull(savingTarget)) {
 			throw new DataNotFoundException(ErrorMessage.SAVING_TARGET_NOT_FOUND);
 		}
 

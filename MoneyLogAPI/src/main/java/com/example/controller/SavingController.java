@@ -21,6 +21,7 @@ import com.example.form.AddSavingForm;
 import com.example.form.AllotSavingForm;
 import com.example.form.DeleteSavingForm;
 import com.example.form.EditSavingForm;
+import com.example.form.FrequentSavingNameForm;
 import com.example.form.GetMonthlySavingListForm;
 import com.example.form.GetSavingForm;
 import com.example.form.GetSavingListForm;
@@ -30,6 +31,7 @@ import com.example.response.AddSavingResponse;
 import com.example.response.AllotSavingResponse;
 import com.example.response.DeleteSavingResponse;
 import com.example.response.EditSavingResponse;
+import com.example.response.FrequentSavingNameResponse;
 import com.example.response.GetSavingAmountForSavingTargetResponse;
 import com.example.response.GetSavingListResponse;
 import com.example.response.GetSavingResponse;
@@ -44,7 +46,7 @@ public class SavingController {
 
 	@Autowired
 	private SavingService savingService;
-	
+
 	@Autowired
 	private SavingTargetService savingTargetService;
 
@@ -78,7 +80,7 @@ public class SavingController {
 		res.setSavingList(savingList);
 		return res;
 	}
-	
+
 	/**
 	 * 未振り分けの貯金一覧を取得
 	 * 
@@ -90,18 +92,18 @@ public class SavingController {
 	@PostMapping("/getUncategorizedSaving")
 	public GetSavingListResponse getUncategorizedSavingList(@RequestBody @Validated GetSavingListForm form,
 			BindingResult result) throws Throwable {
-		
+
 		GetSavingListResponse res = new GetSavingListResponse();
-		
+
 		if (result.hasErrors()) {
 			String errorMessage = validationService.getFirstErrorMessage(result);
 			res.setStatus(Status.ERROR.getStatus());
 			res.setMessage(errorMessage);
 			return res;
 		}
-		
+
 		List<Saving> savingList = savingService.getUncategorizedSavingList(form);
-		
+
 		res.setMessage(SuccessMessage.SAVING_LIST_GET_SUCCESSED);
 		res.setSavingList(savingList);
 		return res;
@@ -219,8 +221,8 @@ public class SavingController {
 	 * @throws SystemException
 	 */
 	@PostMapping("/deleteSaving")
-	public DeleteSavingResponse deleteSaving(@RequestBody @Validated DeleteSavingForm form,
-			BindingResult result) throws SystemException {
+	public DeleteSavingResponse deleteSaving(@RequestBody @Validated DeleteSavingForm form, BindingResult result)
+			throws SystemException {
 		DeleteSavingResponse res = new DeleteSavingResponse();
 
 		if (result.hasErrors()) {
@@ -232,7 +234,7 @@ public class SavingController {
 		}
 
 		savingService.deleteSaving(form);
-		
+
 		res.setMessage(SuccessMessage.SAVING_DATA_DELETE_SUCCESSED);
 		return res;
 	}
@@ -240,14 +242,14 @@ public class SavingController {
 	/**
 	 * 貯金の一括振り分けを行います。
 	 * 
-	 * @param form 
+	 * @param form
 	 * @param result
-	 * @return 
+	 * @return
 	 * @throws Throwable
 	 */
 	@PostMapping("/sortSavingAmount")
-	public AllotSavingResponse allotSavingAmountsToNewTarget(@RequestBody @Validated AllotSavingForm form, BindingResult result)
-			throws Throwable {
+	public AllotSavingResponse allotSavingAmountsToNewTarget(@RequestBody @Validated AllotSavingForm form,
+			BindingResult result) throws Throwable {
 
 		AllotSavingResponse res = new AllotSavingResponse();
 
@@ -301,7 +303,7 @@ public class SavingController {
 		res.setMessage(SuccessMessage.SAVING_TOTAL_DATA_GET_SUCCESSED);
 		return res;
 	}
-	
+
 	/**
 	 * 貯金目標ごとの貯金総額を取得します。
 	 * 
@@ -311,8 +313,8 @@ public class SavingController {
 	 * @throws Throwable
 	 */
 	@PostMapping("/getSavingAmountForTarget")
-	public GetSavingAmountForSavingTargetResponse getSavingAmountForTarget(@RequestBody @Validated GetSavingTargetListForm form, BindingResult result)
-			throws Throwable {
+	public GetSavingAmountForSavingTargetResponse getSavingAmountForTarget(
+			@RequestBody @Validated GetSavingTargetListForm form, BindingResult result) throws Throwable {
 		GetSavingAmountForSavingTargetResponse res = new GetSavingAmountForSavingTargetResponse();
 
 		if (result.hasErrors()) {
@@ -324,10 +326,36 @@ public class SavingController {
 
 		List<SavingTarget> savingTargetList = savingTargetService.getSavingTargetListWithSavedAmount(form);
 		Integer uncategorizedAmount = savingService.getUncategorizedSavingAmount(form);
-		
+
 		res.setSavingTargetList(savingTargetList);
 		res.setUncategorizedAmount(uncategorizedAmount);
 		res.setMessage(SuccessMessage.SAVING_TARGET_AMOUNT_LIST_GET_SUCCESSED);
+		return res;
+	}
+
+	/**
+	 * 貯金名を取得
+	 * 
+	 * @param form
+	 * @param result
+	 * @return
+	 * @throws Throwable
+	 */
+	@PostMapping("/getFrequentSavingName")
+	public FrequentSavingNameResponse getFrequentSavingName(@RequestBody @Validated FrequentSavingNameForm form,
+			BindingResult result) throws Throwable {
+		FrequentSavingNameResponse res = new FrequentSavingNameResponse();
+
+		if (result.hasErrors()) {
+			String errorMessage = validationService.getFirstErrorMessage(result);
+			res.setStatus(Status.ERROR.getStatus());
+			res.setMessage(errorMessage);
+			return res;
+		}
+
+		List<Saving> savingList = savingService.getFrequentSavingName(form);
+
+		res.setSavingList(savingList);
 		return res;
 	}
 }

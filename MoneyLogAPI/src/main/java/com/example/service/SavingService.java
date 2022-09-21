@@ -118,7 +118,7 @@ public class SavingService {
 			throw new SystemException(ErrorMessage.SAVING_DATA_INSERT_FAILED);
 		}
 	}
-	
+
 	/** 貯金の削除 */
 	public void deleteSaving(DeleteSavingForm form) throws SystemException {
 
@@ -132,7 +132,7 @@ public class SavingService {
 			throw new SystemException(ErrorMessage.SAVING_DATA_DELETE_FAILED);
 		}
 	}
-	
+
 	/** 貯金の一括振り分け */
 	public void allotSaving(AllotSavingForm form) throws SystemException {
 
@@ -147,7 +147,7 @@ public class SavingService {
 		// IDでの指定
 		// 対象としているsavingTargetIdを持ち、かつリクエスト元のuserNoを持つデータが有るかを検索
 		savingTarget = savingTargetService.findSavingTargetByTargetIdAndUserNo(savingTarget);
-		
+
 		try {
 			savingMapper.allotSaving(form);
 		} catch (Exception e) {
@@ -169,35 +169,43 @@ public class SavingService {
 	}
 
 	/** 月ごと貯金総額の取得 */
-	public List<MonthlySavingData> getTotalMonthlySavingAmount(GetTotalSavingForm form) throws SystemException{
+	public List<MonthlySavingData> getTotalMonthlySavingAmount(GetTotalSavingForm form) throws SystemException {
 		// ユーザーIDからユーザーNoを取得
 		Long userNo = authenticationService.authUser(form);
 		form.setUserNo(userNo);
 
 		List<MonthlySavingData> savingAmountList = new ArrayList<>();
-		
+
 		savingAmountList = savingMapper.getTotalMonthlySavingAmount(form);
-		
+
 		return savingAmountList;
 	}
 
-	
 	/** 累計貯金金額を取得 */
-	public Integer getTotalSavingAmount(GetTotalSavingForm form) throws SystemException{
+	public Integer getTotalSavingAmount(GetTotalSavingForm form) throws SystemException {
 		// ユーザーIDからユーザーNoを取得
 		Long userNo = authenticationService.authUser(form);
 		form.setUserNo(userNo);
-				
+
 		return savingMapper.getTotalSavingAmount(form);
 	}
-	
+
 	/** 未振り分け貯金金額を取得 */
-	public Integer getUncategorizedSavingAmount(form form) throws SystemException{
+	public Integer getUncategorizedSavingAmount(form form) throws SystemException {
 		// ユーザーIDからユーザーNoを取得
 		Long userNo = authenticationService.authUser(form);
 		form.setUserNo(userNo);
-		
+
 		return savingMapper.getUncategorizedSavingAmount(form);
+	}
+
+	/** 貯金名を取得 */
+	public List<Saving> getFrequentSavingName(form form) throws SystemException {
+		// ユーザーIDからユーザーNoを取得
+		Long userNo = authenticationService.authUser(form);
+		form.setUserNo(userNo);
+
+		return savingMapper.getFrequentSavingName(form);
 	}
 
 }

@@ -37,23 +37,15 @@ const ModalBox = (props) => {
   } = props;
 
   useEffect(() => {
+    /** 初期値 */
     if (transaction.transactionId == void 0) {
-      setTransaction({ ...transaction, transactionSign: -1 });
+      setTransaction({
+        ...transaction,
+        transactionSign: -1,
+        transactionDate: new Date(),
+      });
     }
   }, [setTransaction]);
-
-  useEffect(() => {
-    /** 日付初期値 */
-    if (transaction.transactionDate == void 0) {
-      setTransaction({ ...transaction, transactionDate: new Date() });
-    }
-  }, [setTransaction]);
-
-  /** ウィンドウを閉じる */
-  const closeModalWindow = () => {
-    setTransaction({});
-    openWindow(false);
-  };
 
   /** 金額入力 */
   const changeAmount = (e) => {
@@ -64,6 +56,21 @@ const ModalBox = (props) => {
         transactionAmount: tempNum,
       });
     }
+  };
+
+  /** 符号の変更 */
+  const changeSign = () => {
+    if (transaction.transactionSign == -1) {
+      setTransaction({ ...transaction, transactionSign: 1 });
+    } else {
+      setTransaction({ ...transaction, transactionSign: -1 });
+    }
+  };
+
+  /** ウィンドウを閉じる */
+  const closeModalWindow = () => {
+    setTransaction({});
+    openWindow(false);
   };
 
   const [CategoryWindowModal, setCategoryWindowModal] = useState(false);
@@ -265,6 +272,7 @@ const ModalBox = (props) => {
           className="close-button"
         />
         <h3 className="modal-title">{title}</h3>
+
         {/* 日付入力 */}
         <div className="input-date-box">
           <span className="input-span">日付</span>
@@ -322,16 +330,12 @@ const ModalBox = (props) => {
             <span>日</span>
           </div>
         </div>
+
         {/* 金額入力 */}
         <div className="input-amount-box">
           <SwitchBalanceButton
-            balance={
-              isNaN(transaction.transactionSign)
-                ? 0
-                : transaction.transactionSign
-            }
-            transaction={transaction}
-            setTransaction={setTransaction}
+            balance={transaction.transactionSign}
+            changeSign={changeSign}
           />
           <div className="amount-group">
             <span className="input-span">金額</span>
@@ -361,6 +365,7 @@ const ModalBox = (props) => {
             </div>
           </div>
         </div>
+
         {/* 取引名入力 */}
         <div className="input-transaction-box">
           <span className="input-span">取引名</span>
@@ -391,6 +396,7 @@ const ModalBox = (props) => {
             />
           </div>
         </div>
+
         {/* カテゴリ入力 */}
         <div className="input-category-box">
           <span className="input-span category-span">カテゴリ</span>
@@ -407,6 +413,7 @@ const ModalBox = (props) => {
             </p>
           </div>
         </div>
+
         {/* 固定費チェックボックス */}
         <FormGroup>
           <FormControlLabel

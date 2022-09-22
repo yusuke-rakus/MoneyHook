@@ -9,6 +9,7 @@
   background-color: #eeeeee;
   border-radius: 23px;
   box-shadow: 0px 3px 2px #ccc;
+  user-select: none;
 }
 
 .switch label {

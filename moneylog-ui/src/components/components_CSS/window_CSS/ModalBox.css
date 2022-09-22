@@ -104,6 +104,7 @@
 .fixed-check-box {
   justify-content: center;
   margin-bottom: 20px;
+  user-select: none;
 }
 
 /* 削除ボタン */

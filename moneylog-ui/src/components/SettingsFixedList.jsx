@@ -16,6 +16,7 @@ const SettingsFixedList = () => {
         monthlyTransactionId: null,
         monthlyTransactionName: null,
         monthlyTransactionAmount: null,
+        monthlyTransactionSign: -1,
         monthlyTransactionDate: null,
         categoryName: null,
         subCategoryName: null,
@@ -25,7 +26,6 @@ const SettingsFixedList = () => {
 
   /** 登録処理 */
   const register = () => {
-    console.log(monthlyTransactionList);
     setLoading(true);
     fetch(`${rootURI}/fixed/editFixed`, {
       method: "POST",

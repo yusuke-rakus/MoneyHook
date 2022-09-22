@@ -54,6 +54,27 @@ const SettingsFixed = (props) => {
     );
   };
 
+  /** 符号の変更 */
+  const changeSign = () => {
+    if (data.monthlyTransactionSign == -1) {
+      setMonthlyTransactionList(
+        monthlyTransactionList.map((mt) =>
+          mt.monthlyTransactionId == data.monthlyTransactionId
+            ? { ...mt, monthlyTransactionSign: 1 }
+            : mt
+        )
+      );
+    } else {
+      setMonthlyTransactionList(
+        monthlyTransactionList.map((mt) =>
+          mt.monthlyTransactionId == data.monthlyTransactionId
+            ? { ...mt, monthlyTransactionSign: -1 }
+            : mt
+        )
+      );
+    }
+  };
+
   /** API関連 */
   const rootURI = "http://localhost:8080";
 
@@ -168,8 +189,7 @@ const SettingsFixed = (props) => {
         <SwitchBalanceButton
           balance={data.monthlyTransactionSign}
           id={data.monthlyTransactionId}
-          monthlyTransactionList={monthlyTransactionList}
-          setMonthlyTransactionList={setMonthlyTransactionList}
+          changeSign={changeSign}
         />
       </div>
 

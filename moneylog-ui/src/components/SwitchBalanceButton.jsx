@@ -1,14 +1,22 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 /** CSS */
 import "./components_CSS/SwitchBalanceButton.css";
 /** 外部コンポーネント */
 import AddIcon from "@mui/icons-material/Add";
 import RemoveIcon from "@mui/icons-material/Remove";
+import { useEffect } from "react";
 
 const SwitchBalanceButton = (props) => {
   // balanceの値に応じてボタンを切り替える
   // 設定していない場合は"支出"となる
-  const { id, balance, transaction, setTransaction } = props;
+  const {
+    id,
+    balance,
+    transaction,
+    setTransaction,
+    monthlyTransactionList,
+    setMonthlyTransactionList,
+  } = props;
   let val = {};
   if (balance > 0) {
     val = {
@@ -29,7 +37,7 @@ const SwitchBalanceButton = (props) => {
 
   const [switchBalance, setSwitchBalance] = useState(val);
 
-  const handleChange = (e) => {
+  const handleChange = () => {
     if (switchBalance.value === -1) {
       setSwitchBalance({
         text: "収入",
@@ -39,6 +47,13 @@ const SwitchBalanceButton = (props) => {
         labelTraslateX: "translateX(-35px)",
       });
       setTransaction({ ...transaction, transactionSign: 1 });
+      // setMonthlyTransactionList(
+      //   monthlyTransactionList.map((data) =>
+      //     data.monthlyTransactionId == id
+      //       ? { ...data, monthlyTransactionSign: 1 }
+      //       : data
+      //   )
+      // );
     } else {
       setSwitchBalance({
         text: "支出",
@@ -48,6 +63,13 @@ const SwitchBalanceButton = (props) => {
         labelTraslateX: "translateX(0)",
       });
       setTransaction({ ...transaction, transactionSign: -1 });
+      // setMonthlyTransactionList(
+      //   monthlyTransactionList.map((data) =>
+      //     data.monthlyTransactionId == id
+      //       ? { ...data, monthlyTransactionSign: -1 }
+      //       : data
+      //   )
+      // );
     }
   };
 

@@ -37,15 +37,12 @@ const ModalBox = (props) => {
   } = props;
 
   useEffect(() => {
-    /** 符号設定 */
-    if (transaction.transactionAmount) {
-      let sign = transaction.transactionAmount < 0 ? -1 : 1;
-      setTransaction({
-        ...transaction,
-        transactionSign: sign,
-        transactionAmount: Math.abs(transaction.transactionAmount),
-      });
+    if (transaction.transactionId == void 0) {
+      setTransaction({ ...transaction, transactionSign: -1 });
     }
+  }, [setTransaction]);
+
+  useEffect(() => {
     /** 日付初期値 */
     if (transaction.transactionDate == void 0) {
       setTransaction({ ...transaction, transactionDate: new Date() });
@@ -127,9 +124,6 @@ const ModalBox = (props) => {
 
   /** 登録処理 */
   const addTransaction = () => {
-    let ts =
-      transaction.transactionSign == void 0 ? -1 : transaction.transactionSign;
-
     setLoading(true);
     fetch(`${rootURI}/transaction/addTransaction`, {
       method: "POST",
@@ -139,7 +133,8 @@ const ModalBox = (props) => {
       body: JSON.stringify({
         userId: "a77a6e94-6aa2-47ea-87dd-129f580fb669",
         transactionDate: transaction.transactionDate,
-        transactionAmount: ts * transaction.transactionAmount,
+        transactionAmount: transaction.transactionAmount,
+        transactionSign: transaction.transactionSign,
         transactionName: transaction.transactionName,
         categoryId: transaction.categoryId,
         subCategoryId: transaction.subCategoryId,
@@ -166,8 +161,6 @@ const ModalBox = (props) => {
 
   /** 編集処理 */
   const editTransaction = () => {
-    let ts = transaction.transactionSign;
-
     setLoading(true);
     fetch(`${rootURI}/transaction/editTransaction`, {
       method: "POST",
@@ -178,7 +171,8 @@ const ModalBox = (props) => {
         userId: "a77a6e94-6aa2-47ea-87dd-129f580fb669",
         transactionId: transaction.transactionId,
         transactionDate: transaction.transactionDate,
-        transactionAmount: ts * transaction.transactionAmount,
+        transactionAmount: transaction.transactionAmount,
+        transactionSign: transaction.transactionSign,
         transactionName: transaction.transactionName,
         categoryId: transaction.categoryId,
         subCategoryId: transaction.subCategoryId,
@@ -332,9 +326,9 @@ const ModalBox = (props) => {
         <div className="input-amount-box">
           <SwitchBalanceButton
             balance={
-              isNaN(transaction.transactionAmount)
+              isNaN(transaction.transactionSign)
                 ? 0
-                : transaction.transactionAmount
+                : transaction.transactionSign
             }
             transaction={transaction}
             setTransaction={setTransaction}

@@ -82,6 +82,9 @@ public class TransactionService {
 		}
 
 		try {
+			Integer transactionAmount = form.getTransactionAmount();
+			Integer sign = form.getTransactionSign();
+			form.setTransactionAmount(transactionAmount * sign);
 			transactionMapper.addTransaction(form);
 			res.setMessage(SuccessMessage.TRANSACTION_INSERT_SUCCESSED);
 		} catch (Exception e) {
@@ -140,8 +143,11 @@ public class TransactionService {
 			form.setSubCategoryId(subCategoryId);
 		}
 
-		// 編集
+		// 編集実行
 		try {
+			Integer transactionAmount = form.getTransactionAmount();
+			Integer sign = form.getTransactionSign();
+			form.setTransactionAmount(transactionAmount * sign);
 			transactionMapper.editTransaction(form);
 			res.setMessage(SuccessMessage.TRANSACTION_EDIT_SUCCESSED);
 		} catch (Exception e) {

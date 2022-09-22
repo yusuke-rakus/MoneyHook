@@ -20,6 +20,8 @@ public class AddTransactionForm extends form {
 	@NotNull(message = ValidatingMessage.TRANSACTION_AMOUNT_EMPTY_ERROR)
 	private Integer transactionAmount;
 
+	private Integer transactionSign;
+
 	@NotBlank(message = ValidatingMessage.TRANSACTION_NAME_EMPTY_ERROR)
 	@Length(max = 32, message = ValidatingMessage.TRANSACTION_NAME_LIMIT_ERROR)
 	private String transactionName;
@@ -47,6 +49,14 @@ public class AddTransactionForm extends form {
 
 	public void setTransactionAmount(Integer amount) {
 		this.transactionAmount = amount;
+	}
+
+	public Integer getTransactionSign() {
+		return transactionSign;
+	}
+
+	public void setTransactionSign(Integer transactionSign) {
+		this.transactionSign = transactionSign;
 	}
 
 	public String getTransactionName() {

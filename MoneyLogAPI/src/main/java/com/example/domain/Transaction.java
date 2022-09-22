@@ -20,6 +20,7 @@ public class Transaction {
 	private String month;
 	private Integer subCategoryTotalAmount;
 	private List<Transaction> transactionList;
+	private Integer transactionSign;
 
 	public Long getTransactionId() {
 		return transactionId;
@@ -131,6 +132,14 @@ public class Transaction {
 
 	public void setTransactionList(List<Transaction> transactionList) {
 		this.transactionList = transactionList;
+	}
+
+	public Integer getTransactionSign() {
+		return transactionSign;
+	}
+
+	public void setTransactionSign(Integer transactionSign) {
+		this.transactionSign = transactionSign;
 	}
 
 	@Override

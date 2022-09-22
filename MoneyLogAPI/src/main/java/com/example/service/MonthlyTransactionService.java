@@ -73,7 +73,8 @@ public class MonthlyTransactionService {
 	 * 
 	 * @throws SystemException
 	 */
-	public DeleteFixedResponse deleteFixedFromTable(DeleteFixedForm form, DeleteFixedResponse res) throws SystemException {
+	public DeleteFixedResponse deleteFixedFromTable(DeleteFixedForm form, DeleteFixedResponse res)
+			throws SystemException {
 
 		try {
 			monthlyTransactionMapper.deleteFixedFromTable(form);
@@ -183,13 +184,15 @@ public class MonthlyTransactionService {
 				.collect(Collectors.toList());
 		if (chosenSubCategoryList.size() > 0) {
 			for (MonthlyTransactionList monthlyTran : chosenSubCategoryList) {
+				Integer monthlyTransactionAmount = monthlyTran.getMonthlyTransactionAmount();
+				Integer sign = monthlyTran.getMonthlyTransactionSign();
+				monthlyTran.setMonthlyTransactionAmount(monthlyTransactionAmount * sign);
 				monthlyTransactionMapper.updateFixed(monthlyTran);
 			}
 		}
 
 		// ユーザー入力のサブカテゴリがある場合
-		List<MonthlyTransactionList> userInputSubCategoryList = list.stream()
-				.filter(i -> i.getSubCategoryName() != null).filter(i -> !i.getSubCategoryName().isEmpty())
+		List<MonthlyTransactionList> userInputSubCategoryList = list.stream().filter(i -> i.getSubCategoryId() == null)
 				.collect(Collectors.toList());
 		if (userInputSubCategoryList.size() > 0) {
 			for (MonthlyTransactionList monthlyTran : userInputSubCategoryList) {
@@ -203,7 +206,11 @@ public class MonthlyTransactionService {
 				subCategory = subCategoryService.insertSubCategory(subCategory);
 				monthlyTran.setSubCategoryId(subCategory.getSubCategoryId());
 			}
+			// データを更新
 			for (MonthlyTransactionList monthlyTran : userInputSubCategoryList) {
+				Integer monthlyTransactionAmount = monthlyTran.getMonthlyTransactionAmount();
+				Integer sign = monthlyTran.getMonthlyTransactionSign();
+				monthlyTran.setMonthlyTransactionAmount(monthlyTransactionAmount * sign);
 				monthlyTransactionMapper.updateFixed(monthlyTran);
 			}
 		}

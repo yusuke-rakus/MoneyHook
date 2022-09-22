@@ -18,7 +18,11 @@
 		SELECT
 			mt.monthly_transaction_id,
 			mt.monthly_transaction_name,
-			mt.monthly_transaction_amount,
+			ABS(mt.monthly_transaction_amount) as monthly_transaction_amount,
+		  	(CASE
+		  		WHEN mt.monthly_transaction_amount > 0 THEN 1
+		  		ELSE -1
+		  	END) as monthly_transaction_sign,
 			mt.monthly_transaction_date,
 			mt.category_id,
 			c.category_name,
@@ -104,7 +108,7 @@
 		(
 			#{tran.userNo},
 			#{tran.monthlyTransactionName},
-			#{tran.monthlyTransactionAmount},
+			#{tran.monthlyTransactionAmount * tran.monthlyTransactionSign},
 			#{tran.monthlyTransactionDate},
 			#{tran.categoryId},
 			#{tran.subCategoryId},

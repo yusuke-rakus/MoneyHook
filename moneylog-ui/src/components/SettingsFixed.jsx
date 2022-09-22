@@ -166,10 +166,14 @@ const SettingsFixed = (props) => {
       {/* 収支ボタン */}
       <div className="switchBalanceArea">
         <SwitchBalanceButton
-          balance={data.monthlyTransactionAmount}
+          balance={data.monthlyTransactionSign}
           id={data.monthlyTransactionId}
+          monthlyTransactionList={monthlyTransactionList}
+          setMonthlyTransactionList={setMonthlyTransactionList}
         />
       </div>
+
+      {/* 削除ボタン */}
       <div className="deleteArea">
         {isLoading ? (
           <CircularProgress size={20} />

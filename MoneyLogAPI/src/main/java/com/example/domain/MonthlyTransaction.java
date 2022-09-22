@@ -11,6 +11,7 @@ public class MonthlyTransaction {
 	private Long subCategoryId;
 	private boolean includeFlg;
 
+	private Integer monthlyTransactionSign;
 	private String categoryName;
 	private String subCategoryName;
 
@@ -76,6 +77,14 @@ public class MonthlyTransaction {
 
 	public void setIncludeFlg(boolean includeFlg) {
 		this.includeFlg = includeFlg;
+	}
+
+	public Integer getMonthlyTransactionSign() {
+		return monthlyTransactionSign;
+	}
+
+	public void setMonthlyTransactionSign(Integer monthlyTransactionSign) {
+		this.monthlyTransactionSign = monthlyTransactionSign;
 	}
 
 	public String getCategoryName() {

@@ -19,6 +19,8 @@ public class MonthlyTransactionList {
 	@NotBlank(message = ValidatingMessage.TRANSACTION_AMOUNT_EMPTY_ERROR)
 	private Integer monthlyTransactionAmount;
 
+	private Integer monthlyTransactionSign;
+
 	@NotBlank(message = ValidatingMessage.DATE_EMPTY_ERROR)
 	private Integer monthlyTransactionDate;
 
@@ -58,6 +60,14 @@ public class MonthlyTransactionList {
 
 	public void setMonthlyTransactionAmount(Integer monthlyTransactionAmount) {
 		this.monthlyTransactionAmount = monthlyTransactionAmount;
+	}
+
+	public Integer getMonthlyTransactionSign() {
+		return monthlyTransactionSign;
+	}
+
+	public void setMonthlyTransactionSign(Integer monthlyTransactionSign) {
+		this.monthlyTransactionSign = monthlyTransactionSign;
 	}
 
 	public Integer getMonthlyTransactionDate() {

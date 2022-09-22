@@ -26,29 +26,29 @@ const SettingsFixedList = () => {
   /** 登録処理 */
   const register = () => {
     console.log(monthlyTransactionList);
-    // setLoading(true);
-    // fetch(`${rootURI}/fixed/editFixed`, {
-    //   method: "POST",
-    //   headers: {
-    //     "Content-Type": "application/json",
-    //   },
-    //   body: JSON.stringify({
-    //     userId: "a77a6e94-6aa2-47ea-87dd-129f580fb669",
-    //     monthlyTransactionList: monthlyTransactionList,
-    //   }),
-    // })
-    //   .then((res) => res.json())
-    //   .then((data) => {
-    //     if (data.status == "success") {
-    //       // 成功処理
-    //     } else {
-    //       // 失敗処理
-    //     }
-    //   })
-    //   .finally(() => {
-    //     setLoading(false);
-    //     getInit();
-    //   });
+    setLoading(true);
+    fetch(`${rootURI}/fixed/editFixed`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        userId: "a77a6e94-6aa2-47ea-87dd-129f580fb669",
+        monthlyTransactionList: monthlyTransactionList,
+      }),
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        if (data.status == "success") {
+          // 成功処理
+        } else {
+          // 失敗処理
+        }
+      })
+      .finally(() => {
+        setLoading(false);
+        getInit();
+      });
   };
 
   /** キャンセル */

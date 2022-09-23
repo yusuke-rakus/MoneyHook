@@ -11,6 +11,8 @@ import Sidebar from "../components/Sidebar";
 
 const MonthlyVariable = (props) => {
   const { themeColor } = props;
+
+  const [isLoading, setLoading] = useState(false);
   /** 今月 */
   const [sysDate, setSysDate] = useState(new Date("2022-06-01"));
   sysDate.setDate(1);
@@ -24,6 +26,7 @@ const MonthlyVariable = (props) => {
 
   // 当月の変動費を取得
   const getInit = (month) => {
+    setLoading(true);
     fetch(`${rootURI}/transaction/getMonthlyVariableData`, {
       method: "POST",
       headers: {
@@ -39,6 +42,7 @@ const MonthlyVariable = (props) => {
         if (data.status == "success") {
           setVariableCategoryData(data.monthlyVariableList);
           setMonthlyTotalVariable(data.totalVariable);
+          setLoading(false);
         }
       });
   };
@@ -87,6 +91,7 @@ const MonthlyVariable = (props) => {
           </div>
 
           {/* 変動費合計 */}
+
           <div className="monthlyVariableTitleArea">
             <span>変動費合計</span>
             <span>{Math.abs(monthlyTotalVariable).toLocaleString()}</span>
@@ -94,9 +99,19 @@ const MonthlyVariable = (props) => {
 
           {/* 変動費データ */}
           <div className="variableDataArea">
-            <VariableCategoryGroup
-              variableCategoryData={variableCategoryData}
-            />
+            {isLoading ? (
+              <>
+                <div className="loading variableData"></div>
+                <div className="loading variableData"></div>
+                <div className="loading variableData"></div>
+                <div className="loading variableData"></div>
+                <div className="loading variableData"></div>
+              </>
+            ) : (
+              <VariableCategoryGroup
+                variableCategoryData={variableCategoryData}
+              />
+            )}
           </div>
         </div>
       </div>

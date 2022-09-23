@@ -14,6 +14,7 @@ import Sidebar from "../components/Sidebar";
 
 const MonthlyFixed = (props) => {
   const { themeColor } = props;
+  const [isLoading, setLoading] = useState(false);
   /** 今月 */
   const [sysDate, setSysDate] = useState(new Date("2022-06-01"));
   sysDate.setDate(1);
@@ -30,6 +31,7 @@ const MonthlyFixed = (props) => {
   const rootURI = "http://localhost:8080";
 
   const getInit = (month) => {
+    setLoading(true);
     // 月別固定収入の取得
     fetch(`${rootURI}/transaction/getMonthlyFixedIncome`, {
       method: "POST",
@@ -65,6 +67,7 @@ const MonthlyFixed = (props) => {
         if (data.status == "success") {
           setFixedSpendingCategoryData(data.monthlyFixedList);
           setTotalFixedSpending(data.disposableIncome);
+          setLoading(false);
         }
       });
   };
@@ -128,23 +131,39 @@ const MonthlyFixed = (props) => {
 
           {/* 固定費データ */}
           <div className="fixedDataArea">
-            <FixedCategoryGroup fixedCategoryData={fixedIncomeCategoryData} />
-            <FixedCategoryGroup fixedCategoryData={fixedSpendingCategoryData} />
-            <Accordion>
-              <AccordionSummary>
-                <Typography className="totalValueArea">
-                  <span className="totalValue">
-                    <span>合計</span>
-                    <span>{`¥${Math.abs(
-                      totalFixedIncome
-                    ).toLocaleString()}`}</span>
-                    <span>
-                      {`¥${Math.abs(totalFixedSpending).toLocaleString()}`}
-                    </span>
-                  </span>
-                </Typography>
-              </AccordionSummary>
-            </Accordion>
+            {isLoading ? (
+              <>
+                <div className="loading fixedData"></div>
+                <div className="loading fixedData"></div>
+                <div className="loading fixedData"></div>
+                <div className="loading fixedData"></div>
+                <div className="loading fixedData"></div>
+              </>
+            ) : (
+              <>
+                <FixedCategoryGroup
+                  fixedCategoryData={fixedIncomeCategoryData}
+                />
+                <FixedCategoryGroup
+                  fixedCategoryData={fixedSpendingCategoryData}
+                />
+                <Accordion>
+                  <AccordionSummary>
+                    <Typography className="totalValueArea">
+                      <span className="totalValue">
+                        <span>合計</span>
+                        <span>{`¥${Math.abs(
+                          totalFixedIncome
+                        ).toLocaleString()}`}</span>
+                        <span>
+                          {`¥${Math.abs(totalFixedSpending).toLocaleString()}`}
+                        </span>
+                      </span>
+                    </Typography>
+                  </AccordionSummary>
+                </Accordion>
+              </>
+            )}
           </div>
         </div>
       </div>

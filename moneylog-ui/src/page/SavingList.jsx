@@ -19,6 +19,7 @@ import CloseIcon from "@mui/icons-material/Close";
 
 const SavingList = (props) => {
   const { themeColor } = props;
+  const [isLoading, setLoading] = useState(false);
 
   /** バナーのステータス */
   const [banner, setBanner] = useState(false);
@@ -43,6 +44,7 @@ const SavingList = (props) => {
   const rootURI = "http://localhost:8080";
 
   const getInit = (month) => {
+    setLoading(true);
     // 月別固定収入の取得
     fetch(`${rootURI}/saving/getMonthlySavingData`, {
       method: "POST",
@@ -64,6 +66,7 @@ const SavingList = (props) => {
               0
             )
           );
+          setLoading(false);
         }
       });
   };
@@ -144,19 +147,29 @@ const SavingList = (props) => {
           </div>
 
           {/* 貯金データ */}
-          <div className="savingList">
-            {savingDataList.map((data, i) => {
-              return (
-                <SavingListData
-                  key={i}
-                  setAddSavingStatus={setAddSavingStatus}
-                  saving={data}
-                  setSaving={setSaving}
-                  setSavingTitle={setSavingTitle}
-                />
-              );
-            })}
-          </div>
+          {isLoading ? (
+            <>
+              <div className="savingList loadingSavingData loading"></div>
+              <div className="savingList loadingSavingData loading"></div>
+              <div className="savingList loadingSavingData loading"></div>
+              <div className="savingList loadingSavingData loading"></div>
+              <div className="savingList loadingSavingData loading"></div>
+            </>
+          ) : (
+            <div className="savingList">
+              {savingDataList.map((data, i) => {
+                return (
+                  <SavingListData
+                    key={i}
+                    setAddSavingStatus={setAddSavingStatus}
+                    saving={data}
+                    setSaving={setSaving}
+                    setSavingTitle={setSavingTitle}
+                  />
+                );
+              })}
+            </div>
+          )}
 
           {/* 貯金追加ボタン */}
           <div className="addSavingArea">

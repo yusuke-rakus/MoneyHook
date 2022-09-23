@@ -46,7 +46,7 @@
 			st.saving_target_name
 		FROM
 			saving s
-		INNER JOIN saving_target st using (saving_target_id)
+		LEFT JOIN saving_target st using (saving_target_id)
 		WHERE s.user_no = #{userNo}
 		AND s.saving_id = #{savingId} 
 	</select>

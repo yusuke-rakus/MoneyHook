@@ -45,6 +45,7 @@ const DeletedSavingTarget = () => {
 
   /** 削除ボタン押下処理 */
   const deleteSavingTarget = (savingTargetId) => {
+    console.log(savingTarget);
     setLoading(true);
     fetch(`${rootURI}/savingTarget/deleteSavingTargetFromTable`, {
       method: "POST",
@@ -156,9 +157,7 @@ const DeletedSavingTarget = () => {
                       className="hideButton"
                     >
                       <Button
-                        onClick={() =>
-                          deleteSavingTarget(data.monthlyTransactionId)
-                        }
+                        onClick={() => deleteSavingTarget(data.savingTargetId)}
                         disabled={isLoading}
                         sx={{ color: "#9e9e9e" }}
                       >

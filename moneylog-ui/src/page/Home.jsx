@@ -20,6 +20,7 @@ import CloseIcon from "@mui/icons-material/Close";
 
 const Home = (props) => {
   const { themeColor } = props;
+  const [isLoading, setLoading] = useState(false);
 
   /** バナーのステータス */
   const [banner, setBanner] = useState(false);
@@ -89,6 +90,7 @@ const Home = (props) => {
 
   // アコーディオンデータを取得
   const getInit = (month) => {
+    setLoading(true);
     fetch(`${rootURI}/transaction/getHome`, {
       method: "POST",
       headers: {
@@ -103,6 +105,7 @@ const Home = (props) => {
       .then((data) => {
         setHomeAccodionDataList(data.categoryList);
         setMonthlyTotalAmount(data.balance);
+        setLoading(false);
       });
   };
 
@@ -187,17 +190,27 @@ const Home = (props) => {
             </span>
           </div>
           <div className="dataArea">
-            <div className="accodionDataArea">
-              {homeAccodionDataList.map((data, index) => {
-                return (
-                  <HomeAccodion
-                    homeAccodionData={data}
-                    bgcolor={dataColorList[index]}
-                    key={index}
-                  />
-                );
-              })}
-            </div>
+            {isLoading ? (
+              <div className="accodionDataArea">
+                <div className="homeLoading loading"></div>
+                <div className="homeLoading loading"></div>
+                <div className="homeLoading loading"></div>
+                <div className="homeLoading loading"></div>
+                <div className="homeLoading loading"></div>
+              </div>
+            ) : (
+              <div className="accodionDataArea">
+                {homeAccodionDataList.map((data, index) => {
+                  return (
+                    <HomeAccodion
+                      homeAccodionData={data}
+                      bgcolor={dataColorList[index]}
+                      key={index}
+                    />
+                  );
+                })}
+              </div>
+            )}
 
             {/* グラフ */}
             <div className="pieGraph">

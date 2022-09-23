@@ -5,6 +5,7 @@
   justify-content: space-between;
   align-items: center;
   transition: 0.25s;
+  margin-bottom: 5px;
 }
 
 .fixedData:hover {
@@ -12,12 +13,12 @@
   border-radius: 5px;
 }
 
-/* カテゴリデータ */
+/* カテゴリ・サブカテゴリ */
 .categoryData {
   display: flex;
   justify-content: center;
-  align-items: center;
-  width: 18%;
+  align-items: flex-end;
+  width: 30%;
   height: 40px;
 }
 
@@ -26,7 +27,7 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  width: 18%;
+  width: 16%;
   height: 40px;
   position: relative;
 }
@@ -38,11 +39,12 @@
   left: 0;
 }
 
+/* 金額 */
 .fixedAmountData {
   display: flex;
   justify-content: center;
   align-items: center;
-  width: 18%;
+  width: 16%;
   height: 40px;
   position: relative;
 }
@@ -59,7 +61,7 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  width: 18%;
+  width: 15%;
   height: 40px;
   position: relative;
   color: #757575;
@@ -72,17 +74,19 @@
   left: 0;
 }
 
+/* 収支ボタン */
 .switchBalanceArea {
   display: flex;
   justify-content: center;
   align-items: center;
-  width: 18%;
+  width: 15%;
   height: 40px;
   position: relative;
 }
 
+/* 削除 */
 .deleteArea {
-  width: 7%;
+  width: 5%;
   height: 40px;
   transition: 0.25s;
   opacity: 0;

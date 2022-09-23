@@ -118,6 +118,7 @@ const TotalSaving = (props) => {
             data.uncategorizedAmount == void 0 ? 0 : data.uncategorizedAmount
           );
           setSavingTargetData(data.savingTargetList);
+          setLoading(false);
         }
       });
 

@@ -108,7 +108,7 @@
 		(
 			#{tran.userNo},
 			#{tran.monthlyTransactionName},
-			#{tran.monthlyTransactionAmount * tran.monthlyTransactionSign},
+			#{tran.monthlyTransactionAmount} * #{tran.monthlyTransactionSign},
 			#{tran.monthlyTransactionDate},
 			#{tran.categoryId},
 			#{tran.subCategoryId},

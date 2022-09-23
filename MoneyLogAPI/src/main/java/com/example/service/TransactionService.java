@@ -195,6 +195,7 @@ public class TransactionService {
 		// 合計支出リストを取得
 		try {
 			List<Transaction> monthlyTotalAmountList = transactionMapper.getMonthlySpendingData(form);
+
 			res.setMonthlyTotalAmountList(monthlyTotalAmountList);
 		} catch (Exception e) {
 			res.setStatus(Status.ERROR.getStatus());

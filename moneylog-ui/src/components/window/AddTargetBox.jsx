@@ -79,8 +79,8 @@ const AddTargetBox = (props) => {
       })
       .finally(() => {
         setLoading(false);
-        getInit();
         closeAddTargetStatus();
+        getInit();
       });
   };
 
@@ -111,8 +111,8 @@ const AddTargetBox = (props) => {
       })
       .finally(() => {
         setLoading(false);
-        getInit();
         closeAddTargetStatus();
+        getInit();
       });
   };
 
@@ -142,8 +142,8 @@ const AddTargetBox = (props) => {
       .finally(() => {
         setLoading(false);
         closeAddTargetStatus();
-        getInit();
         setBanner(true);
+        getInit();
       });
   };
 

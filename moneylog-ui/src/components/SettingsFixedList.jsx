@@ -26,6 +26,7 @@ const SettingsFixedList = () => {
 
   /** 登録処理 */
   const register = () => {
+    console.log(monthlyTransactionList);
     setLoading(true);
     fetch(`${rootURI}/fixed/editFixed`, {
       method: "POST",
@@ -51,8 +52,9 @@ const SettingsFixedList = () => {
       });
   };
 
-  /** キャンセル */
+  /** リセット */
   const cancel = () => {
+    setMonthlyTransactionList([]);
     getInit();
   };
 
@@ -61,6 +63,7 @@ const SettingsFixedList = () => {
 
   // ユーザー情報の取得
   const getInit = () => {
+    setLoading(true);
     fetch(`${rootURI}/fixed/getFixed`, {
       method: "POST",
       headers: {
@@ -74,6 +77,7 @@ const SettingsFixedList = () => {
       .then((data) => {
         if (data.status == "success") {
           setMonthlyTransactionList(data.monthlyTransactionList);
+          setLoading(false);
         }
       });
   };
@@ -117,7 +121,7 @@ const SettingsFixedList = () => {
           color="inherit"
           disabled={isLoading}
         >
-          キャンセル
+          リセット
         </Button>
         <Button onClick={register} variant="contained" disabled={isLoading}>
           {isLoading ? <CircularProgress size={20} /> : "登録"}

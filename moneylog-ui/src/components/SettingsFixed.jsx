@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 /** CSS */
 import "./components_CSS/SettingsFixed.css";
 /** 自作コンポーネント */
@@ -6,13 +6,16 @@ import SwitchBalanceButton from "../components/SwitchBalanceButton";
 /** 外部コンポーネント */
 import {
   TextField,
-  Button,
   FormControl,
   IconButton,
   NativeSelect,
   CircularProgress,
+  MenuItem,
+  Select,
+  InputLabel,
 } from "@mui/material";
 import DeleteIcon from "@mui/icons-material/Delete";
+import { useEffect } from "react";
 
 const SettingsFixed = (props) => {
   const {
@@ -78,6 +81,75 @@ const SettingsFixed = (props) => {
   /** API関連 */
   const rootURI = "http://localhost:8080";
 
+  const [categoryList, setCategoryList] = useState([]);
+  const [subCategoryList, setSubCategoryList] = useState([]);
+
+  /** カテゴリ取得 */
+  const getCategory = () => {
+    fetch(`${rootURI}/category/getCategoryList`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({}),
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        if (data.status == "success") {
+          setCategoryList(data.categoryList);
+          // 成功
+        } else {
+          // 失敗
+        }
+      });
+  };
+
+  /** サブカテゴリ取得 */
+  const getSubCategory = (categoryId) => {
+    fetch(`${rootURI}/subCategory/getSubCategoryList`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        userId: "a77a6e94-6aa2-47ea-87dd-129f580fb669",
+        categoryId: categoryId,
+      }),
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        if (data.status == "success") {
+          setSubCategoryList(data.subCategoryList);
+          // 成功
+        } else {
+          // 失敗
+        }
+      });
+  };
+
+  /** カテゴリを選択 */
+  const selectCategory = (e) => {
+    setMonthlyTransactionList(
+      monthlyTransactionList.map((mt) =>
+        mt.monthlyTransactionId == data.monthlyTransactionId
+          ? { ...mt, categoryId: e.target.value }
+          : mt
+      )
+    );
+    getSubCategory(e.target.value);
+  };
+
+  /** サブカテゴリを選択 */
+  const selectSubCategory = (e) => {
+    setMonthlyTransactionList(
+      monthlyTransactionList.map((mt) =>
+        mt.monthlyTransactionId == data.monthlyTransactionId
+          ? { ...mt, subCategoryId: e.target.value }
+          : mt
+      )
+    );
+  };
+
   /** 削除 */
   const deleteData = () => {
     setLoading(true);
@@ -105,24 +177,60 @@ const SettingsFixed = (props) => {
       });
   };
 
+  useEffect(() => {
+    getCategory();
+    getSubCategory(data.categoryId);
+  }, [setCategoryList]);
+
   return (
     <div className="fixedData">
-      {/* カテゴリ */}
       <div className="categoryData">
-        <Button
-          variant="text"
-          sx={{
-            color: "#424242",
-            transition: "0.25s",
-            "&:hover": {
-              background: "#eeeeee",
-            },
-          }}
-        >
-          {data.categoryName !== null
-            ? `${data.categoryName}/${data.subCategoryName}`
-            : "カテゴリ選択"}
-        </Button>
+        {/* カテゴリ */}
+        <FormControl sx={{ m: 1, width: 100 }} size="small" variant="standard">
+          <InputLabel id="demo-select-small" sx={{ fontSize: 13 }}>
+            カテゴリ
+          </InputLabel>
+          <Select
+            labelId="demo-select-small"
+            id="demo-select-small"
+            sx={{ fontSize: 13 }}
+            value={data.categoryId}
+            onChange={selectCategory}
+          >
+            {categoryList.map((category) => {
+              return (
+                <MenuItem value={category.categoryId} key={category.categoryId}>
+                  {category.categoryName}
+                </MenuItem>
+              );
+            })}
+          </Select>
+        </FormControl>
+
+        {/* サブカテゴリ */}
+        <FormControl sx={{ m: 1, width: 100 }} size="small" variant="standard">
+          <InputLabel id="demo-select-small" sx={{ fontSize: 13 }}>
+            サブカテゴリ
+          </InputLabel>
+          <Select
+            labelId="demo-select-small"
+            id="demo-select-small"
+            sx={{ fontSize: 13 }}
+            value={data.subCategoryId}
+            onChange={selectSubCategory}
+          >
+            {subCategoryList.map((subCategory) => {
+              return (
+                <MenuItem
+                  value={subCategory.subCategoryId}
+                  key={subCategory.subCategoryId}
+                >
+                  {subCategory.subCategoryName}
+                </MenuItem>
+              );
+            })}
+          </Select>
+        </FormControl>
       </div>
 
       {/* 取引名 */}

@@ -133,11 +133,11 @@ const MonthlyFixed = (props) => {
           <div className="fixedDataArea">
             {isLoading ? (
               <>
-                <div className="loading fixedData"></div>
-                <div className="loading fixedData"></div>
-                <div className="loading fixedData"></div>
-                <div className="loading fixedData"></div>
-                <div className="loading fixedData"></div>
+                <div className="loading fixedLoadingData"></div>
+                <div className="loading fixedLoadingData"></div>
+                <div className="loading fixedLoadingData"></div>
+                <div className="loading fixedLoadingData"></div>
+                <div className="loading fixedLoadingData"></div>
               </>
             ) : (
               <>

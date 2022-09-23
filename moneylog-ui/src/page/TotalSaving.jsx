@@ -19,6 +19,7 @@ import CloseIcon from "@mui/icons-material/Close";
 
 const TotalSaving = (props) => {
   const { themeColor } = props;
+  const [isLoading, setLoading] = useState(false);
   /** バナーのステータス */
   const [banner, setBanner] = useState(false);
   const [bannerMessage, setBannerMessage] = useState("");
@@ -99,6 +100,7 @@ const TotalSaving = (props) => {
   const rootURI = "http://localhost:8080";
 
   const getInit = (month) => {
+    setLoading(true);
     // 貯金目標リストの取得
     fetch(`${rootURI}/saving/getSavingAmountForTarget`, {
       method: "POST",
@@ -145,6 +147,7 @@ const TotalSaving = (props) => {
           );
           // 貯金総額を設定
           setTotalSaving(data.totalSavingAmount);
+          setLoading(false);
         }
       });
   };
@@ -191,32 +194,44 @@ const TotalSaving = (props) => {
 
           {/* グラフ */}
           <div className="lineChartArea">
-            <Line data={data} options={option} />
+            {isLoading ? (
+              <div className="loading chartLoading"></div>
+            ) : (
+              <Line data={data} options={option} />
+            )}
           </div>
 
           {/* 貯金目標 */}
-          <div className="savingTargetCardArea">
-            {savingTargetData.map((data, i) => {
-              return (
-                <SavingTargetCard
-                  key={i}
-                  savingTargetData={data}
-                  setWindowStatus={setWindowStatus}
-                  setTitle={setTitle}
-                  setEditSavingTarget={setEditSavingTarget}
-                />
-              );
-            })}
-            <AddSharpIcon
-              onClick={() => {
-                resetEditSavingTarget();
-                setWindowStatus(true);
-                setTitle("貯金目標を追加");
-              }}
-              fontSize="large"
-              className="addSavingTargetButton"
-            />
-          </div>
+          {isLoading ? (
+            <div className="savingTargetCardArea">
+              <div className="savingTargetLoading loading"></div>
+              <div className="savingTargetLoading loading"></div>
+              <div className="savingTargetLoading loading"></div>
+            </div>
+          ) : (
+            <div className="savingTargetCardArea">
+              {savingTargetData.map((data, i) => {
+                return (
+                  <SavingTargetCard
+                    key={i}
+                    savingTargetData={data}
+                    setWindowStatus={setWindowStatus}
+                    setTitle={setTitle}
+                    setEditSavingTarget={setEditSavingTarget}
+                  />
+                );
+              })}
+              <AddSharpIcon
+                onClick={() => {
+                  resetEditSavingTarget();
+                  setWindowStatus(true);
+                  setTitle("貯金目標を追加");
+                }}
+                fontSize="large"
+                className="addSavingTargetButton"
+              />
+            </div>
+          )}
 
           {/* 未分類の貯金額 */}
           <div className="uncategorizedSavingCardArea">

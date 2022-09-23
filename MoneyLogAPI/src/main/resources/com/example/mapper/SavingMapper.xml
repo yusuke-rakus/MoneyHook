@@ -46,14 +46,14 @@
 			st.saving_target_name
 		FROM
 			saving s
-		INNER JOIN saving_target st using (saving_target_id) 
-		WHERE s.user_no = #{userNo} 
+		INNER JOIN saving_target st using (saving_target_id)
+		WHERE s.user_no = #{userNo}
 		AND s.saving_id = #{savingId} 
 	</select>
 	
 	<!-- 累計貯金総額の取得 -->
 	<select id="getTotalSavingAmount" resultType="java.lang.Integer">
-		SELECT 
+		SELECT
 	      	SUM(`saving_amount`) as 'total_saving_amount'
 		FROM
 			saving s
@@ -63,9 +63,14 @@
 	
 	<!-- 月別貯金総額の取得 -->
 	<select id="getTotalMonthlySavingAmount" resultType="com.example.domain.MonthlySavingData">
-		SELECT 
+		SELECT
 			DATE_FORMAT(`saving_date`, '%Y-%m-01') as `saving_month`,
-      	SUM(`saving_amount`) as 'monthly_total_saving_amount'
+			(SELECT
+				SUM(saving_amount)
+			FROM saving
+			WHERE
+				LAST_DAY(saving_month) > saving_date
+			) as monthly_total_saving_amount
 		FROM
 			saving s
 		WHERE s.user_no = #{userNo}
@@ -74,7 +79,7 @@
 				BETWEEN DATE_SUB(#{month}, INTERVAL 5 MONTH)
 				AND LAST_DAY(#{month})
 		GROUP BY saving_month
-		ORDER BY saving_month asc 
+		ORDER BY saving_month ASC
 	</select>
 
 	<!-- 未振り分け貯金総額の取得 -->

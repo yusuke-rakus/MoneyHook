@@ -27,6 +27,7 @@ Chart.register(...registerables);
 
 const Timeline = (props) => {
   const { themeColor } = props;
+  const [isLoading, setLoading] = useState(false);
 
   /** バナーのステータス */
   const [banner, setBanner] = useState(false);
@@ -156,6 +157,7 @@ const Timeline = (props) => {
   const rootURI = "http://localhost:8080";
 
   const getInit = (month) => {
+    setLoading(true);
     // 6ヶ月分の合計支出を取得
     fetch(`${rootURI}/transaction/getMonthlySpendingData`, {
       method: "POST",
@@ -199,6 +201,7 @@ const Timeline = (props) => {
       .then((data) => {
         if (data.status == "success") {
           setTimelineDataList(data.transactionList);
+          setLoading(false);
         }
       });
   };
@@ -271,45 +274,66 @@ const Timeline = (props) => {
           </div>
 
           {/* グラフ */}
-          <Bar
-            data={graphDatasets}
-            options={option}
-            className="timelineGraph"
-          />
+          {isLoading ? (
+            <div className="chartLoading loading"></div>
+          ) : (
+            <Bar
+              data={graphDatasets}
+              options={option}
+              className="timelineGraph"
+            />
+          )}
 
           {/* 並べ替えプルダウン */}
-          <div className="sortButtonArea">
-            <FormControl sx={{ m: 1, minWidth: 120 }} size="small">
-              <InputLabel id="demo-select-small">並べ替え</InputLabel>
-              <Select
-                labelId="demo-select-small"
-                id="demo-select-small"
-                value={sortCd}
-                onChange={sorting}
-                label="並べ替え"
-              >
-                <MenuItem value={1}>日付昇順</MenuItem>
-                <MenuItem value={2}>日付降順</MenuItem>
-                <MenuItem value={3}>金額昇順</MenuItem>
-                <MenuItem value={4}>金額降順</MenuItem>
-              </Select>
-            </FormControl>
-          </div>
+          {isLoading ? (
+            <div className="sortButtonArea"></div>
+          ) : (
+            <div className="sortButtonArea">
+              <FormControl sx={{ m: 1, minWidth: 120 }} size="small">
+                <InputLabel id="demo-select-small">並べ替え</InputLabel>
+                <Select
+                  labelId="demo-select-small"
+                  id="demo-select-small"
+                  value={sortCd}
+                  onChange={sorting}
+                  label="並べ替え"
+                >
+                  <MenuItem value={1}>日付昇順</MenuItem>
+                  <MenuItem value={2}>日付降順</MenuItem>
+                  <MenuItem value={3}>金額昇順</MenuItem>
+                  <MenuItem value={4}>金額降順</MenuItem>
+                </Select>
+              </FormControl>
+            </div>
+          )}
 
           {/* タイムラインデータ */}
-          <div className="timelineArea">
-            {timelineDataList.map((data, i) => {
-              return (
-                <TimelineDataList
-                  key={i}
-                  timeline={data}
-                  setModalWindow={setModalWindow}
-                  setTransaction={setTransaction}
-                  setTransactionTitle={setTransactionTitle}
-                />
-              );
-            })}
-          </div>
+          {isLoading ? (
+            <div className="timelineArea">
+              <div className="timelineLoading loading"></div>
+              <div className="timelineLoading loading"></div>
+              <div className="timelineLoading loading"></div>
+              <div className="timelineLoading loading"></div>
+              <div className="timelineLoading loading"></div>
+              <div className="timelineLoading loading"></div>
+              <div className="timelineLoading loading"></div>
+              <div className="timelineLoading loading"></div>
+            </div>
+          ) : (
+            <div className="timelineArea">
+              {timelineDataList.map((data, i) => {
+                return (
+                  <TimelineDataList
+                    key={i}
+                    timeline={data}
+                    setModalWindow={setModalWindow}
+                    setTransaction={setTransaction}
+                    setTransactionTitle={setTransactionTitle}
+                  />
+                );
+              })}
+            </div>
+          )}
 
           {/* 追加ボタン */}
           <div className="addTransactionArea">

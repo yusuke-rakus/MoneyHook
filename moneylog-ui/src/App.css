@@ -30,3 +30,9 @@ body {
   margin-left: 300px;
   width: 100%;
 }
+
+/* バナー */
+.bannerArea {
+  position: fixed;
+  bottom: 0;
+}

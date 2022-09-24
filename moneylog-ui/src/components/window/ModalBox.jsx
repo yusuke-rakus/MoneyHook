@@ -126,7 +126,6 @@ const ModalBox = (props) => {
       // 編集処理
       editTransaction();
     }
-    setBanner(true);
   };
 
   /** 登録処理 */
@@ -163,6 +162,7 @@ const ModalBox = (props) => {
         setLoading(false);
         closeModalWindow();
         getInit(month);
+        setBanner(true);
       });
   };
 
@@ -201,6 +201,7 @@ const ModalBox = (props) => {
         setLoading(false);
         closeModalWindow();
         getInit(month);
+        setBanner(true);
       });
   };
 

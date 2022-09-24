@@ -10,6 +10,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.example.common.Status;
 import com.example.common.exception.SystemException;
 import com.example.common.message.ErrorMessage;
+import com.example.common.message.SuccessMessage;
 import com.example.domain.MonthlyTransaction;
 import com.example.domain.SubCategory;
 import com.example.form.DeleteFixedForm;
@@ -65,6 +66,8 @@ public class MonthlyTransactionService {
 			res.setMessage(ErrorMessage.DELETE_FIXED_ERROR);
 		}
 
+		res.setMessage(SuccessMessage.MONTHLY_TRANSACTION_DELETE_SUCCESSED);
+
 		return res;
 	}
 
@@ -83,6 +86,8 @@ public class MonthlyTransactionService {
 			res.setMessage(ErrorMessage.DELETE_FIXED_ERROR);
 		}
 
+		res.setMessage(SuccessMessage.MONTHLY_TRANSACTION_DELETE_FROM_TABLE_SUCCESSED);
+
 		return res;
 	}
 
@@ -99,6 +104,8 @@ public class MonthlyTransactionService {
 			res.setStatus(Status.ERROR.getStatus());
 			res.setMessage(ErrorMessage.DELETE_FIXED_ERROR);
 		}
+
+		res.setMessage(SuccessMessage.MONTHLY_TRANSACTION_BACK_SUCCESSED);
 
 		return res;
 	}
@@ -142,6 +149,8 @@ public class MonthlyTransactionService {
 		} catch (Exception e) {
 			res.setStatus(Status.ERROR.getStatus());
 		}
+
+		res.setMessage(SuccessMessage.MONTHLY_TRANSACTION_EDIT_SUCCESSED);
 
 		return res;
 	}

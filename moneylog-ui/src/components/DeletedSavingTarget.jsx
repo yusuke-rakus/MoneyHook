@@ -9,7 +9,8 @@ import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
 import { Button, CircularProgress } from "@mui/material";
 
-const DeletedSavingTarget = () => {
+const DeletedSavingTarget = (props) => {
+  const { banner, setBanner } = props;
   const [savingTarget, setSavingTarget] = useState([]);
   const [isLoading, setLoading] = useState(false);
 
@@ -36,6 +37,12 @@ const DeletedSavingTarget = () => {
         } else {
           // 失敗処理
         }
+        setBanner({
+          ...banner,
+          bannerMessage: data.message,
+          bannerType: data.status,
+          banner: true,
+        });
       })
       .finally(() => {
         setLoading(false);
@@ -64,6 +71,12 @@ const DeletedSavingTarget = () => {
         } else {
           // 失敗処理
         }
+        setBanner({
+          ...banner,
+          bannerMessage: data.message,
+          bannerType: data.status,
+          banner: true,
+        });
       })
       .finally(() => {
         setLoading(false);

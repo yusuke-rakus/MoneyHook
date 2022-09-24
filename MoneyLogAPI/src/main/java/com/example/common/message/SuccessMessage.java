@@ -2,6 +2,14 @@ package com.example.common.message;
 
 public class SuccessMessage {
 
+	// user
+	/** テーマカラーを変更 */
+	public static final String USER_THEME_COLOR_CHANGED = "テーマカラーを変更しました";
+	/** パスワードを変更 */
+	public static final String USER_PASSWORD_CHANGED = "パスワードを変更しました";
+	/** メールアドレスを変更 */
+	public static final String USER_EMAIL_CHANGED = "メールアドレスを変更しました";
+
 	// savingTarget
 	/** 貯金目標一覧の取得成功 */
 	public static final String SAVING_TARGET_LIST_GET_SUCCESSED = "貯金目標一覧の取得が完了しました。";
@@ -41,4 +49,15 @@ public class SuccessMessage {
 	public static final String TRANSACTION_EDIT_SUCCESSED = "データの編集が完了しました";
 	/** 取引の削除成功 */
 	public static final String TRANSACTION_DELETE_SUCCESSED = "データの削除が完了しました";
+
+	// monthlyTransaction
+	/** 編集の成功 */
+	public static final String MONTHLY_TRANSACTION_EDIT_SUCCESSED = "月次データの編集が完了しました";
+	/** 削除の成功 */
+	public static final String MONTHLY_TRANSACTION_DELETE_SUCCESSED = "計算対象外に設定しました";
+	/** 計算対象に戻す */
+	public static final String MONTHLY_TRANSACTION_BACK_SUCCESSED = "計算対象に戻しました";
+	/** 完全に削除 */
+	public static final String MONTHLY_TRANSACTION_DELETE_FROM_TABLE_SUCCESSED = "データの削除が完了しました";
+
 }

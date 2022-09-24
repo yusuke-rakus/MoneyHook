@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 /** CSS */
 import "./page_CSS/Settings.css";
 import "./page_CSS/common.css";
@@ -11,9 +11,19 @@ import SettingsFixedList from "../components/SettingsFixedList";
 import Sidebar from "../components/Sidebar";
 import DeletedSavingTarget from "../components/DeletedSavingTarget";
 import DeletedFixed from "../components/DeletedFixed";
+import Alert from "@mui/material/Alert";
+import IconButton from "@mui/material/IconButton";
+import Collapse from "@mui/material/Collapse";
+import CloseIcon from "@mui/icons-material/Close";
 
 const Settings = (props) => {
   const { colorList, setColorList, themeColor, setThemeColor } = props;
+  /** バナーのステータス */
+  const [banner, setBanner] = useState({
+    banner: false,
+    bannerMessage: "",
+    bannerType: "success",
+  });
 
   return (
     <>
@@ -22,13 +32,13 @@ const Settings = (props) => {
       <div className="homeArea">
         <div className="container">
           {/* 固定費の編集 */}
-          <SettingsFixedList />
+          <SettingsFixedList banner={banner} setBanner={setBanner} />
 
           {/* ユーザー設定変更 */}
-          <SettingsUserSettings />
+          <SettingsUserSettings banner={banner} setBanner={setBanner} />
 
           {/* パスワード変更 */}
-          <SettingsChangePassword />
+          <SettingsChangePassword banner={banner} setBanner={setBanner} />
 
           {/* カラーの選択 */}
           <SettingsSelectColor
@@ -36,13 +46,39 @@ const Settings = (props) => {
             setColorList={setColorList}
             themeColor={themeColor}
             setThemeColor={setThemeColor}
+            banner={banner}
+            setBanner={setBanner}
           />
 
           {/* 削除済み目標 */}
-          <DeletedSavingTarget />
+          <DeletedSavingTarget banner={banner} setBanner={setBanner} />
 
           {/* 削除済み固定費 */}
-          <DeletedFixed />
+          <DeletedFixed banner={banner} setBanner={setBanner} />
+
+          {/* バーナー */}
+          <div className="bannerArea">
+            <Collapse in={banner.banner}>
+              <Alert
+                severity={banner.bannerType}
+                action={
+                  <IconButton
+                    aria-label="close"
+                    color="inherit"
+                    size="small"
+                    onClick={() => {
+                      setBanner(false);
+                    }}
+                  >
+                    <CloseIcon fontSize="inherit" />
+                  </IconButton>
+                }
+                sx={{ mb: 2 }}
+              >
+                {banner.bannerMessage}
+              </Alert>
+            </Collapse>
+          </div>
         </div>
       </div>
     </>

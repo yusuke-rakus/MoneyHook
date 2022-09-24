@@ -25,6 +25,8 @@ const SettingsFixed = (props) => {
     getInit,
     isLoading,
     setLoading,
+    banner,
+    setBanner,
   } = props;
 
   /** 取引名の変更 */
@@ -170,6 +172,12 @@ const SettingsFixed = (props) => {
         } else {
           // 失敗
         }
+        setBanner({
+          ...banner,
+          bannerMessage: data.message,
+          bannerType: data.status,
+          banner: true,
+        });
       })
       .finally(() => {
         setLoading(false);
@@ -241,6 +249,11 @@ const SettingsFixed = (props) => {
           autoComplete="off"
           value={data.monthlyTransactionName}
           onChange={transactionChange}
+          inputProps={{
+            style: {
+              fontSize: 13,
+            },
+          }}
         />
       </div>
 
@@ -252,6 +265,7 @@ const SettingsFixed = (props) => {
           autoComplete="off"
           inputProps={{
             style: {
+              fontSize: 14,
               textAlign: "right",
               paddingRight: "20px",
               paddingLeft: "20px",
@@ -277,7 +291,10 @@ const SettingsFixed = (props) => {
                 : (data.monthlyTransactionDate = 31)
             }
             onChange={dateChange}
-            inputProps={{ name: "age", id: "uncontrolled-native" }}
+            inputProps={{
+              name: "age",
+              id: "uncontrolled-native",
+            }}
           >
             {[...Array(30)].map((v, i) => {
               return (

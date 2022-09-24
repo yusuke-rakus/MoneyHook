@@ -9,7 +9,8 @@ import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
 import { Button, CircularProgress } from "@mui/material";
 
-const DeletedFixed = () => {
+const DeletedFixed = (props) => {
+  const { banner, setBanner } = props;
   const [monthlyTransactionList, setMonthlyTransactionList] = useState([]);
   const [isLoading, setLoading] = useState(false);
 
@@ -36,6 +37,12 @@ const DeletedFixed = () => {
         } else {
           // 失敗処理
         }
+        setBanner({
+          ...banner,
+          bannerMessage: data.message,
+          bannerType: data.status,
+          banner: true,
+        });
       })
       .finally(() => {
         setLoading(false);
@@ -63,6 +70,12 @@ const DeletedFixed = () => {
         } else {
           // 失敗処理
         }
+        setBanner({
+          ...banner,
+          bannerMessage: data.message,
+          bannerType: data.status,
+          banner: true,
+        });
       })
       .finally(() => {
         setLoading(false);

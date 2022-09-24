@@ -10,6 +10,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.example.common.Status;
 import com.example.common.message.ErrorMessage;
+import com.example.common.message.SuccessMessage;
 import com.example.domain.User;
 import com.example.form.ChangeEmailForm;
 import com.example.form.ChangePasswordForm;
@@ -119,6 +120,8 @@ public class UserService {
 		boolean updateResult = userMapper.changePassword(form);
 		if (!updateResult) {
 			throw new Exception();
+		} else {
+			res.setMessage(SuccessMessage.USER_PASSWORD_CHANGED);
 		}
 
 		return res;
@@ -138,6 +141,8 @@ public class UserService {
 		boolean updateResult = userMapper.changeEmail(form);
 		if (!updateResult) {
 			throw new Exception();
+		} else {
+			res.setMessage(SuccessMessage.USER_EMAIL_CHANGED);
 		}
 
 		return res;
@@ -153,6 +158,8 @@ public class UserService {
 		boolean updateResult = userMapper.editThemeColor(form);
 		if (!updateResult) {
 			throw new Exception();
+		} else {
+			res.setMessage(SuccessMessage.USER_THEME_COLOR_CHANGED);
 		}
 
 		return res;

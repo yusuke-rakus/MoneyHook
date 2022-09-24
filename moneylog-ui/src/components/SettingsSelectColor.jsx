@@ -5,7 +5,14 @@ import "./components_CSS/SettingsSelectColor.css";
 
 const SettingsSelectColor = (props) => {
   /** カラーリスト */
-  const { colorList, setColorList, themeColor, setThemeColor } = props;
+  const {
+    banner,
+    setBanner,
+    colorList,
+    setColorList,
+    themeColor,
+    setThemeColor,
+  } = props;
 
   const [cookie, setCookie] = useCookies();
 
@@ -14,9 +21,9 @@ const SettingsSelectColor = (props) => {
     let colorCode = !colorData.themeColorCode
       ? colorData.themeColorGradientCode
       : colorData.themeColorCode;
+    editThemeColorApi(colorData.themeColorId);
     setThemeColor(colorCode);
     setCookie("themeColor", colorCode);
-    editThemeColorApi(colorData.themeColorId);
   };
 
   /** API関連 */
@@ -68,6 +75,12 @@ const SettingsSelectColor = (props) => {
         } else {
           // 失敗処理
         }
+        setBanner({
+          ...banner,
+          bannerMessage: data.message,
+          bannerType: data.status,
+          banner: true,
+        });
       });
   };
 

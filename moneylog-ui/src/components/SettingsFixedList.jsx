@@ -3,7 +3,8 @@ import React, { useEffect, useState } from "react";
 import SettingsFixed from "./SettingsFixed";
 import AddCircleIcon from "@mui/icons-material/AddCircle";
 
-const SettingsFixedList = () => {
+const SettingsFixedList = (props) => {
+  const { banner, setBanner } = props;
   /** 固定費の編集 */
   const [monthlyTransactionList, setMonthlyTransactionList] = useState([]);
   const [isLoading, setLoading] = useState(false);
@@ -26,7 +27,6 @@ const SettingsFixedList = () => {
 
   /** 登録処理 */
   const register = () => {
-    console.log(monthlyTransactionList);
     setLoading(true);
     fetch(`${rootURI}/fixed/editFixed`, {
       method: "POST",
@@ -45,6 +45,12 @@ const SettingsFixedList = () => {
         } else {
           // 失敗処理
         }
+        setBanner({
+          ...banner,
+          bannerMessage: data.message,
+          bannerType: data.status,
+          banner: true,
+        });
       })
       .finally(() => {
         setLoading(false);
@@ -103,6 +109,8 @@ const SettingsFixedList = () => {
               getInit={getInit}
               isLoading={isLoading}
               setLoading={setLoading}
+              banner={banner}
+              setBanner={setBanner}
             />
           );
         })}

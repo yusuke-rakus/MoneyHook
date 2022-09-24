@@ -231,30 +231,6 @@ const Timeline = (props) => {
       <Sidebar themeColor={themeColor} />
 
       <div className="homeArea">
-        {/* バーナー */}
-        <div className="bannerArea">
-          <Collapse in={banner}>
-            <Alert
-              severity={bannerType}
-              action={
-                <IconButton
-                  aria-label="close"
-                  color="inherit"
-                  size="small"
-                  onClick={() => {
-                    setBanner(false);
-                  }}
-                >
-                  <CloseIcon fontSize="inherit" />
-                </IconButton>
-              }
-              sx={{ mb: 2 }}
-            >
-              {bannerMessage}
-            </Alert>
-          </Collapse>
-        </div>
-
         <div className="container">
           {/* 月 */}
           <div className="month">
@@ -334,6 +310,30 @@ const Timeline = (props) => {
               })}
             </div>
           )}
+
+          {/* バーナー */}
+          <div className="bannerArea">
+            <Collapse in={banner}>
+              <Alert
+                severity={bannerType}
+                action={
+                  <IconButton
+                    aria-label="close"
+                    color="inherit"
+                    size="small"
+                    onClick={() => {
+                      setBanner(false);
+                    }}
+                  >
+                    <CloseIcon fontSize="inherit" />
+                  </IconButton>
+                }
+                sx={{ mb: 2 }}
+              >
+                {bannerMessage}
+              </Alert>
+            </Collapse>
+          </div>
 
           {/* 追加ボタン */}
           <div className="addTransactionArea">

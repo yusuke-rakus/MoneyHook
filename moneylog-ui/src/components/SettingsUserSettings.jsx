@@ -1,7 +1,8 @@
 import { Button, CircularProgress, TextField } from "@mui/material";
 import React, { useEffect, useState } from "react";
 
-const SettingsUserSettings = () => {
+const SettingsUserSettings = (props) => {
+  const { banner, setBanner } = props;
   /** ユーザー設定変更 */
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -61,6 +62,12 @@ const SettingsUserSettings = () => {
         } else {
           // 失敗処理
         }
+        setBanner({
+          ...banner,
+          bannerMessage: data.message,
+          bannerType: data.status,
+          banner: true,
+        });
       })
       .finally(() => {
         setEmail("");

@@ -2,7 +2,8 @@ import { Button, CircularProgress, TextField } from "@mui/material";
 import React from "react";
 import { useState } from "react";
 
-const SettingsChangePassword = () => {
+const SettingsChangePassword = (props) => {
+  const { banner, setBanner } = props;
   const [currentPassword, setCurrentPassword] = useState("");
   const [newPassword1, setNewPassword1] = useState("");
   const [newPassword2, setNewPassword2] = useState("");
@@ -55,6 +56,12 @@ const SettingsChangePassword = () => {
         } else {
           // 失敗処理
         }
+        setBanner({
+          ...banner,
+          bannerMessage: data.message,
+          bannerType: data.status,
+          banner: true,
+        });
       })
       .finally(() => {
         setCurrentPassword("");

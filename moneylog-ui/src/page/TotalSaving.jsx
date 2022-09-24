@@ -162,30 +162,6 @@ const TotalSaving = (props) => {
       <Sidebar themeColor={themeColor} />
 
       <div className="homeArea">
-        {/* バーナー */}
-        <div className="bannerArea">
-          <Collapse in={banner}>
-            <Alert
-              severity={bannerType}
-              action={
-                <IconButton
-                  aria-label="close"
-                  color="inherit"
-                  size="small"
-                  onClick={() => {
-                    setBanner(false);
-                  }}
-                >
-                  <CloseIcon fontSize="inherit" />
-                </IconButton>
-              }
-              sx={{ mb: 2 }}
-            >
-              {bannerMessage}
-            </Alert>
-          </Collapse>
-        </div>
-
         <div className="container">
           {/* 貯金総額 */}
           <div className="totalSavingTitleArea">
@@ -239,6 +215,30 @@ const TotalSaving = (props) => {
             <UncategorizedSavingCard
               UncategorizedSavingAmount={uncategorizedSavingAmount}
             />
+          </div>
+
+          {/* バーナー */}
+          <div className="bannerArea">
+            <Collapse in={banner}>
+              <Alert
+                severity={bannerType}
+                action={
+                  <IconButton
+                    aria-label="close"
+                    color="inherit"
+                    size="small"
+                    onClick={() => {
+                      setBanner(false);
+                    }}
+                  >
+                    <CloseIcon fontSize="inherit" />
+                  </IconButton>
+                }
+                sx={{ mb: 2 }}
+              >
+                {bannerMessage}
+              </Alert>
+            </Collapse>
           </div>
 
           {/* 貯金目標追加ウィンドウ */}

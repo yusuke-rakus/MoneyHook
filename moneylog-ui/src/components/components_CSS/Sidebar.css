@@ -20,11 +20,6 @@
   font-size: 25px;
 }
 
-.sidebarList .row:hover {
-  cursor: pointer;
-  border-radius: 10px;
-}
-
 .row #icon {
   flex: 30%;
   display: grid;

@@ -36,13 +36,14 @@ const Sidebar = (props) => {
             <li key={key}>
               <Link
                 to={value.link}
-                id={window.location.pathname === value.link ? "active" : ""}
                 className={"row" + (value.heading ? " heading" : "")}
                 onMouseEnter={() => setHover(key)}
                 onMouseLeave={() => setHover("")}
                 style={{
+                  cursor: "pointer",
+                  borderRadius: "10px",
                   boxShadow:
-                    isHover === key
+                    isHover === key || window.location.pathname === value.link
                       ? `inset 5px 5px 12px 
                       ${LightenDarkenColor(bgcolor, -25)} 
                       , inset -5px -5px 12px 

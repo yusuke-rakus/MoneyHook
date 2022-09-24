@@ -119,7 +119,8 @@ public class UserService {
 
 		boolean updateResult = userMapper.changePassword(form);
 		if (!updateResult) {
-			throw new Exception();
+			res.setStatus(Status.ERROR.getStatus());
+			res.setMessage(ErrorMessage.USER_PASSWORD_CHANGE_FAILED);
 		} else {
 			res.setMessage(SuccessMessage.USER_PASSWORD_CHANGED);
 		}

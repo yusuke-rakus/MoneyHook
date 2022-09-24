@@ -17,6 +17,8 @@ public class ErrorMessage {
 	public static final String PASSWORD_INCORRECT = "パスワードが間違えています";
 	/** ユーザー情報の取得失敗 */
 	public static final String USER_INFO_GET_FAILED = "ユーザー情報の取得に失敗しました";
+	/** パスワードの変更失敗 */
+	public static final String USER_PASSWORD_CHANGE_FAILED = "パスワードの変更に失敗しました";
 
 	// transaction
 	/** 収支データの取得失敗 */

@@ -2,7 +2,6 @@ import React, { useState } from "react";
 /** CSS */
 import "./App.css";
 /** 自作コンポーネント */
-import Sidebar from "./components/Sidebar";
 import Home from "./page/Home";
 import Timeline from "./page/Timeline";
 import MonthlyVariable from "./page/MonthlyVariable";

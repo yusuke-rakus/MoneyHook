@@ -1,5 +1,6 @@
 import { Button, CircularProgress, IconButton } from "@mui/material";
 import React, { useEffect, useState } from "react";
+import "./components_CSS/SettingsFixedList.css";
 import SettingsFixed from "./SettingsFixed";
 import AddCircleIcon from "@mui/icons-material/AddCircle";
 
@@ -70,6 +71,7 @@ const SettingsFixedList = (props) => {
   // ユーザー情報の取得
   const getInit = () => {
     setLoading(true);
+    setMonthlyTransactionList([]);
     fetch(`${rootURI}/fixed/getFixed`, {
       method: "POST",
       headers: {
@@ -83,8 +85,12 @@ const SettingsFixedList = (props) => {
       .then((data) => {
         if (data.status == "success") {
           setMonthlyTransactionList(data.monthlyTransactionList);
-          setLoading(false);
+        } else {
+          setMonthlyTransactionList([]);
         }
+      })
+      .finally(() => {
+        setLoading(false);
       });
   };
 
@@ -98,24 +104,35 @@ const SettingsFixedList = (props) => {
       <hr className="border" />
 
       {/* 月次費用 */}
-      <div className="fixedListArea">
-        {monthlyTransactionList.map((data, i) => {
-          return (
-            <SettingsFixed
-              key={i}
-              data={data}
-              monthlyTransactionList={monthlyTransactionList}
-              setMonthlyTransactionList={setMonthlyTransactionList}
-              getInit={getInit}
-              isLoading={isLoading}
-              setLoading={setLoading}
-              banner={banner}
-              setBanner={setBanner}
-            />
-          );
-        })}
-      </div>
+      {isLoading ? (
+        <div className="fixedListArea">
+          <div className="monthlyTransactionLoading loading"></div>
+          <div className="monthlyTransactionLoading loading"></div>
+          <div className="monthlyTransactionLoading loading"></div>
+          <div className="monthlyTransactionLoading loading"></div>
+          <div className="monthlyTransactionLoading loading"></div>
+        </div>
+      ) : (
+        <div className="fixedListArea">
+          {monthlyTransactionList.map((data, i) => {
+            return (
+              <SettingsFixed
+                key={i}
+                data={data}
+                monthlyTransactionList={monthlyTransactionList}
+                setMonthlyTransactionList={setMonthlyTransactionList}
+                getInit={getInit}
+                isLoading={isLoading}
+                setLoading={setLoading}
+                banner={banner}
+                setBanner={setBanner}
+              />
+            );
+          })}
+        </div>
+      )}
 
+      {/* 追加ボタン */}
       <div className="addArea" onClick={AddFixedDataInput}>
         <IconButton>
           <AddCircleIcon />
@@ -123,6 +140,7 @@ const SettingsFixedList = (props) => {
       </div>
 
       <div className="fixedSettingsButtons">
+        {/* リセットボタン */}
         <Button
           onClick={cancel}
           variant="contained"
@@ -131,6 +149,8 @@ const SettingsFixedList = (props) => {
         >
           リセット
         </Button>
+
+        {/* 登録ボタン */}
         <Button onClick={register} variant="contained" disabled={isLoading}>
           {isLoading ? <CircularProgress size={20} /> : "登録"}
         </Button>

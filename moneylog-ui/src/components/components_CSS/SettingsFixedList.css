@@ -1,0 +1,44 @@
+.loading {
+  background-color: #eeeeee;
+  position: relative;
+  overflow: hidden;
+}
+
+.monthlyTransactionLoading {
+  width: 100%;
+  height: 40px;
+  background-color: #eeeeee;
+  margin-bottom: 10px;
+  border-radius: 5px;
+}
+
+.loading::before {
+  content: "";
+  position: absolute;
+  display: block;
+  background-color: #fafafa;
+  transform: translateX(-50%);
+  width: 100%;
+  height: 100%;
+
+  animation-name: shine;
+  animation-delay: 0s;
+  animation-duration: 0.8s;
+  animation-timing-function: ease-in;
+  animation-iteration-count: infinite;
+}
+
+@keyframes shine {
+  0% {
+    transform: translateX(-50%) scaleX(0);
+    opacity: 0;
+  }
+  70% {
+    transform: translateX(-50%) scaleX(1.5);
+    opacity: 1;
+  }
+  100% {
+    transform: translateX(-50%) scaleX(3);
+    opacity: 0;
+  }
+}

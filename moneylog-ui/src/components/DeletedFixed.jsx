@@ -145,7 +145,7 @@ const DeletedFixed = (props) => {
                       {data.monthlyTransactionName}
                     </TableCell>
                     <TableCell align="center">
-                      {data.monthlyTransactionAmount.toLocaleString()}
+                      {Math.abs(data.monthlyTransactionAmount).toLocaleString()}
                     </TableCell>
                     <TableCell align="center">{data.categoryName}</TableCell>
                     <TableCell

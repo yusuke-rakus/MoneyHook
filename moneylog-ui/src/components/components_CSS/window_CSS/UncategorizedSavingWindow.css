@@ -1,0 +1,52 @@
+.UncategorizedSavingWindow {
+  position: fixed;
+  inset: 0;
+  margin: auto;
+  width: 50%;
+  min-width: 500px;
+  max-width: 700px;
+  min-height: 600px;
+  max-height: 650px;
+  background-color: #ffffff;
+  padding: 20px 100px;
+  text-align: center;
+  display: relative;
+}
+
+/* タイトル */
+.modal-title {
+  padding-top: 30px;
+  color: #424242;
+  font-weight: lighter;
+}
+
+/* 未分類の貯金額 */
+.uncategorizedAmount {
+  padding-top: 30px;
+  color: #424242;
+  font-weight: lighter;
+  text-align: left;
+  margin-bottom: 5px;
+}
+
+/* 未分類の貯金リスト */
+.uncategorizedSavingList {
+  width: 100%;
+  height: 400px;
+  margin-bottom: 20px;
+}
+
+/* 振り分け先選択 */
+.formGroup {
+  display: flex;
+  justify-content: space-between;
+}
+
+/* 貯金リスト */
+.uncategorizedSavingData {
+  list-style: none;
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}

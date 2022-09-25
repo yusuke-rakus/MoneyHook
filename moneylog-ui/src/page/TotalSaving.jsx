@@ -16,6 +16,7 @@ import Alert from "@mui/material/Alert";
 import IconButton from "@mui/material/IconButton";
 import Collapse from "@mui/material/Collapse";
 import CloseIcon from "@mui/icons-material/Close";
+import UncategorizedSavingWindow from "../components/window/UncategorizedSavingWindow";
 
 const TotalSaving = (props) => {
   const { themeColor } = props;
@@ -94,6 +95,14 @@ const TotalSaving = (props) => {
   const [editSavingTarget, setEditSavingTarget] = useState({});
   const resetEditSavingTarget = () => {
     setEditSavingTarget({});
+  };
+
+  /** 未分類の貯金額 */
+  const [uncategorizedWindow, setUncategorizedWindow] = useState(false);
+  const openUncategorizedWindow = () => {
+    if (uncategorizedSavingAmount !== 0) {
+      setUncategorizedWindow(true);
+    }
   };
 
   /** API関連 */
@@ -211,7 +220,10 @@ const TotalSaving = (props) => {
           )}
 
           {/* 未分類の貯金額 */}
-          <div className="uncategorizedSavingCardArea">
+          <div
+            onClick={() => openUncategorizedWindow()}
+            className="uncategorizedSavingCardArea"
+          >
             <UncategorizedSavingCard
               UncategorizedSavingAmount={uncategorizedSavingAmount}
             />
@@ -262,6 +274,24 @@ const TotalSaving = (props) => {
               setBanner={setBanner}
               setBannerMessage={setBannerMessage}
               setBannerType={setBannerType}
+            />
+          </CSSTransition>
+
+          {/* 未分類の貯金ウィンドウ */}
+          <BlurView
+            status={uncategorizedWindow}
+            setStatus={setUncategorizedWindow}
+            // setObject={}
+          />
+          <CSSTransition
+            in={uncategorizedWindow}
+            timeout={100}
+            unmountOnExit
+            classNames="Modal-show"
+          >
+            <UncategorizedSavingWindow
+              setUncategorizedWindow={setUncategorizedWindow}
+              uncategorizedAmount={uncategorizedSavingAmount}
             />
           </CSSTransition>
         </div>

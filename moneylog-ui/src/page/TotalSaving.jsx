@@ -281,7 +281,6 @@ const TotalSaving = (props) => {
           <BlurView
             status={uncategorizedWindow}
             setStatus={setUncategorizedWindow}
-            // setObject={}
           />
           <CSSTransition
             in={uncategorizedWindow}

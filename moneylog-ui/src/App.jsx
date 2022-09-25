@@ -13,6 +13,7 @@ import SettingsPage from "./page/Settings";
 import { Routes, Route, BrowserRouter } from "react-router-dom";
 import { useCookies } from "react-cookie";
 import NotFound from "./page/NotFound";
+import Login from "./page/Login";
 
 const App = () => {
   /** 背景色のリスト */
@@ -30,6 +31,7 @@ const App = () => {
   return (
     <BrowserRouter>
       <Routes>
+        <Route path="login" element={<Login />}></Route>
         <Route path="/" element={<Home themeColor={themeColor} />}></Route>
         <Route path="/home" element={<Home themeColor={themeColor} />}></Route>
         <Route

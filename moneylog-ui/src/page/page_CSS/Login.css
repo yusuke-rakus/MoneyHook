@@ -1,0 +1,30 @@
+.loginPage {
+  width: 100%;
+  height: 100%;
+  padding: 8%;
+  background-color: faffff;
+  background: linear-gradient(#36d1dc, #5b86e5);
+  display: flex;
+  justify-content: end;
+  align-items: center;
+}
+
+.inputWindow {
+  border-radius: 15px;
+  background: #fafafa;
+  box-shadow: 17px 17px 43px #397ea4, -17px -17px 43px #63daff;
+  width: 400px;
+  height: 450px;
+  position: relative;
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+}
+
+.inputArea {
+  margin-bottom: 40px;
+}
+
+.inputArea :first-child {
+  margin-top: 40px;
+}

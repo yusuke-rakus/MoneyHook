@@ -1,3 +1,13 @@
+import React from "react";
+import { useState } from "react";
+/** CSS */
+import "./page_CSS/Login.css";
+/** 自作コンポーネント */
+import SignUpWindow from "../components/window/SignUpWindow";
+import BlurView from "../components/window/BlurView";
+/** 外部コンポーネント */
+import CloseIcon from "@mui/icons-material/Close";
+import { CSSTransition } from "react-transition-group";
 import {
   Alert,
   Button,
@@ -6,19 +16,16 @@ import {
   IconButton,
   TextField,
 } from "@mui/material";
-import React from "react";
-import { useState } from "react";
-import "./page_CSS/Login.css";
-import CloseIcon from "@mui/icons-material/Close";
 
 const Login = () => {
   const [loginForm, setLoginForm] = useState({});
   const [isLoading, setLoading] = useState(false);
   const [banner, setBanner] = useState({
-    banner: false,
+    banner: true,
     bannerMessage: "",
     bannerType: "success",
   });
+  const [window, setWindow] = useState(false);
 
   /** API関連 */
   const rootURI = "http://localhost:8080";
@@ -94,37 +101,50 @@ const Login = () => {
 
         {/* 新規登録 */}
         <Button
-          //   onClick={registerUser}
+          onClick={() => setWindow(true)}
           disabled={isLoading}
           sx={{ color: "#9e9e9e", marginTop: "20px" }}
         >
           新規登録
         </Button>
-
-        {/* バーナー */}
-        <div className="bannerArea">
-          <Collapse in={banner.banner}>
-            <Alert
-              severity={banner.bannerType}
-              action={
-                <IconButton
-                  aria-label="close"
-                  color="inherit"
-                  size="small"
-                  onClick={() => {
-                    setBanner({ ...banner, banner: false });
-                  }}
-                >
-                  <CloseIcon fontSize="inherit" />
-                </IconButton>
-              }
-              sx={{ mb: 2 }}
-            >
-              {banner.bannerMessage}
-            </Alert>
-          </Collapse>
-        </div>
       </div>
+
+      {/* バーナー */}
+      <div className="banner">
+        <Collapse in={banner.banner}>
+          <Alert
+            severity={banner.bannerType}
+            action={
+              <IconButton
+                aria-label="close"
+                color="inherit"
+                size="small"
+                onClick={() => {
+                  setBanner({ ...banner, banner: false });
+                }}
+              >
+                <CloseIcon fontSize="inherit" />
+              </IconButton>
+            }
+            sx={{
+              mb: 1,
+            }}
+          >
+            {banner.bannerMessage}
+          </Alert>
+        </Collapse>
+      </div>
+
+      {/* 取引追加画面 */}
+      <BlurView status={window} setStatus={setWindow} />
+      <CSSTransition
+        in={window}
+        timeout={200}
+        unmountOnExit
+        classNames="Modal-show"
+      >
+        <SignUpWindow setWindow={setWindow} />
+      </CSSTransition>
     </div>
   );
 };

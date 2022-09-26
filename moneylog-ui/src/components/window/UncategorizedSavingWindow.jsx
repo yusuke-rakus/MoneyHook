@@ -92,6 +92,7 @@ const UncategorizedSavingWindow = (props) => {
   };
 
   const getSavingTargetList = () => {
+    setLoading(true);
     fetch(`${rootURI}/savingTarget/getSavingTargetList`, {
       method: "POST",
       headers: {
@@ -109,6 +110,9 @@ const UncategorizedSavingWindow = (props) => {
         } else {
           // 失敗
         }
+      })
+      .finally(() => {
+        setLoading(false);
       });
   };
 
@@ -156,7 +160,9 @@ const UncategorizedSavingWindow = (props) => {
                   control={
                     <Checkbox
                       checked={
-                        checked || savingIdList.length === savingList.length
+                        checked ||
+                        (savingIdList.length === savingList.length &&
+                          savingList.length !== 0)
                       }
                     />
                   }
@@ -192,30 +198,34 @@ const UncategorizedSavingWindow = (props) => {
 
           {/* 貯金一覧 */}
           <CardContent sx={{ paddingX: 5, height: "80%", overflowY: "auto" }}>
-            <ul style={{}}>
-              {savingList.map((data, i) => {
-                return (
-                  <li className="uncategorizedSavingData" key={i}>
-                    <FormGroup>
-                      <FormControlLabel
-                        control={
-                          <Checkbox
-                            checked={
-                              checked || savingIdList.includes(data.savingId)
-                            }
-                          />
-                        }
-                        label={data.savingName}
-                        sx={{ userSelect: "none" }}
-                        value={data.savingId}
-                        onChange={checkSaving}
-                      />
-                    </FormGroup>
-                    <span>{`¥${data.savingAmount.toLocaleString()}`}</span>
-                  </li>
-                );
-              })}
-            </ul>
+            {isLoading ? (
+              <CircularProgress />
+            ) : (
+              <ul>
+                {savingList.map((data, i) => {
+                  return (
+                    <li className="uncategorizedSavingData" key={i}>
+                      <FormGroup>
+                        <FormControlLabel
+                          control={
+                            <Checkbox
+                              checked={
+                                checked || savingIdList.includes(data.savingId)
+                              }
+                            />
+                          }
+                          label={data.savingName}
+                          sx={{ userSelect: "none" }}
+                          value={data.savingId}
+                          onChange={checkSaving}
+                        />
+                      </FormGroup>
+                      <span>{`¥${data.savingAmount.toLocaleString()}`}</span>
+                    </li>
+                  );
+                })}
+              </ul>
+            )}
           </CardContent>
         </Card>
       </div>

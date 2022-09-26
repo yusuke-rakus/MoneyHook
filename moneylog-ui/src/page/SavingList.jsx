@@ -164,7 +164,7 @@ const SavingList = (props) => {
                     <CloseIcon fontSize="inherit" />
                   </IconButton>
                 }
-                sx={{ mb: 2 }}
+                sx={{ mb: 1 }}
               >
                 {bannerMessage}
               </Alert>

@@ -73,7 +73,7 @@ const Settings = (props) => {
                     <CloseIcon fontSize="inherit" />
                   </IconButton>
                 }
-                sx={{ mb: 2 }}
+                sx={{ mb: 1 }}
               >
                 {banner.bannerMessage}
               </Alert>

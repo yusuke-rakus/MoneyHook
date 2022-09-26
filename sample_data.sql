@@ -5,10 +5,10 @@ VALUES
     ('#76d5ff'),
     ('#607d8b'),
     ('#424242'),
-    ('#43a047'),
-    ('#00acc1'),
-    ('#e53935'),
-    ('#8e24aa');
+    ('#00AA90'),
+    ('#51A8DD'),
+    ('#CB1B45'),
+    ('#8A6BBE');
 
 INSERT INTO
     theme_color(theme_color_gradient_code)

@@ -43,6 +43,7 @@ const AddTargetBox = (props) => {
 
   /** 登録処理 */
   const register = () => {
+    setBanner(false);
     if (savingTargetData.savingTargetId == void 0) {
       // 登録処理
       addSavingTarget();
@@ -50,7 +51,6 @@ const AddTargetBox = (props) => {
       // 編集処理
       editSavingTarget();
     }
-    setBanner(true);
   };
 
   /** 貯金目標を追加 */
@@ -80,6 +80,7 @@ const AddTargetBox = (props) => {
       .finally(() => {
         setLoading(false);
         closeAddTargetStatus();
+        setBanner(true);
         getInit();
       });
   };
@@ -112,12 +113,14 @@ const AddTargetBox = (props) => {
       .finally(() => {
         setLoading(false);
         closeAddTargetStatus();
+        setBanner(true);
         getInit();
       });
   };
 
   /** 貯金削除 */
   const deleteSavingTarget = () => {
+    setBanner(false);
     setLoading(true);
     fetch(`${rootURI}/savingTarget/deleteSavingTarget`, {
       method: "POST",

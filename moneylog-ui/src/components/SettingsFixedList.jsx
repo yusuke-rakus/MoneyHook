@@ -28,6 +28,10 @@ const SettingsFixedList = (props) => {
 
   /** 登録処理 */
   const register = () => {
+    setBanner({
+      ...banner,
+      banner: false,
+    });
     setLoading(true);
     fetch(`${rootURI}/fixed/editFixed`, {
       method: "POST",

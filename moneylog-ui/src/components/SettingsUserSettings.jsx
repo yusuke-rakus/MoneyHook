@@ -43,6 +43,10 @@ const SettingsUserSettings = (props) => {
 
   // メールアドレス変更
   const changeEmailApi = (email, password) => {
+    setBanner({
+      ...banner,
+      banner: false,
+    });
     setLoading(true);
     fetch(`${rootURI}/user/changeEmail`, {
       method: "POST",

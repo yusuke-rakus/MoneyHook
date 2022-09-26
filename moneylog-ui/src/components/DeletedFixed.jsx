@@ -19,6 +19,10 @@ const DeletedFixed = (props) => {
 
   /** 戻すボタン押下処理 */
   const backMonthlyTransaction = (monthlyTransactionId) => {
+    setBanner({
+      ...banner,
+      banner: false,
+    });
     setLoading(true);
     fetch(`${rootURI}/fixed/returnTarget`, {
       method: "POST",
@@ -52,6 +56,10 @@ const DeletedFixed = (props) => {
 
   /** 削除ボタン押下処理 */
   const deleteMonthlyTransaction = (monthlyTransactionId) => {
+    setBanner({
+      ...banner,
+      banner: false,
+    });
     setLoading(true);
     fetch(`${rootURI}/fixed/deleteFixedFromTable`, {
       method: "POST",

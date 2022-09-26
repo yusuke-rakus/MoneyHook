@@ -114,11 +114,30 @@ const ModalBox = (props) => {
   /** 取引名のレコメンドリスト */
   const [recommendList, setRecommendList] = useState([]);
 
+  const [error, setError] = useState({});
+
   /** API関連 */
   const rootURI = "http://localhost:8080";
 
   /** 登録ボタン押下処理 */
   const registerTransaction = () => {
+    // エラーチェック
+    if (transaction.transactionAmount === void 0) {
+      setError({ ...error, transactionAmount: true });
+      console.log(transaction.transactionAmount);
+    }
+    if (
+      transaction.transactionName === void 0 &&
+      transaction.transactionName.length > 32
+    ) {
+      setError({ ...error, transactionName: true });
+      console.log(transaction.transactionName);
+    }
+    if (transaction.subCategoryName === void 0) {
+      setError({ ...error, categoryBox: true });
+      console.log(transaction.subCategoryName);
+    }
+
     if (transaction.transactionId == void 0) {
       // 登録処理
       addTransaction();
@@ -130,6 +149,7 @@ const ModalBox = (props) => {
 
   /** 登録処理 */
   const addTransaction = () => {
+    setBanner(false);
     setLoading(true);
     fetch(`${rootURI}/transaction/addTransaction`, {
       method: "POST",
@@ -152,22 +172,23 @@ const ModalBox = (props) => {
       .then((data) => {
         if (data.status == "success") {
           // 成功
+          closeModalWindow();
+          getInit(month);
+          setBanner(true);
+          setBannerMessage(data.message);
+          setBannerType(data.status);
         } else {
           // 失敗
         }
-        setBannerMessage(data.message);
-        setBannerType(data.status);
       })
       .finally(() => {
         setLoading(false);
-        closeModalWindow();
-        getInit(month);
-        setBanner(true);
       });
   };
 
   /** 編集処理 */
   const editTransaction = () => {
+    setBanner(false);
     setLoading(true);
     fetch(`${rootURI}/transaction/editTransaction`, {
       method: "POST",
@@ -342,6 +363,7 @@ const ModalBox = (props) => {
             <span className="input-span">金額</span>
             <div className="input-amount">
               <TextField
+                error={error.transactionAmount}
                 id="standard-basic"
                 variant="standard"
                 autoComplete="off"
@@ -378,6 +400,7 @@ const ModalBox = (props) => {
               onChange={selectTransactionName}
               renderInput={(params) => (
                 <TextField
+                  error={error.transactionName}
                   {...params}
                   variant="standard"
                   fullWidth={true}
@@ -401,7 +424,11 @@ const ModalBox = (props) => {
         {/* カテゴリ入力 */}
         <div className="input-category-box">
           <span className="input-span category-span">カテゴリ</span>
-          <div onClick={openCategoryWindow} className="category-box">
+          <div
+            onClick={openCategoryWindow}
+            className="category-box"
+            style={error.categoryBox && { borderBottom: "solid 1.5px #c62828" }}
+          >
             <p>
               <span style={{ fontSize: "14px" }}>
                 {!transaction.subCategoryName

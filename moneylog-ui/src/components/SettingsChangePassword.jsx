@@ -37,6 +37,10 @@ const SettingsChangePassword = (props) => {
 
   // パスワード変更
   const changePasswordApi = (password, newPassword) => {
+    setBanner({
+      ...banner,
+      banner: false,
+    });
     setLoading(true);
     fetch(`${rootURI}/user/changePassword`, {
       method: "POST",

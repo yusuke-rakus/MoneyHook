@@ -19,6 +19,10 @@ const DeletedSavingTarget = (props) => {
 
   /** 戻すボタン押下処理 */
   const backSavingTarget = (savingTargetId) => {
+    setBanner({
+      ...banner,
+      banner: false,
+    });
     setLoading(true);
     fetch(`${rootURI}/savingTarget/returnSavingTarget`, {
       method: "POST",
@@ -52,6 +56,10 @@ const DeletedSavingTarget = (props) => {
 
   /** 削除ボタン押下処理 */
   const deleteSavingTarget = (savingTargetId) => {
+    setBanner({
+      ...banner,
+      banner: false,
+    });
     console.log(savingTarget);
     setLoading(true);
     fetch(`${rootURI}/savingTarget/deleteSavingTargetFromTable`, {

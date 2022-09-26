@@ -58,6 +58,10 @@ const SettingsSelectColor = (props) => {
 
   // テーマカラー変更
   const editThemeColorApi = (themeColorId) => {
+    setBanner({
+      ...banner,
+      banner: false,
+    });
     fetch(`${rootURI}/user/editThemeColor`, {
       method: "POST",
       headers: {

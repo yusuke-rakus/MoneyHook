@@ -21,7 +21,7 @@ const Login = () => {
   const [loginForm, setLoginForm] = useState({});
   const [isLoading, setLoading] = useState(false);
   const [banner, setBanner] = useState({
-    banner: true,
+    banner: false,
     bannerMessage: "",
     bannerType: "success",
   });
@@ -32,6 +32,7 @@ const Login = () => {
 
   /** ログイン処理 */
   const login = () => {
+    setBanner({ ...banner, banner: false });
     setLoading(true);
     fetch(`${rootURI}/user/login`, {
       method: "POST",

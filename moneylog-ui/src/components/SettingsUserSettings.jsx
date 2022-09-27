@@ -4,19 +4,62 @@ import React, { useEffect, useState } from "react";
 const SettingsUserSettings = (props) => {
   const { banner, setBanner } = props;
   /** ユーザー設定変更 */
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
+  const [email, setEmail] = useState({ value: "", message: "", error: false });
+  const [password, setPassword] = useState({
+    value: "",
+    message: "",
+    error: false,
+  });
   const [isLoading, setLoading] = useState(false);
 
   /** メールアドレス変更 */
   const changeEmail = () => {
-    changeEmailApi(email, password);
+    // メールアドレス入力チェック
+    if (!email.value) {
+      setEmail((v) => ({
+        ...v,
+        value: email.value,
+        message: "メールアドレス未入力",
+        error: true,
+      }));
+      return;
+    }
+    // パスワード入力チェック
+    if (!password.value) {
+      setPassword((v) => ({
+        ...v,
+        value: password.value,
+        message: "パスワード未入力",
+        error: true,
+      }));
+      return;
+    }
+
+    // メールアドレス要件チェック
+    const regex =
+      /^[a-zA-Z0-9_.+-]+@([a-zA-Z0-9][a-zA-Z0-9-]*[a-zA-Z0-9]*\.)+[a-zA-Z]{2,}$/;
+    if (!regex.test(email.value)) {
+      setEmail((v) => ({
+        ...v,
+        value: email.value,
+        message: "形式不一致",
+        error: true,
+      }));
+      return;
+    }
+
+    changeEmailApi(email.value, password.value);
   };
 
   /** キャンセル */
   const cansel = () => {
     getInit();
-    setPassword("");
+    setPassword((v) => ({
+      ...v,
+      value: "",
+      message: "",
+      error: false,
+    }));
   };
 
   /** API関連 */
@@ -36,7 +79,12 @@ const SettingsUserSettings = (props) => {
       .then((res) => res.json())
       .then((data) => {
         if (data.status == "success") {
-          setEmail(data.userInfo.email);
+          setEmail((v) => ({
+            ...v,
+            value: data.userInfo.email,
+            message: "",
+            error: false,
+          }));
         }
       });
   };
@@ -94,14 +142,23 @@ const SettingsUserSettings = (props) => {
         <TextField
           variant="standard"
           autoComplete="off"
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
+          value={email.value}
+          onChange={(e) =>
+            setEmail((v) => ({
+              ...v,
+              value: e.target.value,
+              message: "",
+              error: false,
+            }))
+          }
           fullWidth={true}
           inputProps={{
             style: {
               color: "#424242",
             },
           }}
+          error={email.error}
+          label={email.message}
         />
       </div>
 
@@ -111,9 +168,18 @@ const SettingsUserSettings = (props) => {
           variant="standard"
           type="password"
           autoComplete="off"
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
+          value={password.value}
+          onChange={(e) =>
+            setPassword((v) => ({
+              ...v,
+              value: e.target.value,
+              message: "",
+              error: false,
+            }))
+          }
           fullWidth={true}
+          error={password.error}
+          label={password.message}
         />
       </div>
 

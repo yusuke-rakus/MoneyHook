@@ -33,12 +33,68 @@ const SignUpWindow = (props) => {
   };
 
   const signUp = () => {
-    console.log(newAccount);
-    setLabels({
-      email: { message: "エラー", status: true },
-      password: { message: "エラー", status: true },
-      checkPassword: { message: "エラー", status: true },
-    });
+    // 未入力チェック
+    if (
+      !newAccount.email ||
+      !newAccount.password ||
+      !newAccount.checkPassword
+    ) {
+      setLabels((label) => ({
+        ...label,
+        email: {
+          message: !newAccount.email ? "未入力" : labels.email.message,
+          status: !newAccount.email,
+        },
+        password: {
+          message: !newAccount.password ? "未入力" : labels.password.message,
+          status: !newAccount.password,
+        },
+        checkPassword: {
+          message: !newAccount.checkPassword
+            ? "未入力"
+            : labels.checkPassword.message,
+          status: !newAccount.checkPassword,
+        },
+      }));
+    }
+
+    // メールアドレス要件チェック
+    const regex =
+      /^[a-zA-Z0-9_.+-]+@([a-zA-Z0-9][a-zA-Z0-9-]*[a-zA-Z0-9]*\.)+[a-zA-Z]{2,}$/;
+    if (!regex.test(newAccount.email)) {
+      setLabels((label) => ({
+        ...label,
+        email: {
+          message: "メールアドレスを入力してください",
+          status: true,
+        },
+      }));
+    }
+    // パスワード一致チェック
+    if (newAccount.password !== newAccount.checkPassword) {
+      setLabels((label) => ({
+        ...label,
+        password: { message: "パスワードが一致していません", status: true },
+        checkPassword: {
+          message: "パスワードが一致していません",
+          status: true,
+        },
+      }));
+    }
+    // パスワード要件チェック
+    const passwordRegex = /^(?=.*?[a-z])(?=.*?\d)[a-z\d]{8,32}$/i;
+    if (!passwordRegex.test(newAccount.password)) {
+      setLabels((label) => ({
+        ...label,
+        password: { message: "半角英数で8-32文字", status: true },
+        checkPassword: {
+          message: "半角英数で8-32文字",
+          status: true,
+        },
+      }));
+    }
+
+    /** 登録API */
   };
 
   return (

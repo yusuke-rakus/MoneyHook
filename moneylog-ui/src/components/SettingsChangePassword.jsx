@@ -4,44 +4,106 @@ import { useState } from "react";
 
 const SettingsChangePassword = (props) => {
   const { banner, setBanner } = props;
-  const [currentPassword, setCurrentPassword] = useState("");
-  const [newPassword1, setNewPassword1] = useState("");
-  const [newPassword2, setNewPassword2] = useState("");
 
-  const [matchError, setMatchError] = useState(false);
+  const [password, setPassword] = useState({
+    currentPassword: { password: "", message: "", error: false },
+    newPassword1: { password: "", message: "", error: false },
+    newPassword2: { password: "", message: "", error: false },
+  });
+
   const [isLoading, setLoading] = useState(false);
 
   /** パスワード変更 */
-  const changePassword = () => {
-    // パスワード1と2が一致しているか確認
-    if (newPassword1 == newPassword2) {
-      // API通信
-      changePasswordApi(currentPassword, newPassword1);
-    } else {
-      setMatchError(true);
-    }
-  };
+  const changePassword = () => {};
 
   /** キャンセル */
   const cancel = () => {
     // 入力値をクリア
-    setCurrentPassword("");
-    setNewPassword1("");
-    setNewPassword2("");
-    // エラーを解消
-    setMatchError(false);
+    setPassword((value) => ({
+      ...value,
+      currentPassword: { password: "", message: "", error: false },
+      newPassword1: { password: "", message: "", error: false },
+      newPassword2: { password: "", message: "", error: false },
+    }));
   };
 
   /** API関連 */
   const rootURI = "http://localhost:8080";
 
   // パスワード変更
-  const changePasswordApi = (password, newPassword) => {
+  const changePasswordApi = () => {
     setBanner({
       ...banner,
       banner: false,
     });
+
+    // パスワードチェック
+    // 未入力
+    if (
+      !password.currentPassword.password ||
+      !password.newPassword1.password ||
+      !password.newPassword2.password
+    ) {
+      setPassword((value) => ({
+        ...value,
+        currentPassword: {
+          password: password.currentPassword.password,
+          message: !password.currentPassword.password && "未入力",
+          error: !password.currentPassword.password,
+        },
+        newPassword1: {
+          password: password.newPassword1.password,
+          message: !password.newPassword1.password && "未入力",
+          error: !password.newPassword1.password,
+        },
+        newPassword2: {
+          password: password.newPassword2.password,
+          message: !password.newPassword2.password && "未入力",
+          error: !password.newPassword2.password,
+        },
+      }));
+      return;
+    }
+
+    // 変更後パスワード一致チェック
+    if (password.newPassword1.password !== password.newPassword2.password) {
+      setPassword((value) => ({
+        ...value,
+        newPassword1: {
+          password: password.newPassword1.password,
+          message: "パスワードが一致しません",
+          error: true,
+        },
+        newPassword2: {
+          password: password.newPassword2.password,
+          message: "パスワードが一致しません",
+          error: true,
+        },
+      }));
+      return;
+    }
+
+    // パスワード要件チェック
+    const passwordRegex = /^(?=.*?[a-z])(?=.*?\d)[a-z\d]{8,32}$/i;
+    if (!passwordRegex.test(password.newPassword1.password)) {
+      setPassword((value) => ({
+        ...value,
+        newPassword1: {
+          password: password.newPassword1.password,
+          message: "半角英数で8-32文字",
+          error: true,
+        },
+        newPassword2: {
+          password: password.newPassword2.password,
+          message: "半角英数で8-32文字",
+          error: true,
+        },
+      }));
+      return;
+    }
+
     setLoading(true);
+
     fetch(`${rootURI}/user/changePassword`, {
       method: "POST",
       headers: {
@@ -49,8 +111,8 @@ const SettingsChangePassword = (props) => {
       },
       body: JSON.stringify({
         userId: "a77a6e94-6aa2-47ea-87dd-129f580fb669",
-        password: password,
-        newPassword: newPassword,
+        password: password.currentPassword.password,
+        newPassword: password.newPassword1.password,
       }),
     })
       .then((res) => res.json())
@@ -68,9 +130,12 @@ const SettingsChangePassword = (props) => {
         });
       })
       .finally(() => {
-        setCurrentPassword("");
-        setNewPassword1("");
-        setNewPassword2("");
+        setPassword((value) => ({
+          ...value,
+          currentPassword: { password: "", message: "", error: false },
+          newPassword1: { password: "", message: "", error: false },
+          newPassword2: { password: "", message: "", error: false },
+        }));
         setLoading(false);
       });
   };
@@ -82,33 +147,64 @@ const SettingsChangePassword = (props) => {
       <div className="passwordBox">
         <span>現在のパスワード</span>
         <TextField
-          value={currentPassword}
-          onChange={(e) => setCurrentPassword(e.target.value)}
+          value={password.currentPassword.password}
+          onChange={(e) =>
+            setPassword((value) => ({
+              ...value,
+              currentPassword: {
+                password: e.target.value,
+                message: password.currentPassword.message,
+                error: password.currentPassword.error,
+              },
+            }))
+          }
           variant="standard"
-          // type="password"
+          type="password"
           fullWidth={true}
+          error={password.currentPassword.error}
+          label={password.currentPassword.message}
         />
       </div>
       <div className="passwordBox">
         <span>変更後のパスワード</span>
         <TextField
-          value={newPassword1}
-          onChange={(e) => setNewPassword1(e.target.value)}
+          value={password.newPassword1.password}
+          onChange={(e) =>
+            setPassword((value) => ({
+              ...value,
+              newPassword1: {
+                password: e.target.value,
+                message: password.newPassword1.message,
+                error: password.newPassword1.error,
+              },
+            }))
+          }
           variant="standard"
-          // type="password"
+          type="password"
           fullWidth={true}
-          error={matchError && matchError}
+          error={password.newPassword1.error}
+          label={password.newPassword1.message}
         />
       </div>
       <div className="passwordBox">
         <span>再入力</span>
         <TextField
-          value={newPassword2}
-          onChange={(e) => setNewPassword2(e.target.value)}
+          value={password.newPassword2.password}
+          onChange={(e) =>
+            setPassword((value) => ({
+              ...value,
+              newPassword2: {
+                password: e.target.value,
+                message: password.newPassword2.message,
+                error: password.newPassword2.error,
+              },
+            }))
+          }
           variant="standard"
-          // type="password"
+          type="password"
           fullWidth={true}
-          error={matchError && matchError}
+          error={password.newPassword2.error}
+          label={password.newPassword2.message}
         />
       </div>
 
@@ -122,7 +218,7 @@ const SettingsChangePassword = (props) => {
           キャンセル
         </Button>
         <Button
-          onClick={changePassword}
+          onClick={changePasswordApi}
           variant="contained"
           disabled={isLoading}
         >

@@ -18,7 +18,10 @@ import {
 } from "@mui/material";
 
 const Login = () => {
-  const [loginForm, setLoginForm] = useState({});
+  const [loginForm, setLoginForm] = useState({
+    email: { value: "", message: "メールアドレス", error: false },
+    password: { value: "", message: "パスワード", error: false },
+  });
   const [isLoading, setLoading] = useState(false);
   const [banner, setBanner] = useState({
     banner: false,
@@ -32,6 +35,24 @@ const Login = () => {
 
   /** ログイン処理 */
   const login = () => {
+    // 未入力チェック
+    if (!loginForm.email.value || !loginForm.password.value) {
+      setLoginForm((v) => ({
+        ...v,
+        email: {
+          value: loginForm.email.value,
+          message: !loginForm.email.value ? "未入力" : "",
+          error: !loginForm.email.value,
+        },
+        password: {
+          value: loginForm.password.value,
+          message: !loginForm.password.value ? "未入力" : "",
+          error: !loginForm.password.value,
+        },
+      }));
+      return;
+    }
+
     setBanner({ ...banner, banner: false });
     setLoading(true);
     fetch(`${rootURI}/user/login`, {
@@ -40,15 +61,18 @@ const Login = () => {
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
-        email: loginForm.email,
-        password: loginForm.password,
+        email: loginForm.email.value,
+        password: loginForm.password.value,
       }),
     })
       .then((res) => res.json())
       .then((data) => {
         if (data.status == "success") {
           // 成功
-          setLoginForm({ ...loginForm, email: "", password: "" });
+          setLoginForm({
+            email: { value: "", message: "", error: false },
+            password: { value: "", message: "", error: false },
+          });
         } else {
           // 失敗
         }
@@ -69,24 +93,41 @@ const Login = () => {
       <div className="inputWindow">
         <div className="inputArea">
           <TextField
-            label="メールアドレス"
             variant="standard"
             autoComplete="off"
             fullWidth={true}
-            value={loginForm.email}
+            value={loginForm.email.value}
             onChange={(e) => {
-              setLoginForm({ ...loginForm, email: e.target.value });
+              setLoginForm((v) => ({
+                ...v,
+                email: {
+                  value: e.target.value,
+                  message: loginForm.email.message,
+                  error: loginForm.email.error,
+                },
+              }));
             }}
+            label={loginForm.email.message}
+            error={loginForm.email.error}
           />
           <TextField
-            label="パスワード"
             variant="standard"
             autoComplete="off"
+            type="password"
             fullWidth={true}
-            value={loginForm.password}
+            value={loginForm.password.value}
             onChange={(e) => {
-              setLoginForm({ ...loginForm, password: e.target.value });
+              setLoginForm((v) => ({
+                ...v,
+                password: {
+                  value: e.target.value,
+                  message: loginForm.password.message,
+                  error: loginForm.password.error,
+                },
+              }));
             }}
+            label={loginForm.password.message}
+            error={loginForm.password.error}
           />
         </div>
 

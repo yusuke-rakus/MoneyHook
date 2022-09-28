@@ -1,8 +1,10 @@
 import { Button, CircularProgress, TextField } from "@mui/material";
 import React, { useEffect, useState } from "react";
+import { useCookies } from "react-cookie";
 
 const SettingsUserSettings = (props) => {
   const { banner, setBanner } = props;
+  const [cookie, setCookie] = useCookies();
   /** ユーザー設定変更 */
   const [email, setEmail] = useState({ value: "", message: "", error: false });
   const [password, setPassword] = useState({
@@ -73,7 +75,7 @@ const SettingsUserSettings = (props) => {
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
-        userId: "a77a6e94-6aa2-47ea-87dd-129f580fb669",
+        userId: cookie.userId,
       }),
     })
       .then((res) => res.json())
@@ -102,7 +104,7 @@ const SettingsUserSettings = (props) => {
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
-        userId: "a77a6e94-6aa2-47ea-87dd-129f580fb669",
+        userId: cookie.userId,
         email: email,
         password: password,
       }),

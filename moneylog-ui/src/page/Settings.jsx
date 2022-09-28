@@ -15,15 +15,27 @@ import Alert from "@mui/material/Alert";
 import IconButton from "@mui/material/IconButton";
 import Collapse from "@mui/material/Collapse";
 import CloseIcon from "@mui/icons-material/Close";
+import { Button } from "@mui/material";
+import { useNavigate } from "react-router-dom";
+import { useCookies } from "react-cookie";
 
 const Settings = (props) => {
   const { colorList, setColorList, themeColor, setThemeColor } = props;
+  const navigate = useNavigate();
+  const [cookie, setCookie, deleteCookie] = useCookies();
   /** バナーのステータス */
   const [banner, setBanner] = useState({
     banner: false,
     bannerMessage: "",
     bannerType: "success",
   });
+
+  const logout = () => {
+    // ユーザーIDを削除
+    deleteCookie("userId");
+    // ホーム画面にリダイレクト
+    navigate("/login");
+  };
 
   return (
     <>
@@ -55,6 +67,13 @@ const Settings = (props) => {
 
           {/* 削除済み固定費 */}
           <DeletedFixed banner={banner} setBanner={setBanner} />
+
+          {/* ログアウト */}
+          <div className="logout">
+            <Button onClick={logout} sx={{ marginTop: 4, color: "#9e9e9e" }}>
+              ログアウト
+            </Button>
+          </div>
 
           {/* バーナー */}
           <div className="bannerArea">

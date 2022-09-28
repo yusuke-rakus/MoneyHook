@@ -11,10 +11,13 @@ import Accordion from "@mui/material/Accordion";
 import AccordionSummary from "@mui/material/AccordionSummary";
 import Typography from "@mui/material/Typography";
 import Sidebar from "../components/Sidebar";
+import { useCookies } from "react-cookie";
 
 const MonthlyFixed = (props) => {
   const { themeColor } = props;
   const [isLoading, setLoading] = useState(false);
+  const [cookie, setCookie] = useCookies();
+
   /** 今月 */
   const [sysDate, setSysDate] = useState(new Date("2022-06-01"));
   sysDate.setDate(1);
@@ -39,7 +42,7 @@ const MonthlyFixed = (props) => {
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
-        userId: "a77a6e94-6aa2-47ea-87dd-129f580fb669",
+        userId: cookie.userId,
         month: month,
       }),
     })
@@ -58,7 +61,7 @@ const MonthlyFixed = (props) => {
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
-        userId: "a77a6e94-6aa2-47ea-87dd-129f580fb669",
+        userId: cookie.userId,
         month: month,
       }),
     })

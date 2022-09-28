@@ -16,6 +16,7 @@ import {
 } from "@mui/material";
 import DeleteIcon from "@mui/icons-material/Delete";
 import { useEffect } from "react";
+import { useCookies } from "react-cookie";
 
 const SettingsFixed = (props) => {
   const {
@@ -28,6 +29,7 @@ const SettingsFixed = (props) => {
     banner,
     setBanner,
   } = props;
+  const [cookie, setCookie] = useCookies();
 
   /** 取引名の変更 */
   const transactionChange = (e) => {
@@ -114,7 +116,7 @@ const SettingsFixed = (props) => {
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
-        userId: "a77a6e94-6aa2-47ea-87dd-129f580fb669",
+        userId: cookie.userId,
         categoryId: categoryId,
       }),
     })
@@ -161,7 +163,7 @@ const SettingsFixed = (props) => {
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
-        userId: "a77a6e94-6aa2-47ea-87dd-129f580fb669",
+        userId: cookie.userId,
         monthlyTransactionId: data.monthlyTransactionId,
       }),
     })

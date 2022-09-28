@@ -21,6 +21,7 @@ import {
 import { CSSTransition } from "react-transition-group";
 import CloseIcon from "@mui/icons-material/Close";
 import { useEffect } from "react";
+import { useCookies } from "react-cookie";
 
 const ModalBox = (props) => {
   const [isLoading, setLoading] = useState(false);
@@ -35,6 +36,7 @@ const ModalBox = (props) => {
     setBannerMessage,
     setBannerType,
   } = props;
+  const [cookie, setCookie] = useCookies();
 
   useEffect(() => {
     /** 初期値 */
@@ -157,7 +159,7 @@ const ModalBox = (props) => {
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
-        userId: "a77a6e94-6aa2-47ea-87dd-129f580fb669",
+        userId: cookie.userId,
         transactionDate: transaction.transactionDate,
         transactionAmount: transaction.transactionAmount,
         transactionSign: transaction.transactionSign,
@@ -196,7 +198,7 @@ const ModalBox = (props) => {
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
-        userId: "a77a6e94-6aa2-47ea-87dd-129f580fb669",
+        userId: cookie.userId,
         transactionId: transaction.transactionId,
         transactionDate: transaction.transactionDate,
         transactionAmount: transaction.transactionAmount,
@@ -235,7 +237,7 @@ const ModalBox = (props) => {
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
-        userId: "a77a6e94-6aa2-47ea-87dd-129f580fb669",
+        userId: cookie.userId,
         transactionId: transaction.transactionId,
       }),
     })
@@ -265,7 +267,7 @@ const ModalBox = (props) => {
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
-        userId: "a77a6e94-6aa2-47ea-87dd-129f580fb669",
+        userId: cookie.userId,
       }),
     })
       .then((res) => res.json())

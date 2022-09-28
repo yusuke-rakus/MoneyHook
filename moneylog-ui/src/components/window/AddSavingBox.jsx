@@ -12,6 +12,7 @@ import {
   CircularProgress,
   Autocomplete,
 } from "@mui/material";
+import { useCookies } from "react-cookie";
 
 const AddSavingBox = (props) => {
   const {
@@ -27,6 +28,7 @@ const AddSavingBox = (props) => {
   } = props;
 
   const [isLoading, setLoading] = useState(false);
+  const [cookie, setCookie] = useCookies();
 
   // 振り分け処理
   const [distributionList, setDistributionList] = useState([]);
@@ -107,7 +109,7 @@ const AddSavingBox = (props) => {
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
-        userId: "a77a6e94-6aa2-47ea-87dd-129f580fb669",
+        userId: cookie.userId,
         savingDate: saving.savingDate,
         savingName: saving.savingName,
         savingAmount: saving.savingAmount,
@@ -140,7 +142,7 @@ const AddSavingBox = (props) => {
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
-        userId: "a77a6e94-6aa2-47ea-87dd-129f580fb669",
+        userId: cookie.userId,
         savingId: saving.savingId,
         savingDate: saving.savingDate,
         savingName: saving.savingName,
@@ -174,7 +176,7 @@ const AddSavingBox = (props) => {
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
-        userId: "a77a6e94-6aa2-47ea-87dd-129f580fb669",
+        userId: cookie.userId,
         savingId: saving.savingId,
       }),
     })
@@ -204,7 +206,7 @@ const AddSavingBox = (props) => {
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
-        userId: "a77a6e94-6aa2-47ea-87dd-129f580fb669",
+        userId: cookie.userId,
       }),
     })
       .then((res) => res.json())
@@ -226,7 +228,7 @@ const AddSavingBox = (props) => {
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
-        userId: "a77a6e94-6aa2-47ea-87dd-129f580fb669",
+        userId: cookie.userId,
       }),
     })
       .then((res) => res.json())

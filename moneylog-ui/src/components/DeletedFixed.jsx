@@ -8,9 +8,11 @@ import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
 import { Button, CircularProgress } from "@mui/material";
+import { useCookies } from "react-cookie";
 
 const DeletedFixed = (props) => {
   const { banner, setBanner } = props;
+  const [cookie, setCookie] = useCookies();
   const [monthlyTransactionList, setMonthlyTransactionList] = useState([]);
   const [isLoading, setLoading] = useState(false);
 
@@ -30,7 +32,7 @@ const DeletedFixed = (props) => {
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
-        userId: "a77a6e94-6aa2-47ea-87dd-129f580fb669",
+        userId: cookie.userId,
         monthlyTransactionId: monthlyTransactionId,
       }),
     })
@@ -67,7 +69,7 @@ const DeletedFixed = (props) => {
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
-        userId: "a77a6e94-6aa2-47ea-87dd-129f580fb669",
+        userId: cookie.userId,
         monthlyTransactionId: monthlyTransactionId,
       }),
     })
@@ -99,7 +101,7 @@ const DeletedFixed = (props) => {
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
-        userId: "a77a6e94-6aa2-47ea-87dd-129f580fb669",
+        userId: cookie.userId,
       }),
     })
       .then((res) => res.json())

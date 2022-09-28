@@ -8,9 +8,11 @@ import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
 import { Button, CircularProgress } from "@mui/material";
+import { useCookies } from "react-cookie";
 
 const DeletedSavingTarget = (props) => {
   const { banner, setBanner } = props;
+  const [cookie, setCookie] = useCookies();
   const [savingTarget, setSavingTarget] = useState([]);
   const [isLoading, setLoading] = useState(false);
 
@@ -30,7 +32,7 @@ const DeletedSavingTarget = (props) => {
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
-        userId: "a77a6e94-6aa2-47ea-87dd-129f580fb669",
+        userId: cookie.userId,
         savingTargetId: savingTargetId,
       }),
     })
@@ -68,7 +70,7 @@ const DeletedSavingTarget = (props) => {
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
-        userId: "a77a6e94-6aa2-47ea-87dd-129f580fb669",
+        userId: cookie.userId,
         savingTargetId: savingTargetId,
       }),
     })
@@ -99,7 +101,7 @@ const DeletedSavingTarget = (props) => {
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
-        userId: "a77a6e94-6aa2-47ea-87dd-129f580fb669",
+        userId: cookie.userId,
       }),
     })
       .then((res) => res.json())

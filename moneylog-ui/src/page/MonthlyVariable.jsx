@@ -8,9 +8,11 @@ import VariableCategoryGroup from "../components/VariableCategoryGroup";
 import ArrowBackIosNewIcon from "@mui/icons-material/ArrowBackIosNew";
 import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos";
 import Sidebar from "../components/Sidebar";
+import { useCookies } from "react-cookie";
 
 const MonthlyVariable = (props) => {
   const { themeColor } = props;
+  const [cookie, setCookie] = useCookies();
 
   const [isLoading, setLoading] = useState(false);
   /** 今月 */
@@ -33,7 +35,7 @@ const MonthlyVariable = (props) => {
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
-        userId: "a77a6e94-6aa2-47ea-87dd-129f580fb669",
+        userId: cookie.userId,
         month: month,
       }),
     })

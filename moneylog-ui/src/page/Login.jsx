@@ -16,11 +16,17 @@ import {
   IconButton,
   TextField,
 } from "@mui/material";
+import { useNavigate } from "react-router-dom";
 
-const Login = () => {
+const Login = (props) => {
+  const { setCookie } = props;
   const [loginForm, setLoginForm] = useState({
-    email: { value: "", message: "メールアドレス", error: false },
-    password: { value: "", message: "パスワード", error: false },
+    email: {
+      value: "sample@sample.com",
+      message: "メールアドレス",
+      error: false,
+    },
+    password: { value: "password", message: "パスワード", error: false },
   });
   const [isLoading, setLoading] = useState(false);
   const [banner, setBanner] = useState({
@@ -29,6 +35,7 @@ const Login = () => {
     bannerType: "success",
   });
   const [window, setWindow] = useState(false);
+  const navigate = useNavigate();
 
   /** API関連 */
   const rootURI = "http://localhost:8080";
@@ -69,19 +76,23 @@ const Login = () => {
       .then((data) => {
         if (data.status == "success") {
           // 成功
-          setLoginForm({
-            email: { value: "", message: "", error: false },
-            password: { value: "", message: "", error: false },
-          });
+          setCookie("userId", data.user.userId);
+          setCookie(
+            "themeColor",
+            data.user.themeColorCode || data.user.themeColorGradientCode
+          );
+          // ホーム画面にリダイレクト
+          navigate("/home");
+          return;
         } else {
           // 失敗
+          // setBanner({
+          //   ...banner,
+          //   banner: true,
+          //   bannerMessage: data.message,
+          //   bannerType: data.status,
+          // });
         }
-        setBanner({
-          ...banner,
-          banner: true,
-          bannerMessage: data.message,
-          bannerType: data.status,
-        });
       })
       .finally(() => {
         setLoading(false);

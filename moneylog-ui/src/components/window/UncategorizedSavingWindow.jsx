@@ -17,9 +17,11 @@ import {
   Select,
 } from "@mui/material";
 import { useEffect } from "react";
+import { useCookies } from "react-cookie";
 
 const UncategorizedSavingWindow = (props) => {
   const { setUncategorizedWindow, uncategorizedAmount } = props;
+  const [cookie, setCookie] = useCookies();
 
   /** 変数 */
   const [isLoading, setLoading] = useState(false);
@@ -77,7 +79,7 @@ const UncategorizedSavingWindow = (props) => {
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
-        userId: "a77a6e94-6aa2-47ea-87dd-129f580fb669",
+        userId: cookie.userId,
       }),
     })
       .then((res) => res.json())
@@ -99,7 +101,7 @@ const UncategorizedSavingWindow = (props) => {
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
-        userId: "a77a6e94-6aa2-47ea-87dd-129f580fb669",
+        userId: cookie.userId,
       }),
     })
       .then((res) => res.json())

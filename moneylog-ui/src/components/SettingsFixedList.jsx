@@ -3,9 +3,11 @@ import React, { useEffect, useState } from "react";
 import "./components_CSS/SettingsFixedList.css";
 import SettingsFixed from "./SettingsFixed";
 import AddCircleIcon from "@mui/icons-material/AddCircle";
+import { useCookies } from "react-cookie";
 
 const SettingsFixedList = (props) => {
   const { banner, setBanner } = props;
+  const [cookie, setCookie] = useCookies();
   /** 固定費の編集 */
   const [monthlyTransactionList, setMonthlyTransactionList] = useState([]);
   const [isLoading, setLoading] = useState(false);
@@ -39,7 +41,7 @@ const SettingsFixedList = (props) => {
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
-        userId: "a77a6e94-6aa2-47ea-87dd-129f580fb669",
+        userId: cookie.userId,
         monthlyTransactionList: monthlyTransactionList,
       }),
     })
@@ -82,7 +84,7 @@ const SettingsFixedList = (props) => {
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
-        userId: "a77a6e94-6aa2-47ea-87dd-129f580fb669",
+        userId: cookie.userId,
       }),
     })
       .then((res) => res.json())

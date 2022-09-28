@@ -6,6 +6,7 @@ import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
 import ChevronRightIcon from "@mui/icons-material/ChevronRight";
 import CloseIcon from "@mui/icons-material/Close";
 import { TextField } from "@mui/material";
+import { useCookies } from "react-cookie";
 
 const SubCategoryWindow = (props) => {
   const {
@@ -16,6 +17,7 @@ const SubCategoryWindow = (props) => {
     setTransaction,
     transaction,
   } = props;
+  const [cookie, setCookie] = useCookies();
 
   const [subCategoryList, setSubCategoryList] = useState([]);
 
@@ -74,7 +76,7 @@ const SubCategoryWindow = (props) => {
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
-        userId: "a77a6e94-6aa2-47ea-87dd-129f580fb669",
+        userId: cookie.userId,
         categoryId: transaction.categoryId,
       }),
     })

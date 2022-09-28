@@ -17,10 +17,12 @@ import Alert from "@mui/material/Alert";
 import IconButton from "@mui/material/IconButton";
 import Collapse from "@mui/material/Collapse";
 import CloseIcon from "@mui/icons-material/Close";
+import { useCookies } from "react-cookie";
 
 const Home = (props) => {
   const { themeColor } = props;
   const [isLoading, setLoading] = useState(false);
+  const [cookie, setCookie] = useCookies();
 
   /** バナーのステータス */
   const [banner, setBanner] = useState(false);
@@ -97,7 +99,7 @@ const Home = (props) => {
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
-        userId: "a77a6e94-6aa2-47ea-87dd-129f580fb669",
+        userId: cookie.userId,
         month: month,
       }),
     })

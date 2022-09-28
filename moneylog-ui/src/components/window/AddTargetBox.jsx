@@ -4,6 +4,7 @@ import "../components_CSS/window_CSS/AddTargetBox.css";
 /** 外部コンポーネント */
 import CloseIcon from "@mui/icons-material/Close";
 import { TextField, Button, CircularProgress } from "@mui/material";
+import { useCookies } from "react-cookie";
 
 const AddTargetBox = (props) => {
   const {
@@ -18,6 +19,7 @@ const AddTargetBox = (props) => {
   } = props;
 
   const [isLoading, setLoading] = useState(false);
+  const [cookie, setCookie] = useCookies();
 
   /** モーダルウィンドウを閉じる */
   const closeAddTargetStatus = () => {
@@ -62,7 +64,7 @@ const AddTargetBox = (props) => {
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
-        userId: "a77a6e94-6aa2-47ea-87dd-129f580fb669",
+        userId: cookie.userId,
         savingTargetName: savingTargetData.savingTargetName,
         targetAmount: savingTargetData.targetAmount,
       }),
@@ -94,7 +96,7 @@ const AddTargetBox = (props) => {
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
-        userId: "a77a6e94-6aa2-47ea-87dd-129f580fb669",
+        userId: cookie.userId,
         savingTargetId: savingTargetData.savingTargetId,
         savingTargetName: savingTargetData.savingTargetName,
         targetAmount: savingTargetData.targetAmount,
@@ -128,7 +130,7 @@ const AddTargetBox = (props) => {
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
-        userId: "a77a6e94-6aa2-47ea-87dd-129f580fb669",
+        userId: cookie.userId,
         savingTargetId: savingTargetData.savingTargetId,
       }),
     })

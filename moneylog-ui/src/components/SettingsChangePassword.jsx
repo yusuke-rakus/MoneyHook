@@ -1,9 +1,11 @@
 import { Button, CircularProgress, TextField } from "@mui/material";
 import React from "react";
 import { useState } from "react";
+import { useCookies } from "react-cookie";
 
 const SettingsChangePassword = (props) => {
   const { banner, setBanner } = props;
+  const [cookie, setCookie] = useCookies();
 
   const [password, setPassword] = useState({
     currentPassword: { password: "", message: "", error: false },
@@ -12,9 +14,6 @@ const SettingsChangePassword = (props) => {
   });
 
   const [isLoading, setLoading] = useState(false);
-
-  /** パスワード変更 */
-  const changePassword = () => {};
 
   /** キャンセル */
   const cancel = () => {
@@ -30,7 +29,7 @@ const SettingsChangePassword = (props) => {
   /** API関連 */
   const rootURI = "http://localhost:8080";
 
-  // パスワード変更
+  /** パスワード変更 */
   const changePasswordApi = () => {
     setBanner({
       ...banner,
@@ -110,7 +109,7 @@ const SettingsChangePassword = (props) => {
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
-        userId: "a77a6e94-6aa2-47ea-87dd-129f580fb669",
+        userId: cookie.userId,
         password: password.currentPassword.password,
         newPassword: password.newPassword1.password,
       }),

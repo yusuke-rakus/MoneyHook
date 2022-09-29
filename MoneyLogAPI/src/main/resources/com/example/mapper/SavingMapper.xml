@@ -79,7 +79,7 @@
 				BETWEEN DATE_SUB(#{month}, INTERVAL 5 MONTH)
 				AND LAST_DAY(#{month})
 		GROUP BY saving_month
-		ORDER BY saving_month ASC
+		ORDER BY saving_month DESC
 	</select>
 
 	<!-- 未振り分け貯金総額の取得 -->

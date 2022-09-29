@@ -6,6 +6,15 @@ public class MonthlySavingData {
 	private Integer monthlyTotalSavingAmount;
 	private Date savingMonth;
 
+	public MonthlySavingData() {
+		super();
+	}
+
+	public MonthlySavingData(Date savingMonth) {
+		super();
+		this.savingMonth = savingMonth;
+	}
+
 	public Integer getMonthlyTotalSavingAmount() {
 		return monthlyTotalSavingAmount;
 	}

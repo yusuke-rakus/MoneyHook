@@ -1,6 +1,9 @@
 package com.example.service;
 
+import java.sql.Date;
+import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
 
@@ -177,6 +180,34 @@ public class SavingService {
 		List<MonthlySavingData> savingAmountList = new ArrayList<>();
 
 		savingAmountList = savingMapper.getTotalMonthlySavingAmount(form);
+
+		if (savingAmountList.size() < 6) {
+
+			List<MonthlySavingData> savingList = new ArrayList<>();
+			// 受け取った月から6ヶ月分の空データを作成
+			for (int i = 0; i < 6; i++) {
+				LocalDate localDate = form.getMonth().toLocalDate().minusMonths(i);
+				MonthlySavingData tempSaving = new MonthlySavingData(Date.valueOf(localDate));
+				savingList.add(tempSaving);
+			}
+
+			// 取得したデータの値をマッチする月にセット
+			for (MonthlySavingData savingData : savingAmountList) {
+				savingList.stream().filter(s -> s.getSavingMonth().equals(savingData.getSavingMonth()))
+						.forEach(s -> s.setMonthlyTotalSavingAmount(savingData.getMonthlyTotalSavingAmount()));
+			}
+
+			// 金額がnullの場合は前月の値をセット
+			Integer monthlyTotalSavingAmount = 0;
+			for (int i = savingList.size() - 1; i >= 0; i--) {
+				if (Objects.isNull(savingList.get(i).getMonthlyTotalSavingAmount())) {
+					savingList.get(i).setMonthlyTotalSavingAmount(monthlyTotalSavingAmount);
+				}
+				monthlyTotalSavingAmount = savingList.get(i).getMonthlyTotalSavingAmount();
+			}
+
+			savingAmountList = savingList;
+		}
 
 		return savingAmountList;
 	}

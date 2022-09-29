@@ -32,7 +32,7 @@ const TotalSaving = (props) => {
   const [bannerType, setBannerType] = useState("success");
 
   /** 今月 */
-  const [sysDate, setSysDate] = useState(new Date("2022-06-01"));
+  const [sysDate, setSysDate] = useState(new Date("2022-09-01"));
   sysDate.setDate(1);
 
   /** 貯金総額 */
@@ -152,12 +152,13 @@ const TotalSaving = (props) => {
         if (data.status == "success") {
           // グラフを設定
           setGraphData(
-            data.savingDataList.map((d) => d.monthlyTotalSavingAmount)
+            data.savingDataList.map((d) => d.monthlyTotalSavingAmount).reverse()
           );
           // グラフの月を設定
           setGraphMonth(
             data.savingDataList
               .map((d) => new Date(d.savingMonth).getMonth() + 1)
+              .reverse()
               .map((d) => `${d}月`)
           );
           // 貯金総額を設定

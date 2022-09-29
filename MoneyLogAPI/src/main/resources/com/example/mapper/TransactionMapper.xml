@@ -78,7 +78,7 @@
 	<!-- ６ヶ月分の合計支出を取得 -->
 	<select id="getMonthlySpendingData" resultMap="getMonthlySpendingDataMap">
 		SELECT
-			DATE_FORMAT(transaction_date, "%m") as month,
+			DATE_FORMAT(transaction_date, '%Y-%m-01') as month,
 			SUM(transaction_amount) as total_amount
 		FROM
 			transaction

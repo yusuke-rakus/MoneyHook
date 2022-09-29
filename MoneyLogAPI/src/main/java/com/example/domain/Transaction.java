@@ -142,6 +142,16 @@ public class Transaction {
 		this.transactionSign = transactionSign;
 	}
 
+	public Transaction(Date month) {
+		super();
+		this.totalAmount = 0;
+		this.month = month.toString();
+	}
+
+	public Transaction() {
+		super();
+	}
+
 	@Override
 	public String toString() {
 		return "Transaction [transactionId=" + transactionId + ", userNo=" + userNo + ", transactionName="

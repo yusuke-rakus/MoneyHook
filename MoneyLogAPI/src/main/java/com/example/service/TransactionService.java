@@ -1,5 +1,8 @@
 package com.example.service;
 
+import java.sql.Date;
+import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
@@ -195,6 +198,22 @@ public class TransactionService {
 		// 合計支出リストを取得
 		try {
 			List<Transaction> monthlyTotalAmountList = transactionMapper.getMonthlySpendingData(form);
+
+			if (monthlyTotalAmountList.size() < 6) {
+
+				List<Transaction> transactionList = new ArrayList<>();
+				for (int i = 0; i < 6; i++) {
+					LocalDate localDate = form.getMonth().toLocalDate().minusMonths(i);
+					Transaction tempTran = new Transaction(Date.valueOf(localDate));
+					transactionList.add(tempTran);
+				}
+
+				for (Transaction transaction : monthlyTotalAmountList) {
+					transactionList.stream().filter(t -> t.getMonth().equals(transaction.getMonth()))
+							.forEach(t -> t.setTotalAmount(transaction.getTotalAmount()));
+				}
+				monthlyTotalAmountList = transactionList;
+			}
 
 			res.setMonthlyTotalAmountList(monthlyTotalAmountList);
 		} catch (Exception e) {

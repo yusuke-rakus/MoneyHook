@@ -156,9 +156,9 @@ const TotalSaving = (props) => {
           );
           // グラフの月を設定
           setGraphMonth(
-            data.savingDataList.map(
-              (d) => new Date(d.savingMonth).getMonth() + 1
-            )
+            data.savingDataList
+              .map((d) => new Date(d.savingMonth).getMonth() + 1)
+              .map((d) => `${d}月`)
           );
           // 貯金総額を設定
           setTotalSaving(data.totalSavingAmount);

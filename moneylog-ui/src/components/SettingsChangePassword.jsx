@@ -16,7 +16,7 @@ const SettingsChangePassword = (props) => {
   const [isLoading, setLoading] = useState(false);
 
   /** キャンセル */
-  const cancel = () => {
+  const clear = () => {
     // 入力値をクリア
     setPassword((value) => ({
       ...value,
@@ -68,6 +68,11 @@ const SettingsChangePassword = (props) => {
     if (password.newPassword1.password !== password.newPassword2.password) {
       setPassword((value) => ({
         ...value,
+        currentPassword: {
+          password: password.currentPassword.password,
+          message: "",
+          error: false,
+        },
         newPassword1: {
           password: password.newPassword1.password,
           message: "パスワードが一致しません",
@@ -87,6 +92,11 @@ const SettingsChangePassword = (props) => {
     if (!passwordRegex.test(password.newPassword1.password)) {
       setPassword((value) => ({
         ...value,
+        currentPassword: {
+          password: password.currentPassword.password,
+          message: "",
+          error: false,
+        },
         newPassword1: {
           password: password.newPassword1.password,
           message: "半角英数で8-32文字",
@@ -209,12 +219,12 @@ const SettingsChangePassword = (props) => {
 
       <div className="passwordSettingsButtons">
         <Button
-          onClick={cancel}
+          onClick={clear}
           variant="contained"
           color="inherit"
           disabled={isLoading}
         >
-          キャンセル
+          クリア
         </Button>
         <Button
           onClick={changePasswordApi}

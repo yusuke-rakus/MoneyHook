@@ -7,6 +7,7 @@ import { SidebarData } from "./SidebarData";
 import { Link } from "react-router-dom";
 import { useState } from "react";
 import { LightenDarkenColor } from "lighten-darken-color";
+import { NoEncryption } from "@mui/icons-material";
 
 const Sidebar = (props) => {
   const { themeColor } = props;
@@ -42,6 +43,7 @@ const Sidebar = (props) => {
                 style={{
                   cursor: "pointer",
                   borderRadius: "10px",
+                  userSelect: "none",
                   boxShadow:
                     isHover === key || window.location.pathname === value.link
                       ? `inset 5px 5px 12px 

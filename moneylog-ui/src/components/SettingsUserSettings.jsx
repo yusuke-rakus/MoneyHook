@@ -192,7 +192,7 @@ const SettingsUserSettings = (props) => {
           color="inherit"
           disabled={isLoading}
         >
-          キャンセル
+          リセット
         </Button>
         <Button onClick={changeEmail} variant="contained" disabled={isLoading}>
           {isLoading ? <CircularProgress size={20} /> : "登録"}

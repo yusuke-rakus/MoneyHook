@@ -184,8 +184,9 @@ const Timeline = (props) => {
 
           setGraphMonth(
             data.monthlyTotalAmountList
-              .map((d) => `${Number(d.month)}月`)
+              .map((d) => new Date(d.month).getMonth() + 1)
               .reverse()
+              .map((d) => `${d}月`)
           );
         }
       });

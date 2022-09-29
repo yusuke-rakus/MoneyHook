@@ -12,11 +12,13 @@ import AccordionSummary from "@mui/material/AccordionSummary";
 import Typography from "@mui/material/Typography";
 import Sidebar from "../components/Sidebar";
 import { useCookies } from "react-cookie";
+import { useNavigate } from "react-router-dom";
 
 const MonthlyFixed = (props) => {
   const { themeColor } = props;
   const [isLoading, setLoading] = useState(false);
   const [cookie, setCookie] = useCookies();
+  const navigate = useNavigate();
 
   /** 今月 */
   const [sysDate, setSysDate] = useState(new Date("2022-06-01"));
@@ -92,6 +94,7 @@ const MonthlyFixed = (props) => {
   };
 
   useEffect(() => {
+    !cookie.userId && navigate("/login");
     getInit(sysDate);
   }, [setFixedIncomeCategoryData, setFixedSpendingCategoryData]);
 

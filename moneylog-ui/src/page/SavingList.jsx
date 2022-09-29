@@ -17,11 +17,13 @@ import IconButton from "@mui/material/IconButton";
 import Collapse from "@mui/material/Collapse";
 import CloseIcon from "@mui/icons-material/Close";
 import { useCookies } from "react-cookie";
+import { useNavigate } from "react-router-dom";
 
 const SavingList = (props) => {
   const { themeColor } = props;
   const [isLoading, setLoading] = useState(false);
   const [cookie, setCookie] = useCookies();
+  const navigate = useNavigate();
 
   /** バナーのステータス */
   const [banner, setBanner] = useState(false);
@@ -90,6 +92,7 @@ const SavingList = (props) => {
   };
 
   useEffect(() => {
+    !cookie.userId && navigate("/login");
     getInit(sysDate);
   }, [setSavingDataList]);
 

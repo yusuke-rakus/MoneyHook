@@ -18,11 +18,13 @@ import Collapse from "@mui/material/Collapse";
 import CloseIcon from "@mui/icons-material/Close";
 import UncategorizedSavingWindow from "../components/window/UncategorizedSavingWindow";
 import { useCookies } from "react-cookie";
+import { useNavigate } from "react-router-dom";
 
 const TotalSaving = (props) => {
   const { themeColor } = props;
   const [isLoading, setLoading] = useState(false);
   const [cookie, setCookie] = useCookies();
+  const navigate = useNavigate();
 
   /** バナーのステータス */
   const [banner, setBanner] = useState(false);
@@ -166,6 +168,7 @@ const TotalSaving = (props) => {
   };
 
   useEffect(() => {
+    !cookie.userId && navigate("/login");
     getInit(sysDate);
   }, [setGraphData, setSavingTargetData]);
 

@@ -19,7 +19,7 @@ import {
 import { useNavigate } from "react-router-dom";
 
 const Login = (props) => {
-  const { setCookie } = props;
+  const { setCookie, setThemeColor } = props;
   const [loginForm, setLoginForm] = useState({
     email: {
       value: "sample@sample.com",
@@ -79,6 +79,9 @@ const Login = (props) => {
           setCookie("userId", data.user.userId);
           setCookie(
             "themeColor",
+            data.user.themeColorCode || data.user.themeColorGradientCode
+          );
+          setThemeColor(
             data.user.themeColorCode || data.user.themeColorGradientCode
           );
           // ホーム画面にリダイレクト

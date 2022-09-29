@@ -9,10 +9,12 @@ import ArrowBackIosNewIcon from "@mui/icons-material/ArrowBackIosNew";
 import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos";
 import Sidebar from "../components/Sidebar";
 import { useCookies } from "react-cookie";
+import { useNavigate } from "react-router-dom";
 
 const MonthlyVariable = (props) => {
   const { themeColor } = props;
   const [cookie, setCookie] = useCookies();
+  const navigate = useNavigate();
 
   const [isLoading, setLoading] = useState(false);
   /** 今月 */
@@ -66,6 +68,7 @@ const MonthlyVariable = (props) => {
   };
 
   useEffect(() => {
+    !cookie.userId && navigate("/login");
     getInit(sysDate);
   }, [setVariableCategoryData]);
 

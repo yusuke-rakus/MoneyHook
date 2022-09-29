@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 /** CSS */
 import "./App.css";
 /** 自作コンポーネント */
@@ -31,7 +31,12 @@ const App = () => {
   return (
     <BrowserRouter>
       <Routes>
-        <Route path="login" element={<Login setCookie={setCookie} />}></Route>
+        <Route
+          path="login"
+          element={
+            <Login setCookie={setCookie} setThemeColor={setThemeColor} />
+          }
+        ></Route>
         <Route
           path="/"
           element={

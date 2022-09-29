@@ -18,9 +18,11 @@ import IconButton from "@mui/material/IconButton";
 import Collapse from "@mui/material/Collapse";
 import CloseIcon from "@mui/icons-material/Close";
 import { useCookies } from "react-cookie";
+import { useNavigate } from "react-router-dom";
 
 const Home = (props) => {
   const { themeColor } = props;
+  const navigate = useNavigate();
   const [isLoading, setLoading] = useState(false);
   const [cookie, setCookie] = useCookies();
 
@@ -128,6 +130,7 @@ const Home = (props) => {
   };
 
   useEffect(() => {
+    !cookie.userId && navigate("/login");
     getInit(sysDate);
   }, [setHomeAccodionDataList]);
 

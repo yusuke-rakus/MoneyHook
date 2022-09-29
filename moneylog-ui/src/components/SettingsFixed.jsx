@@ -17,6 +17,7 @@ import {
 import DeleteIcon from "@mui/icons-material/Delete";
 import { useEffect } from "react";
 import { useCookies } from "react-cookie";
+import { useNavigate } from "react-router-dom";
 
 const SettingsFixed = (props) => {
   const {
@@ -30,6 +31,7 @@ const SettingsFixed = (props) => {
     setBanner,
   } = props;
   const [cookie, setCookie] = useCookies();
+  const navigate = useNavigate();
 
   /** 取引名の変更 */
   const transactionChange = (e) => {
@@ -188,6 +190,7 @@ const SettingsFixed = (props) => {
   };
 
   useEffect(() => {
+    !cookie.userId && navigate("/login");
     getCategory();
     getSubCategory(data.categoryId);
   }, [setCategoryList]);

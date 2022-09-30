@@ -182,7 +182,7 @@ const TotalSaving = (props) => {
           {/* 貯金総額 */}
           <div className="totalSavingTitleArea">
             <span>貯金総額</span>
-            <span>{totalSaving.toLocaleString()}</span>
+            <span>{totalSaving && totalSaving.toLocaleString()}</span>
           </div>
 
           {/* グラフ */}

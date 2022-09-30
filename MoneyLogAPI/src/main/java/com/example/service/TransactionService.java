@@ -299,6 +299,32 @@ public class TransactionService {
 		// タイムラインデータを取得
 		try {
 			List<CategoryList> categoryList = transactionMapper.getHome(form);
+
+			if (categoryList.size() > 7) {
+
+				List<CategoryList> processedCategoryList = new ArrayList<>();
+
+				Integer othersTotalAmount = 0;
+				List<Transaction> othersCategoryname = new ArrayList<>();
+
+				for (int i = 0; i < categoryList.size(); i++) {
+
+					if (i < 7) {
+						processedCategoryList.add(categoryList.get(i));
+					} else {
+						othersTotalAmount += categoryList.get(i).getCategoryTotalAmount();
+						othersCategoryname.add(new Transaction(categoryList.get(i).getCategoryName(),
+								categoryList.get(i).getCategoryTotalAmount()));
+					}
+
+				}
+
+				CategoryList othersCategory = new CategoryList("その他", othersTotalAmount, othersCategoryname);
+				processedCategoryList.add(othersCategory);
+				categoryList = processedCategoryList;
+
+			}
+
 			res.setCategoryList(categoryList);
 
 			Integer balance = categoryList.stream().mapToInt(i -> i.getCategoryTotalAmount()).sum();

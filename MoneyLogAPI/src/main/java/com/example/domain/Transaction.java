@@ -148,6 +148,12 @@ public class Transaction {
 		this.month = month.toString();
 	}
 
+	public Transaction(String subCategoryName, Integer subCategoryTotalAmount) {
+		super();
+		this.subCategoryName = subCategoryName;
+		this.subCategoryTotalAmount = subCategoryTotalAmount;
+	}
+
 	public Transaction() {
 		super();
 	}

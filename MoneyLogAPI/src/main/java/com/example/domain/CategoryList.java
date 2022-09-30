@@ -32,4 +32,14 @@ public class CategoryList {
 		this.subCategoryList = subCategoryList;
 	}
 
+	public CategoryList() {
+		super();
+	}
+
+	public CategoryList(String categoryName, Integer categoryTotalAmount, List<Transaction> subCategoryList) {
+		super();
+		this.categoryName = categoryName;
+		this.categoryTotalAmount = categoryTotalAmount;
+		this.subCategoryList = subCategoryList;
+	}
 }

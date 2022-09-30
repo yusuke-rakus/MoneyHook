@@ -87,10 +87,12 @@ const MonthlyFixed = (props) => {
 
   /** 次月データを取得 */
   const getForwardMonth = () => {
-    let tempDate = new Date(sysDate);
-    tempDate.setMonth(tempDate.getMonth() + 1);
-    setSysDate(tempDate);
-    getInit(tempDate);
+    if (sysDate.getMonth() < new Date().getMonth()) {
+      let tempDate = new Date(sysDate);
+      tempDate.setMonth(tempDate.getMonth() + 1);
+      setSysDate(tempDate);
+      getInit(tempDate);
+    }
   };
 
   useEffect(() => {

@@ -52,6 +52,7 @@ public class UserService {
 		try {
 			userMapper.registUser(form);
 			res.setUser(user);
+			res.setMessage(SuccessMessage.CREATE_USER_REGISTERD_SUCCESS);
 		} catch (Exception e) {
 			res.setStatus(Status.ERROR.getStatus());
 			res.setMessage(ErrorMessage.MAIL_ADDRESS_ALREADY_REGISTERED);

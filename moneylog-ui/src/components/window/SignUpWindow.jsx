@@ -10,12 +10,12 @@ import VisibilityIcon from "@mui/icons-material/Visibility";
 import VisibilityOffIcon from "@mui/icons-material/VisibilityOff";
 
 const SignUpWindow = (props) => {
-  const { setWindow } = props;
+  const { setWindow, setBanner } = props;
   const [isLoading, setLoading] = useState(false);
   const [newAccount, setNewAccount] = useState({
-    email: "",
-    password: "",
-    checkPassword: "",
+    email: "sample@sample.com",
+    password: "password223",
+    checkPassword: "password223",
   });
   const [showPassword, setShowPassword] = useState({
     password: false,
@@ -42,20 +42,19 @@ const SignUpWindow = (props) => {
       setLabels((label) => ({
         ...label,
         email: {
-          message: !newAccount.email ? "未入力" : labels.email.message,
+          message: !newAccount.email ? "未入力" : "メールアドレス",
           status: !newAccount.email,
         },
         password: {
-          message: !newAccount.password ? "未入力" : labels.password.message,
+          message: !newAccount.password ? "未入力" : "パスワード",
           status: !newAccount.password,
         },
         checkPassword: {
-          message: !newAccount.checkPassword
-            ? "未入力"
-            : labels.checkPassword.message,
+          message: !newAccount.checkPassword ? "未入力" : "パスワード再入力",
           status: !newAccount.checkPassword,
         },
       }));
+      return;
     }
 
     // メールアドレス要件チェック
@@ -68,33 +67,87 @@ const SignUpWindow = (props) => {
           message: "メールアドレスを入力してください",
           status: true,
         },
+        password: {
+          message: "パスワード",
+          status: false,
+        },
+        checkPassword: {
+          message: "パスワード再入力",
+          status: false,
+        },
       }));
+      return;
     }
     // パスワード一致チェック
     if (newAccount.password !== newAccount.checkPassword) {
       setLabels((label) => ({
         ...label,
+        email: {
+          message: "メールアドレス",
+          status: false,
+        },
         password: { message: "パスワードが一致していません", status: true },
         checkPassword: {
           message: "パスワードが一致していません",
           status: true,
         },
       }));
+      return;
     }
     // パスワード要件チェック
     const passwordRegex = /^(?=.*?[a-z])(?=.*?\d)[a-z\d]{8,32}$/i;
     if (!passwordRegex.test(newAccount.password)) {
       setLabels((label) => ({
         ...label,
+        email: {
+          message: "メールアドレス",
+          status: false,
+        },
         password: { message: "半角英数で8-32文字", status: true },
         checkPassword: {
           message: "半角英数で8-32文字",
           status: true,
         },
       }));
+      return;
     }
 
     /** 登録API */
+    const rootURI = "http://localhost:8080";
+    fetch(`${rootURI}/user/registUser`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        email: newAccount.email,
+        password: newAccount.password,
+      }),
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        if (data.status == "success") {
+          // 成功
+          closeWindow();
+          setBanner({
+            banner: true,
+            bannerMessage: data.message,
+            bannerType: data.status,
+          });
+        } else {
+          // 失敗
+          console.log("通信結果");
+          setLabels((label) => ({
+            ...label,
+            email: { message: data.message, status: true },
+            password: { message: "パスワード", status: false },
+            checkPassword: { message: "パスワード", status: false },
+          }));
+        }
+      })
+      .finally(() => {
+        setLoading(false);
+      });
   };
 
   return (

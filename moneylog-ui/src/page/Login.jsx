@@ -89,12 +89,19 @@ const Login = (props) => {
           return;
         } else {
           // 失敗
-          // setBanner({
-          //   ...banner,
-          //   banner: true,
-          //   bannerMessage: data.message,
-          //   bannerType: data.status,
-          // });
+          setLoginForm((v) => ({
+            ...v,
+            email: {
+              value: loginForm.email.value,
+              message: "メールアドレスかパスワードが間違えています",
+              error: true,
+            },
+            password: {
+              value: loginForm.password.value,
+              message: "メールアドレスかパスワードが間違えています",
+              error: true,
+            },
+          }));
         }
       })
       .finally(() => {
@@ -199,7 +206,7 @@ const Login = (props) => {
         unmountOnExit
         classNames="Modal-show"
       >
-        <SignUpWindow setWindow={setWindow} />
+        <SignUpWindow setWindow={setWindow} setBanner={setBanner} />
       </CSSTransition>
     </div>
   );

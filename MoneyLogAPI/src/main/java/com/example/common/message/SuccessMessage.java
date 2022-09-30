@@ -9,6 +9,8 @@ public class SuccessMessage {
 	public static final String USER_PASSWORD_CHANGED = "パスワードを変更しました";
 	/** メールアドレスを変更 */
 	public static final String USER_EMAIL_CHANGED = "メールアドレスを変更しました";
+	/** ユーザー登録完了 */
+	public static final String CREATE_USER_REGISTERD_SUCCESS = "ユーザー登録が完了しました。ログインして利用を開始しましょう";
 
 	// savingTarget
 	/** 貯金目標一覧の取得成功 */

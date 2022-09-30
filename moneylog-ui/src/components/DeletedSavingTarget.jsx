@@ -56,6 +56,44 @@ const DeletedSavingTarget = (props) => {
       });
   };
 
+  /** 削除ボタン押下処理 */
+  const deleteSavingTarget = (savingTargetId) => {
+    setBanner({
+      ...banner,
+      banner: false,
+    });
+    console.log(savingTarget);
+    setLoading(true);
+    fetch(`${rootURI}/savingTarget/deleteSavingTargetFromTable`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        userId: cookie.userId,
+        savingTargetId: savingTargetId,
+      }),
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        if (data.status == "success") {
+          // 成功処理
+        } else {
+          // 失敗処理
+        }
+        setBanner({
+          ...banner,
+          bannerMessage: data.message,
+          bannerType: data.status,
+          banner: true,
+        });
+      })
+      .finally(() => {
+        setLoading(false);
+        getInit();
+      });
+  };
+
   const getInit = () => {
     fetch(`${rootURI}/savingTarget/getDeletedSavingTarget`, {
       method: "POST",
@@ -134,6 +172,19 @@ const DeletedSavingTarget = (props) => {
                         variant="contained"
                       >
                         {isLoading ? <CircularProgress size={20} /> : "戻す"}
+                      </Button>
+                    </TableCell>
+                    <TableCell
+                      padding="checkbox"
+                      align="center"
+                      className="hideButton"
+                    >
+                      <Button
+                        onClick={() => deleteSavingTarget(data.savingTargetId)}
+                        disabled={isLoading}
+                        sx={{ color: "#9e9e9e" }}
+                      >
+                        削除
                       </Button>
                     </TableCell>
                   </TableRow>

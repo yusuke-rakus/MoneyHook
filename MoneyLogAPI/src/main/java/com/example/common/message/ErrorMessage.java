@@ -55,7 +55,9 @@ public class ErrorMessage {
 	public static final String SAVING_TARGET_UPDATE_FAILED = "貯金目標の編集に失敗しました";
 	/** 貯金目標の検索失敗 */
 	public static final String SAVING_TARGET_NOT_FOUND = "存在しない貯金目標です";
-	
+	/** 貯金目標の削除失敗 */
+	public static final String SAVING_TARGET_HAS_TOTAL_SAVED = "貯金が振り分けられている目標です";
+
 	// saving
 	/** 貯金データの取得失敗 */
 	public static final String SAVING_DATA_SELECT_FAILED = "貯金データの取得に失敗しました";

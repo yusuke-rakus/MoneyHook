@@ -146,4 +146,15 @@
 		AND 
 			user_no = #{userNo} ;
 	</delete>
+
+	<select id="isTargetHasTotalSaved" resultType="java.lang.Integer">
+		SELECT
+			COUNT(s.saving_id)
+		FROM
+			saving_target st
+		INNER JOIN saving s
+		ON st.saving_target_id = s.saving_target_id
+		WHERE
+			st.saving_target_id = #{savingTargetId};
+	</select>
 </mapper>

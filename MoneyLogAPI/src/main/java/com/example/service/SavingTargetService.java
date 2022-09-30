@@ -193,7 +193,11 @@ public class SavingTargetService {
 		Long userNo = authenticationService.authUser(form);
 		form.setUserNo(userNo);
 
-		savingTargetMapper.deleteSavingTargetFromTable(form);
+		if (savingTargetMapper.isTargetHasTotalSaved(form) > 0) {
+			throw new AlreadyExistsException(ErrorMessage.SAVING_TARGET_HAS_TOTAL_SAVED);
+		} else {
+			savingTargetMapper.deleteSavingTargetFromTable(form);
+		}
 
 	}
 

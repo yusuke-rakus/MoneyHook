@@ -43,4 +43,7 @@ public interface SavingTargetMapper {
 	/** 貯金目標を削除(物理) */
 	public void deleteSavingTargetFromTable(DeleteSavingTargetForm form);
 
+	/** 貯金目標に貯金実績があるか判定 */
+	public Integer isTargetHasTotalSaved(DeleteSavingTargetForm form);
+
 }

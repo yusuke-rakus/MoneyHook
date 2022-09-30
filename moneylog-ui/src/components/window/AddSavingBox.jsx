@@ -372,6 +372,12 @@ const AddSavingBox = (props) => {
           <span className="input-span">振り分ける</span>
           <FormControl size="small" sx={{ mt: "3px", minWidth: "250px" }}>
             <Select value={saving.savingTargetId} onChange={changeDistribution}>
+              <MenuItem
+                value={null}
+                sx={{ color: "#616161", fontSize: "13px" }}
+              >
+                未分類
+              </MenuItem>
               {distributionList.map((distributionItem, i) => {
                 return (
                   <MenuItem key={i} value={distributionItem.savingTargetId}>

@@ -120,7 +120,7 @@
 			<if test="savingName != null">saving_name = #{savingName},</if>
 			<if test="savingAmount != null">saving_amount = #{savingAmount},</if>
 			<if test="savingDate != null">saving_date = #{savingDate},</if>
-			<if test="savingTargetId != null">saving_target_id = #{savingTargetId}</if>
+			saving_target_id = #{savingTargetId}
 		</set>
 		WHERE
 			saving_id = #{savingId}

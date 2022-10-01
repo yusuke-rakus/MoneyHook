@@ -137,6 +137,15 @@ const MonthlyFixed = (props) => {
             </span>
           </div>
 
+          {isLoading === false &&
+            fixedIncomeCategoryData.length === 0 &&
+            fixedSpendingCategoryData.length === 0 && (
+              <div className="dataNotFound">
+                <p>データが登録されていません</p>
+                <p>家計簿を入力して記録を開始しましょう</p>
+              </div>
+            )}
+
           {/* 固定費データ */}
           <div className="fixedDataArea">
             {isLoading ? (
@@ -155,21 +164,29 @@ const MonthlyFixed = (props) => {
                 <FixedCategoryGroup
                   fixedCategoryData={fixedSpendingCategoryData}
                 />
-                <Accordion>
-                  <AccordionSummary>
-                    <Typography className="totalValueArea">
-                      <span className="totalValue">
-                        <span>合計</span>
-                        <span>{`¥${Math.abs(
-                          totalFixedIncome
-                        ).toLocaleString()}`}</span>
-                        <span>
-                          {`¥${Math.abs(totalFixedSpending).toLocaleString()}`}
-                        </span>
-                      </span>
-                    </Typography>
-                  </AccordionSummary>
-                </Accordion>
+
+                {/* 合計 */}
+                {isLoading === false &&
+                  fixedIncomeCategoryData.length !== 0 &&
+                  fixedSpendingCategoryData.length !== 0 && (
+                    <Accordion>
+                      <AccordionSummary>
+                        <Typography className="totalValueArea">
+                          <span className="totalValue">
+                            <span>合計</span>
+                            <span>{`¥${Math.abs(
+                              totalFixedIncome
+                            ).toLocaleString()}`}</span>
+                            <span>
+                              {`¥${Math.abs(
+                                totalFixedSpending
+                              ).toLocaleString()}`}
+                            </span>
+                          </span>
+                        </Typography>
+                      </AccordionSummary>
+                    </Accordion>
+                  )}
               </>
             )}
           </div>

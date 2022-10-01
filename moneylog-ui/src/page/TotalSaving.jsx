@@ -194,6 +194,13 @@ const TotalSaving = (props) => {
             )}
           </div>
 
+          {isLoading === false && savingTargetData.length === 0 && (
+            <div className="dataNotFound">
+              <p>貯金目標が存在しません</p>
+              <p>貯金データを振り分けて目標に向けて貯金しましょう</p>
+            </div>
+          )}
+
           {/* 貯金目標 */}
           {isLoading ? (
             <div className="savingTargetCardArea">

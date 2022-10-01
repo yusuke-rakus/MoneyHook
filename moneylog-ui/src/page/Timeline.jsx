@@ -269,7 +269,7 @@ const Timeline = (props) => {
           )}
 
           {/* 並べ替えプルダウン */}
-          {isLoading ? (
+          {isLoading === false && timelineDataList.length === 0 ? (
             <div className="sortButtonArea"></div>
           ) : (
             <div className="sortButtonArea">
@@ -288,6 +288,13 @@ const Timeline = (props) => {
                   <MenuItem value={4}>金額降順</MenuItem>
                 </Select>
               </FormControl>
+            </div>
+          )}
+
+          {isLoading === false && timelineDataList.length === 0 && (
+            <div className="dataNotFound">
+              <p>データが登録されていません</p>
+              <p>家計簿を入力して記録を開始しましょう</p>
             </div>
           )}
 

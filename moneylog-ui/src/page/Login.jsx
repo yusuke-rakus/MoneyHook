@@ -37,7 +37,7 @@ const Login = (props) => {
     bannerType: "success",
   });
   const [window, setWindow] = useState(false);
-  const [forgotPasswordWindow, setForgotPasswordWindow] = useState(true);
+  const [forgotPasswordWindow, setForgotPasswordWindow] = useState(false);
   const navigate = useNavigate();
 
   /** API関連 */

@@ -129,6 +129,13 @@ const SavingList = (props) => {
             </span>
           </div>
 
+          {isLoading === false && savingDataList.length === 0 && (
+            <div className="dataNotFound">
+              <p>データが登録されていません</p>
+              <p>貯金を入力して記録を開始しましょう</p>
+            </div>
+          )}
+
           {/* 貯金データ */}
           {isLoading ? (
             <>

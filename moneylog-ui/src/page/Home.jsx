@@ -167,13 +167,12 @@ const Home = (props) => {
             </span>
           </div>
 
-          {/* {isLoading === false && homeAccodionDataList.length === 0 && ( */}
-          <div className="dataNotFound">
-            <p>データが登録されていません</p>
-            <p>家計簿を入力して記録を開始しましょう</p>
-            <div className="svgArea"></div>
-          </div>
-          {/* )} */}
+          {isLoading === false && homeAccodionDataList.length === 0 && (
+            <div className="dataNotFound">
+              <p>データが登録されていません</p>
+              <p>家計簿を入力して記録を開始しましょう</p>
+            </div>
+          )}
 
           <div className="dataArea">
             {isLoading ? (

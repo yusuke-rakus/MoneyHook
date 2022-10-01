@@ -98,11 +98,17 @@ const MonthlyVariable = (props) => {
           </div>
 
           {/* 変動費合計 */}
-
           <div className="monthlyVariableTitleArea">
             <span>変動費合計</span>
             <span>{Math.abs(monthlyTotalVariable).toLocaleString()}</span>
           </div>
+
+          {isLoading === false && variableCategoryData.length === 0 && (
+            <div className="dataNotFound">
+              <p>データが登録されていません</p>
+              <p>家計簿を入力して記録を開始しましょう</p>
+            </div>
+          )}
 
           {/* 変動費データ */}
           <div className="variableDataArea">

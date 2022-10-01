@@ -29,6 +29,10 @@ const AddSavingBox = (props) => {
 
   const [isLoading, setLoading] = useState(false);
   const [cookie, setCookie] = useCookies();
+  const [label, setLabel] = useState({
+    savingName: { message: "", status: false },
+    savingAmount: { message: "", status: false },
+  });
 
   // 振り分け処理
   const [distributionList, setDistributionList] = useState([]);
@@ -90,6 +94,37 @@ const AddSavingBox = (props) => {
 
   /** 登録処理 */
   const register = () => {
+    // 未入力チェック
+    if (!saving.savingName || !saving.savingAmount) {
+      setLabel((label) => ({
+        ...label,
+        savingName: {
+          message: !saving.savingName ? "未入力" : "",
+          status: !saving.savingName,
+        },
+        savingAmount: {
+          message: !saving.savingAmount ? "未入力" : "",
+          status: !saving.savingAmount,
+        },
+      }));
+      return;
+    }
+
+    if (saving.savingName.length > 32) {
+      setLabel((label) => ({
+        ...label,
+        savingName: {
+          message: "32文字以内",
+          status: true,
+        },
+        savingAmount: {
+          message: !saving.savingAmount ? "未入力" : "",
+          status: !saving.savingAmount,
+        },
+      }));
+      return;
+    }
+
     if (saving.savingId == void 0) {
       // 登録処理
       addSaving();
@@ -321,8 +356,10 @@ const AddSavingBox = (props) => {
               <TextField
                 {...params}
                 variant="standard"
-                fullWidth={true}
                 autoComplete="off"
+                fullWidth={true}
+                error={label.savingName.status}
+                label={label.savingName.message}
                 onChange={changeSavingName}
                 InputProps={{
                   ...params.InputProps,
@@ -343,9 +380,10 @@ const AddSavingBox = (props) => {
           <span className="input-span">金額</span>
           <div className="saving-amount">
             <TextField
-              id="standard-basic"
               variant="standard"
               autoComplete="off"
+              error={label.savingAmount.status}
+              label={label.savingAmount.message}
               fullWidth={true}
               inputProps={{
                 style: {

@@ -115,7 +115,7 @@ const AddSavingBox = (props) => {
         ...label,
         savingName: {
           message: "32文字以内",
-          status: true,
+          status: saving.savingName.length > 32,
         },
         savingAmount: {
           message: !saving.savingAmount ? "未入力" : "",

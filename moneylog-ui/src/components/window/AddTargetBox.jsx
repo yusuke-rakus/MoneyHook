@@ -57,11 +57,27 @@ const AddTargetBox = (props) => {
       setLabel({
         ...label,
         savingTargetName: {
-          message: "未入力",
+          message: !savingTargetData.savingTargetName ? "未入力" : "",
           status: !savingTargetData.savingTargetName,
         },
         targetAmount: {
-          message: "未入力",
+          message: !savingTargetData.targetAmount ? "未入力" : "",
+          status: !savingTargetData.targetAmount,
+        },
+      });
+      return;
+    }
+
+    // 貯金目標長さチェック
+    if (savingTargetData.savingTargetName.length > 32) {
+      setLabel({
+        ...label,
+        savingTargetName: {
+          message: "32文字以内",
+          status: savingTargetData.savingTargetName.length > 32,
+        },
+        targetAmount: {
+          message: !savingTargetData.targetAmount ? "未入力" : "",
           status: !savingTargetData.targetAmount,
         },
       });

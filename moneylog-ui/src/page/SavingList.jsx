@@ -22,7 +22,7 @@ import { useNavigate } from "react-router-dom";
 const SavingList = (props) => {
   const { themeColor } = props;
   const [isLoading, setLoading] = useState(false);
-  const [cookie, setCookie] = useCookies();
+  const [cookie] = useCookies();
   const navigate = useNavigate();
 
   /** バナーのステータス */
@@ -62,7 +62,7 @@ const SavingList = (props) => {
     })
       .then((res) => res.json())
       .then((data) => {
-        if (data.status == "success") {
+        if (data.status === "success") {
           setSavingDataList(data.savingList);
           setTotalSavingAmount(
             data.savingList.reduce(

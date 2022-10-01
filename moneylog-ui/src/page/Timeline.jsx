@@ -30,7 +30,7 @@ Chart.register(...registerables);
 const Timeline = (props) => {
   const { themeColor } = props;
   const [isLoading, setLoading] = useState(false);
-  const [cookie, setCookie] = useCookies();
+  const [cookie] = useCookies();
   const navigate = useNavigate();
 
   /** バナーのステータス */
@@ -161,6 +161,8 @@ const Timeline = (props) => {
         // 金額降順
         setTimelineDataList(timelineDataList.sort(compareAmountReverse));
         break;
+      default:
+        setTimelineDataList(timelineDataList.sort(compareDateReverse));
     }
   };
 
@@ -187,7 +189,7 @@ const Timeline = (props) => {
     })
       .then((res) => res.json())
       .then((data) => {
-        if (data.status == "success") {
+        if (data.status === "success") {
           setGraphData(
             data.monthlyTotalAmountList
               .map((d) => Math.abs(d.totalAmount))
@@ -216,7 +218,7 @@ const Timeline = (props) => {
     })
       .then((res) => res.json())
       .then((data) => {
-        if (data.status == "success") {
+        if (data.status === "success") {
           setTimelineDataList(data.transactionList);
           setLoading(false);
         }

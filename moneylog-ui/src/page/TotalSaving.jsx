@@ -23,7 +23,7 @@ import { useNavigate } from "react-router-dom";
 const TotalSaving = (props) => {
   const { themeColor } = props;
   const [isLoading, setLoading] = useState(false);
-  const [cookie, setCookie] = useCookies();
+  const [cookie] = useCookies();
   const navigate = useNavigate();
 
   /** バナーのステータス */
@@ -32,7 +32,7 @@ const TotalSaving = (props) => {
   const [bannerType, setBannerType] = useState("success");
 
   /** 今月 */
-  const [sysDate, setSysDate] = useState(new Date("2022-09-01"));
+  const [sysDate] = useState(new Date("2022-09-01"));
   sysDate.setDate(1);
 
   /** 貯金総額 */
@@ -127,9 +127,9 @@ const TotalSaving = (props) => {
     })
       .then((res) => res.json())
       .then((data) => {
-        if (data.status == "success") {
+        if (data.status === "success") {
           setUncategorizedSavingAmount(
-            data.uncategorizedAmount == void 0 ? 0 : data.uncategorizedAmount
+            data.uncategorizedAmount === void 0 ? 0 : data.uncategorizedAmount
           );
           setSavingTargetData(data.savingTargetList);
           setLoading(false);
@@ -149,7 +149,7 @@ const TotalSaving = (props) => {
     })
       .then((res) => res.json())
       .then((data) => {
-        if (data.status == "success") {
+        if (data.status === "success") {
           // グラフを設定
           setGraphData(
             data.savingDataList.map((d) => d.monthlyTotalSavingAmount).reverse()

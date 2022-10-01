@@ -13,7 +13,7 @@ import { useNavigate } from "react-router-dom";
 
 const MonthlyVariable = (props) => {
   const { themeColor } = props;
-  const [cookie, setCookie] = useCookies();
+  const [cookie] = useCookies();
   const navigate = useNavigate();
 
   const [isLoading, setLoading] = useState(false);
@@ -43,7 +43,7 @@ const MonthlyVariable = (props) => {
     })
       .then((res) => res.json())
       .then((data) => {
-        if (data.status == "success") {
+        if (data.status === "success") {
           setVariableCategoryData(data.monthlyVariableList);
           setMonthlyTotalVariable(data.totalVariable);
           setLoading(false);

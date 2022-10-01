@@ -17,7 +17,7 @@ import { useNavigate } from "react-router-dom";
 const MonthlyFixed = (props) => {
   const { themeColor } = props;
   const [isLoading, setLoading] = useState(false);
-  const [cookie, setCookie] = useCookies();
+  const [cookie] = useCookies();
   const navigate = useNavigate();
 
   /** 今月 */
@@ -50,7 +50,7 @@ const MonthlyFixed = (props) => {
     })
       .then((res) => res.json())
       .then((data) => {
-        if (data.status == "success") {
+        if (data.status === "success") {
           setFixedIncomeCategoryData(data.monthlyFixedList);
           setTotalFixedIncome(data.disposableIncome);
         }
@@ -69,7 +69,7 @@ const MonthlyFixed = (props) => {
     })
       .then((res) => res.json())
       .then((data) => {
-        if (data.status == "success") {
+        if (data.status === "success") {
           setFixedSpendingCategoryData(data.monthlyFixedList);
           setTotalFixedSpending(data.disposableIncome);
           setLoading(false);

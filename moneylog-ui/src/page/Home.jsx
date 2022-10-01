@@ -24,7 +24,7 @@ const Home = (props) => {
   const { themeColor } = props;
   const navigate = useNavigate();
   const [isLoading, setLoading] = useState(false);
-  const [cookie, setCookie] = useCookies();
+  const [cookie] = useCookies();
 
   /** バナーのステータス */
   const [banner, setBanner] = useState(false);

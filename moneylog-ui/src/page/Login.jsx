@@ -18,6 +18,7 @@ import {
   TextField,
 } from "@mui/material";
 import { useNavigate } from "react-router-dom";
+import ForgotPassword from "../components/window/ForgotPassword";
 
 const Login = (props) => {
   const { setCookie, setThemeColor } = props;
@@ -36,6 +37,7 @@ const Login = (props) => {
     bannerType: "success",
   });
   const [window, setWindow] = useState(false);
+  const [forgotPasswordWindow, setForgotPasswordWindow] = useState(true);
   const navigate = useNavigate();
 
   /** API関連 */
@@ -173,7 +175,12 @@ const Login = (props) => {
           </Button>
 
           {/* パスワード再設定 */}
-          <Button>パスワードを忘れた</Button>
+          <Button
+            onClick={() => setForgotPasswordWindow(true)}
+            disabled={isLoading}
+          >
+            パスワードを忘れた
+          </Button>
         </ButtonGroup>
       </div>
 
@@ -212,6 +219,23 @@ const Login = (props) => {
         classNames="Modal-show"
       >
         <SignUpWindow setWindow={setWindow} setBanner={setBanner} />
+      </CSSTransition>
+
+      {/* パスワード再設定画面 */}
+      <BlurView
+        status={forgotPasswordWindow}
+        setStatus={setForgotPasswordWindow}
+      />
+      <CSSTransition
+        in={forgotPasswordWindow}
+        timeout={200}
+        unmountOnExit
+        classNames="Modal-show"
+      >
+        <ForgotPassword
+          setForgotPasswordWindow={setForgotPasswordWindow}
+          setBanner={setBanner}
+        />
       </CSSTransition>
     </div>
   );

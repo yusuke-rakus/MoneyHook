@@ -156,7 +156,7 @@
 			saving_name
 		FROM
 			saving
-		WHERE user_no = 2
+		WHERE user_no = #{userNo}
 		GROUP BY saving_name
 		ORDER BY COUNT(saving_name) DESC
 		LIMIT 3)
@@ -165,7 +165,7 @@
 			saving_name
 		FROM
 			saving
-		WHERE user_no = 2
+		WHERE user_no = #{userNo}
 		ORDER BY saving_id DESC
 		LIMIT 3)
 	</select>

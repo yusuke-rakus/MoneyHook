@@ -1,5 +1,7 @@
 import React from "react";
+/** CSS */
 import "../components_CSS/window_CSS/SignUpWindow.css";
+/** 外部コンポーネント */
 import InputAdornment from "@mui/material/InputAdornment";
 import TextField from "@mui/material/TextField";
 import AccountCircle from "@mui/icons-material/AccountCircle";

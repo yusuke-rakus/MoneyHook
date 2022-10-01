@@ -1,5 +1,7 @@
 import React, { useState } from "react";
+/** CSS */
 import "../components_CSS/window_CSS/ForgotPassword.css";
+/** 外部コンポーネント */
 import CloseIcon from "@mui/icons-material/Close";
 import {
   Button,

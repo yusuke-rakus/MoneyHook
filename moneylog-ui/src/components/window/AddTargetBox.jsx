@@ -20,6 +20,10 @@ const AddTargetBox = (props) => {
 
   const [isLoading, setLoading] = useState(false);
   const [cookie, setCookie] = useCookies();
+  const [label, setLabel] = useState({
+    savingTargetName: { message: "", status: false },
+    targetAmount: { message: "", status: false },
+  });
 
   /** モーダルウィンドウを閉じる */
   const closeAddTargetStatus = () => {
@@ -46,6 +50,24 @@ const AddTargetBox = (props) => {
   /** 登録処理 */
   const register = () => {
     setBanner(false);
+
+    // バリデーションチェック
+    // 未入力チェック
+    if (!savingTargetData.savingTargetName || !savingTargetData.targetAmount) {
+      setLabel({
+        ...label,
+        savingTargetName: {
+          message: "未入力",
+          status: !savingTargetData.savingTargetName,
+        },
+        targetAmount: {
+          message: "未入力",
+          status: !savingTargetData.targetAmount,
+        },
+      });
+      return;
+    }
+
     if (savingTargetData.savingTargetId == void 0) {
       // 登録処理
       addSavingTarget();
@@ -73,17 +95,28 @@ const AddTargetBox = (props) => {
       .then((data) => {
         if (data.status == "success") {
           // 成功
+          setBanner(true);
+          setBannerMessage(data.message);
+          setBannerType(data.status);
+          closeAddTargetStatus();
+          getInit();
         } else {
           // 失敗
+          setLabel((l) => ({
+            ...l,
+            savingTargetName: {
+              message: "同名の貯金目標が存在します",
+              status: true,
+            },
+            targetAmount: {
+              message: "",
+              status: false,
+            },
+          }));
         }
-        setBannerMessage(data.message);
-        setBannerType(data.status);
       })
       .finally(() => {
         setLoading(false);
-        closeAddTargetStatus();
-        setBanner(true);
-        getInit();
       });
   };
 
@@ -168,12 +201,14 @@ const AddTargetBox = (props) => {
           id="standard-basic"
           variant="standard"
           autoComplete="off"
+          error={label.savingTargetName.status}
+          label={label.savingTargetName.message}
+          fullWidth={true}
           value={
             savingTargetData.savingTargetName &&
             savingTargetData.savingTargetName
           }
           onChange={changeName}
-          fullWidth={true}
           inputProps={{
             style: {
               paddingRight: "20px",
@@ -191,6 +226,8 @@ const AddTargetBox = (props) => {
             id="standard-basic"
             variant="standard"
             autoComplete="off"
+            error={label.targetAmount.status}
+            label={label.targetAmount.message}
             fullWidth={true}
             inputProps={{
               style: {

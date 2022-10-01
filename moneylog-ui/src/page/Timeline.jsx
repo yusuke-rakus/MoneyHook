@@ -114,16 +114,28 @@ const Timeline = (props) => {
   }
 
   function compareAmount(a, b) {
-    if (a.transactionAmount !== b.transactionAmount) {
-      return a.transactionAmount - b.transactionAmount;
+    if (
+      a.transactionAmount * a.transactionSign !==
+      b.transactionAmount * b.transactionSign
+    ) {
+      return (
+        a.transactionAmount * a.transactionSign -
+        b.transactionAmount * b.transactionSign
+      );
     }
     if (a.transactionId !== b.transactionId) {
       return a.transactionId - b.transactionId;
     }
   }
   function compareAmountReverse(a, b) {
-    if (a.transactionAmount !== b.transactionAmount) {
-      return b.transactionAmount - a.transactionAmount;
+    if (
+      a.transactionAmount * a.transactionSign !==
+      b.transactionAmount * b.transactionSign
+    ) {
+      return (
+        b.transactionAmount * b.transactionSign -
+        a.transactionAmount * a.transactionSign
+      );
     }
     if (a.transactionId !== b.transactionId) {
       return a.transactionId - b.transactionId;

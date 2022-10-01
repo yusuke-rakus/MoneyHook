@@ -7,7 +7,7 @@
 		<id column="category_id" property="categoryId" />
 		<result column="category_name" property="categoryName" />
 	</resultMap>
-	
+
 	<select id="getCategoryList" resultMap="categoryMap">
 		SELECT
 			category_id,

@@ -1,12 +1,9 @@
 package com.example.form;
 
 import java.sql.Date;
-
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
-
 import com.example.common.message.ValidatingMessage;
-import com.example.common.validation.AnyOneNotEmpty;
 
 public class AddSavingForm extends form {
 

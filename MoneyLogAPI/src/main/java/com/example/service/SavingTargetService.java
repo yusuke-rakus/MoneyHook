@@ -3,13 +3,10 @@ package com.example.service;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
-
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
-import com.example.common.Status;
 import com.example.common.exception.AlreadyExistsException;
 import com.example.common.exception.DataNotFoundException;
 import com.example.common.exception.SystemException;
@@ -120,8 +117,6 @@ public class SavingTargetService {
 	 * @throws SystemException
 	 */
 	public void editSavingTarget(EditSavingTargetForm form) throws SystemException {
-		List<SavingTarget> savingTargetList = new ArrayList<>();
-
 		// ユーザーIDからユーザーNoを取得
 		Long userNo = authenticationService.authUser(form);
 		form.setUserNo(userNo);

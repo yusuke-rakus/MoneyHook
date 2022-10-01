@@ -3,15 +3,12 @@ package com.example.service;
 import java.sql.Date;
 import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
-
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
 import com.example.common.exception.DataNotFoundException;
 import com.example.common.exception.SystemException;
 import com.example.common.message.ErrorMessage;

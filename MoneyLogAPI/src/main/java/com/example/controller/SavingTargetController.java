@@ -10,7 +10,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-
 import com.example.common.Status;
 import com.example.common.exception.AlreadyExistsException;
 import com.example.common.message.ErrorMessage;
@@ -26,7 +25,6 @@ import com.example.response.DeleteSavingTargetResponse;
 import com.example.response.EditSavingTargetResponse;
 import com.example.response.GetSavingTargetListResponse;
 import com.example.response.ReturnSavingTargetResponse;
-import com.example.service.SavingService;
 import com.example.service.SavingTargetService;
 import com.example.service.ValidationService;
 
@@ -36,9 +34,6 @@ public class SavingTargetController {
 
 	@Autowired
 	private SavingTargetService savingTargetService;
-
-	@Autowired
-	private SavingService savingService;
 
 	@Autowired
 	private ValidationService validationService;

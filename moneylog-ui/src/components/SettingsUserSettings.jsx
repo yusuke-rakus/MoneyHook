@@ -139,51 +139,56 @@ const SettingsUserSettings = (props) => {
     <div className="containerBox">
       <p className="settingsTitle">ユーザー設定変更</p>
       <hr className="border" />
-      <div className="emailBox">
-        <span>メールアドレス</span>
-        <TextField
-          variant="standard"
-          autoComplete="off"
-          value={email.value}
-          onChange={(e) =>
-            setEmail((v) => ({
-              ...v,
-              value: e.target.value,
-              message: "",
-              error: false,
-            }))
-          }
-          fullWidth={true}
-          inputProps={{
-            style: {
-              color: "#424242",
-            },
-          }}
-          error={email.error}
-          label={email.message}
-        />
-      </div>
-
-      <div className="emailBox">
-        <span>パスワード</span>
-        <TextField
-          variant="standard"
-          type="password"
-          autoComplete="off"
-          value={password.value}
-          onChange={(e) =>
-            setPassword((v) => ({
-              ...v,
-              value: e.target.value,
-              message: "",
-              error: false,
-            }))
-          }
-          fullWidth={true}
-          error={password.error}
-          label={password.message}
-        />
-      </div>
+      <table className="userSettingsBox">
+        <tr>
+          <td>メールアドレス</td>
+          <td>
+            <TextField
+              variant="standard"
+              autoComplete="off"
+              value={email.value}
+              onChange={(e) =>
+                setEmail((v) => ({
+                  ...v,
+                  value: e.target.value,
+                  message: "",
+                  error: false,
+                }))
+              }
+              fullWidth={true}
+              inputProps={{
+                style: {
+                  color: "#424242",
+                },
+              }}
+              error={email.error}
+              label={email.message}
+            />
+          </td>
+        </tr>
+        <tr>
+          <td>パスワード</td>
+          <td>
+            <TextField
+              variant="standard"
+              type="password"
+              autoComplete="off"
+              value={password.value}
+              onChange={(e) =>
+                setPassword((v) => ({
+                  ...v,
+                  value: e.target.value,
+                  message: "",
+                  error: false,
+                }))
+              }
+              fullWidth={true}
+              error={password.error}
+              label={password.message}
+            />
+          </td>
+        </tr>
+      </table>
 
       <div className="userSettingsButtons">
         <Button

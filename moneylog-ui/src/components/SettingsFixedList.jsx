@@ -7,7 +7,7 @@ import { useCookies } from "react-cookie";
 
 const SettingsFixedList = (props) => {
   const { banner, setBanner } = props;
-  const [cookie, setCookie] = useCookies();
+  const [cookie] = useCookies();
   /** 固定費の編集 */
   const [monthlyTransactionList, setMonthlyTransactionList] = useState([]);
   const [isLoading, setLoading] = useState(false);
@@ -24,45 +24,146 @@ const SettingsFixedList = (props) => {
         monthlyTransactionDate: null,
         categoryName: null,
         subCategoryName: null,
+        label: {
+          monthlyTransactionName: { message: "取引名", status: false },
+          monthlyTransactionAmount: { message: "金額", status: false },
+          category: { message: "カテゴリ", status: false },
+          subCategory: { message: "サブカテゴリ", status: false },
+        },
       },
     ]);
   };
 
   /** 登録処理 */
   const register = () => {
-    setBanner({
-      ...banner,
-      banner: false,
+    let error = 0;
+
+    /** バリデーションチェック */
+    // 何も入力されていないデータは削除する
+    setMonthlyTransactionList(
+      monthlyTransactionList.filter(
+        (data) =>
+          !!data.categoryId ||
+          !!data.subCategoryId ||
+          !!data.monthlyTransactionName ||
+          !!data.monthlyTransactionAmount
+      )
+    );
+
+    monthlyTransactionList.map((data) => {
+      // 未入力チェック
+      if (
+        !data.categoryId ||
+        !data.subCategoryId ||
+        !data.monthlyTransactionName ||
+        !data.monthlyTransactionAmount
+      ) {
+        data.label = {
+          monthlyTransactionName: {
+            message: !data.monthlyTransactionName ? "未入力" : "取引名",
+            status: !data.monthlyTransactionName,
+          },
+          monthlyTransactionAmount: {
+            message: !data.monthlyTransactionAmount ? "未入力" : "金額",
+            status: !data.monthlyTransactionAmount,
+          },
+          category: {
+            message: !data.categoryId ? "未入力" : "カテゴリ",
+            status: !data.categoryId,
+          },
+          subCategory: {
+            message: !data.subCategoryId ? "未入力" : "サブカテゴリ",
+            status: !data.subCategoryId,
+          },
+        };
+        error++;
+      } else {
+        data.label = {
+          monthlyTransactionName: {
+            message: !data.monthlyTransactionName ? "未入力" : "取引名",
+            status: !data.monthlyTransactionName,
+          },
+          monthlyTransactionAmount: {
+            message: !data.monthlyTransactionAmount ? "未入力" : "金額",
+            status: !data.monthlyTransactionAmount,
+          },
+          category: {
+            message: !data.categoryId ? "未入力" : "カテゴリ",
+            status: !data.categoryId,
+          },
+          subCategory: {
+            message: !data.subCategoryId ? "未入力" : "サブカテゴリ",
+            status: !data.subCategoryId,
+          },
+        };
+      }
+
+      // 取引名長さチェック
+      if (data.monthlyTransactionName.length > 32) {
+        data.label = {
+          ...data.label,
+          monthlyTransactionName: {
+            message:
+              data.monthlyTransactionName.length > 32 ? "32字以内" : "取引名",
+            status: data.monthlyTransactionName.length > 32,
+          },
+        };
+        error++;
+      }
+
+      // 金額上限チェック
+      if (data.monthlyTransactionAmount > 9999999) {
+        data.label = {
+          ...data.label,
+          monthlyTransactionAmount: {
+            message:
+              data.monthlyTransactionAmount > 9999999
+                ? "¥9,999,999以内"
+                : "金額",
+            status: data.monthlyTransactionAmount > 9999999,
+          },
+        };
+        error++;
+      }
     });
-    setLoading(true);
-    fetch(`${rootURI}/fixed/editFixed`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        userId: cookie.userId,
-        monthlyTransactionList: monthlyTransactionList,
-      }),
-    })
-      .then((res) => res.json())
-      .then((data) => {
-        if (data.status == "success") {
-          // 成功処理
-        } else {
-          // 失敗処理
-        }
-        setBanner({
-          ...banner,
-          bannerMessage: data.message,
-          bannerType: data.status,
-          banner: true,
-        });
-      })
-      .finally(() => {
-        setLoading(false);
-        getInit();
-      });
+
+    if (error > 0) {
+      return;
+    }
+
+    // setBanner({
+    //   ...banner,
+    //   banner: false,
+    // });
+    // setLoading(true);
+    // fetch(`${rootURI}/fixed/editFixed`, {
+    //   method: "POST",
+    //   headers: {
+    //     "Content-Type": "application/json",
+    //   },
+    //   body: JSON.stringify({
+    //     userId: cookie.userId,
+    //     monthlyTransactionList: monthlyTransactionList,
+    //   }),
+    // })
+    //   .then((res) => res.json())
+    //   .then((data) => {
+    //     if (data.status == "success") {
+    //       // 成功処理
+    //     } else {
+    //       // 失敗処理
+    //     }
+    //     setBanner({
+    //       ...banner,
+    //       bannerMessage: data.message,
+    //       bannerType: data.status,
+    //       banner: true,
+    //     });
+    //   })
+    //   .finally(() => {
+    //     setLoading(false);
+    //     getInit();
+    //   });
   };
 
   /** リセット */
@@ -90,6 +191,14 @@ const SettingsFixedList = (props) => {
       .then((res) => res.json())
       .then((data) => {
         if (data.status == "success") {
+          data.monthlyTransactionList.map((data) => {
+            data["label"] = {
+              monthlyTransactionName: { message: "取引名", status: false },
+              monthlyTransactionAmount: { message: "金額", status: false },
+              category: { message: "カテゴリ", status: false },
+              subCategory: { message: "サブカテゴリ", status: false },
+            };
+          });
           setMonthlyTransactionList(data.monthlyTransactionList);
         } else {
           setMonthlyTransactionList([]);

@@ -31,16 +31,14 @@ const SettingsFixed = (props) => {
     banner,
     setBanner,
   } = props;
-  const [cookie, setCookie] = useCookies();
+  const [cookie] = useCookies();
   const navigate = useNavigate();
 
   /** 取引名の変更 */
   const transactionChange = (e) => {
     data.monthlyTransactionName = e.target.value;
     setMonthlyTransactionList(
-      monthlyTransactionList.map((mt) =>
-        mt.monthlyTransactionId === data.monthlyTransactionId ? data : mt
-      )
+      monthlyTransactionList.map((mt, i) => (i == index ? data : mt))
     );
   };
 
@@ -48,9 +46,7 @@ const SettingsFixed = (props) => {
   const dateChange = (e) => {
     data.monthlyTransactionDate = e.target.value;
     setMonthlyTransactionList(
-      monthlyTransactionList.map((mt) =>
-        mt.monthlyTransactionId === data.monthlyTransactionId ? data : mt
-      )
+      monthlyTransactionList.map((mt, i) => (i == index ? data : mt))
     );
   };
 
@@ -58,9 +54,7 @@ const SettingsFixed = (props) => {
   const amountChange = (e) => {
     data.monthlyTransactionAmount = String(e.target.value).replace(/,/g, "");
     setMonthlyTransactionList(
-      monthlyTransactionList.map((mt) =>
-        mt.monthlyTransactionId === data.monthlyTransactionId ? data : mt
-      )
+      monthlyTransactionList.map((mt, i) => (i == index ? data : mt))
     );
   };
 
@@ -68,18 +62,14 @@ const SettingsFixed = (props) => {
   const changeSign = () => {
     if (data.monthlyTransactionSign == -1) {
       setMonthlyTransactionList(
-        monthlyTransactionList.map((mt) =>
-          mt.monthlyTransactionId == data.monthlyTransactionId
-            ? { ...mt, monthlyTransactionSign: 1 }
-            : mt
+        monthlyTransactionList.map((mt, i) =>
+          i == index ? { ...mt, monthlyTransactionSign: 1 } : mt
         )
       );
     } else {
       setMonthlyTransactionList(
-        monthlyTransactionList.map((mt) =>
-          mt.monthlyTransactionId == data.monthlyTransactionId
-            ? { ...mt, monthlyTransactionSign: -1 }
-            : mt
+        monthlyTransactionList.map((mt, i) =>
+          i == index ? { ...mt, monthlyTransactionSign: -1 } : mt
         )
       );
     }
@@ -137,10 +127,8 @@ const SettingsFixed = (props) => {
   /** カテゴリを選択 */
   const selectCategory = (e) => {
     setMonthlyTransactionList(
-      monthlyTransactionList.map((mt) =>
-        mt.monthlyTransactionId == data.monthlyTransactionId
-          ? { ...mt, categoryId: e.target.value }
-          : mt
+      monthlyTransactionList.map((mt, i) =>
+        i == index ? { ...mt, categoryId: e.target.value } : mt
       )
     );
     getSubCategory(e.target.value);
@@ -149,16 +137,15 @@ const SettingsFixed = (props) => {
   /** サブカテゴリを選択 */
   const selectSubCategory = (e) => {
     setMonthlyTransactionList(
-      monthlyTransactionList.map((mt) =>
-        mt.monthlyTransactionId == data.monthlyTransactionId
-          ? { ...mt, subCategoryId: e.target.value }
-          : mt
+      monthlyTransactionList.map((mt, i) =>
+        i == index ? { ...mt, subCategoryId: e.target.value } : mt
       )
     );
   };
 
   /** 削除 */
   const deleteData = () => {
+    // IDが存在しない場合、リストから除外するのみ
     if (!data.monthlyTransactionId) {
       setMonthlyTransactionList(
         monthlyTransactionList.filter((data, i) => i !== index)
@@ -206,9 +193,14 @@ const SettingsFixed = (props) => {
     <div className="fixedData">
       <div className="categoryData">
         {/* カテゴリ */}
-        <FormControl sx={{ m: 1, width: 100 }} size="small" variant="standard">
+        <FormControl
+          sx={{ m: 1, width: 100 }}
+          size="small"
+          variant="standard"
+          error={data.label.category.status}
+        >
           <InputLabel id="demo-select-small" sx={{ fontSize: 13 }}>
-            カテゴリ
+            {data.label.category.message}
           </InputLabel>
           <Select
             labelId="demo-select-small"
@@ -228,9 +220,14 @@ const SettingsFixed = (props) => {
         </FormControl>
 
         {/* サブカテゴリ */}
-        <FormControl sx={{ m: 1, width: 100 }} size="small" variant="standard">
+        <FormControl
+          sx={{ m: 1, width: 100 }}
+          size="small"
+          variant="standard"
+          error={data.label.subCategory.status}
+        >
           <InputLabel id="demo-select-small" sx={{ fontSize: 13 }}>
-            サブカテゴリ
+            {data.label.subCategory.message}
           </InputLabel>
           <Select
             labelId="demo-select-small"
@@ -255,10 +252,17 @@ const SettingsFixed = (props) => {
 
       {/* 取引名 */}
       <div className="transactionNameData">
-        <span>取引名</span>
+        <span
+          style={
+            data.label.monthlyTransactionName.status ? { color: "#c62828" } : {}
+          }
+        >
+          {data.label.monthlyTransactionName.message}
+        </span>
         <TextField
           variant="standard"
           autoComplete="off"
+          error={data.label.monthlyTransactionName.status}
           value={data.monthlyTransactionName}
           onChange={transactionChange}
           inputProps={{
@@ -271,10 +275,19 @@ const SettingsFixed = (props) => {
 
       {/* 金額 */}
       <div className="fixedAmountData">
-        <span>金額</span>
+        <span
+          style={
+            data.label.monthlyTransactionAmount.status
+              ? { color: "#c62828" }
+              : {}
+          }
+        >
+          {data.label.monthlyTransactionAmount.message}
+        </span>
         <TextField
           variant="standard"
           autoComplete="off"
+          error={data.label.monthlyTransactionAmount.status}
           inputProps={{
             style: {
               fontSize: 14,
@@ -284,8 +297,8 @@ const SettingsFixed = (props) => {
             },
           }}
           value={
-            isNaN(data.monthlyTransactionAmount)
-              ? 0
+            data.monthlyTransactionAmount == void 0
+              ? ""
               : Math.abs(data.monthlyTransactionAmount).toLocaleString()
           }
           onChange={amountChange}
@@ -325,7 +338,7 @@ const SettingsFixed = (props) => {
       <div className="switchBalanceArea">
         <SwitchBalanceButton
           balance={data.monthlyTransactionSign}
-          id={data.monthlyTransactionId}
+          id={index}
           changeSign={changeSign}
         />
       </div>

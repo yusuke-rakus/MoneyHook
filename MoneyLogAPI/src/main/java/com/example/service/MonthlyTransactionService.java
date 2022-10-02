@@ -146,11 +146,11 @@ public class MonthlyTransactionService {
 				this.registerFixed(notIncludingIdList);
 			}
 
+			res.setMessage(SuccessMessage.MONTHLY_TRANSACTION_EDIT_SUCCESSED);
+
 		} catch (Exception e) {
 			res.setStatus(Status.ERROR.getStatus());
 		}
-
-		res.setMessage(SuccessMessage.MONTHLY_TRANSACTION_EDIT_SUCCESSED);
 
 		return res;
 	}

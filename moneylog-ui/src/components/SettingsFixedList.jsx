@@ -99,7 +99,10 @@ const SettingsFixedList = (props) => {
       }
 
       // 取引名長さチェック
-      if (data.monthlyTransactionName.length > 32) {
+      if (
+        !!data.monthlyTransactionName &&
+        data.monthlyTransactionName.length > 32
+      ) {
         data.label = {
           ...data.label,
           monthlyTransactionName: {
@@ -131,39 +134,39 @@ const SettingsFixedList = (props) => {
       return;
     }
 
-    // setBanner({
-    //   ...banner,
-    //   banner: false,
-    // });
-    // setLoading(true);
-    // fetch(`${rootURI}/fixed/editFixed`, {
-    //   method: "POST",
-    //   headers: {
-    //     "Content-Type": "application/json",
-    //   },
-    //   body: JSON.stringify({
-    //     userId: cookie.userId,
-    //     monthlyTransactionList: monthlyTransactionList,
-    //   }),
-    // })
-    //   .then((res) => res.json())
-    //   .then((data) => {
-    //     if (data.status == "success") {
-    //       // 成功処理
-    //     } else {
-    //       // 失敗処理
-    //     }
-    //     setBanner({
-    //       ...banner,
-    //       bannerMessage: data.message,
-    //       bannerType: data.status,
-    //       banner: true,
-    //     });
-    //   })
-    //   .finally(() => {
-    //     setLoading(false);
-    //     getInit();
-    //   });
+    setBanner({
+      ...banner,
+      banner: false,
+    });
+    setLoading(true);
+    fetch(`${rootURI}/fixed/editFixed`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        userId: cookie.userId,
+        monthlyTransactionList: monthlyTransactionList,
+      }),
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        if (data.status == "success") {
+          // 成功処理
+        } else {
+          // 失敗処理
+        }
+        setBanner({
+          ...banner,
+          bannerMessage: data.message,
+          bannerType: data.status,
+          banner: true,
+        });
+      })
+      .finally(() => {
+        setLoading(false);
+        getInit();
+      });
   };
 
   /** リセット */

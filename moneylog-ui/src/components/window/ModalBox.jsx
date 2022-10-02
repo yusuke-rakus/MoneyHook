@@ -116,28 +116,58 @@ const ModalBox = (props) => {
   /** 取引名のレコメンドリスト */
   const [recommendList, setRecommendList] = useState([]);
 
-  const [error, setError] = useState({});
+  const [error, setError] = useState({
+    transactionAmount: { message: "金額", error: false },
+    transactionName: { message: "取引名", error: false },
+    categoryBox: { message: "カテゴリ", error: false },
+  });
 
   /** API関連 */
   const rootURI = "http://localhost:8080";
 
   /** 登録ボタン押下処理 */
   const registerTransaction = () => {
-    // エラーチェック
-    if (transaction.transactionAmount === void 0) {
-      setError({ ...error, transactionAmount: true });
-      console.log(transaction.transactionAmount);
-    }
+    // 未入力チェック
     if (
-      transaction.transactionName === void 0 &&
-      transaction.transactionName.length > 32
+      (!transaction.transactionAmount || !transaction.transactionName,
+      !transaction.subCategoryName)
     ) {
-      setError({ ...error, transactionName: true });
-      console.log(transaction.transactionName);
+      setError((error) => ({
+        ...error,
+        transactionAmount: {
+          message: !transaction.transactionAmount ? "未入力" : "金額",
+          error: !transaction.transactionAmount,
+        },
+        transactionName: {
+          message: !transaction.transactionName ? "未入力" : "取引名",
+          error: !transaction.transactionName,
+        },
+        categoryBox: {
+          message: !transaction.subCategoryName ? "未入力" : "カテゴリ",
+          error: !transaction.subCategoryName,
+        },
+      }));
+      return;
     }
-    if (transaction.subCategoryName === void 0) {
-      setError({ ...error, categoryBox: true });
-      console.log(transaction.subCategoryName);
+    // 取引名長さチェック
+    if (transaction.transactionName.length > 32) {
+      setError((error) => ({
+        ...error,
+        transactionAmount: {
+          message: !transaction.transactionAmount ? "未入力" : "金額",
+          error: !transaction.transactionAmount,
+        },
+        transactionName: {
+          message:
+            transaction.transactionName.length > 32 ? "32文字以内" : "取引名",
+          error: transaction.transactionName.length > 32,
+        },
+        categoryBox: {
+          message: !transaction.categoryName ? "未入力" : "取引名",
+          error: !transaction.categoryName,
+        },
+      }));
+      return;
     }
 
     if (transaction.transactionId == void 0) {
@@ -362,10 +392,15 @@ const ModalBox = (props) => {
             changeSign={changeSign}
           />
           <div className="amount-group">
-            <span className="input-span">金額</span>
+            <span
+              className="input-span"
+              style={error.transactionAmount.error ? { color: "#c62828" } : {}}
+            >
+              {error.transactionAmount.message}
+            </span>
             <div className="input-amount">
               <TextField
-                error={error.transactionAmount}
+                error={error.transactionAmount.error}
                 id="standard-basic"
                 variant="standard"
                 autoComplete="off"
@@ -393,7 +428,12 @@ const ModalBox = (props) => {
 
         {/* 取引名入力 */}
         <div className="input-transaction-box">
-          <span className="input-span">取引名</span>
+          <span
+            className="input-span"
+            style={error.transactionName.error ? { color: "#c62828" } : {}}
+          >
+            {error.transactionName.message}
+          </span>
           <div className="input-transaction">
             <Autocomplete
               freeSolo
@@ -402,7 +442,7 @@ const ModalBox = (props) => {
               onChange={selectTransactionName}
               renderInput={(params) => (
                 <TextField
-                  error={error.transactionName}
+                  error={error.transactionName.error}
                   {...params}
                   variant="standard"
                   fullWidth={true}
@@ -425,11 +465,20 @@ const ModalBox = (props) => {
 
         {/* カテゴリ入力 */}
         <div className="input-category-box">
-          <span className="input-span category-span">カテゴリ</span>
+          <span
+            className="input-span category-span"
+            style={error.categoryBox.error ? { color: "#c62828" } : {}}
+          >
+            {error.categoryBox.message}
+          </span>
           <div
             onClick={openCategoryWindow}
             className="category-box"
-            style={error.categoryBox && { borderBottom: "solid 1.5px #c62828" }}
+            style={
+              error.categoryBox.error
+                ? { borderBottom: "solid 1.5px #c62828" }
+                : {}
+            }
           >
             <p>
               <span style={{ fontSize: "14px" }}>
@@ -439,7 +488,9 @@ const ModalBox = (props) => {
                     " / " +
                     transaction.subCategoryName}
               </span>
-              <span>&gt;</span>
+              <span style={error.categoryBox.error ? { color: "#c62828" } : {}}>
+                &gt;
+              </span>
             </p>
           </div>
         </div>
@@ -488,9 +539,10 @@ const ModalBox = (props) => {
         <CategoryWindow
           setCategoryWindowModal={setCategoryWindowModal}
           closeModalWindow={closeModalWindow}
-          // 以下必須
           setTransaction={setTransaction}
           transaction={transaction}
+          error={error}
+          setError={setError}
         />
       </CSSTransition>
     </>

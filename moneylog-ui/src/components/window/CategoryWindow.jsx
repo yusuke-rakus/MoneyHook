@@ -8,25 +8,28 @@ import { CSSTransition } from "react-transition-group";
 import CloseIcon from "@mui/icons-material/Close";
 import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
 import ChevronRightIcon from "@mui/icons-material/ChevronRight";
+import { CircularProgress } from "@mui/material";
 
 const CategoryWindow = (props) => {
   const {
     setCategoryWindowModal,
     closeModalWindow,
-    // 以下必須
     setTransaction,
     transaction,
+    error,
+    setError,
   } = props;
 
   const [SubCategoryWindowModal, setSubCategoryWindowModal] = useState(false);
-
   const [categoryList, setCategoryList] = useState([]);
+  const [isLoading, setLoading] = useState(false);
 
   /** API関連 */
   const rootURI = "http://localhost:8080";
 
   // カテゴリデータを取得
   const getInit = () => {
+    setLoading(true);
     fetch(`${rootURI}/category/getCategoryList`, {
       method: "POST",
       headers: {
@@ -36,6 +39,7 @@ const CategoryWindow = (props) => {
     })
       .then((res) => res.json())
       .then((data) => {
+        setLoading(false);
         setCategoryList(data.categoryList);
       });
   };
@@ -51,12 +55,23 @@ const CategoryWindow = (props) => {
 
   /** サブカテゴリウィンドウを開く */
   const openSubCategoryWindow = (category) => {
-    // カテゴリをセット
-    setTransaction({
-      ...transaction,
-      categoryId: category.categoryId,
-      categoryName: category.categoryName,
-    });
+    if (!transaction.subCategoryName) {
+      // カテゴリをセット
+      setTransaction({
+        ...transaction,
+        categoryId: category.categoryId,
+        categoryName: category.categoryName,
+      });
+    } else {
+      // カテゴリをセットしサブカテゴリを削除
+      setTransaction({
+        ...transaction,
+        categoryId: category.categoryId,
+        categoryName: category.categoryName,
+        subCategoryId: "",
+        subCategoryName: "",
+      });
+    }
 
     // サブカテゴリウィンドウを表示
     setSubCategoryWindowModal(true);
@@ -79,6 +94,7 @@ const CategoryWindow = (props) => {
         {/* カテゴリリスト */}
         <h3 className="modal-title">カテゴリを選択</h3>
         <div className="category-items">
+          {isLoading && <CircularProgress size={30} />}
           {categoryList.map((category, i) => {
             return (
               <div
@@ -106,9 +122,10 @@ const CategoryWindow = (props) => {
           closeModalWindow={closeModalWindow}
           setSubCategoryWindowModal={setSubCategoryWindowModal}
           closeCategoryWindow={closeCategoryWindow}
-          // 以下必須
           setTransaction={setTransaction}
           transaction={transaction}
+          error={error}
+          setError={setError}
         />
       </CSSTransition>
     </>

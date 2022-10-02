@@ -5,7 +5,7 @@ import "../components_CSS/window_CSS/SubCategoryWindow.css";
 import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
 import ChevronRightIcon from "@mui/icons-material/ChevronRight";
 import CloseIcon from "@mui/icons-material/Close";
-import { TextField } from "@mui/material";
+import { CircularProgress, TextField } from "@mui/material";
 import { useCookies } from "react-cookie";
 
 const SubCategoryWindow = (props) => {
@@ -13,17 +13,33 @@ const SubCategoryWindow = (props) => {
     closeModalWindow,
     setSubCategoryWindowModal,
     closeCategoryWindow,
-    // 以下必須
     setTransaction,
     transaction,
+    error,
+    setError,
   } = props;
-  const [cookie, setCookie] = useCookies();
-
+  const [cookie] = useCookies();
+  const [isLoading, setLoading] = useState(false);
   const [subCategoryList, setSubCategoryList] = useState([]);
+  const [label, setLabel] = useState({
+    message: "サブカテゴリを作成",
+    status: false,
+  });
 
   /** サブカテゴリを閉じる処理 */
   const closeSubCategoryWindow = () => {
     setSubCategoryWindowModal(false);
+  };
+
+  /** カテゴリのエラー表示を解除 */
+  const changeError = () => {
+    setError({
+      ...error,
+      categoryBox: {
+        message: "カテゴリ",
+        error: false,
+      },
+    });
   };
 
   /** チェックボックスから選択 */
@@ -39,37 +55,61 @@ const SubCategoryWindow = (props) => {
     closeSubCategoryWindow();
     // カテゴリ画面非表示
     closeCategoryWindow();
+    // エラーの変更
+    changeError();
   };
 
   /** サブカテゴリ名称の作成【Enterを2回押して登録】 */
   let enterCount = 0;
   const onEnter = (e) => {
-    if (e.keyCode === 13) {
-      enterCount++;
-      if (enterCount === 2) {
-        // サブカテゴリ画面非表示
-        closeSubCategoryWindow();
-        // カテゴリ画面非表示
-        closeCategoryWindow();
+    if (!label.status) {
+      if (e.keyCode === 13) {
+        enterCount++;
+        if (enterCount === 2) {
+          // サブカテゴリ画面非表示
+          closeSubCategoryWindow();
+          // カテゴリ画面非表示
+          closeCategoryWindow();
+          // エラーの変更
+          changeError();
+        }
+      } else {
+        enterCount = 0;
       }
-    } else {
-      enterCount = 0;
     }
   };
 
   /** サブカテゴリテキストの変更を検知 */
   const inputTextField = (inputData) => {
+    // 文字数チェック
+    if (inputData.length > 16) {
+      setLabel((label) => ({
+        ...label,
+        message: "16文字以内",
+        status: inputData.length > 16,
+      }));
+      return;
+    } else {
+      setLabel((label) => ({
+        ...label,
+        message: "サブカテゴリを作成",
+        status: inputData.length > 16,
+      }));
+    }
+
     setTransaction({
       ...transaction,
       subCategoryId: "",
       subCategoryName: inputData,
     });
   };
+
   /** API関連 */
   const rootURI = "http://localhost:8080";
 
   // カテゴリデータを取得
   const getInit = () => {
+    setLoading(true);
     fetch(`${rootURI}/subCategory/getSubCategoryList`, {
       method: "POST",
       headers: {
@@ -82,6 +122,7 @@ const SubCategoryWindow = (props) => {
     })
       .then((res) => res.json())
       .then((data) => {
+        setLoading(false);
         setSubCategoryList(data.subCategoryList);
       });
   };
@@ -103,9 +144,10 @@ const SubCategoryWindow = (props) => {
         className="close-button"
       />
 
-      {/* カテゴリリスト */}
+      {/* サブカテゴリリスト */}
       <h3 className="modal-title">サブカテゴリを選択</h3>
       <div className="sub-category-items">
+        {isLoading && <CircularProgress size={30} />}
         {subCategoryList.map((subCategory, i) => {
           return (
             <div
@@ -121,9 +163,10 @@ const SubCategoryWindow = (props) => {
           );
         })}
         <TextField
-          label="カテゴリを作成"
           variant="standard"
           autoComplete="off"
+          label={label.message}
+          error={label.status}
           fullWidth={true}
           onKeyUp={onEnter}
           onChange={(e) => {

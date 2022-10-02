@@ -7,7 +7,6 @@ import { SidebarData } from "./SidebarData";
 import { Link } from "react-router-dom";
 import { useState } from "react";
 import { LightenDarkenColor } from "lighten-darken-color";
-import { NoEncryption } from "@mui/icons-material";
 
 const Sidebar = (props) => {
   const { themeColor } = props;
@@ -26,7 +25,7 @@ const Sidebar = (props) => {
       className="sidebar"
       style={{
         background:
-          themeColor.length == 7
+          themeColor.length === 7
             ? themeColor
             : `linear-gradient(${themeColor})`,
       }}

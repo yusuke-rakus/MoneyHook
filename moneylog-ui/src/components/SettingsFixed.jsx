@@ -22,6 +22,7 @@ import { useNavigate } from "react-router-dom";
 const SettingsFixed = (props) => {
   const {
     data,
+    index,
     monthlyTransactionList,
     setMonthlyTransactionList,
     getInit,
@@ -158,6 +159,12 @@ const SettingsFixed = (props) => {
 
   /** 削除 */
   const deleteData = () => {
+    if (!data.monthlyTransactionId) {
+      setMonthlyTransactionList(
+        monthlyTransactionList.filter((data, i) => i !== index)
+      );
+      return;
+    }
     setLoading(true);
     fetch(`${rootURI}/fixed/deleteFixed`, {
       method: "POST",

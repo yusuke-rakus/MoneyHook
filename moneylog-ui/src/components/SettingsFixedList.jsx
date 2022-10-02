@@ -120,11 +120,19 @@ const SettingsFixedList = (props) => {
         </div>
       ) : (
         <div className="fixedListArea">
+          {isLoading === false && monthlyTransactionList.length === 0 && (
+            <div className="monthlyTransactionNotFound">
+              <p>データが登録されていません</p>
+              <p>毎月自動登録されるデータを指定して入力の手間を省きましょう</p>
+            </div>
+          )}
+
           {monthlyTransactionList.map((data, i) => {
             return (
               <SettingsFixed
                 key={i}
                 data={data}
+                index={i}
                 monthlyTransactionList={monthlyTransactionList}
                 setMonthlyTransactionList={setMonthlyTransactionList}
                 getInit={getInit}

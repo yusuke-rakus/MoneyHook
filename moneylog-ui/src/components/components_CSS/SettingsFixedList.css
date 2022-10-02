@@ -42,3 +42,23 @@
     opacity: 0;
   }
 }
+
+.monthlyTransactionNotFound {
+  /* Boxデザイン */
+  width: 100%;
+  min-width: 630px;
+  border-radius: 5px;
+  box-shadow: 5px 5px 10px #afb3b3, -5px -5px 10px #ffffff;
+  padding: 10px;
+  /* 配置 */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+}
+
+.monthlyTransactionNotFound p {
+  /* 文字色 */
+  color: #616161;
+  font-size: 16px;
+}

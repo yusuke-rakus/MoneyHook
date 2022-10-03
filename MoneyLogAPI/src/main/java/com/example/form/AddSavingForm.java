@@ -1,16 +1,23 @@
 package com.example.form;
 
 import java.sql.Date;
+
+import javax.validation.constraints.Max;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
+
+import org.hibernate.validator.constraints.Length;
+
 import com.example.common.message.ValidatingMessage;
 
 public class AddSavingForm extends form {
 
 	@NotEmpty(message = ValidatingMessage.SAVING_NAME_EMPTY_ERROR)
+	@Length(max = 32, message = ValidatingMessage.SAVING_NAME_LENGTH_ERROR)
 	private String savingName;
 
 	@NotNull(message = ValidatingMessage.SAVING_AMOUNT_EMPTY_ERROR)
+	@Max(value = 9999999, message = ValidatingMessage.SAVING_AMOUNT_RANGE_ERROR)
 	private Integer savingAmount;
 
 	@NotNull(message = ValidatingMessage.DATE_EMPTY_ERROR)

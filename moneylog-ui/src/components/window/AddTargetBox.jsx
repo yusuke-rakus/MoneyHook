@@ -19,10 +19,10 @@ const AddTargetBox = (props) => {
   } = props;
 
   const [isLoading, setLoading] = useState(false);
-  const [cookie, setCookie] = useCookies();
+  const [cookie] = useCookies();
   const [label, setLabel] = useState({
-    savingTargetName: { message: "", status: false },
-    targetAmount: { message: "", status: false },
+    savingTargetName: { message: "名称", status: false },
+    targetAmount: { message: "金額", status: false },
   });
 
   /** モーダルウィンドウを閉じる */
@@ -33,11 +33,47 @@ const AddTargetBox = (props) => {
   /** 金額入力 */
   const changeAmount = (e) => {
     let tempNum = String(e.target.value).replace(/,/g, "");
+    if (tempNum > 99999999) {
+      setLabel({
+        ...label,
+        targetAmount: {
+          message: "¥99,999,999以内",
+          status: true,
+        },
+      });
+      return;
+    } else {
+      setLabel({
+        ...label,
+        targetAmount: {
+          message: "金額",
+          status: false,
+        },
+      });
+    }
     setSavingTargetData({ ...savingTargetData, targetAmount: tempNum });
   };
 
   /** 目標名称入力 */
   const changeName = (e) => {
+    if (e.target.value.length > 32) {
+      setLabel({
+        ...label,
+        savingTargetName: {
+          message: "32文字以内",
+          status: true,
+        },
+      });
+      return;
+    } else {
+      setLabel({
+        ...label,
+        savingTargetName: {
+          message: "名称",
+          status: false,
+        },
+      });
+    }
     setSavingTargetData({
       ...savingTargetData,
       savingTargetName: e.target.value,
@@ -52,33 +88,24 @@ const AddTargetBox = (props) => {
     setBanner(false);
 
     // バリデーションチェック
-    // 未入力チェック
     if (!savingTargetData.savingTargetName || !savingTargetData.targetAmount) {
       setLabel({
         ...label,
         savingTargetName: {
-          message: !savingTargetData.savingTargetName ? "未入力" : "",
-          status: !savingTargetData.savingTargetName,
+          message: !savingTargetData.savingTargetName
+            ? "未入力"
+            : label.savingTargetName.message,
+          status: !savingTargetData.savingTargetName
+            ? true
+            : label.savingTargetName.status,
         },
         targetAmount: {
-          message: !savingTargetData.targetAmount ? "未入力" : "",
-          status: !savingTargetData.targetAmount,
-        },
-      });
-      return;
-    }
-
-    // 貯金目標長さチェック
-    if (savingTargetData.savingTargetName.length > 32) {
-      setLabel({
-        ...label,
-        savingTargetName: {
-          message: "32文字以内",
-          status: savingTargetData.savingTargetName.length > 32,
-        },
-        targetAmount: {
-          message: !savingTargetData.targetAmount ? "未入力" : "",
-          status: !savingTargetData.targetAmount,
+          message: !savingTargetData.targetAmount
+            ? "未入力"
+            : label.targetAmount.message,
+          status: !savingTargetData.targetAmount
+            ? true
+            : label.targetAmount.status,
         },
       });
       return;
@@ -212,13 +239,17 @@ const AddTargetBox = (props) => {
 
       {/* 目標名称 */}
       <div className="input-name-box">
-        <span className="input-span">名称</span>
+        <span
+          className="input-span"
+          style={label.savingTargetName.status ? { color: "#c62828" } : {}}
+        >
+          {label.savingTargetName.message}
+        </span>
         <TextField
           id="standard-basic"
           variant="standard"
           autoComplete="off"
           error={label.savingTargetName.status}
-          label={label.savingTargetName.message}
           fullWidth={true}
           value={
             savingTargetData.savingTargetName &&
@@ -236,14 +267,18 @@ const AddTargetBox = (props) => {
 
       {/* 目標金額 */}
       <div className="amount-group">
-        <span className="input-span">金額</span>
+        <span
+          className="input-span"
+          style={label.targetAmount.status ? { color: "#c62828" } : {}}
+        >
+          {label.targetAmount.message}
+        </span>
         <div className="target-amount">
           <TextField
             id="standard-basic"
             variant="standard"
             autoComplete="off"
             error={label.targetAmount.status}
-            label={label.targetAmount.message}
             fullWidth={true}
             inputProps={{
               style: {

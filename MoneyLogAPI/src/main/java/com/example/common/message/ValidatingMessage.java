@@ -22,9 +22,13 @@ public class ValidatingMessage {
 	
 	// 貯金系
 	/** 金額未入力 */
-	public static final String SAVING_AMOUNT_EMPTY_ERROR = "貯金金額を入力してください";
+	public static final String SAVING_AMOUNT_EMPTY_ERROR = "金額を入力してください";
 	/** 取引名未入力 */
 	public static final String SAVING_NAME_EMPTY_ERROR = "貯金名を入力してください";
+	/** 名称長さエラー */
+	public static final String SAVING_NAME_LENGTH_ERROR = "32文字以内";
+	/** 金額エラー */
+	public static final String SAVING_AMOUNT_RANGE_ERROR = "¥9,999,999以内";
 	
 	// ユーザー系
 	/** メールアドレス未入力 */

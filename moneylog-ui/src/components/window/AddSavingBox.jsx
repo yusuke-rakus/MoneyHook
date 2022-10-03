@@ -11,6 +11,9 @@ import {
   Button,
   CircularProgress,
   Autocomplete,
+  Collapse,
+  Alert,
+  IconButton,
 } from "@mui/material";
 import { useCookies } from "react-cookie";
 
@@ -28,10 +31,15 @@ const AddSavingBox = (props) => {
   } = props;
 
   const [isLoading, setLoading] = useState(false);
-  const [cookie, setCookie] = useCookies();
+  const [cookie] = useCookies();
   const [label, setLabel] = useState({
-    savingName: { message: "", status: false },
-    savingAmount: { message: "", status: false },
+    savingName: { message: "名称", status: false },
+    savingAmount: { message: "金額", status: false },
+  });
+  const [modalBanner, setModalBanner] = useState({
+    banner: false,
+    bannerMessage: "",
+    bannerType: "success",
   });
 
   // 振り分け処理
@@ -48,6 +56,23 @@ const AddSavingBox = (props) => {
   /** 金額表示処理 */
   const changeAmount = (e) => {
     let tempNum = String(e.target.value).replace(/,/g, "");
+    if (tempNum > 9999999) {
+      setLabel((label) => ({
+        ...label,
+        savingAmount: {
+          message: "¥9,999,999以内",
+          status: true,
+        },
+      }));
+    } else {
+      setLabel((label) => ({
+        ...label,
+        savingAmount: {
+          message: "金額",
+          status: false,
+        },
+      }));
+    }
     setSaving({
       ...saving,
       savingAmount: tempNum,
@@ -56,6 +81,23 @@ const AddSavingBox = (props) => {
 
   /** 取引名入力 */
   const changeSavingName = (e) => {
+    if (e.target.value.length > 32) {
+      setLabel((label) => ({
+        ...label,
+        savingName: {
+          message: "32文字以内",
+          status: true,
+        },
+      }));
+    } else {
+      setLabel((label) => ({
+        ...label,
+        savingName: {
+          message: "名称",
+          status: false,
+        },
+      }));
+    }
     setSaving({ ...saving, savingName: e.target.value });
   };
 
@@ -99,27 +141,12 @@ const AddSavingBox = (props) => {
       setLabel((label) => ({
         ...label,
         savingName: {
-          message: !saving.savingName ? "未入力" : "",
-          status: !saving.savingName,
+          message: !saving.savingName ? "未入力" : label.savingName.message,
+          status: !saving.savingName ? true : label.savingName.status,
         },
         savingAmount: {
-          message: !saving.savingAmount ? "未入力" : "",
-          status: !saving.savingAmount,
-        },
-      }));
-      return;
-    }
-
-    if (saving.savingName.length > 32) {
-      setLabel((label) => ({
-        ...label,
-        savingName: {
-          message: "32文字以内",
-          status: saving.savingName.length > 32,
-        },
-        savingAmount: {
-          message: !saving.savingAmount ? "未入力" : "",
-          status: !saving.savingAmount,
+          message: !saving.savingAmount ? "未入力" : label.savingAmount.message,
+          status: !saving.savingAmount ? true : label.savingAmount.status,
         },
       }));
       return;
@@ -155,16 +182,21 @@ const AddSavingBox = (props) => {
       .then((data) => {
         if (data.status == "success") {
           // 成功
+          setBannerMessage(data.message);
+          setBannerType(data.status);
+          closeAddSavingWindow();
+          getInit(month);
         } else {
           // 失敗
+          setModalBanner({
+            banner: true,
+            bannerMessage: data.message,
+            bannerType: data.status,
+          });
         }
-        setBannerMessage(data.message);
-        setBannerType(data.status);
       })
       .finally(() => {
         setLoading(false);
-        closeAddSavingWindow();
-        getInit(month);
       });
   };
 
@@ -189,16 +221,16 @@ const AddSavingBox = (props) => {
       .then((data) => {
         if (data.status == "success") {
           // 成功
+          setBannerMessage(data.message);
+          setBannerType(data.status);
+          closeAddSavingWindow();
+          getInit(month);
         } else {
           // 失敗
         }
-        setBannerMessage(data.message);
-        setBannerType(data.status);
       })
       .finally(() => {
         setLoading(false);
-        closeAddSavingWindow();
-        getInit(month);
       });
   };
 
@@ -285,6 +317,32 @@ const AddSavingBox = (props) => {
   return (
     <>
       <div className="modal-window">
+        {/* バーナー */}
+
+        <Collapse in={modalBanner.banner}>
+          <Alert
+            severity={modalBanner.bannerType}
+            action={
+              <IconButton
+                aria-label="close"
+                color="inherit"
+                size="small"
+                onClick={() => {
+                  setModalBanner({
+                    ...modalBanner,
+                    banner: false,
+                  });
+                }}
+              >
+                <CloseIcon fontSize="inherit" />
+              </IconButton>
+            }
+            sx={{ mb: 1 }}
+          >
+            {modalBanner.bannerMessage}
+          </Alert>
+        </Collapse>
+
         <CloseIcon
           onClick={closeAddSavingWindow}
           style={{ cursor: "pointer", color: "#a9a9a9" }}
@@ -346,7 +404,12 @@ const AddSavingBox = (props) => {
 
         {/* 名称 */}
         <div className="input-name-box">
-          <span className="input-span">名称</span>
+          <span
+            className="input-span"
+            style={label.savingName.status ? { color: "#c62828" } : {}}
+          >
+            {label.savingName.message}
+          </span>
           <Autocomplete
             freeSolo
             options={recommendList}
@@ -359,7 +422,6 @@ const AddSavingBox = (props) => {
                 autoComplete="off"
                 fullWidth={true}
                 error={label.savingName.status}
-                label={label.savingName.message}
                 onChange={changeSavingName}
                 InputProps={{
                   ...params.InputProps,
@@ -377,13 +439,17 @@ const AddSavingBox = (props) => {
 
         {/* 貯金額 */}
         <div className="amount-group">
-          <span className="input-span">金額</span>
+          <span
+            className="input-span"
+            style={label.savingAmount.status ? { color: "#c62828" } : {}}
+          >
+            {label.savingAmount.message}
+          </span>
           <div className="saving-amount">
             <TextField
               variant="standard"
               autoComplete="off"
               error={label.savingAmount.status}
-              label={label.savingAmount.message}
               fullWidth={true}
               inputProps={{
                 style: {

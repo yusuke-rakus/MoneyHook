@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useContext } from "react";
 /** CSS */
 import "./components_CSS/Sidebar.css";
 /** 自作コンポーネント */
@@ -7,6 +7,7 @@ import { SidebarData } from "./SidebarData";
 import { Link } from "react-router-dom";
 import { useState } from "react";
 import { LightenDarkenColor } from "lighten-darken-color";
+import { isTabletOrMobile } from "../App";
 
 const Sidebar = (props) => {
   const { themeColor } = props;
@@ -20,46 +21,58 @@ const Sidebar = (props) => {
 
   const [isHover, setHover] = useState("");
 
+  const isOverLabtop = useContext(isTabletOrMobile);
+
   return (
-    <div
-      className="sidebar"
-      style={{
-        background:
-          themeColor.length === 7
-            ? themeColor
-            : `linear-gradient(${themeColor})`,
-      }}
-    >
-      <ul className="sidebarList">
-        {SidebarData.map((value, key) => {
-          return (
-            <li key={key}>
-              <Link
-                to={value.link}
-                className={"row" + (value.heading ? " heading" : "")}
-                onMouseEnter={() => setHover(key)}
-                onMouseLeave={() => setHover("")}
-                style={{
-                  cursor: "pointer",
-                  borderRadius: "10px",
-                  userSelect: "none",
-                  boxShadow:
-                    isHover === key || window.location.pathname === value.link
-                      ? `inset 5px 5px 12px 
+    <>
+      {isOverLabtop ? (
+        <>
+          <div className="blank"></div>
+          <div
+            className="sidebar"
+            style={{
+              background:
+                themeColor.length === 7
+                  ? themeColor
+                  : `linear-gradient(${themeColor})`,
+            }}
+          >
+            <ul className="sidebarList">
+              {SidebarData.map((value, key) => {
+                return (
+                  <li key={key}>
+                    <Link
+                      to={value.link}
+                      className={"row" + (value.heading ? " heading" : "")}
+                      onMouseEnter={() => setHover(key)}
+                      onMouseLeave={() => setHover("")}
+                      style={{
+                        cursor: "pointer",
+                        borderRadius: "10px",
+                        userSelect: "none",
+                        boxShadow:
+                          isHover === key ||
+                          window.location.pathname === value.link
+                            ? `inset 5px 5px 12px 
                       ${LightenDarkenColor(bgcolor, -25)} 
                       , inset -5px -5px 12px 
                       ${LightenDarkenColor(bgcolor, 25)}`
-                      : "",
-                }}
-              >
-                <div id="icon">{value.icon}</div>
-                <div id="title">{value.title}</div>
-              </Link>
-            </li>
-          );
-        })}
-      </ul>
-    </div>
+                            : "",
+                      }}
+                    >
+                      <div id="icon">{value.icon}</div>
+                      <div id="title">{value.title}</div>
+                    </Link>
+                  </li>
+                );
+              })}
+            </ul>
+          </div>
+        </>
+      ) : (
+        ""
+      )}
+    </>
   );
 };
 export default Sidebar;

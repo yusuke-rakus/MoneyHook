@@ -51,12 +51,3 @@ a {
   position: fixed;
   float: left;
 }
-
-/* .tabletSidebar {
-  height: 80px;
-  width: 100%;
-  flex-shrink: 0;
-  float: left;
-  position: fixed;
-  z-index: 10;
-} */

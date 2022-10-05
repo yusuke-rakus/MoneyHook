@@ -8,6 +8,8 @@ import { Link } from "react-router-dom";
 import { useState } from "react";
 import { LightenDarkenColor } from "lighten-darken-color";
 import { isTabletOrMobile } from "../App";
+import Tabs from "@mui/material/Tabs";
+import Tab from "@mui/material/Tab";
 
 const Sidebar = (props) => {
   const { themeColor } = props;
@@ -27,6 +29,7 @@ const Sidebar = (props) => {
     <>
       {isOverLabtop ? (
         <>
+          {/* PC用レスポンシブ */}
           <div className="blank"></div>
           <div
             className="sidebar"
@@ -70,7 +73,45 @@ const Sidebar = (props) => {
           </div>
         </>
       ) : (
-        ""
+        <>
+          {/* タブレット用レスポンシブ */}
+          <div className="tabletBlank">
+            <Tabs
+              variant="scrollable"
+              className="tableSidebar"
+              scrollButtons={false}
+              sx={{ zIndex: "tooltip" }}
+              textColor="#ffffff"
+              TabIndicatorProps={{
+                sx: {
+                  backgroundColor: "#ffffff",
+                },
+              }}
+              value={SidebarData.findIndex((d) => {
+                return d.link === window.location.pathname;
+              })}
+              style={{
+                background:
+                  themeColor.length === 7
+                    ? themeColor
+                    : `linear-gradient(${themeColor})`,
+              }}
+            >
+              {SidebarData.map((value, index) => {
+                return (
+                  <Tab
+                    key={index}
+                    icon={value.icon}
+                    label={value.title}
+                    sx={{ color: "#fafafa" }}
+                    LinkComponent={Link}
+                    to={value.link}
+                  />
+                );
+              })}
+            </Tabs>
+          </div>
+        </>
       )}
     </>
   );

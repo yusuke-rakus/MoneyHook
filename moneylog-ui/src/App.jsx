@@ -36,102 +36,104 @@ const App = () => {
 
   return (
     <BrowserRouter>
-      <isTabletOrMobile.Provider value={responsive}>
-        <Routes>
-          <Route
-            path="login"
-            element={
-              <Login setCookie={setCookie} setThemeColor={setThemeColor} />
-            }
-          ></Route>
-          <Route
-            path="/"
-            element={
-              !cookie.userId ? (
-                <Navigate to="/login" />
-              ) : (
-                <Home themeColor={themeColor} />
-              )
-            }
-          ></Route>
-          <Route
-            path="/home"
-            element={
-              !cookie.userId ? (
-                <Navigate to="/login" />
-              ) : (
-                <Home themeColor={themeColor} />
-              )
-            }
-          ></Route>
-          <Route
-            path="/timeline"
-            element={
-              !cookie.userId ? (
-                <Navigate to="/login" />
-              ) : (
-                <Timeline themeColor={themeColor} />
-              )
-            }
-          ></Route>
-          <Route
-            path="/monthlyVariable"
-            element={
-              !cookie.userId ? (
-                <Navigate to="/login" />
-              ) : (
-                <MonthlyVariable themeColor={themeColor} />
-              )
-            }
-          ></Route>
-          <Route
-            path="/monthlyFixed"
-            element={
-              !cookie.userId ? (
-                <Navigate to="/login" />
-              ) : (
-                <MonthlyFixed themeColor={themeColor} />
-              )
-            }
-          ></Route>
-          <Route
-            path="/savingList"
-            element={
-              !cookie.userId ? (
-                <Navigate to="/login" />
-              ) : (
-                <SavingList themeColor={themeColor} />
-              )
-            }
-          ></Route>
-          <Route
-            path="/totalSaving"
-            element={
-              !cookie.userId ? (
-                <Navigate to="/login" />
-              ) : (
-                <TotalSaving themeColor={themeColor} />
-              )
-            }
-          ></Route>
-          <Route
-            path="/settingsPage"
-            element={
-              !cookie.userId ? (
-                <Navigate to="/login" />
-              ) : (
-                <SettingsPage
-                  colorList={colorList}
-                  setColorList={setColorList}
-                  themeColor={themeColor}
-                  setThemeColor={setThemeColor}
-                />
-              )
-            }
-          ></Route>
-          <Route path="*" element={<NotFound />} />
-        </Routes>
-      </isTabletOrMobile.Provider>
+      <div className="main" style={responsive ? { display: "flex" } : {}}>
+        <isTabletOrMobile.Provider value={responsive}>
+          <Routes>
+            <Route
+              path="login"
+              element={
+                <Login setCookie={setCookie} setThemeColor={setThemeColor} />
+              }
+            ></Route>
+            <Route
+              path="/"
+              element={
+                !cookie.userId ? (
+                  <Navigate to="/login" />
+                ) : (
+                  <Home themeColor={themeColor} />
+                )
+              }
+            ></Route>
+            <Route
+              path="/home"
+              element={
+                !cookie.userId ? (
+                  <Navigate to="/login" />
+                ) : (
+                  <Home themeColor={themeColor} />
+                )
+              }
+            ></Route>
+            <Route
+              path="/timeline"
+              element={
+                !cookie.userId ? (
+                  <Navigate to="/login" />
+                ) : (
+                  <Timeline themeColor={themeColor} />
+                )
+              }
+            ></Route>
+            <Route
+              path="/monthlyVariable"
+              element={
+                !cookie.userId ? (
+                  <Navigate to="/login" />
+                ) : (
+                  <MonthlyVariable themeColor={themeColor} />
+                )
+              }
+            ></Route>
+            <Route
+              path="/monthlyFixed"
+              element={
+                !cookie.userId ? (
+                  <Navigate to="/login" />
+                ) : (
+                  <MonthlyFixed themeColor={themeColor} />
+                )
+              }
+            ></Route>
+            <Route
+              path="/savingList"
+              element={
+                !cookie.userId ? (
+                  <Navigate to="/login" />
+                ) : (
+                  <SavingList themeColor={themeColor} />
+                )
+              }
+            ></Route>
+            <Route
+              path="/totalSaving"
+              element={
+                !cookie.userId ? (
+                  <Navigate to="/login" />
+                ) : (
+                  <TotalSaving themeColor={themeColor} />
+                )
+              }
+            ></Route>
+            <Route
+              path="/settingsPage"
+              element={
+                !cookie.userId ? (
+                  <Navigate to="/login" />
+                ) : (
+                  <SettingsPage
+                    colorList={colorList}
+                    setColorList={setColorList}
+                    themeColor={themeColor}
+                    setThemeColor={setThemeColor}
+                  />
+                )
+              }
+            ></Route>
+            <Route path="*" element={<NotFound />} />
+          </Routes>
+        </isTabletOrMobile.Provider>
+      </div>
     </BrowserRouter>
   );
 };

@@ -28,7 +28,7 @@ const Settings = (props) => {
   const [banner, setBanner] = useState({
     banner: false,
     bannerMessage: "",
-    bannerType: "success",
+    bannerType: "",
   });
 
   const logout = () => {
@@ -90,7 +90,10 @@ const Settings = (props) => {
                     color="inherit"
                     size="small"
                     onClick={() => {
-                      setBanner(false);
+                      setBanner({
+                        ...banner,
+                        banner: false,
+                      });
                     }}
                   >
                     <CloseIcon fontSize="inherit" />

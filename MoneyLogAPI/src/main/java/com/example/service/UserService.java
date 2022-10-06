@@ -1,5 +1,6 @@
 package com.example.service;
 
+import java.util.Date;
 import java.util.List;
 import java.util.Objects;
 import java.util.UUID;
@@ -19,6 +20,7 @@ import com.example.form.GetThemeColorForm;
 import com.example.form.GetUserInfoForm;
 import com.example.form.LoginForm;
 import com.example.form.RegistUserForm;
+import com.example.form.SendInquiryForm;
 import com.example.mapper.UserMapper;
 import com.example.response.ChangeEmailResponse;
 import com.example.response.ChangePasswordResponse;
@@ -27,6 +29,7 @@ import com.example.response.GetThemeColorResponse;
 import com.example.response.GetUserInfoResponse;
 import com.example.response.LoginResponse;
 import com.example.response.RegistUserResponse;
+import com.example.response.SendInquiryResponse;
 
 @Service
 @Transactional
@@ -183,6 +186,65 @@ public class UserService {
 		} catch (Exception e) {
 			res.setStatus(Status.ERROR.getStatus());
 			res.setMessage(ErrorMessage.USER_INFO_GET_FAILED);
+		}
+
+		return res;
+	}
+
+	/**
+	 * お問い合わせ・ご意見のチェック
+	 * 
+	 * @throws Exception
+	 */
+	public SendInquiryResponse checkInquiry(SendInquiryForm form, SendInquiryResponse res) throws Exception {
+
+		try {
+
+			Date date = new Date();
+			form.setInquiryDate(new java.sql.Date(date.getTime()));
+
+			// 当日に問い合わせをしていないことを確認
+			List<SendInquiryForm> inquiryFormList = userMapper.getInquiry(form);
+
+			// 当日に問い合わせがあればエラー
+			if (inquiryFormList.size() > 0) {
+				throw new Exception();
+			}
+		} catch (Exception e) {
+			res.setStatus(Status.ERROR.getStatus());
+			res.setMessage(ErrorMessage.INQUIRY_OVER_TIMES);
+		}
+
+		return res;
+	}
+
+	/**
+	 * お問い合わせ・ご意見
+	 * 
+	 * @throws Exception
+	 */
+	public SendInquiryResponse sendInquiry(SendInquiryForm form, SendInquiryResponse res) throws Exception {
+
+		try {
+
+			Date date = new Date();
+			form.setInquiryDate(new java.sql.Date(date.getTime()));
+
+			// 当日に問い合わせをしていないことを確認
+			List<SendInquiryForm> inquiryFormList = userMapper.getInquiry(form);
+
+			// 当日に問い合わせがあればエラー
+			if (inquiryFormList.size() > 0) {
+				throw new Exception();
+			}
+
+			// 問い合わせテーブルに登録
+			userMapper.insertInquiry(form);
+			res.setMessage(SuccessMessage.SEND_INQUIRY_SUCCESS);
+
+		} catch (Exception e) {
+			res.setStatus(Status.ERROR.getStatus());
+			res.setMessage(ErrorMessage.INQUIRY_OVER_TIMES);
 		}
 
 		return res;

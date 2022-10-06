@@ -106,5 +106,33 @@
 		FROM
 			theme_color;
 	</select>
+	
+	<!-- 当日に問い合わせをしたかチェック -->
+	<select id="getInquiry" resultType="com.example.form.SendInquiryForm">
+		SELECT
+			user_no,
+			inquiry,
+			inquiry_date
+		FROM
+			inquiry_data
+		WHERE
+			user_no = #{userNo}
+		AND inquiry_date = #{inquiryDate};
+	</select>
+	
+	<!-- 問い合わせを登録 -->
+	<insert id="insertInquiry" parameterType="com.example.form.SendInquiryForm">
+		INSERT INTO
+		inquiry_data(
+			user_no,
+			inquiry,
+			inquiry_date
+		)
+		VALUES(
+			#{userNo},
+			#{inquiry},
+			#{inquiryDate}
+		);
+	</insert>
 
 </mapper>

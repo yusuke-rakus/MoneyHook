@@ -80,7 +80,7 @@ const Sidebar = (props) => {
               variant="scrollable"
               className="tableSidebar"
               scrollButtons={false}
-              sx={{ zIndex: "tooltip" }}
+              sx={{ zIndex: 2 }}
               textColor="#ffffff"
               TabIndicatorProps={{
                 sx: {

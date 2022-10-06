@@ -6,7 +6,8 @@ category,
 sub_category,
 hidden_sub_category,
 transaction,
-monthly_transaction;
+monthly_transaction,
+inquiry_data;
 
 CREATE TABLE IF NOT EXISTS theme_color(
     theme_color_id bigint UNSIGNED AUTO_INCREMENT,
@@ -21,6 +22,7 @@ CREATE TABLE IF NOT EXISTS user(
     email varchar(128) NOT NULL UNIQUE,
     PASSWORD text NOT NULL,
     theme_color_id bigint UNSIGNED NOT NULL DEFAULT 1,
+    reset_password_flg boolean NOT NULL DEFAULT 0,
     PRIMARY KEY(user_no),
     FOREIGN KEY theme_color_id(theme_color_id) REFERENCES theme_color(theme_color_id)
 );
@@ -100,3 +102,10 @@ CREATE TABLE IF NOT EXISTS monthly_transaction (
     FOREIGN KEY category_id(category_id) REFERENCES category(category_id),
     FOREIGN KEY sub_category_id(sub_category_id) REFERENCES sub_category(sub_category_id)
 );
+
+CREATE TABLE IF NOT EXISTS inquiry_data(
+    user_no bigint UNSIGNED NOT NULL,
+    inquiry text NOT NULL,
+    inquiry_date date NOT NULL,
+    FOREIGN KEY user_no(user_no) REFERENCES user(user_no)
+)

@@ -19,6 +19,10 @@ public class ErrorMessage {
 	public static final String USER_INFO_GET_FAILED = "ユーザー情報の取得に失敗しました";
 	/** パスワードの変更失敗 */
 	public static final String USER_PASSWORD_CHANGE_FAILED = "パスワードの変更に失敗しました";
+	/** お問い合わせ・ご意見は1日1回となっております */
+	public static final String INQUIRY_OVER_TIMES = "お問い合わせ・ご意見は1日1回となっております";
+	/** お問い合わせ内容未入力 */
+	public static final String INQUIRY_BLANK_ERROR = "お問い合わせ内容を入力してください";
 
 	// transaction
 	/** 収支データの取得失敗 */

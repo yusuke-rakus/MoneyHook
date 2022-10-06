@@ -18,6 +18,7 @@ import CloseIcon from "@mui/icons-material/Close";
 import { Button } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 import { useCookies } from "react-cookie";
+import SettingsInquiry from "../components/SettingsInquiry";
 
 const Settings = (props) => {
   const { colorList, setColorList, themeColor, setThemeColor } = props;
@@ -67,6 +68,9 @@ const Settings = (props) => {
 
           {/* 削除済み固定費 */}
           <DeletedFixed banner={banner} setBanner={setBanner} />
+
+          {/* 問い合わせ・ご意見 */}
+          <SettingsInquiry banner={banner} setBanner={setBanner} />
 
           {/* ログアウト */}
           <div className="logout">

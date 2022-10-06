@@ -11,6 +11,8 @@ public class SuccessMessage {
 	public static final String USER_EMAIL_CHANGED = "メールアドレスを変更しました";
 	/** ユーザー登録完了 */
 	public static final String CREATE_USER_REGISTERD_SUCCESS = "ユーザー登録が完了しました。ログインして利用を開始しましょう";
+	/** お問い合わせ完了 */
+	public static final String SEND_INQUIRY_SUCCESS = "送信頂きありがとうございます。サービス向上に努めて参ります。";
 
 	// savingTarget
 	/** 貯金目標一覧の取得成功 */

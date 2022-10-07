@@ -4,11 +4,10 @@ import java.util.Date;
 import java.util.List;
 import java.util.Objects;
 import java.util.UUID;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
+import com.example.common.SHA256;
 import com.example.common.Status;
 import com.example.common.message.ErrorMessage;
 import com.example.common.message.SuccessMessage;
@@ -53,6 +52,10 @@ public class UserService {
 
 		// ユーザー登録処理
 		try {
+
+			// パスワードをハッシュ化
+			form.setPassword(SHA256.getHashedPassword(form.getPassword()));
+
 			userMapper.registUser(form);
 			res.setUser(user);
 			res.setMessage(SuccessMessage.CREATE_USER_REGISTERD_SUCCESS);
@@ -66,27 +69,24 @@ public class UserService {
 	/** ログイン */
 	public LoginResponse login(LoginForm form, LoginResponse res) {
 
-		String inputPassword = form.getPassword();
-
 		try {
+			// パスワードをハッシュ化
+			String hashedPassword = SHA256.getHashedPassword(form.getPassword());
+			form.setPassword(hashedPassword);
+
+			// emailをもとに検索実行
 			User user = userMapper.login(form);
 
-			if (Objects.isNull(user)) {
-				throw new NullPointerException();
-			} else if (!user.getPassword().equals(inputPassword)) {
+			if (!user.getPassword().equals(hashedPassword) || Objects.isNull(user)) {
 				throw new Exception();
 			}
 			user.setPassword(null);
 			res.setUser(user);
 
-		} catch (NullPointerException e) {
-			res.setStatus(Status.ERROR.getStatus());
-			// メールアドレスをもとにユーザー情報が取得できなかった場合のエラー
-			res.setMessage(ErrorMessage.UNREGISTERED_MAIL_ADDRESS);
 		} catch (Exception e) {
 			res.setStatus(Status.ERROR.getStatus());
 			// パスワードが不一致の場合のエラー
-			res.setMessage(ErrorMessage.PASSWORD_INCORRECT);
+			res.setMessage(ErrorMessage.EMAIL_OR_PASSWORD_IS_WRONG);
 		}
 
 		return res;
@@ -121,6 +121,15 @@ public class UserService {
 		Long userNo = authenticationService.authUser(form);
 		form.setUserNo(userNo);
 
+		// 現パスワード・新パスワードのハッシュ化
+		try {
+			form.setPassword(SHA256.getHashedPassword(form.getPassword()));
+			form.setNewPassword(SHA256.getHashedPassword(form.getNewPassword()));
+		} catch (Exception e) {
+			res.setStatus(Status.ERROR.getStatus());
+			res.setMessage(ErrorMessage.USER_PASSWORD_CHANGE_FAILED);
+		}
+
 		boolean updateResult = userMapper.changePassword(form);
 		if (!updateResult) {
 			res.setStatus(Status.ERROR.getStatus());
@@ -142,6 +151,13 @@ public class UserService {
 		// ユーザー認証
 		Long userNo = authenticationService.authUser(form);
 		form.setUserNo(userNo);
+
+		// パスワードのハッシュ化
+		try {
+			form.setPassword(SHA256.getHashedPassword(form.getPassword()));
+		} catch (Exception e) {
+			throw new Exception();
+		}
 
 		boolean updateResult = userMapper.changeEmail(form);
 		if (!updateResult) {

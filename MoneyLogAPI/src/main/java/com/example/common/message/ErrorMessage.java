@@ -11,10 +11,8 @@ public class ErrorMessage {
 	// user
 	/** 入力されたメールアドレスは既に登録済み */
 	public static final String MAIL_ADDRESS_ALREADY_REGISTERED = "入力されたメールアドレスは既に登録済みです";
-	/** メールアドレス未登録 */
-	public static final String UNREGISTERED_MAIL_ADDRESS = "登録されていないメールアドレスです";
-	/** パスワード不一致 */
-	public static final String PASSWORD_INCORRECT = "パスワードが間違えています";
+	/** ログイン不可メッセージ */
+	public static final String EMAIL_OR_PASSWORD_IS_WRONG = "メールアドレスかパスワードが間違えています";
 	/** ユーザー情報の取得失敗 */
 	public static final String USER_INFO_GET_FAILED = "ユーザー情報の取得に失敗しました";
 	/** パスワードの変更失敗 */

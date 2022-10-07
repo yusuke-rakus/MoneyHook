@@ -4,7 +4,7 @@ public class ValidatingMessage {
 
 	// 共通
 	/** ID未入力 */
-	public static final String ID_EMPTY_ERROR = "対象を選択してください";
+	public static final String ID_EMPTY_ERROR = "貯金を選択してください";
 	/** 日付未入力 */
 	public static final String DATE_EMPTY_ERROR = "日付を入力してください";
 	/** IDと名前両方未入力 */
@@ -12,7 +12,7 @@ public class ValidatingMessage {
 
 	// 貯金目標系
 	/** 貯金振り分け先未入力 */
-	public static final String SAVING_TARGET_ID_EMPTY_ERROR = "振り分け先の貯金目標を入力してください";
+	public static final String SAVING_TARGET_ID_EMPTY_ERROR = "振分先の貯金目標を選択してください";
 	/** 貯金目標名未入力 */
 	public static final String SAVING_TARGET_NAME_EMPTY_ERROR = "貯金目標名を入力してください";
 	/** 貯金目標金額未入力 */

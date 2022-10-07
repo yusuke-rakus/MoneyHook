@@ -4,14 +4,17 @@ import "../components_CSS/window_CSS/UncategorizedSavingWindow.css";
 /** 外部コンポーネント */
 import CloseIcon from "@mui/icons-material/Close";
 import {
+  Alert,
   Button,
   Card,
   CardContent,
   Checkbox,
   CircularProgress,
+  Collapse,
   FormControl,
   FormControlLabel,
   FormGroup,
+  IconButton,
   InputLabel,
   MenuItem,
   Select,
@@ -20,8 +23,15 @@ import { useEffect } from "react";
 import { useCookies } from "react-cookie";
 
 const UncategorizedSavingWindow = (props) => {
-  const { setUncategorizedWindow, uncategorizedAmount } = props;
-  const [cookie, setCookie] = useCookies();
+  const {
+    setUncategorizedWindow,
+    uncategorizedAmount,
+    getSavingAmountForTarget,
+    setBanner,
+    setBannerMessage,
+    setBannerType,
+  } = props;
+  const [cookie] = useCookies();
 
   /** 変数 */
   const [isLoading, setLoading] = useState(false);
@@ -34,6 +44,12 @@ const UncategorizedSavingWindow = (props) => {
   const [savingIdList, setSavingIdList] = useState([]);
   // API送信用目標ID
   const [selectedTargetId, setSelectedTargetId] = useState("");
+  // 振り分けウィンドウ内のバナー
+  const [windowBanner, setWindowBanner] = useState({
+    banner: false,
+    bannerMessage: "",
+    bannerType: "",
+  });
 
   /** 操作 */
   /** モーダルを閉じる */
@@ -120,8 +136,40 @@ const UncategorizedSavingWindow = (props) => {
 
   /** 登録処理 */
   const sortSavingAmount = () => {
-    console.log(`貯金目標ID: ${selectedTargetId}`);
-    console.log(`貯金IDリスト: ${savingIdList}`);
+    setWindowBanner({ ...windowBanner, banner: false });
+    setLoading(true);
+    fetch(`${rootURI}/saving/sortSavingAmount`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        userId: cookie.userId,
+        savingIdList: savingIdList,
+        savingTargetId: selectedTargetId,
+      }),
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        if (data.status == "success") {
+          // 成功
+          getSavingAmountForTarget();
+          closeModalWindow();
+          setBanner(true);
+          setBannerMessage(data.message);
+          setBannerType(data.status);
+        } else {
+          // 失敗
+          setWindowBanner({
+            banner: true,
+            bannerMessage: data.message,
+            bannerType: data.status,
+          });
+        }
+      })
+      .finally(() => {
+        setLoading(false);
+      });
   };
 
   useEffect(() => {
@@ -136,6 +184,32 @@ const UncategorizedSavingWindow = (props) => {
         style={{ cursor: "pointer", color: "#a9a9a9" }}
         className="close-button"
       />
+
+      <div className="windowBanner">
+        <Collapse in={windowBanner.banner} sx={{ position: "fixed" }}>
+          <Alert
+            severity={windowBanner.bannerType}
+            action={
+              <IconButton
+                aria-label="close"
+                color="inherit"
+                size="small"
+                onClick={() => {
+                  setWindowBanner({
+                    ...windowBanner,
+                    banner: false,
+                  });
+                }}
+              >
+                <CloseIcon fontSize="inherit" />
+              </IconButton>
+            }
+            sx={{ mb: 1 }}
+          >
+            {windowBanner.bannerMessage}
+          </Alert>
+        </Collapse>
+      </div>
 
       {/* タイトル */}
       <h3 className="modal-title">貯金を振り分ける</h3>

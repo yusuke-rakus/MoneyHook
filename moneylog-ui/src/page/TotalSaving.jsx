@@ -29,7 +29,7 @@ const TotalSaving = (props) => {
   /** バナーのステータス */
   const [banner, setBanner] = useState(false);
   const [bannerMessage, setBannerMessage] = useState("");
-  const [bannerType, setBannerType] = useState("success");
+  const [bannerType, setBannerType] = useState("");
 
   /** 今月 */
   const [sysDate] = useState(new Date("2022-09-01"));
@@ -115,28 +115,12 @@ const TotalSaving = (props) => {
 
   const getInit = (month) => {
     setLoading(true);
-    // 貯金目標リストの取得
-    fetch(`${rootURI}/saving/getSavingAmountForTarget`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        userId: cookie.userId,
-      }),
-    })
-      .then((res) => res.json())
-      .then((data) => {
-        if (data.status === "success") {
-          setUncategorizedSavingAmount(
-            data.uncategorizedAmount === void 0 ? 0 : data.uncategorizedAmount
-          );
-          setSavingTargetData(data.savingTargetList);
-          setLoading(false);
-        }
-      });
+    getSavingAmountForTarget(month);
+    getTotalSaving(month);
+  };
 
-    // 貯金総額の取得
+  /** 貯金総額の取得 */
+  const getTotalSaving = (month) => {
     fetch(`${rootURI}/saving/getTotalSaving`, {
       method: "POST",
       headers: {
@@ -163,6 +147,29 @@ const TotalSaving = (props) => {
           );
           // 貯金総額を設定
           setTotalSaving(data.totalSavingAmount);
+          setLoading(false);
+        }
+      });
+  };
+
+  /** 貯金目標リストの取得 */
+  const getSavingAmountForTarget = () => {
+    fetch(`${rootURI}/saving/getSavingAmountForTarget`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        userId: cookie.userId,
+      }),
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        if (data.status === "success") {
+          setUncategorizedSavingAmount(
+            !data.uncategorizedAmount ? 0 : data.uncategorizedAmount
+          );
+          setSavingTargetData(data.savingTargetList);
           setLoading(false);
         }
       });
@@ -234,12 +241,10 @@ const TotalSaving = (props) => {
           )}
 
           {/* 未分類の貯金額 */}
-          <div
-            onClick={() => openUncategorizedWindow()}
-            className="uncategorizedSavingCardArea"
-          >
+          <div className="uncategorizedSavingCardArea">
             <UncategorizedSavingCard
               UncategorizedSavingAmount={uncategorizedSavingAmount}
+              openUncategorizedWindow={openUncategorizedWindow}
             />
           </div>
 
@@ -305,6 +310,10 @@ const TotalSaving = (props) => {
             <UncategorizedSavingWindow
               setUncategorizedWindow={setUncategorizedWindow}
               uncategorizedAmount={uncategorizedSavingAmount}
+              getSavingAmountForTarget={getSavingAmountForTarget}
+              setBanner={setBanner}
+              setBannerMessage={setBannerMessage}
+              setBannerType={setBannerType}
             />
           </CSSTransition>
         </div>

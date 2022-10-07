@@ -34,7 +34,7 @@ const Login = (props) => {
   const [banner, setBanner] = useState({
     banner: false,
     bannerMessage: "",
-    bannerType: "success",
+    bannerType: "",
   });
   const [window, setWindow] = useState(false);
   const [forgotPasswordWindow, setForgotPasswordWindow] = useState(false);

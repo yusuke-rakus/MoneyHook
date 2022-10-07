@@ -28,7 +28,7 @@ const Settings = (props) => {
   const [banner, setBanner] = useState({
     banner: false,
     bannerMessage: "",
-    bannerType: "success",
+    bannerType: "",
   });
 
   const logout = () => {

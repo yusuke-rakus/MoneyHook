@@ -19,6 +19,7 @@ import Collapse from "@mui/material/Collapse";
 import CloseIcon from "@mui/icons-material/Close";
 import { useCookies } from "react-cookie";
 import { useNavigate } from "react-router-dom";
+import { rootURI } from "../App";
 
 const Home = (props) => {
   const { themeColor } = props;
@@ -84,8 +85,6 @@ const Home = (props) => {
   const [transaction, setTransaction] = useState({});
 
   /** API関連 */
-  const rootURI = "http://localhost:8080";
-
   // アコーディオンデータを取得
   const getInit = (month) => {
     setLoading(true);

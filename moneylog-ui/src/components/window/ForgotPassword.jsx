@@ -10,6 +10,7 @@ import {
   TextField,
 } from "@mui/material";
 import { AccountCircle } from "@mui/icons-material";
+import { rootURI } from "../../App";
 
 const ForgotPassword = (props) => {
   const { setForgotPasswordWindow, setBanner } = props;
@@ -48,7 +49,6 @@ const ForgotPassword = (props) => {
     }
 
     /** 登録API */
-    const rootURI = "http://localhost:8080";
     fetch(`${rootURI}/user/registUser`, {
       method: "POST",
       headers: {

@@ -18,6 +18,7 @@ import Collapse from "@mui/material/Collapse";
 import CloseIcon from "@mui/icons-material/Close";
 import { useCookies } from "react-cookie";
 import { useNavigate } from "react-router-dom";
+import { rootURI } from "../App";
 
 const SavingList = (props) => {
   const { themeColor } = props;
@@ -45,8 +46,6 @@ const SavingList = (props) => {
   const [savingTitle, setSavingTitle] = useState("貯金を追加");
 
   /** API関連 */
-  const rootURI = "http://localhost:8080";
-
   const getInit = (month) => {
     setLoading(true);
     // 月別固定収入の取得

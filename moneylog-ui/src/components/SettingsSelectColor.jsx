@@ -1,5 +1,6 @@
 import React, { useEffect } from "react";
 import { useCookies } from "react-cookie";
+import { rootURI } from "../App";
 /** CSS */
 import "./components_CSS/SettingsSelectColor.css";
 
@@ -27,8 +28,6 @@ const SettingsSelectColor = (props) => {
   };
 
   /** API関連 */
-  const rootURI = "http://localhost:8080";
-
   const getInit = () => {
     // テーマカラーリストを取得
     fetch(`${rootURI}/user/getThemeColor`, {

@@ -9,6 +9,7 @@ import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
 import { Button, CircularProgress } from "@mui/material";
 import { useCookies } from "react-cookie";
+import { rootURI } from "../App";
 
 const DeletedSavingTarget = (props) => {
   const { banner, setBanner } = props;
@@ -17,8 +18,6 @@ const DeletedSavingTarget = (props) => {
   const [isLoading, setLoading] = useState(false);
 
   /** API関連 */
-  const rootURI = "http://localhost:8080";
-
   /** 戻すボタン押下処理 */
   const backSavingTarget = (savingTargetId) => {
     setBanner({

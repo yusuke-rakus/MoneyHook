@@ -18,6 +18,7 @@ import DeleteIcon from "@mui/icons-material/Delete";
 import { useEffect } from "react";
 import { useCookies } from "react-cookie";
 import { useNavigate } from "react-router-dom";
+import { rootURI } from "../App";
 
 const SettingsFixed = (props) => {
   const {
@@ -76,8 +77,6 @@ const SettingsFixed = (props) => {
   };
 
   /** API関連 */
-  const rootURI = "http://localhost:8080";
-
   const [categoryList, setCategoryList] = useState([]);
   const [subCategoryList, setSubCategoryList] = useState([]);
 

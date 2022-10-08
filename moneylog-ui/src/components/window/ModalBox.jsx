@@ -22,6 +22,7 @@ import { CSSTransition } from "react-transition-group";
 import CloseIcon from "@mui/icons-material/Close";
 import { useEffect } from "react";
 import { useCookies } from "react-cookie";
+import { rootURI } from "../../App";
 
 const ModalBox = (props) => {
   const [isLoading, setLoading] = useState(false);
@@ -123,8 +124,6 @@ const ModalBox = (props) => {
   });
 
   /** API関連 */
-  const rootURI = "http://localhost:8080";
-
   /** 登録ボタン押下処理 */
   const registerTransaction = () => {
     // 未入力チェック

@@ -4,6 +4,7 @@ import "./components_CSS/SettingsFixedList.css";
 import SettingsFixed from "./SettingsFixed";
 import AddCircleIcon from "@mui/icons-material/AddCircle";
 import { useCookies } from "react-cookie";
+import { rootURI } from "../App";
 
 const SettingsFixedList = (props) => {
   const { banner, setBanner } = props;
@@ -176,8 +177,6 @@ const SettingsFixedList = (props) => {
   };
 
   /** API関連 */
-  const rootURI = "http://localhost:8080";
-
   // ユーザー情報の取得
   const getInit = () => {
     setLoading(true);

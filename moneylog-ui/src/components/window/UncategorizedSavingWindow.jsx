@@ -21,6 +21,7 @@ import {
 } from "@mui/material";
 import { useEffect } from "react";
 import { useCookies } from "react-cookie";
+import { rootURI } from "../../App";
 
 const UncategorizedSavingWindow = (props) => {
   const {
@@ -80,9 +81,6 @@ const UncategorizedSavingWindow = (props) => {
   };
 
   /** API関連 */
-
-  const rootURI = "http://localhost:8080";
-
   const getInit = () => {
     getSavingList();
     getSavingTargetList();

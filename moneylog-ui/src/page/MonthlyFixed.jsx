@@ -13,6 +13,7 @@ import Typography from "@mui/material/Typography";
 import Sidebar from "../components/Sidebar";
 import { useCookies } from "react-cookie";
 import { useNavigate } from "react-router-dom";
+import { rootURI } from "../App";
 
 const MonthlyFixed = (props) => {
   const { themeColor } = props;
@@ -33,8 +34,6 @@ const MonthlyFixed = (props) => {
   );
 
   /** API関連 */
-  const rootURI = "http://localhost:8080";
-
   const getInit = (month) => {
     setLoading(true);
     // 月別固定収入の取得

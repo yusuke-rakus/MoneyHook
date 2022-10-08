@@ -19,6 +19,7 @@ import {
 } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 import ForgotPassword from "../components/window/ForgotPassword";
+import { rootURI } from "../App";
 
 const Login = (props) => {
   const { setCookie, setThemeColor } = props;
@@ -41,8 +42,6 @@ const Login = (props) => {
   const navigate = useNavigate();
 
   /** API関連 */
-  const rootURI = "http://localhost:8080";
-
   /** ログイン処理 */
   const login = () => {
     // 未入力チェック

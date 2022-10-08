@@ -6,6 +6,7 @@ import { useCookies } from "react-cookie";
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 import Modal from "@mui/material/Modal";
+import { rootURI } from "../App";
 
 const SettingsInquiry = (props) => {
   const { banner, setBanner } = props;
@@ -15,8 +16,6 @@ const SettingsInquiry = (props) => {
   const [isCheck, setCheck] = useState(false);
 
   /** API関連 */
-  const rootURI = "http://localhost:8080";
-
   /** チェック処理 */
   const checkInquiryMessage = () => {
     // メッセージ内容Nullチェック

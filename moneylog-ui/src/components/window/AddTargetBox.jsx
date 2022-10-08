@@ -5,6 +5,7 @@ import "../components_CSS/window_CSS/AddTargetBox.css";
 import CloseIcon from "@mui/icons-material/Close";
 import { TextField, Button, CircularProgress } from "@mui/material";
 import { useCookies } from "react-cookie";
+import { rootURI } from "../../App";
 
 const AddTargetBox = (props) => {
   const {
@@ -81,8 +82,6 @@ const AddTargetBox = (props) => {
   };
 
   /** API関連 */
-  const rootURI = "http://localhost:8080";
-
   /** 登録処理 */
   const register = () => {
     setBanner(false);

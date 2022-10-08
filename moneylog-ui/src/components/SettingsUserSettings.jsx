@@ -1,6 +1,7 @@
 import { Button, CircularProgress, TextField } from "@mui/material";
 import React, { useEffect, useState } from "react";
 import { useCookies } from "react-cookie";
+import { rootURI } from "../App";
 
 const SettingsUserSettings = (props) => {
   const { banner, setBanner } = props;
@@ -65,8 +66,6 @@ const SettingsUserSettings = (props) => {
   };
 
   /** API関連 */
-  const rootURI = "http://localhost:8080";
-
   // ユーザー情報の取得
   const getInit = () => {
     fetch(`${rootURI}/user/getUserInfo`, {

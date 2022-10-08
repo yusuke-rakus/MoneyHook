@@ -10,6 +10,7 @@ import { Button, CircularProgress } from "@mui/material";
 import { useState } from "react";
 import VisibilityIcon from "@mui/icons-material/Visibility";
 import VisibilityOffIcon from "@mui/icons-material/VisibilityOff";
+import { rootURI } from "../../App";
 
 const SignUpWindow = (props) => {
   const { setWindow, setBanner } = props;
@@ -115,7 +116,6 @@ const SignUpWindow = (props) => {
     }
 
     /** 登録API */
-    const rootURI = "http://localhost:8080";
     fetch(`${rootURI}/user/registUser`, {
       method: "POST",
       headers: {

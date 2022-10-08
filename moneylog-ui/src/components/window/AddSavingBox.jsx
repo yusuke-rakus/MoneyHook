@@ -16,6 +16,7 @@ import {
   IconButton,
 } from "@mui/material";
 import { useCookies } from "react-cookie";
+import { rootURI } from "../../App";
 
 const AddSavingBox = (props) => {
   const {
@@ -132,8 +133,6 @@ const AddSavingBox = (props) => {
   const [recommendList, setRecommendList] = useState([]);
 
   /** API関連 */
-  const rootURI = "http://localhost:8080";
-
   /** 登録処理 */
   const register = () => {
     // 未入力チェック

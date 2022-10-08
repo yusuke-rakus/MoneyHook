@@ -9,6 +9,7 @@ import CloseIcon from "@mui/icons-material/Close";
 import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
 import ChevronRightIcon from "@mui/icons-material/ChevronRight";
 import { CircularProgress } from "@mui/material";
+import { rootURI } from "../../App";
 
 const CategoryWindow = (props) => {
   const {
@@ -25,8 +26,6 @@ const CategoryWindow = (props) => {
   const [isLoading, setLoading] = useState(false);
 
   /** API関連 */
-  const rootURI = "http://localhost:8080";
-
   // カテゴリデータを取得
   const getInit = () => {
     setLoading(true);

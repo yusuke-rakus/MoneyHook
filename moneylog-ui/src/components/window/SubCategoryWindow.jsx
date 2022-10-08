@@ -7,6 +7,7 @@ import ChevronRightIcon from "@mui/icons-material/ChevronRight";
 import CloseIcon from "@mui/icons-material/Close";
 import { CircularProgress, TextField } from "@mui/material";
 import { useCookies } from "react-cookie";
+import { rootURI } from "../../App";
 
 const SubCategoryWindow = (props) => {
   const {
@@ -105,8 +106,6 @@ const SubCategoryWindow = (props) => {
   };
 
   /** API関連 */
-  const rootURI = "http://localhost:8080";
-
   // カテゴリデータを取得
   const getInit = () => {
     setLoading(true);

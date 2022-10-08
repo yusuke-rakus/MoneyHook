@@ -10,6 +10,7 @@ import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos";
 import Sidebar from "../components/Sidebar";
 import { useCookies } from "react-cookie";
 import { useNavigate } from "react-router-dom";
+import { rootURI } from "../App";
 
 const MonthlyVariable = (props) => {
   const { themeColor } = props;
@@ -26,8 +27,6 @@ const MonthlyVariable = (props) => {
   const [variableCategoryData, setVariableCategoryData] = useState([]);
 
   /** API関連 */
-  const rootURI = "http://localhost:8080";
-
   // 当月の変動費を取得
   const getInit = (month) => {
     setLoading(true);

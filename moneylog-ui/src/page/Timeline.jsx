@@ -24,6 +24,7 @@ import Collapse from "@mui/material/Collapse";
 import CloseIcon from "@mui/icons-material/Close";
 import { useCookies } from "react-cookie";
 import { useNavigate } from "react-router-dom";
+import { rootURI } from "../App";
 
 Chart.register(...registerables);
 
@@ -172,8 +173,6 @@ const Timeline = (props) => {
   const [transaction, setTransaction] = useState({});
 
   /** API関連 */
-  const rootURI = "http://localhost:8080";
-
   const getInit = (month) => {
     setLoading(true);
     // 6ヶ月分の合計支出を取得

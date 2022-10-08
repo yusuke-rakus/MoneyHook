@@ -47,12 +47,6 @@ const Settings = (props) => {
           {/* 固定費の編集 */}
           <SettingsFixedList banner={banner} setBanner={setBanner} />
 
-          {/* ユーザー設定変更 */}
-          <SettingsUserSettings banner={banner} setBanner={setBanner} />
-
-          {/* パスワード変更 */}
-          <SettingsChangePassword banner={banner} setBanner={setBanner} />
-
           {/* カラーの選択 */}
           <SettingsSelectColor
             colorList={colorList}
@@ -71,6 +65,12 @@ const Settings = (props) => {
 
           {/* 問い合わせ・ご意見 */}
           <SettingsInquiry banner={banner} setBanner={setBanner} />
+
+          {/* ユーザー設定変更 */}
+          <SettingsUserSettings banner={banner} setBanner={setBanner} />
+
+          {/* パスワード変更 */}
+          <SettingsChangePassword banner={banner} setBanner={setBanner} />
 
           {/* ログアウト */}
           <div className="logout">

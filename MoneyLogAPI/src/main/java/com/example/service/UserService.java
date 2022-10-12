@@ -175,6 +175,12 @@ public class UserService {
 			throw new Exception();
 		} else {
 			res.setMessage(SuccessMessage.USER_EMAIL_CHANGED);
+
+			// メール送信
+			Context context = new Context();
+			context.setVariable("email", form.getEmail());
+			String email = form.getEmail();
+			sendMailService.sendMail(context, email, "【MoneyHook】メールアドレス変更完了", "changeEmail");
 		}
 
 		return res;

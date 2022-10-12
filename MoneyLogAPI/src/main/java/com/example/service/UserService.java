@@ -4,9 +4,12 @@ import java.util.Date;
 import java.util.List;
 import java.util.Objects;
 import java.util.UUID;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.thymeleaf.context.Context;
+
 import com.example.common.SHA256;
 import com.example.common.Status;
 import com.example.common.message.ErrorMessage;
@@ -15,6 +18,8 @@ import com.example.domain.User;
 import com.example.form.ChangeEmailForm;
 import com.example.form.ChangePasswordForm;
 import com.example.form.EditThemeColorForm;
+import com.example.form.ForgotPasswordResetForm;
+import com.example.form.ForgotPasswordSendEmailForm;
 import com.example.form.GetThemeColorForm;
 import com.example.form.GetUserInfoForm;
 import com.example.form.LoginForm;
@@ -24,12 +29,13 @@ import com.example.mapper.UserMapper;
 import com.example.response.ChangeEmailResponse;
 import com.example.response.ChangePasswordResponse;
 import com.example.response.EditThemeColorResponse;
+import com.example.response.ForgotPasswordResetResponse;
+import com.example.response.ForgotPasswordSendEmailResponse;
 import com.example.response.GetThemeColorResponse;
 import com.example.response.GetUserInfoResponse;
 import com.example.response.LoginResponse;
 import com.example.response.RegistUserResponse;
 import com.example.response.SendInquiryResponse;
-import org.thymeleaf.context.Context;
 
 @Service
 @Transactional
@@ -280,6 +286,56 @@ public class UserService {
 			res.setMessage(ErrorMessage.INQUIRY_OVER_TIMES);
 		}
 
+		return res;
+	}
+
+	/**
+	 * パスワードを忘れた場合の再設定メール送信
+	 * 
+	 * @throws Exception
+	 */
+	public ForgotPasswordSendEmailResponse forgotPasswordSendEmail(ForgotPasswordSendEmailForm form,
+			ForgotPasswordSendEmailResponse res) throws Exception {
+
+		try {
+			// メール存在チェック
+			User user = userMapper.checkEmailExist(form);
+			if (Objects.isNull(user)) {
+				throw new Exception();
+			} else {
+				// userテーブルのステータス更新
+
+				// メール送信
+				Context context = new Context();
+				context.setVariable("url", "urlurlurlurlurlurlurlurlurlurlurlurl");
+				String email = form.getEmail();
+				sendMailService.sendMail(context, email, "【MoneyHook】パスワード再設定", "forgotPasswordEmail");
+			}
+		} catch (Exception e) {
+			res.setStatus(Status.ERROR.getStatus());
+			res.setMessage(ErrorMessage.EMAIL_NOT_EXIST_ERROR);
+			return res;
+		}
+		res.setMessage(SuccessMessage.FORGOT_PASSWORD_EMAIL_SUCCESS);
+		return res;
+	}
+
+	/**
+	 * パスワードを忘れた場合の再設定
+	 * 
+	 * @throws Exception
+	 */
+	public ForgotPasswordResetResponse forgotPasswordReset(ForgotPasswordResetForm form,
+			ForgotPasswordResetResponse res) throws Exception {
+
+		try {
+			// TODO パスワード設定
+		} catch (Exception e) {
+			res.setStatus(Status.ERROR.getStatus());
+			res.setMessage(ErrorMessage.EMAIL_NOT_EXIST_ERROR);
+			return res;
+		}
+		res.setMessage(SuccessMessage.FORGOT_PASSWORD_EMAIL_SUCCESS);
 		return res;
 	}
 

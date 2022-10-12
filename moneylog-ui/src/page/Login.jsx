@@ -233,6 +233,7 @@ const Login = (props) => {
       >
         <ForgotPassword
           setForgotPasswordWindow={setForgotPasswordWindow}
+          banner={banner}
           setBanner={setBanner}
         />
       </CSSTransition>

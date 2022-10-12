@@ -134,5 +134,15 @@
 			#{inquiryDate}
 		);
 	</insert>
+	
+	<!-- パスワードを忘れた場合の再設定メール送信 -->
+	<select id="checkEmailExist" resultType="com.example.domain.User">
+		SELECT
+			user_no
+		FROM
+			user
+		WHERE
+			email = #{email};
+	</select>
 
 </mapper>

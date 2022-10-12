@@ -8,6 +8,7 @@ import com.example.domain.User;
 import com.example.form.ChangeEmailForm;
 import com.example.form.ChangePasswordForm;
 import com.example.form.EditThemeColorForm;
+import com.example.form.ForgotPasswordSendEmailForm;
 import com.example.form.GetThemeColorForm;
 import com.example.form.GetUserInfoForm;
 import com.example.form.LoginForm;
@@ -46,5 +47,8 @@ public interface UserMapper {
 
 	/** 問い合わせを登録 */
 	public void insertInquiry(SendInquiryForm form);
+
+	/** パスワードを忘れた場合の再設定メール送信 */
+	public User checkEmailExist(ForgotPasswordSendEmailForm form);
 
 }

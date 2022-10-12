@@ -13,7 +13,7 @@ import { AccountCircle } from "@mui/icons-material";
 import { rootURI } from "../../App";
 
 const ForgotPassword = (props) => {
-  const { setForgotPasswordWindow, setBanner } = props;
+  const { setForgotPasswordWindow, banner, setBanner } = props;
   const [isLoading, setLoading] = useState(false);
   const [userEmail, setUserEmail] = useState({
     value: "",
@@ -26,7 +26,10 @@ const ForgotPassword = (props) => {
   };
 
   const sendEmail = () => {
-    console.log(userEmail);
+    setLoading(true);
+    setBanner({
+      banner: false,
+    });
     // 未入力
     if (!userEmail.value) {
       setUserEmail({
@@ -34,6 +37,7 @@ const ForgotPassword = (props) => {
         message: "未入力",
         status: true,
       });
+      setLoading(false);
       return;
     }
     // メールアドレス要件チェック
@@ -45,11 +49,12 @@ const ForgotPassword = (props) => {
         message: "メールアドレスを入力してください",
         status: true,
       });
+      setLoading(false);
       return;
     }
 
     /** 登録API */
-    fetch(`${rootURI}/user/registUser`, {
+    fetch(`${rootURI}/user/forgotPasswordSendEmail`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -60,24 +65,12 @@ const ForgotPassword = (props) => {
     })
       .then((res) => res.json())
       .then((data) => {
-        if (data.status == "success") {
-          // 成功
-          closeWindow();
-          setBanner({
-            banner: true,
-            bannerMessage: data.message,
-            bannerType: data.status,
-          });
-        } else {
-          // 失敗
-          setUserEmail({
-            value: userEmail.value,
-            message: data.message,
-            status: true,
-          });
-        }
-      })
-      .finally(() => {
+        closeWindow();
+        setBanner({
+          banner: true,
+          bannerMessage: data.message,
+          bannerType: data.status,
+        });
         setLoading(false);
       });
   };

@@ -29,6 +29,7 @@ import com.example.response.GetUserInfoResponse;
 import com.example.response.LoginResponse;
 import com.example.response.RegistUserResponse;
 import com.example.response.SendInquiryResponse;
+import org.thymeleaf.context.Context;
 
 @Service
 @Transactional
@@ -39,6 +40,9 @@ public class UserService {
 
 	@Autowired
 	private AuthenticationService authenticationService;
+
+	@Autowired
+	private SendMailService sendMailService;
 
 	/** ユーザー登録 */
 	public RegistUserResponse registUser(RegistUserForm form, RegistUserResponse res) {
@@ -59,6 +63,13 @@ public class UserService {
 			userMapper.registUser(form);
 			res.setUser(user);
 			res.setMessage(SuccessMessage.CREATE_USER_REGISTERD_SUCCESS);
+
+			// メール送信
+			Context context = new Context();
+			context.setVariable("email", form.getEmail());
+			String email = form.getEmail();
+			sendMailService.sendMail(context, email, "【MoneyHook】会員登録が完了しました", "registerUser");
+
 		} catch (Exception e) {
 			res.setStatus(Status.ERROR.getStatus());
 			res.setMessage(ErrorMessage.MAIL_ADDRESS_ALREADY_REGISTERED);

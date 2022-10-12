@@ -36,6 +36,7 @@ const SignUpWindow = (props) => {
   };
 
   const signUp = () => {
+    setLoading(true);
     // 未入力チェック
     if (
       !newAccount.email ||

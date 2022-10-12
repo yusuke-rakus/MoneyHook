@@ -209,7 +209,7 @@ const Login = (props) => {
         </Collapse>
       </div>
 
-      {/* 取引追加画面 */}
+      {/* 新規登録画面 */}
       <BlurView status={window} setStatus={setWindow} />
       <CSSTransition
         in={window}

@@ -24,6 +24,7 @@ import com.example.form.GetThemeColorForm;
 import com.example.form.GetUserInfoForm;
 import com.example.form.LoginForm;
 import com.example.form.RegistUserForm;
+import com.example.form.ResetPasswordPageForm;
 import com.example.form.SendInquiryForm;
 import com.example.mapper.UserMapper;
 import com.example.response.ChangeEmailResponse;
@@ -35,6 +36,7 @@ import com.example.response.GetThemeColorResponse;
 import com.example.response.GetUserInfoResponse;
 import com.example.response.LoginResponse;
 import com.example.response.RegistUserResponse;
+import com.example.response.ResetPasswordPageResponse;
 import com.example.response.SendInquiryResponse;
 
 @Service
@@ -304,10 +306,14 @@ public class UserService {
 				throw new Exception();
 			} else {
 				// userテーブルのステータス更新
+				String resetPasswordParam = SHA256.getHashedValue(form.getEmail());
+				form.setResetPasswordParam(resetPasswordParam);
+				userMapper.setResetPasswordParam(form);
 
 				// メール送信
+				String baseUrl = "http://localhost:3000";
 				Context context = new Context();
-				context.setVariable("url", "urlurlurlurlurlurlurlurlurlurlurlurl");
+				context.setVariable("url", baseUrl + "/resetPassword?param=" + resetPasswordParam);
 				String email = form.getEmail();
 				sendMailService.sendMail(context, email, "【MoneyHook】パスワード再設定", "forgotPasswordEmail");
 			}
@@ -329,13 +335,36 @@ public class UserService {
 			ForgotPasswordResetResponse res) throws Exception {
 
 		try {
-			// TODO パスワード設定
+			// パスワードをハッシュ化
+			form.setPassword(SHA256.getHashedPassword(form.getPassword()));
+			// パスワード設定とパラメータ削除
+			userMapper.resetPassword(form);
 		} catch (Exception e) {
 			res.setStatus(Status.ERROR.getStatus());
-			res.setMessage(ErrorMessage.EMAIL_NOT_EXIST_ERROR);
+			res.setMessage(ErrorMessage.FORGOT_RESET_PASSWORD_ERROR);
 			return res;
 		}
-		res.setMessage(SuccessMessage.FORGOT_PASSWORD_EMAIL_SUCCESS);
+		return res;
+	}
+
+	/**
+	 * パスワードを忘れた場合の再設定画面表示
+	 * 
+	 * @throws Exception
+	 */
+	public ResetPasswordPageResponse resetPasswordPage(ResetPasswordPageForm form, ResetPasswordPageResponse res)
+			throws Exception {
+
+		try {
+			User user = userMapper.resetPasswordPage(form);
+			if (Objects.isNull(user)) {
+				throw new Exception();
+			} else {
+				res.setEmail(user.getEmail());
+			}
+		} catch (Exception e) {
+			res.setStatus(Status.ERROR.getStatus());
+		}
 		return res;
 	}
 

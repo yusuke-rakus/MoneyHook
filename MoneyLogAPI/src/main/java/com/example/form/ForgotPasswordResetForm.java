@@ -6,6 +6,8 @@ public class ForgotPasswordResetForm extends form {
 
 	private String password;
 
+	private String resetPasswordParam;
+
 	public String getEmail() {
 		return email;
 	}
@@ -20,6 +22,14 @@ public class ForgotPasswordResetForm extends form {
 
 	public void setPassword(String password) {
 		this.password = password;
+	}
+
+	public String getResetPasswordParam() {
+		return resetPasswordParam;
+	}
+
+	public void setResetPasswordParam(String resetPasswordParam) {
+		this.resetPasswordParam = resetPasswordParam;
 	}
 
 }

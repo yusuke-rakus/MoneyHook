@@ -18,6 +18,7 @@ import com.example.form.GetThemeColorForm;
 import com.example.form.GetUserInfoForm;
 import com.example.form.LoginForm;
 import com.example.form.RegistUserForm;
+import com.example.form.ResetPasswordPageForm;
 import com.example.form.SendInquiryForm;
 import com.example.response.ChangeEmailResponse;
 import com.example.response.ChangePasswordResponse;
@@ -28,6 +29,7 @@ import com.example.response.GetThemeColorResponse;
 import com.example.response.GetUserInfoResponse;
 import com.example.response.LoginResponse;
 import com.example.response.RegistUserResponse;
+import com.example.response.ResetPasswordPageResponse;
 import com.example.response.SendInquiryResponse;
 import com.example.service.AuthenticationService;
 import com.example.service.UserService;
@@ -220,6 +222,18 @@ public class UserController {
 		ForgotPasswordResetResponse res = new ForgotPasswordResetResponse();
 
 		return userService.forgotPasswordReset(form, res);
+	}
+
+	/**
+	 * パスワードを忘れた場合の再設定画面表示
+	 * 
+	 * @throws Exception
+	 */
+	@PostMapping("/resetPasswordPage")
+	public ResetPasswordPageResponse resetPasswordPage(@RequestBody ResetPasswordPageForm form) throws Exception {
+		ResetPasswordPageResponse res = new ResetPasswordPageResponse();
+
+		return userService.resetPasswordPage(form, res);
 	}
 
 }

@@ -62,4 +62,7 @@ public interface UserMapper {
 	/** パスワードを忘れた場合の再設定実行 */
 	public void resetPassword(ForgotPasswordResetForm form);
 
+	/** リセットパスワードパラメータのリセット */
+	public void deletePasswordParam(User form);
+
 }

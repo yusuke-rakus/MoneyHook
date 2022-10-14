@@ -16,7 +16,7 @@ const ForgotPassword = (props) => {
   const { setForgotPasswordWindow, banner, setBanner } = props;
   const [isLoading, setLoading] = useState(false);
   const [userEmail, setUserEmail] = useState({
-    value: "sample@sample.com",
+    value: "wanko.223@gmail.com",
     message: "登録したメールアドレス",
     status: false,
   });

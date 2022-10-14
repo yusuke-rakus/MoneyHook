@@ -1,5 +1,6 @@
 package com.example.service;
 
+import java.text.ParseException;
 import java.util.Date;
 import java.util.List;
 import java.util.Objects;
@@ -51,6 +52,9 @@ public class UserService {
 
 	@Autowired
 	private SendMailService sendMailService;
+
+	@Autowired
+	private ScheduledTackService scheduledService;
 
 	/** ユーザー登録 */
 	public RegistUserResponse registUser(RegistUserForm form, RegistUserResponse res) {
@@ -316,13 +320,15 @@ public class UserService {
 				context.setVariable("url", baseUrl + "/resetPassword?param=" + resetPasswordParam);
 				String email = form.getEmail();
 				sendMailService.sendMail(context, email, "【MoneyHook】パスワード再設定", "forgotPasswordEmail");
+
+				// パスワードリセットパラメータの削除スケジュール実行
+				scheduledService.scheduleDeleteParam(user);
 			}
+			res.setMessage(SuccessMessage.FORGOT_PASSWORD_EMAIL_SUCCESS);
 		} catch (Exception e) {
 			res.setStatus(Status.ERROR.getStatus());
 			res.setMessage(ErrorMessage.EMAIL_NOT_EXIST_ERROR);
-			return res;
 		}
-		res.setMessage(SuccessMessage.FORGOT_PASSWORD_EMAIL_SUCCESS);
 		return res;
 	}
 

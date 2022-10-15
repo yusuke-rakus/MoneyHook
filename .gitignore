@@ -1,6 +1,7 @@
 HELP.md
 .gradle
 build/
+ssh_key/
 !gradle/wrapper/gradle-wrapper.jar
 !**/src/main/**/build/
 !**/src/test/**/build/

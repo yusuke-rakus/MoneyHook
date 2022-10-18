@@ -81,6 +81,8 @@
   width: 80%;
   max-width: 250px;
   margin: 20px auto;
+  background: none;
+  border: none;
 }
 
 .category-box:hover {

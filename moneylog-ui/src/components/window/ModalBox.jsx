@@ -463,7 +463,7 @@ const ModalBox = (props) => {
         </div>
 
         {/* カテゴリ入力 */}
-        <div className="input-category-box">
+        <button onClick={openCategoryWindow} className="input-category-box">
           <span
             className="input-span category-span"
             style={error.categoryBox.error ? { color: "#c62828" } : {}}
@@ -471,7 +471,6 @@ const ModalBox = (props) => {
             {error.categoryBox.message}
           </span>
           <div
-            onClick={openCategoryWindow}
             className="category-box"
             style={
               error.categoryBox.error
@@ -492,7 +491,7 @@ const ModalBox = (props) => {
               </span>
             </p>
           </div>
-        </div>
+        </button>
 
         {/* 固定費チェックボックス */}
         <FormGroup>

@@ -19,7 +19,7 @@ const MonthlyVariable = (props) => {
 
   const [isLoading, setLoading] = useState(false);
   /** 今月 */
-  const [sysDate, setSysDate] = useState(new Date("2022-06-01"));
+  const [sysDate, setSysDate] = useState(new Date());
   sysDate.setDate(1);
 
   const [monthlyTotalVariable, setMonthlyTotalVariable] = useState(0);

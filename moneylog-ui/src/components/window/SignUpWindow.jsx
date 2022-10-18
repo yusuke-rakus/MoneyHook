@@ -16,9 +16,9 @@ const SignUpWindow = (props) => {
   const { setWindow, setBanner } = props;
   const [isLoading, setLoading] = useState(false);
   const [newAccount, setNewAccount] = useState({
-    email: "sample@sample.com",
-    password: "password223",
-    checkPassword: "password223",
+    email: "",
+    password: "",
+    checkPassword: "",
   });
   const [showPassword, setShowPassword] = useState({
     password: false,

@@ -1,4 +1,4 @@
-DROP TABLE theme_color,
+DROP TABLE IF EXISTS theme_color,
 user,
 saving_target,
 saving,

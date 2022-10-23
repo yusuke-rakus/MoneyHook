@@ -58,6 +58,7 @@ const SignUpWindow = (props) => {
           status: !newAccount.checkPassword,
         },
       }));
+      setLoading(false);
       return;
     }
 
@@ -80,6 +81,7 @@ const SignUpWindow = (props) => {
           status: false,
         },
       }));
+      setLoading(false);
       return;
     }
     // パスワード一致チェック
@@ -96,6 +98,7 @@ const SignUpWindow = (props) => {
           status: true,
         },
       }));
+      setLoading(false);
       return;
     }
     // パスワード要件チェック
@@ -113,6 +116,7 @@ const SignUpWindow = (props) => {
           status: true,
         },
       }));
+      setLoading(false);
       return;
     }
 

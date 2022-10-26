@@ -73,7 +73,7 @@
 .category-box {
   border-bottom: solid 1.5px #a9a9a9;
   text-align: right;
-  transition: background-color 0.25s;
+  transition: 0.25s;
   cursor: pointer;
 }
 
@@ -81,6 +81,8 @@
   width: 80%;
   max-width: 250px;
   margin: 20px auto;
+  background: none;
+  border: none;
 }
 
 .category-box:hover {
@@ -98,6 +100,12 @@
   padding-right: 15px;
   font-size: 20px;
   transition: 0.25s;
+}
+
+.category-box p {
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  overflow: hidden;
 }
 
 /* 固定費チェック */

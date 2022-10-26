@@ -16,6 +16,7 @@ import NotFound from "./page/NotFound";
 import Login from "./page/Login";
 import { useMediaQuery } from "@mui/material";
 import { createContext } from "react";
+import ResetPassword from "./page/ResetPassword";
 
 export const isTabletOrMobile = createContext();
 
@@ -132,6 +133,7 @@ const App = () => {
                 )
               }
             ></Route>
+            <Route path="/resetPassword" element={<ResetPassword />}></Route>
             <Route path="*" element={<NotFound />} />
           </Routes>
         </isTabletOrMobile.Provider>

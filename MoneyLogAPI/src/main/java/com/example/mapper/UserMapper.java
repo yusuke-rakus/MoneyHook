@@ -8,10 +8,13 @@ import com.example.domain.User;
 import com.example.form.ChangeEmailForm;
 import com.example.form.ChangePasswordForm;
 import com.example.form.EditThemeColorForm;
+import com.example.form.ForgotPasswordResetForm;
+import com.example.form.ForgotPasswordSendEmailForm;
 import com.example.form.GetThemeColorForm;
 import com.example.form.GetUserInfoForm;
 import com.example.form.LoginForm;
 import com.example.form.RegistUserForm;
+import com.example.form.ResetPasswordPageForm;
 import com.example.form.SendInquiryForm;
 
 @Mapper
@@ -46,5 +49,20 @@ public interface UserMapper {
 
 	/** 問い合わせを登録 */
 	public void insertInquiry(SendInquiryForm form);
+
+	/** パスワードを忘れた場合の再設定メール送信 */
+	public User checkEmailExist(ForgotPasswordSendEmailForm form);
+
+	/** パスワード再設定パラメータの設定 */
+	public void setResetPasswordParam(ForgotPasswordSendEmailForm form);
+
+	/** パスワードを忘れた場合の再設定画面表示 */
+	public User resetPasswordPage(ResetPasswordPageForm form);
+
+	/** パスワードを忘れた場合の再設定実行 */
+	public void resetPassword(ForgotPasswordResetForm form);
+
+	/** リセットパスワードパラメータのリセット */
+	public void deletePasswordParam(User form);
 
 }

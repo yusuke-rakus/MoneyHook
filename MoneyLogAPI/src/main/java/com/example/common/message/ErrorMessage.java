@@ -21,6 +21,10 @@ public class ErrorMessage {
 	public static final String INQUIRY_OVER_TIMES = "お問い合わせ・ご意見は1日1回となっております";
 	/** お問い合わせ内容未入力 */
 	public static final String INQUIRY_BLANK_ERROR = "お問い合わせ内容を入力してください";
+	/** パスワードを忘れた場合の再設定メール送信 */
+	public static final String EMAIL_NOT_EXIST_ERROR = "メールアドレスが存在しません";
+	/** パスワードを忘れた場合の再設定失敗 */
+	public static final String FORGOT_RESET_PASSWORD_ERROR = "パスワード再設定に失敗しました。再度設定してください";
 
 	// transaction
 	/** 収支データの取得失敗 */

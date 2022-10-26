@@ -4,9 +4,12 @@ import java.util.Date;
 import java.util.List;
 import java.util.Objects;
 import java.util.UUID;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.thymeleaf.context.Context;
+
 import com.example.common.SHA256;
 import com.example.common.Status;
 import com.example.common.message.ErrorMessage;
@@ -15,19 +18,25 @@ import com.example.domain.User;
 import com.example.form.ChangeEmailForm;
 import com.example.form.ChangePasswordForm;
 import com.example.form.EditThemeColorForm;
+import com.example.form.ForgotPasswordResetForm;
+import com.example.form.ForgotPasswordSendEmailForm;
 import com.example.form.GetThemeColorForm;
 import com.example.form.GetUserInfoForm;
 import com.example.form.LoginForm;
 import com.example.form.RegistUserForm;
+import com.example.form.ResetPasswordPageForm;
 import com.example.form.SendInquiryForm;
 import com.example.mapper.UserMapper;
 import com.example.response.ChangeEmailResponse;
 import com.example.response.ChangePasswordResponse;
 import com.example.response.EditThemeColorResponse;
+import com.example.response.ForgotPasswordResetResponse;
+import com.example.response.ForgotPasswordSendEmailResponse;
 import com.example.response.GetThemeColorResponse;
 import com.example.response.GetUserInfoResponse;
 import com.example.response.LoginResponse;
 import com.example.response.RegistUserResponse;
+import com.example.response.ResetPasswordPageResponse;
 import com.example.response.SendInquiryResponse;
 
 @Service
@@ -39,6 +48,12 @@ public class UserService {
 
 	@Autowired
 	private AuthenticationService authenticationService;
+
+	@Autowired
+	private SendMailService sendMailService;
+
+	@Autowired
+	private ScheduledTackService scheduledService;
 
 	/** ユーザー登録 */
 	public RegistUserResponse registUser(RegistUserForm form, RegistUserResponse res) {
@@ -59,6 +74,13 @@ public class UserService {
 			userMapper.registUser(form);
 			res.setUser(user);
 			res.setMessage(SuccessMessage.CREATE_USER_REGISTERD_SUCCESS);
+
+			// メール送信
+			Context context = new Context();
+			context.setVariable("email", form.getEmail());
+			String email = form.getEmail();
+			sendMailService.sendMail(context, email, "【MoneyHook】会員登録が完了しました", "registerUser");
+
 		} catch (Exception e) {
 			res.setStatus(Status.ERROR.getStatus());
 			res.setMessage(ErrorMessage.MAIL_ADDRESS_ALREADY_REGISTERED);
@@ -164,6 +186,12 @@ public class UserService {
 			throw new Exception();
 		} else {
 			res.setMessage(SuccessMessage.USER_EMAIL_CHANGED);
+
+			// メール送信
+			Context context = new Context();
+			context.setVariable("email", form.getEmail());
+			String email = form.getEmail();
+			sendMailService.sendMail(context, email, "【MoneyHook】メールアドレス変更完了", "changeEmail");
 		}
 
 		return res;
@@ -263,6 +291,85 @@ public class UserService {
 			res.setMessage(ErrorMessage.INQUIRY_OVER_TIMES);
 		}
 
+		return res;
+	}
+
+	/**
+	 * パスワードを忘れた場合の再設定メール送信
+	 * 
+	 * @throws Exception
+	 */
+	public ForgotPasswordSendEmailResponse forgotPasswordSendEmail(ForgotPasswordSendEmailForm form,
+			ForgotPasswordSendEmailResponse res) throws Exception {
+
+		try {
+			// メール存在チェック
+			User user = userMapper.checkEmailExist(form);
+			if (Objects.isNull(user)) {
+				throw new Exception();
+			} else {
+				// userテーブルのステータス更新
+				String resetPasswordParam = SHA256.getHashedValue(form.getEmail());
+				form.setResetPasswordParam(resetPasswordParam);
+				userMapper.setResetPasswordParam(form);
+
+				// メール送信
+				String baseUrl = "http://localhost:3000";
+				Context context = new Context();
+				context.setVariable("url", baseUrl + "/resetPassword?param=" + resetPasswordParam);
+				String email = form.getEmail();
+				sendMailService.sendMail(context, email, "【MoneyHook】パスワード再設定", "forgotPasswordEmail");
+
+				// パスワードリセットパラメータの削除スケジュール実行
+				scheduledService.scheduleDeleteParam(user);
+			}
+			res.setMessage(SuccessMessage.FORGOT_PASSWORD_EMAIL_SUCCESS);
+		} catch (Exception e) {
+			res.setStatus(Status.ERROR.getStatus());
+			res.setMessage(ErrorMessage.EMAIL_NOT_EXIST_ERROR);
+		}
+		return res;
+	}
+
+	/**
+	 * パスワードを忘れた場合の再設定
+	 * 
+	 * @throws Exception
+	 */
+	public ForgotPasswordResetResponse forgotPasswordReset(ForgotPasswordResetForm form,
+			ForgotPasswordResetResponse res) throws Exception {
+
+		try {
+			// パスワードをハッシュ化
+			form.setPassword(SHA256.getHashedPassword(form.getPassword()));
+			// パスワード設定とパラメータ削除
+			userMapper.resetPassword(form);
+		} catch (Exception e) {
+			res.setStatus(Status.ERROR.getStatus());
+			res.setMessage(ErrorMessage.FORGOT_RESET_PASSWORD_ERROR);
+			return res;
+		}
+		return res;
+	}
+
+	/**
+	 * パスワードを忘れた場合の再設定画面表示
+	 * 
+	 * @throws Exception
+	 */
+	public ResetPasswordPageResponse resetPasswordPage(ResetPasswordPageForm form, ResetPasswordPageResponse res)
+			throws Exception {
+
+		try {
+			User user = userMapper.resetPasswordPage(form);
+			if (Objects.isNull(user)) {
+				throw new Exception();
+			} else {
+				res.setEmail(user.getEmail());
+			}
+		} catch (Exception e) {
+			res.setStatus(Status.ERROR.getStatus());
+		}
 		return res;
 	}
 

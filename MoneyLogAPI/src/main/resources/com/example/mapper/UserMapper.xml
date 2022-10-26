@@ -134,5 +134,56 @@
 			#{inquiryDate}
 		);
 	</insert>
+	
+	<!-- パスワードを忘れた場合の再設定メール送信 -->
+	<select id="checkEmailExist" resultType="com.example.domain.User">
+		SELECT
+			user_no
+		FROM
+			user
+		WHERE
+			email = #{email};
+	</select>
+	
+	<!-- リセットパスワードパラメータの設定 -->
+	<update id="setResetPasswordParam">
+		UPDATE
+			user
+		SET
+			reset_password_param=#{resetPasswordParam}
+		WHERE
+			email=#{email};
+	</update>
+	
+	<!-- パスワードを忘れた場合の再設定実行 -->
+	<update id="resetPassword">
+		UPDATE
+			user
+		SET
+			password=#{password},
+			reset_password_param=null
+		WHERE
+			email=#{email};
+	</update>
+	
+	<!-- リセットパスワードパラメータのリセット -->
+	<update id="deletePasswordParam">
+		UPDATE
+			user
+		SET
+			reset_password_param=null
+		WHERE
+			user_no=#{userNo};
+	</update>
+	
+	<!-- パスワードを忘れた場合の再設定画面表示 -->
+	<select id="resetPasswordPage" resultType="com.example.domain.User">
+		SELECT
+			email
+		FROM
+			user
+		WHERE
+			reset_password_param = #{param};
+	</select>
 
 </mapper>

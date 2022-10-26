@@ -1,4 +1,4 @@
-DROP TABLE theme_color,
+DROP TABLE IF EXISTS theme_color,
 user,
 saving_target,
 saving,
@@ -22,7 +22,7 @@ CREATE TABLE IF NOT EXISTS user(
     email varchar(128) NOT NULL UNIQUE,
     PASSWORD text NOT NULL,
     theme_color_id bigint UNSIGNED NOT NULL DEFAULT 1,
-    reset_password_flg boolean NOT NULL DEFAULT 0,
+    reset_password_param varchar(128),
     PRIMARY KEY(user_no),
     FOREIGN KEY theme_color_id(theme_color_id) REFERENCES theme_color(theme_color_id)
 );

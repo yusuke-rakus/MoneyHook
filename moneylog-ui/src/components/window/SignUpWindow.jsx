@@ -16,9 +16,9 @@ const SignUpWindow = (props) => {
   const { setWindow, setBanner } = props;
   const [isLoading, setLoading] = useState(false);
   const [newAccount, setNewAccount] = useState({
-    email: "sample@sample.com",
-    password: "password223",
-    checkPassword: "password223",
+    email: "",
+    password: "",
+    checkPassword: "",
   });
   const [showPassword, setShowPassword] = useState({
     password: false,
@@ -36,6 +36,7 @@ const SignUpWindow = (props) => {
   };
 
   const signUp = () => {
+    setLoading(true);
     // 未入力チェック
     if (
       !newAccount.email ||
@@ -57,6 +58,7 @@ const SignUpWindow = (props) => {
           status: !newAccount.checkPassword,
         },
       }));
+      setLoading(false);
       return;
     }
 
@@ -79,6 +81,7 @@ const SignUpWindow = (props) => {
           status: false,
         },
       }));
+      setLoading(false);
       return;
     }
     // パスワード一致チェック
@@ -95,6 +98,7 @@ const SignUpWindow = (props) => {
           status: true,
         },
       }));
+      setLoading(false);
       return;
     }
     // パスワード要件チェック
@@ -112,6 +116,7 @@ const SignUpWindow = (props) => {
           status: true,
         },
       }));
+      setLoading(false);
       return;
     }
 

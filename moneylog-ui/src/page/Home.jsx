@@ -33,7 +33,7 @@ const Home = (props) => {
   const [bannerType, setBannerType] = useState("");
 
   /** 今月 */
-  const [sysDate, setSysDate] = useState(new Date("2022-06-01"));
+  const [sysDate, setSysDate] = useState(new Date());
   sysDate.setDate(1);
 
   const [transactionTitle, setTransactionTitle] =

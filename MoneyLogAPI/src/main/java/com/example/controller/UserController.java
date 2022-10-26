@@ -12,18 +12,24 @@ import com.example.common.Status;
 import com.example.form.ChangeEmailForm;
 import com.example.form.ChangePasswordForm;
 import com.example.form.EditThemeColorForm;
+import com.example.form.ForgotPasswordResetForm;
+import com.example.form.ForgotPasswordSendEmailForm;
 import com.example.form.GetThemeColorForm;
 import com.example.form.GetUserInfoForm;
 import com.example.form.LoginForm;
 import com.example.form.RegistUserForm;
+import com.example.form.ResetPasswordPageForm;
 import com.example.form.SendInquiryForm;
 import com.example.response.ChangeEmailResponse;
 import com.example.response.ChangePasswordResponse;
 import com.example.response.EditThemeColorResponse;
+import com.example.response.ForgotPasswordResetResponse;
+import com.example.response.ForgotPasswordSendEmailResponse;
 import com.example.response.GetThemeColorResponse;
 import com.example.response.GetUserInfoResponse;
 import com.example.response.LoginResponse;
 import com.example.response.RegistUserResponse;
+import com.example.response.ResetPasswordPageResponse;
 import com.example.response.SendInquiryResponse;
 import com.example.service.AuthenticationService;
 import com.example.service.UserService;
@@ -158,7 +164,8 @@ public class UserController {
 	 * @throws Exception
 	 */
 	@PostMapping("/checkInquiry")
-	public SendInquiryResponse checkInquiry(@Validated @RequestBody SendInquiryForm form, BindingResult result) throws Exception {
+	public SendInquiryResponse checkInquiry(@Validated @RequestBody SendInquiryForm form, BindingResult result)
+			throws Exception {
 		SendInquiryResponse res = new SendInquiryResponse();
 
 		// ユーザー認証
@@ -174,7 +181,8 @@ public class UserController {
 	 * @throws Exception
 	 */
 	@PostMapping("/sendInquiry")
-	public SendInquiryResponse sendInquiry(@Validated @RequestBody SendInquiryForm form, BindingResult result) throws Exception {
+	public SendInquiryResponse sendInquiry(@Validated @RequestBody SendInquiryForm form, BindingResult result)
+			throws Exception {
 		SendInquiryResponse res = new SendInquiryResponse();
 
 		if (result.hasErrors()) {
@@ -189,6 +197,43 @@ public class UserController {
 		form.setUserNo(userNo);
 
 		return userService.sendInquiry(form, res);
+	}
+
+	/**
+	 * パスワードを忘れた場合の再設定メール送信
+	 * 
+	 * @throws Exception
+	 */
+	@PostMapping("/forgotPasswordSendEmail")
+	public ForgotPasswordSendEmailResponse forgotPasswordSendEmail(@RequestBody ForgotPasswordSendEmailForm form)
+			throws Exception {
+		ForgotPasswordSendEmailResponse res = new ForgotPasswordSendEmailResponse();
+
+		return userService.forgotPasswordSendEmail(form, res);
+	}
+
+	/**
+	 * パスワードを忘れた場合の再設定
+	 * 
+	 * @throws Exception
+	 */
+	@PostMapping("/forgotPasswordReset")
+	public ForgotPasswordResetResponse forgotPasswordReset(@RequestBody ForgotPasswordResetForm form) throws Exception {
+		ForgotPasswordResetResponse res = new ForgotPasswordResetResponse();
+
+		return userService.forgotPasswordReset(form, res);
+	}
+
+	/**
+	 * パスワードを忘れた場合の再設定画面表示
+	 * 
+	 * @throws Exception
+	 */
+	@PostMapping("/resetPasswordPage")
+	public ResetPasswordPageResponse resetPasswordPage(@RequestBody ResetPasswordPageForm form) throws Exception {
+		ResetPasswordPageResponse res = new ResetPasswordPageResponse();
+
+		return userService.resetPasswordPage(form, res);
 	}
 
 }

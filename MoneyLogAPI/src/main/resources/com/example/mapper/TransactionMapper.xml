@@ -25,6 +25,33 @@
 			#{fixedFlg}
 		);
 	</insert>
+
+	<!-- 収支リストを登録 -->
+	<insert id="addTransactionList" parameterType="java.util.List">
+		INSERT INTO
+		transaction(
+			user_no,
+			transaction_name,
+			transaction_amount,
+			transaction_date,
+			category_id,
+			sub_category_id,
+			fixed_flg
+		)
+		VALUES
+		<foreach collection="transactionList" item="tran" separator=","> 
+		(
+			#{tran.userNo},
+			#{tran.transactionName},
+			#{tran.transactionAmount},
+			#{tran.transactionDate},
+			#{tran.categoryId},
+			#{tran.subCategoryId},
+			#{tran.fixedFlg}
+		)
+		</foreach>
+		;
+	</insert>
 	
 	<!-- 収支を削除 -->
 	<delete id="deleteTransaction" parameterType="com.example.form.DeleteTransactionForm">

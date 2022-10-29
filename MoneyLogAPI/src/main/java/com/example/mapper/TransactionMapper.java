@@ -3,6 +3,7 @@ package com.example.mapper;
 import java.util.List;
 
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
 
 import com.example.domain.CategoryList;
 import com.example.domain.MonthlyFixedList;
@@ -24,6 +25,9 @@ public interface TransactionMapper {
 
 	/** 収支を登録 */
 	public void addTransaction(AddTransactionForm form);
+
+	/** 収支リストを登録 */
+	public void addTransactionList(@Param("transactionList") List<Transaction> list);
 
 	/** 収支を削除 */
 	public void deleteTransaction(DeleteTransactionForm form);

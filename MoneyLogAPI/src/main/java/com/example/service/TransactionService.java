@@ -20,6 +20,7 @@ import com.example.domain.MonthlyFixedList;
 import com.example.domain.SubCategory;
 import com.example.domain.Transaction;
 import com.example.form.AddTransactionForm;
+import com.example.form.AddTransactionListForm;
 import com.example.form.DeleteTransactionForm;
 import com.example.form.EditTransactionForm;
 import com.example.form.FrequentTransactionNameForm;
@@ -32,6 +33,7 @@ import com.example.form.GetTimelineDataForm;
 import com.example.form.GetTransactionForm;
 import com.example.mapper.SubCategoryMapper;
 import com.example.mapper.TransactionMapper;
+import com.example.response.AddTransactionListResponse;
 import com.example.response.AddTransactionResponse;
 import com.example.response.DeleteTransactionResponse;
 import com.example.response.EditTransactionResponse;
@@ -89,6 +91,25 @@ public class TransactionService {
 			Integer sign = form.getTransactionSign();
 			form.setTransactionAmount(transactionAmount * sign);
 			transactionMapper.addTransaction(form);
+			res.setMessage(SuccessMessage.TRANSACTION_INSERT_SUCCESSED);
+		} catch (Exception e) {
+			res.setStatus(Status.ERROR.getStatus());
+		}
+		return res;
+	}
+
+	/**
+	 * 収支リストを登録
+	 * 
+	 * @throws AuthenticationException
+	 */
+	public AddTransactionListResponse addTransactionList(AddTransactionListForm form, AddTransactionListResponse res)
+			throws SystemException {
+
+		try {
+			form.getTransactionList().stream().forEach(
+					tran -> tran.setTransactionAmount(tran.getTransactionSign() * tran.getTransactionAmount()));
+			transactionMapper.addTransactionList(form.getTransactionList());
 			res.setMessage(SuccessMessage.TRANSACTION_INSERT_SUCCESSED);
 		} catch (Exception e) {
 			res.setStatus(Status.ERROR.getStatus());

@@ -175,7 +175,7 @@
 		AND
 			transaction_amount > 0
 		AND t.fixed_flg = true
-		ORDER BY total_category_amount;
+		ORDER BY total_category_amount DESC;
 	</select>
 	
 	<!-- 当月のTransactionデータを取得 -->

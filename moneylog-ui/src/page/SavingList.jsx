@@ -189,7 +189,6 @@ const SavingList = (props) => {
             <HouseholdBudgetButton
               openWindow={setAddSavingStatus}
               buttonText={"貯金"}
-              setData={setSaving}
               setSavingTitle={setSavingTitle}
             />
           </div>

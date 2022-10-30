@@ -6,12 +6,11 @@ import Fab from "@mui/material/Fab";
 import AddIcon from "@mui/icons-material/Add";
 
 const HouseholdBudgetButton = (props) => {
-  const { openWindow, buttonText, setTransactionTitle } = props;
+  const { openWindow, buttonText, setSavingTitle } = props;
 
   const openModalWindow = () => {
     openWindow(true);
-    // setSavingTitle("貯金を追加");
-    setTransactionTitle("支出または収入の入力");
+    setSavingTitle("貯金を追加");
   };
 
   return (

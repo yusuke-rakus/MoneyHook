@@ -46,7 +46,7 @@ const ResetPassword = () => {
     })
       .then((res) => res.json())
       .then((data) => {
-        if (data.status == "success") {
+        if (data.status === "success") {
           setNewAccount({ ...newAccount, email: data.email });
           setPageLoading(false);
         } else {
@@ -128,7 +128,7 @@ const ResetPassword = () => {
     })
       .then((res) => res.json())
       .then((data) => {
-        if (data.status == "success") {
+        if (data.status === "success") {
           // ログイン画面にリダイレクト
           navigate("/login");
         } else {

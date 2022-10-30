@@ -13,7 +13,7 @@ import { rootURI } from "../App";
 
 const DeletedFixed = (props) => {
   const { banner, setBanner } = props;
-  const [cookie, setCookie] = useCookies();
+  const [cookie] = useCookies();
   const [monthlyTransactionList, setMonthlyTransactionList] = useState([]);
   const [isLoading, setLoading] = useState(false);
 
@@ -37,7 +37,7 @@ const DeletedFixed = (props) => {
     })
       .then((res) => res.json())
       .then((data) => {
-        if (data.status == "success") {
+        if (data.status === "success") {
           // 成功処理
         } else {
           // 失敗処理
@@ -74,7 +74,7 @@ const DeletedFixed = (props) => {
     })
       .then((res) => res.json())
       .then((data) => {
-        if (data.status == "success") {
+        if (data.status === "success") {
           // 成功処理
         } else {
           // 失敗処理

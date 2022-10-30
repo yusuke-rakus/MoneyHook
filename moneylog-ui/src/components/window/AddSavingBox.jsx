@@ -179,7 +179,7 @@ const AddSavingBox = (props) => {
     })
       .then((res) => res.json())
       .then((data) => {
-        if (data.status == "success") {
+        if (data.status === "success") {
           // 成功
           setBannerMessage(data.message);
           setBannerType(data.status);
@@ -218,7 +218,7 @@ const AddSavingBox = (props) => {
     })
       .then((res) => res.json())
       .then((data) => {
-        if (data.status == "success") {
+        if (data.status === "success") {
           // 成功
           setBannerMessage(data.message);
           setBannerType(data.status);
@@ -248,7 +248,7 @@ const AddSavingBox = (props) => {
     })
       .then((res) => res.json())
       .then((data) => {
-        if (data.status == "success") {
+        if (data.status === "success") {
           // 成功
         } else {
           // 失敗
@@ -277,7 +277,7 @@ const AddSavingBox = (props) => {
     })
       .then((res) => res.json())
       .then((data) => {
-        if (data.status == "success") {
+        if (data.status === "success") {
           // 成功
           setDistributionList(data.savingTarget);
         } else {
@@ -299,7 +299,7 @@ const AddSavingBox = (props) => {
     })
       .then((res) => res.json())
       .then((data) => {
-        if (data.status == "success") {
+        if (data.status === "success") {
           // 成功
           setRecommendList(data.savingList.map((data) => data.savingName));
         } else {

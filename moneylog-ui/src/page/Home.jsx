@@ -40,9 +40,7 @@ const Home = (props) => {
   const [sysDate, setSysDate] = useState(new Date());
   sysDate.setDate(1);
 
-  const [transactionTitle, setTransactionTitle] = useState(
-    "支出または収入の入力"
-  );
+  const transactionTitle = "支出または収入の入力";
 
   /** 収支合計 */
   const [monthlyTotalAmount, setMonthlyTotalAmount] = useState(0);

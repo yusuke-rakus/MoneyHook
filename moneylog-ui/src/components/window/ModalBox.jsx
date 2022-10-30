@@ -201,7 +201,7 @@ const ModalBox = (props) => {
     })
       .then((res) => res.json())
       .then((data) => {
-        if (data.status == "success") {
+        if (data.status === "success") {
           // 成功
           closeModalWindow();
           getInit(month);
@@ -241,7 +241,7 @@ const ModalBox = (props) => {
     })
       .then((res) => res.json())
       .then((data) => {
-        if (data.status == "success") {
+        if (data.status === "success") {
           // 成功
         } else {
           // 失敗
@@ -272,7 +272,7 @@ const ModalBox = (props) => {
     })
       .then((res) => res.json())
       .then((data) => {
-        if (data.status == "success") {
+        if (data.status === "success") {
           // 成功
         } else {
           // 失敗
@@ -301,7 +301,7 @@ const ModalBox = (props) => {
     })
       .then((res) => res.json())
       .then((data) => {
-        if (data.status == "success") {
+        if (data.status === "success") {
           // 成功
           setRecommendList(
             data.transactionList.map((data) => data.transactionName)

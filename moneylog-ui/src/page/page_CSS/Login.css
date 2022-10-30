@@ -4,7 +4,7 @@
   padding: 8%;
   background: linear-gradient(to right, #76d5ff, #64b5f6);
   display: flex;
-  justify-content: end;
+  justify-content: flex-end;
   align-items: center;
   position: relative;
 }

@@ -187,7 +187,7 @@ const AddTransactionListWindow = (props) => {
     })
       .then((res) => res.json())
       .then((data) => {
-        if (data.status == "success") {
+        if (data.status === "success") {
           // 成功
           closeModalWindow();
           setBanner(true);

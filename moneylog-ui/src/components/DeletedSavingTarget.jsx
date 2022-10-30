@@ -13,7 +13,7 @@ import { rootURI } from "../App";
 
 const DeletedSavingTarget = (props) => {
   const { banner, setBanner } = props;
-  const [cookie, setCookie] = useCookies();
+  const [cookie] = useCookies();
   const [savingTarget, setSavingTarget] = useState([]);
   const [isLoading, setLoading] = useState(false);
 
@@ -37,7 +37,7 @@ const DeletedSavingTarget = (props) => {
     })
       .then((res) => res.json())
       .then((data) => {
-        if (data.status == "success") {
+        if (data.status === "success") {
           // 成功処理
         } else {
           // 失敗処理
@@ -75,7 +75,7 @@ const DeletedSavingTarget = (props) => {
     })
       .then((res) => res.json())
       .then((data) => {
-        if (data.status == "success") {
+        if (data.status === "success") {
           // 成功処理
         } else {
           // 失敗処理
@@ -105,7 +105,7 @@ const DeletedSavingTarget = (props) => {
     })
       .then((res) => res.json())
       .then((data) => {
-        if (data.status == "success") {
+        if (data.status === "success") {
           if (data.savingTarget == 0) {
             setSavingTarget(null);
           } else {

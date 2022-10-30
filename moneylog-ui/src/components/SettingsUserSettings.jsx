@@ -5,7 +5,7 @@ import { rootURI } from "../App";
 
 const SettingsUserSettings = (props) => {
   const { banner, setBanner } = props;
-  const [cookie, setCookie] = useCookies();
+  const [cookie] = useCookies();
   /** ユーザー設定変更 */
   const [email, setEmail] = useState({ value: "", message: "", error: false });
   const [password, setPassword] = useState({
@@ -39,8 +39,7 @@ const SettingsUserSettings = (props) => {
     }
 
     // メールアドレス要件チェック
-    const regex =
-      /^[a-zA-Z0-9_.+-]+@([a-zA-Z0-9][a-zA-Z0-9-]*[a-zA-Z0-9]*\.)+[a-zA-Z]{2,}$/;
+    const regex = /^[a-zA-Z0-9_.+-]+@([a-zA-Z0-9][a-zA-Z0-9-]*[a-zA-Z0-9]*\.)+[a-zA-Z]{2,}$/;
     if (!regex.test(email.value)) {
       setEmail((v) => ({
         ...v,
@@ -79,7 +78,7 @@ const SettingsUserSettings = (props) => {
     })
       .then((res) => res.json())
       .then((data) => {
-        if (data.status == "success") {
+        if (data.status === "success") {
           setEmail((v) => ({
             ...v,
             value: data.userInfo.email,
@@ -110,7 +109,7 @@ const SettingsUserSettings = (props) => {
     })
       .then((res) => res.json())
       .then((data) => {
-        if (data.status == "success") {
+        if (data.status === "success") {
           // 成功処理
         } else {
           // 失敗処理

@@ -41,7 +41,7 @@ const SettingsSelectColor = (props) => {
     })
       .then((res) => res.json())
       .then((data) => {
-        if (data.status == "success") {
+        if (data.status === "success") {
           setColorList({
             ...colorList,
             themeColorGradientCodeList: data.themeColorList.filter(
@@ -73,7 +73,7 @@ const SettingsSelectColor = (props) => {
     })
       .then((res) => res.json())
       .then((data) => {
-        if (data.status == "success") {
+        if (data.status === "success") {
           // 成功処理
         } else {
           // 失敗処理

@@ -13,13 +13,9 @@ import VisibilityOffIcon from "@mui/icons-material/VisibilityOff";
 import { rootURI } from "../../App";
 
 const SignUpWindow = (props) => {
-  const { setWindow, setBanner } = props;
+  const { setWindow, setBanner, newAccount, setNewAccount } = props;
   const [isLoading, setLoading] = useState(false);
-  const [newAccount, setNewAccount] = useState({
-    email: "",
-    password: "",
-    checkPassword: "",
-  });
+
   const [showPassword, setShowPassword] = useState({
     password: false,
     checkPassword: false,
@@ -33,6 +29,7 @@ const SignUpWindow = (props) => {
 
   const closeWindow = () => {
     setWindow(false);
+    setNewAccount({});
   };
 
   const signUp = () => {
@@ -63,8 +60,7 @@ const SignUpWindow = (props) => {
     }
 
     // メールアドレス要件チェック
-    const regex =
-      /^[a-zA-Z0-9_.+-]+@([a-zA-Z0-9][a-zA-Z0-9-]*[a-zA-Z0-9]*\.)+[a-zA-Z]{2,}$/;
+    const regex = /^[a-zA-Z0-9_.+-]+@([a-zA-Z0-9][a-zA-Z0-9-]*[a-zA-Z0-9]*\.)+[a-zA-Z]{2,}$/;
     if (!regex.test(newAccount.email)) {
       setLabels((label) => ({
         ...label,
@@ -133,7 +129,7 @@ const SignUpWindow = (props) => {
     })
       .then((res) => res.json())
       .then((data) => {
-        if (data.status == "success") {
+        if (data.status === "success") {
           // 成功
           closeWindow();
           setBanner({

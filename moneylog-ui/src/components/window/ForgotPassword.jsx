@@ -13,16 +13,12 @@ import { AccountCircle } from "@mui/icons-material";
 import { rootURI } from "../../App";
 
 const ForgotPassword = (props) => {
-  const { setForgotPasswordWindow, banner, setBanner } = props;
+  const { setForgotPasswordWindow, setBanner, userEmail, setUserEmail } = props;
   const [isLoading, setLoading] = useState(false);
-  const [userEmail, setUserEmail] = useState({
-    value: "",
-    message: "登録したメールアドレス",
-    status: false,
-  });
 
   const closeWindow = () => {
     setForgotPasswordWindow(false);
+    setUserEmail({});
   };
 
   const sendEmail = () => {
@@ -41,8 +37,7 @@ const ForgotPassword = (props) => {
       return;
     }
     // メールアドレス要件チェック
-    const regex =
-      /^[a-zA-Z0-9_.+-]+@([a-zA-Z0-9][a-zA-Z0-9-]*[a-zA-Z0-9]*\.)+[a-zA-Z]{2,}$/;
+    const regex = /^[a-zA-Z0-9_.+-]+@([a-zA-Z0-9][a-zA-Z0-9-]*[a-zA-Z0-9]*\.)+[a-zA-Z]{2,}$/;
     if (!regex.test(userEmail.value)) {
       setUserEmail({
         value: userEmail.value,

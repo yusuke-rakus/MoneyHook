@@ -119,7 +119,7 @@ const TransactionListData = (props) => {
     })
       .then((res) => res.json())
       .then((data) => {
-        if (data.status == "success") {
+        if (data.status === "success") {
           setSubCategoryList(data.subCategoryList);
           // 成功
         } else {
@@ -139,7 +139,7 @@ const TransactionListData = (props) => {
     })
       .then((res) => res.json())
       .then((data) => {
-        if (data.status == "success") {
+        if (data.status === "success") {
           // 成功
           setCategoryList(data.categoryList);
         } else {

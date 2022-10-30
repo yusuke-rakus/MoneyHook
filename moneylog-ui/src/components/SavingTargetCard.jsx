@@ -5,8 +5,12 @@ import "./components_CSS/SavingTargetCard.css";
 import { Box } from "@mui/material";
 
 const SavingTargetCard = (props) => {
-  const { savingTargetData, setWindowStatus, setTitle, setEditSavingTarget } =
-    props;
+  const {
+    savingTargetData,
+    setWindowStatus,
+    setTitle,
+    setEditSavingTarget,
+  } = props;
 
   const editSavingTarget = () => {
     setTitle("貯金目標を編集");

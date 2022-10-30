@@ -25,12 +25,25 @@ const Login = (props) => {
   const { setCookie, setThemeColor } = props;
   const [loginForm, setLoginForm] = useState({
     email: {
-      value: "sample@sample.com",
+      value: "",
       message: "メールアドレス",
       error: false,
     },
-    password: { value: "password", message: "パスワード", error: false },
+    password: { value: "", message: "パスワード", error: false },
   });
+  /** 新規登録データ */
+  const [newAccount, setNewAccount] = useState({
+    email: "",
+    password: "",
+    checkPassword: "",
+  });
+  /** パスワード再設定データ */
+  const [userEmail, setUserEmail] = useState({
+    value: "",
+    message: "登録したメールアドレス",
+    status: false,
+  });
+
   const [isLoading, setLoading] = useState(false);
   const [banner, setBanner] = useState({
     banner: false,
@@ -210,20 +223,30 @@ const Login = (props) => {
       </div>
 
       {/* 新規登録画面 */}
-      <BlurView status={window} setStatus={setWindow} />
+      <BlurView
+        status={window}
+        setStatus={setWindow}
+        setObject={setNewAccount}
+      />
       <CSSTransition
         in={window}
         timeout={200}
         unmountOnExit
         classNames="Modal-show"
       >
-        <SignUpWindow setWindow={setWindow} setBanner={setBanner} />
+        <SignUpWindow
+          setWindow={setWindow}
+          setBanner={setBanner}
+          newAccount={newAccount}
+          setNewAccount={setNewAccount}
+        />
       </CSSTransition>
 
       {/* パスワード再設定画面 */}
       <BlurView
         status={forgotPasswordWindow}
         setStatus={setForgotPasswordWindow}
+        setObject={setUserEmail}
       />
       <CSSTransition
         in={forgotPasswordWindow}
@@ -233,8 +256,9 @@ const Login = (props) => {
       >
         <ForgotPassword
           setForgotPasswordWindow={setForgotPasswordWindow}
-          banner={banner}
           setBanner={setBanner}
+          userEmail={userEmail}
+          setUserEmail={setUserEmail}
         />
       </CSSTransition>
     </div>

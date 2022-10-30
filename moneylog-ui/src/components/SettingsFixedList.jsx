@@ -152,7 +152,7 @@ const SettingsFixedList = (props) => {
     })
       .then((res) => res.json())
       .then((data) => {
-        if (data.status == "success") {
+        if (data.status === "success") {
           // 成功処理
         } else {
           // 失敗処理
@@ -192,7 +192,7 @@ const SettingsFixedList = (props) => {
     })
       .then((res) => res.json())
       .then((data) => {
-        if (data.status == "success") {
+        if (data.status === "success") {
           data.monthlyTransactionList.map((data) => {
             data["label"] = {
               monthlyTransactionName: { message: "取引名", status: false },

@@ -61,7 +61,7 @@ const Timeline = (props) => {
       {
         data: graphData,
         backgroundColor: "#03A9F4",
-        label: "月別支出推移",
+        label: "合計支出",
       },
     ],
   };

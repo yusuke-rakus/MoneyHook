@@ -109,10 +109,16 @@ public class TransactionService {
 		try {
 			form.getTransactionList().stream().forEach(
 					tran -> tran.setTransactionAmount(tran.getTransactionSign() * tran.getTransactionAmount()));
+
+			form.getTransactionList().stream().filter(tran -> !Objects.isNull(tran.getCategoryId()))
+					.filter(tran -> !Objects.isNull(tran.getSubCategoryId()))
+					.filter(tran -> !Objects.isNull(tran.getTransactionAmount()))
+					.filter(tran -> !Objects.isNull(tran.getTransactionName())).toArray();
 			transactionMapper.addTransactionList(form.getTransactionList());
 			res.setMessage(SuccessMessage.TRANSACTION_INSERT_SUCCESSED);
 		} catch (Exception e) {
 			res.setStatus(Status.ERROR.getStatus());
+			res.setMessage(ErrorMessage.TRANSACTION_DATA_INSERT_FAILED);
 		}
 		return res;
 	}

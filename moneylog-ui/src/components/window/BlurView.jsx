@@ -1,7 +1,7 @@
 import React from "react";
 
 const BlurView = (props) => {
-  const { status, setStatus, setObject } = props;
+  const { status, setStatus, setObject, listObject, setListObject } = props;
 
   const BlurStyle = {
     position: "fixed",
@@ -14,7 +14,11 @@ const BlurView = (props) => {
 
   const onClickEvent = () => {
     setStatus(false);
-    setObject({});
+    if (Array.isArray(listObject)) {
+      setListObject([]);
+    } else {
+      setObject({});
+    }
   };
 
   return (

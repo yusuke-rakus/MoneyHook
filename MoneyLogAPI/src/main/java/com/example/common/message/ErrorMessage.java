@@ -35,6 +35,8 @@ public class ErrorMessage {
 	public static final String TIMELINE_DATA_GET_FAILED = "タイムラインデータの取得に失敗しました";
 	/** 変動費データの取得に失敗しました */
 	public static final String MONTHLY_VARIABLE_DATA_GET_FAILED = "変動費データの取得に失敗しました";
+	/** データの登録に失敗しました */
+	public static final String TRANSACTION_DATA_INSERT_FAILED = "データの登録に失敗しました";
 
 	// monthlyTransaction
 	/** 月次固定費が存在しない */

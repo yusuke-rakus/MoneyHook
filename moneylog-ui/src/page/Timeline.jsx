@@ -4,7 +4,7 @@ import "./page_CSS/Timeline.css";
 import "./page_CSS/common.css";
 /** 自作コンポーネント */
 import TimelineDataList from "../components/TimelineDataList";
-import HouseholdBudgetButton from "../components/HouseholdBudgetButton";
+import AddTransactionListWindow from "../components/window/AddTransactionListWindow";
 import ModalBox from "../components/window/ModalBox";
 import BlurView from "../components/window/BlurView";
 /** 外部コンポーネント */
@@ -25,6 +25,10 @@ import CloseIcon from "@mui/icons-material/Close";
 import { useCookies } from "react-cookie";
 import { useNavigate } from "react-router-dom";
 import { rootURI } from "../App";
+import { SpeedDial, SpeedDialAction, SpeedDialIcon } from "@mui/material";
+import EditIcon from "@mui/icons-material/Edit";
+import AddIcon from "@mui/icons-material/Add";
+import ListIcon from "@mui/icons-material/List";
 
 Chart.register(...registerables);
 
@@ -43,8 +47,9 @@ const Timeline = (props) => {
   const [sysDate, setSysDate] = useState(new Date());
   sysDate.setDate(1);
 
-  const [transactionTitle, setTransactionTitle] =
-    useState("支出または収入の入力");
+  const [transactionTitle, setTransactionTitle] = useState(
+    "支出または収入の入力"
+  );
 
   /** グラフデータ */
   const [graphData, setGraphData] = useState([]);
@@ -167,10 +172,23 @@ const Timeline = (props) => {
     }
   };
 
-  /** モーダルウィンドウ */
+  /** 追加ウィンドウ */
   const [modalWindow, setModalWindow] = useState(false);
-  /** 登録用データ */
+
+  /** 追加用データ */
   const [transaction, setTransaction] = useState({});
+
+  /** 一括入力ウィンドウ */
+  const [tranList, openTranList] = useState(false);
+
+  /** 一括入力用データ */
+  const [transactionList, setTransactionList] = useState([]);
+
+  /** 収支追加モーダル */
+  const actions = [
+    { icon: <AddIcon />, name: "追加", func: () => setModalWindow(true) },
+    { icon: <ListIcon />, name: "一括入力", func: () => openTranList(true) },
+  ];
 
   /** API関連 */
   const getInit = (month) => {
@@ -365,11 +383,26 @@ const Timeline = (props) => {
 
           {/* 追加ボタン */}
           <div className="addTransactionArea">
-            <HouseholdBudgetButton
-              openWindow={setModalWindow}
-              buttonText={"追加"}
-              setTransactionTitle={setTransactionTitle}
-            />
+            <SpeedDial
+              ariaLabel="SpeedDial openIcon example"
+              sx={{ position: "absolute", bottom: 16, right: 16 }}
+              icon={
+                <SpeedDialIcon
+                  onClick={() => setModalWindow(true)}
+                  openIcon={<EditIcon />}
+                  sx={{ color: "white" }}
+                />
+              }
+            >
+              {actions.map((action) => (
+                <SpeedDialAction
+                  key={action.name}
+                  icon={action.icon}
+                  tooltipTitle={action.name}
+                  onClick={action.func}
+                />
+              ))}
+            </SpeedDial>
           </div>
 
           {/* 取引追加画面 */}
@@ -389,6 +422,31 @@ const Timeline = (props) => {
               transaction={transaction}
               setTransaction={setTransaction}
               title={transactionTitle}
+              getInit={getInit}
+              month={sysDate}
+              setBanner={setBanner}
+              setBannerMessage={setBannerMessage}
+              setBannerType={setBannerType}
+            />
+          </CSSTransition>
+
+          {/* 一括入力画面 */}
+          <BlurView
+            status={tranList}
+            setStatus={openTranList}
+            listObject={transactionList}
+            setListObject={setTransactionList}
+          />
+          <CSSTransition
+            in={tranList}
+            timeout={200}
+            unmountOnExit
+            classNames="Modal-show"
+          >
+            <AddTransactionListWindow
+              transactionList={transactionList}
+              setTransactionList={setTransactionList}
+              openWindow={openTranList}
               getInit={getInit}
               month={sysDate}
               setBanner={setBanner}

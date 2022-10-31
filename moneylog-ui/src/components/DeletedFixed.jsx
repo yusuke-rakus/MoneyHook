@@ -9,7 +9,7 @@ import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
 import { Button, CircularProgress } from "@mui/material";
 import { useCookies } from "react-cookie";
-import { rootURI } from "../App";
+import { rootURI } from "../env/env";
 
 const DeletedFixed = (props) => {
   const { banner, setBanner } = props;

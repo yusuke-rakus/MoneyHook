@@ -13,7 +13,7 @@ import Typography from "@mui/material/Typography";
 import Sidebar from "../components/Sidebar";
 import { useCookies } from "react-cookie";
 import { useNavigate } from "react-router-dom";
-import { rootURI } from "../App";
+import { rootURI } from "../env/env";
 
 const MonthlyFixed = (props) => {
   const { themeColor } = props;

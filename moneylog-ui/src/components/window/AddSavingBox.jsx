@@ -16,7 +16,7 @@ import {
   IconButton,
 } from "@mui/material";
 import { useCookies } from "react-cookie";
-import { rootURI } from "../../App";
+import { rootURI } from "../../env/env";
 
 const AddSavingBox = (props) => {
   const {

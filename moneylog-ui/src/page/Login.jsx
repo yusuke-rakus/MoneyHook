@@ -19,7 +19,7 @@ import {
 } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 import ForgotPassword from "../components/window/ForgotPassword";
-import { rootURI } from "../App";
+import { rootURI } from "../env/env";
 
 const Login = (props) => {
   const { setCookie, setThemeColor } = props;

@@ -22,7 +22,7 @@ import { CSSTransition } from "react-transition-group";
 import CloseIcon from "@mui/icons-material/Close";
 import { useEffect } from "react";
 import { useCookies } from "react-cookie";
-import { rootURI } from "../../App";
+import { rootURI } from "../../env/env";
 
 const ModalBox = (props) => {
   const [isLoading, setLoading] = useState(false);

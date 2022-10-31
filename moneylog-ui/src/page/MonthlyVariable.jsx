@@ -10,7 +10,7 @@ import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos";
 import Sidebar from "../components/Sidebar";
 import { useCookies } from "react-cookie";
 import { useNavigate } from "react-router-dom";
-import { rootURI } from "../App";
+import { rootURI } from "../env/env";
 
 const MonthlyVariable = (props) => {
   const { themeColor } = props;

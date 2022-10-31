@@ -2,7 +2,7 @@ import { Button, CircularProgress, TextField } from "@mui/material";
 import React from "react";
 import { useState } from "react";
 import { useCookies } from "react-cookie";
-import { rootURI } from "../App";
+import { rootURI } from "../env/env";
 
 const SettingsChangePassword = (props) => {
   const { banner, setBanner } = props;

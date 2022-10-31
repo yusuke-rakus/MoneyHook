@@ -13,7 +13,7 @@ import AddCircleIcon from "@mui/icons-material/AddCircle";
 import CloseIcon from "@mui/icons-material/Close";
 import { useEffect } from "react";
 import { useCookies } from "react-cookie";
-import { rootURI } from "../../App";
+import { rootURI } from "../../env/env";
 import TransactionListData from "../TransactionListData";
 
 const AddTransactionListWindow = (props) => {

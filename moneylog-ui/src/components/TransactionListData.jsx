@@ -3,7 +3,7 @@ import React, { useState } from "react";
 import "./components_CSS/TransactionListData.css";
 /** 自作コンポーネント */
 import SwitchBalanceButton from "./SwitchBalanceButton";
-import { rootURI } from "../App";
+import { rootURI } from "../env/env";
 /** 外部コンポーネント */
 import {
   TextField,

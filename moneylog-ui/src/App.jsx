@@ -20,8 +20,6 @@ import ResetPassword from "./page/ResetPassword";
 
 export const isTabletOrMobile = createContext();
 
-export const rootURI = "http://localhost:8080";
-
 const App = () => {
   /** 背景色のリスト */
   const [colorList, setColorList] = useState({

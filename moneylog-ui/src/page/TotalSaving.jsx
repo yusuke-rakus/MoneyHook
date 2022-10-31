@@ -19,7 +19,7 @@ import CloseIcon from "@mui/icons-material/Close";
 import UncategorizedSavingWindow from "../components/window/UncategorizedSavingWindow";
 import { useCookies } from "react-cookie";
 import { useNavigate } from "react-router-dom";
-import { rootURI } from "../App";
+import { rootURI } from "../env/env";
 
 const TotalSaving = (props) => {
   const { themeColor } = props;
@@ -299,6 +299,7 @@ const TotalSaving = (props) => {
           <BlurView
             status={uncategorizedWindow}
             setStatus={setUncategorizedWindow}
+            setObject={setEditSavingTarget}
           />
           <CSSTransition
             in={uncategorizedWindow}

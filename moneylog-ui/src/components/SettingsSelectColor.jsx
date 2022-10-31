@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
 import { useCookies } from "react-cookie";
-import { rootURI } from "../App";
+import { rootURI } from "../env/env";
 /** CSS */
 import "./components_CSS/SettingsSelectColor.css";
 

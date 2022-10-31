@@ -1,0 +1,32 @@
+.notFoundPage {
+  width: 100%;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+}
+
+.message {
+  font-weight: lighter;
+}
+
+.title {
+  color: #212121;
+  height: 20%;
+  display: flex;
+  align-items: center;
+}
+
+.subTitle {
+  color: #424242;
+  height: 10%;
+  display: flex;
+  align-items: center;
+}
+
+.notFoundLink {
+  color: #757575;
+  display: flex;
+  align-items: flex-end;
+}

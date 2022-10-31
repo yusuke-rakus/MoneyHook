@@ -18,7 +18,7 @@ import Collapse from "@mui/material/Collapse";
 import CloseIcon from "@mui/icons-material/Close";
 import { useCookies } from "react-cookie";
 import { useNavigate } from "react-router-dom";
-import { rootURI } from "../App";
+import { rootURI } from "../env/env";
 
 const SavingList = (props) => {
   const { themeColor } = props;

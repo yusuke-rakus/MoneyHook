@@ -4,7 +4,7 @@ import "./components_CSS/SettingsFixedList.css";
 import SettingsFixed from "./SettingsFixed";
 import AddCircleIcon from "@mui/icons-material/AddCircle";
 import { useCookies } from "react-cookie";
-import { rootURI } from "../App";
+import { rootURI } from "../env/env";
 
 const SettingsFixedList = (props) => {
   const { banner, setBanner } = props;

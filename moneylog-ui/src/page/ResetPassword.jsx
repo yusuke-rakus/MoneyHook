@@ -9,7 +9,7 @@ import { Button, CircularProgress } from "@mui/material";
 import VisibilityIcon from "@mui/icons-material/Visibility";
 import VisibilityOffIcon from "@mui/icons-material/VisibilityOff";
 import { useLocation, useNavigate } from "react-router-dom";
-import { rootURI } from "../App";
+import { rootURI } from "../env/env";
 
 const ResetPassword = () => {
   const [isLoading, setLoading] = useState(false);

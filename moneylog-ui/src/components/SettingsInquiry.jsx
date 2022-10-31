@@ -6,7 +6,7 @@ import { useCookies } from "react-cookie";
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 import Modal from "@mui/material/Modal";
-import { rootURI } from "../App";
+import { rootURI } from "../env/env";
 
 const SettingsInquiry = (props) => {
   const { banner, setBanner } = props;

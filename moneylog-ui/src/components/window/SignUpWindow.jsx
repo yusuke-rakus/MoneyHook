@@ -10,7 +10,7 @@ import { Button, CircularProgress } from "@mui/material";
 import { useState } from "react";
 import VisibilityIcon from "@mui/icons-material/Visibility";
 import VisibilityOffIcon from "@mui/icons-material/VisibilityOff";
-import { rootURI } from "../../App";
+import { rootURI } from "../../env/env";
 
 const SignUpWindow = (props) => {
   const { setWindow, setBanner, newAccount, setNewAccount } = props;

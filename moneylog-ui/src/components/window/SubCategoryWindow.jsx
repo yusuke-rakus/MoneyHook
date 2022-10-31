@@ -7,7 +7,7 @@ import ChevronRightIcon from "@mui/icons-material/ChevronRight";
 import CloseIcon from "@mui/icons-material/Close";
 import { CircularProgress, TextField } from "@mui/material";
 import { useCookies } from "react-cookie";
-import { rootURI } from "../../App";
+import { rootURI } from "../../env/env";
 
 const SubCategoryWindow = (props) => {
   const {

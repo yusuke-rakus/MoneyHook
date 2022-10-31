@@ -10,7 +10,7 @@ import {
   TextField,
 } from "@mui/material";
 import { AccountCircle } from "@mui/icons-material";
-import { rootURI } from "../../App";
+import { rootURI } from "../../env/env";
 
 const ForgotPassword = (props) => {
   const { setForgotPasswordWindow, setBanner, userEmail, setUserEmail } = props;

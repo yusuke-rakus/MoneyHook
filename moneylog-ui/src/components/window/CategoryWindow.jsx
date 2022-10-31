@@ -9,7 +9,7 @@ import CloseIcon from "@mui/icons-material/Close";
 import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
 import ChevronRightIcon from "@mui/icons-material/ChevronRight";
 import { CircularProgress } from "@mui/material";
-import { rootURI } from "../../App";
+import { rootURI } from "../../env/env";
 
 const CategoryWindow = (props) => {
   const {

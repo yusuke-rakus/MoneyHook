@@ -5,7 +5,7 @@ import "../components_CSS/window_CSS/AddTargetBox.css";
 import CloseIcon from "@mui/icons-material/Close";
 import { TextField, Button, CircularProgress } from "@mui/material";
 import { useCookies } from "react-cookie";
-import { rootURI } from "../../App";
+import { rootURI } from "../../env/env";
 
 const AddTargetBox = (props) => {
   const {

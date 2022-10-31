@@ -1,7 +1,7 @@
 import { Button, CircularProgress, TextField } from "@mui/material";
 import React, { useEffect, useState } from "react";
 import { useCookies } from "react-cookie";
-import { rootURI } from "../App";
+import { rootURI } from "../env/env";
 
 const SettingsUserSettings = (props) => {
   const { banner, setBanner } = props;

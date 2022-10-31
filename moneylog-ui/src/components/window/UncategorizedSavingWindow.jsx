@@ -21,7 +21,7 @@ import {
 } from "@mui/material";
 import { useEffect } from "react";
 import { useCookies } from "react-cookie";
-import { rootURI } from "../../App";
+import { rootURI } from "../../env/env";
 
 const UncategorizedSavingWindow = (props) => {
   const {

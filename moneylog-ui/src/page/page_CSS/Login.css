@@ -1,12 +1,12 @@
 .loginPage {
   width: 100%;
-  height: 100vh;
+  height: 100%;
+  position: fixed;
   padding: 8%;
   background: linear-gradient(to right, #76d5ff, #64b5f6);
   display: flex;
   justify-content: flex-end;
   align-items: center;
-  position: relative;
 }
 
 .inputWindow {
@@ -19,14 +19,16 @@
   display: flex;
   align-items: center;
   flex-direction: column;
+  padding: 5%;
 }
 
 .inputArea {
+  height: 50%;
   margin-bottom: 40px;
 }
 
 .inputArea :first-child {
-  margin-top: 40px;
+  margin-top: 30px;
 }
 
 .banner {

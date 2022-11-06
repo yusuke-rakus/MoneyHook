@@ -33,7 +33,7 @@ const TotalSaving = (props) => {
   const [bannerType, setBannerType] = useState("");
 
   /** 今月 */
-  const [sysDate] = useState(new Date("2022-09-01"));
+  const [sysDate] = useState(new Date());
   sysDate.setDate(1);
 
   /** 貯金総額 */

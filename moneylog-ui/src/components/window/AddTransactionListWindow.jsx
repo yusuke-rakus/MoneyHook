@@ -15,6 +15,7 @@ import { useEffect } from "react";
 import { useCookies } from "react-cookie";
 import { rootURI } from "../../env/env";
 import TransactionListData from "../TransactionListData";
+import { LoadFetchError } from "../FetchError";
 
 const AddTransactionListWindow = (props) => {
   const [isLoading, setLoading] = useState(false);
@@ -205,6 +206,10 @@ const AddTransactionListWindow = (props) => {
       })
       .finally(() => {
         setLoading(false);
+      })
+      .catch(() => {
+        LoadFetchError(setLoading, setWindowBanner);
+        closeModalWindow();
       });
   };
 

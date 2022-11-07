@@ -5,6 +5,7 @@ import SettingsFixed from "./SettingsFixed";
 import AddCircleIcon from "@mui/icons-material/AddCircle";
 import { useCookies } from "react-cookie";
 import { rootURI } from "../env/env";
+import { SettingsFetchError } from "./FetchError";
 
 const SettingsFixedList = (props) => {
   const { banner, setBanner } = props;
@@ -167,6 +168,10 @@ const SettingsFixedList = (props) => {
       .finally(() => {
         setLoading(false);
         getInit();
+      })
+      .catch(() => {
+        // サーバーエラーが発生した場合
+        SettingsFetchError(setLoading, setBanner);
       });
   };
 
@@ -208,6 +213,10 @@ const SettingsFixedList = (props) => {
       })
       .finally(() => {
         setLoading(false);
+      })
+      .catch(() => {
+        // サーバーエラーが発生した場合
+        SettingsFetchError(setLoading, setBanner);
       });
   };
 

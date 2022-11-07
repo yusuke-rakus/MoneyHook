@@ -11,6 +11,11 @@ import Sidebar from "../components/Sidebar";
 import { useCookies } from "react-cookie";
 import { useNavigate } from "react-router-dom";
 import { rootURI } from "../env/env";
+import Alert from "@mui/material/Alert";
+import IconButton from "@mui/material/IconButton";
+import Collapse from "@mui/material/Collapse";
+import CloseIcon from "@mui/icons-material/Close";
+import { LoadFetchError } from "../components/FetchError";
 
 const MonthlyVariable = (props) => {
   const { themeColor } = props;
@@ -25,6 +30,12 @@ const MonthlyVariable = (props) => {
   const [monthlyTotalVariable, setMonthlyTotalVariable] = useState(0);
 
   const [variableCategoryData, setVariableCategoryData] = useState([]);
+
+  const [banner, setBanner] = useState({
+    banner: false,
+    bannerMessage: "",
+    bannerType: "",
+  });
 
   /** API関連 */
   // 当月の変動費を取得
@@ -47,6 +58,10 @@ const MonthlyVariable = (props) => {
           setMonthlyTotalVariable(data.totalVariable);
           setLoading(false);
         }
+      })
+      .catch(() => {
+        // サーバーエラーが発生した場合
+        LoadFetchError(setLoading, setBanner);
       });
   };
 
@@ -125,6 +140,30 @@ const MonthlyVariable = (props) => {
               />
             )}
           </div>
+        </div>
+
+        {/* バーナー */}
+        <div className="bannerArea">
+          <Collapse in={banner.banner}>
+            <Alert
+              severity={banner.bannerType}
+              action={
+                <IconButton
+                  aria-label="close"
+                  color="inherit"
+                  size="small"
+                  onClick={() => {
+                    setBanner(false);
+                  }}
+                >
+                  <CloseIcon fontSize="inherit" />
+                </IconButton>
+              }
+              sx={{ mb: 1 }}
+            >
+              {banner.bannerMessage}
+            </Alert>
+          </Collapse>
         </div>
       </div>
     </>

@@ -17,6 +17,10 @@ import {
 } from "@mui/material";
 import { useCookies } from "react-cookie";
 import { rootURI } from "../../env/env";
+import {
+  LoadFetchErrorWithSeparateBanner,
+  PostErrorWithSeparateBanner,
+} from "../FetchError";
 
 const AddSavingBox = (props) => {
   const {
@@ -196,7 +200,15 @@ const AddSavingBox = (props) => {
       })
       .finally(() => {
         setLoading(false);
-      });
+      })
+      .catch(() =>
+        PostErrorWithSeparateBanner(
+          setLoading,
+          setBanner,
+          setBannerMessage,
+          setBannerType
+        )
+      );
   };
 
   /** 貯金編集 */
@@ -230,7 +242,15 @@ const AddSavingBox = (props) => {
       })
       .finally(() => {
         setLoading(false);
-      });
+      })
+      .catch(() =>
+        PostErrorWithSeparateBanner(
+          setLoading,
+          setBanner,
+          setBannerMessage,
+          setBannerType
+        )
+      );
   };
 
   /** 貯金削除 */
@@ -261,7 +281,15 @@ const AddSavingBox = (props) => {
         closeAddSavingWindow();
         getInit(month);
         setBanner(true);
-      });
+      })
+      .catch(() =>
+        PostErrorWithSeparateBanner(
+          setLoading,
+          setBanner,
+          setBannerMessage,
+          setBannerType
+        )
+      );
   };
 
   /** 目標一覧取得処理 */
@@ -283,6 +311,15 @@ const AddSavingBox = (props) => {
         } else {
           // 失敗
         }
+      })
+      .catch(() => {
+        LoadFetchErrorWithSeparateBanner(
+          setLoading,
+          setBanner,
+          setBannerMessage,
+          setBannerType
+        );
+        closeAddSavingWindow();
       });
   };
 
@@ -305,6 +342,15 @@ const AddSavingBox = (props) => {
         } else {
           // 失敗
         }
+      })
+      .catch(() => {
+        LoadFetchErrorWithSeparateBanner(
+          setLoading,
+          setBanner,
+          setBannerMessage,
+          setBannerType
+        );
+        closeAddSavingWindow();
       });
   };
 

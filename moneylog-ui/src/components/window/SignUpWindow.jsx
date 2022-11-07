@@ -139,7 +139,6 @@ const SignUpWindow = (props) => {
           });
         } else {
           // 失敗
-          console.log("通信結果");
           setLabels((label) => ({
             ...label,
             email: { message: data.message, status: true },
@@ -150,6 +149,14 @@ const SignUpWindow = (props) => {
       })
       .finally(() => {
         setLoading(false);
+      })
+      .catch(() => {
+        closeWindow();
+        setBanner({
+          banner: true,
+          bannerMessage: "不明なエラーが発生しました",
+          bannerType: "error",
+        });
       });
   };
 

@@ -23,6 +23,7 @@ import CloseIcon from "@mui/icons-material/Close";
 import { useEffect } from "react";
 import { useCookies } from "react-cookie";
 import { rootURI } from "../../env/env";
+import { PostError, PostErrorWithSeparateBanner } from "../FetchError";
 
 const ModalBox = (props) => {
   const [isLoading, setLoading] = useState(false);
@@ -37,7 +38,7 @@ const ModalBox = (props) => {
     setBannerMessage,
     setBannerType,
   } = props;
-  const [cookie, setCookie] = useCookies();
+  const [cookie] = useCookies();
 
   useEffect(() => {
     /** 初期値 */
@@ -214,6 +215,15 @@ const ModalBox = (props) => {
       })
       .finally(() => {
         setLoading(false);
+      })
+      .catch(() => {
+        PostErrorWithSeparateBanner(
+          setLoading,
+          setBanner,
+          setBannerMessage,
+          setBannerType,
+          closeModalWindow
+        );
       });
   };
 
@@ -254,6 +264,15 @@ const ModalBox = (props) => {
         closeModalWindow();
         getInit(month);
         setBanner(true);
+      })
+      .catch(() => {
+        PostErrorWithSeparateBanner(
+          setLoading,
+          setBanner,
+          setBannerMessage,
+          setBannerType,
+          closeModalWindow
+        );
       });
   };
 
@@ -285,6 +304,15 @@ const ModalBox = (props) => {
         closeModalWindow();
         getInit(month);
         setBanner(true);
+      })
+      .catch(() => {
+        PostErrorWithSeparateBanner(
+          setLoading,
+          setBanner,
+          setBannerMessage,
+          setBannerType,
+          closeModalWindow
+        );
       });
   };
 
@@ -309,7 +337,8 @@ const ModalBox = (props) => {
         } else {
           // 失敗
         }
-      });
+      })
+      .catch(() => setRecommendList([]));
   };
 
   useEffect(() => {

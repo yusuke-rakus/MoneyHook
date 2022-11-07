@@ -7,6 +7,7 @@ import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 import Modal from "@mui/material/Modal";
 import { rootURI } from "../env/env";
+import { SettingsFetchError } from "./FetchError";
 
 const SettingsInquiry = (props) => {
   const { banner, setBanner } = props;
@@ -58,6 +59,10 @@ const SettingsInquiry = (props) => {
           });
           setLoading(false);
         }
+      })
+      .catch(() => {
+        // サーバーエラーが発生した場合
+        SettingsFetchError(setLoading, setBanner);
       });
   };
 
@@ -91,6 +96,10 @@ const SettingsInquiry = (props) => {
       .finally(() => {
         setCheck(false);
         setInquiryMessage("");
+      })
+      .catch(() => {
+        // サーバーエラーが発生した場合
+        SettingsFetchError(setLoading, setBanner);
       });
   };
 

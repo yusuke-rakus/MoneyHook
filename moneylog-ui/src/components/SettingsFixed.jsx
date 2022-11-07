@@ -19,6 +19,7 @@ import { useEffect } from "react";
 import { useCookies } from "react-cookie";
 import { useNavigate } from "react-router-dom";
 import { rootURI } from "../env/env";
+import { SettingsFetchError } from "./FetchError";
 
 const SettingsFixed = (props) => {
   const {
@@ -97,6 +98,10 @@ const SettingsFixed = (props) => {
         } else {
           // 失敗
         }
+      })
+      .catch(() => {
+        // サーバーエラーが発生した場合
+        SettingsFetchError(setLoading, setBanner);
       });
   };
 
@@ -120,6 +125,10 @@ const SettingsFixed = (props) => {
         } else {
           // 失敗
         }
+      })
+      .catch(() => {
+        // サーバーエラーが発生した場合
+        SettingsFetchError(setLoading, setBanner);
       });
   };
 
@@ -179,6 +188,10 @@ const SettingsFixed = (props) => {
       .finally(() => {
         setLoading(false);
         getInit();
+      })
+      .catch(() => {
+        // サーバーエラーが発生した場合
+        SettingsFetchError(setLoading, setBanner);
       });
   };
 

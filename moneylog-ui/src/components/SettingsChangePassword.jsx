@@ -3,6 +3,7 @@ import React from "react";
 import { useState } from "react";
 import { useCookies } from "react-cookie";
 import { rootURI } from "../env/env";
+import { SettingsFetchError } from "./FetchError";
 
 const SettingsChangePassword = (props) => {
   const { banner, setBanner } = props;
@@ -145,6 +146,10 @@ const SettingsChangePassword = (props) => {
           newPassword2: { password: "", message: "", error: false },
         }));
         setLoading(false);
+      })
+      .catch(() => {
+        // サーバーエラーが発生した場合
+        SettingsFetchError(setLoading, setBanner);
       });
   };
 

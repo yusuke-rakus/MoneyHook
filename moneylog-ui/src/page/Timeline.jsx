@@ -29,6 +29,7 @@ import { SpeedDial, SpeedDialAction, SpeedDialIcon } from "@mui/material";
 import EditIcon from "@mui/icons-material/Edit";
 import AddIcon from "@mui/icons-material/Add";
 import ListIcon from "@mui/icons-material/List";
+import { LoadFetchErrorWithSeparateBanner } from "../components/FetchError";
 
 Chart.register(...registerables);
 
@@ -220,6 +221,15 @@ const Timeline = (props) => {
               .map((d) => `${d}月`)
           );
         }
+      })
+      .catch(() => {
+        // サーバーエラーが発生した場合
+        LoadFetchErrorWithSeparateBanner(
+          setLoading,
+          setBanner,
+          setBannerMessage,
+          setBannerType
+        );
       });
 
     // 当月のTransactionを取得
@@ -239,6 +249,15 @@ const Timeline = (props) => {
           setTimelineDataList(data.transactionList);
           setLoading(false);
         }
+      })
+      .catch(() => {
+        // サーバーエラーが発生した場合
+        LoadFetchErrorWithSeparateBanner(
+          setLoading,
+          setBanner,
+          setBannerMessage,
+          setBannerType
+        );
       });
   };
 

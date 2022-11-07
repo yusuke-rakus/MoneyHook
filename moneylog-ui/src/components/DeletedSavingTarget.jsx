@@ -10,6 +10,7 @@ import Paper from "@mui/material/Paper";
 import { Button, CircularProgress } from "@mui/material";
 import { useCookies } from "react-cookie";
 import { rootURI } from "../env/env";
+import { SettingsFetchError } from "./FetchError";
 
 const DeletedSavingTarget = (props) => {
   const { banner, setBanner } = props;
@@ -52,6 +53,10 @@ const DeletedSavingTarget = (props) => {
       .finally(() => {
         setLoading(false);
         getInit();
+      })
+      .catch(() => {
+        // サーバーエラーが発生した場合
+        SettingsFetchError(setLoading, setBanner);
       });
   };
 
@@ -90,6 +95,10 @@ const DeletedSavingTarget = (props) => {
       .finally(() => {
         setLoading(false);
         getInit();
+      })
+      .catch(() => {
+        // サーバーエラーが発生した場合
+        SettingsFetchError(setLoading, setBanner);
       });
   };
 
@@ -112,6 +121,10 @@ const DeletedSavingTarget = (props) => {
             setSavingTarget(data.savingTarget);
           }
         }
+      })
+      .catch(() => {
+        // サーバーエラーが発生した場合
+        SettingsFetchError(setLoading, setBanner);
       });
   };
 

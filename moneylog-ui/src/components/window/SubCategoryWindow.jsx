@@ -123,7 +123,8 @@ const SubCategoryWindow = (props) => {
       .then((data) => {
         setLoading(false);
         setSubCategoryList(data.subCategoryList);
-      });
+      })
+      .catch(() => setLoading(false));
   };
 
   useEffect(() => {

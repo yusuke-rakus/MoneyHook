@@ -10,6 +10,7 @@ import Paper from "@mui/material/Paper";
 import { Button, CircularProgress } from "@mui/material";
 import { useCookies } from "react-cookie";
 import { rootURI } from "../env/env";
+import { SettingsFetchError } from "./FetchError";
 
 const DeletedFixed = (props) => {
   const { banner, setBanner } = props;
@@ -52,6 +53,10 @@ const DeletedFixed = (props) => {
       .finally(() => {
         setLoading(false);
         getInit();
+      })
+      .catch(() => {
+        // サーバーエラーが発生した場合
+        SettingsFetchError(setLoading, setBanner);
       });
   };
 
@@ -89,6 +94,10 @@ const DeletedFixed = (props) => {
       .finally(() => {
         setLoading(false);
         getInit();
+      })
+      .catch(() => {
+        // サーバーエラーが発生した場合
+        SettingsFetchError(setLoading, setBanner);
       });
   };
 
@@ -106,6 +115,10 @@ const DeletedFixed = (props) => {
       .then((res) => res.json())
       .then((data) => {
         setMonthlyTransactionList(data.monthlyTransactionList);
+      })
+      .catch(() => {
+        // サーバーエラーが発生した場合
+        SettingsFetchError(setLoading, setBanner);
       });
   };
 

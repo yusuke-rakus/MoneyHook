@@ -24,6 +24,7 @@ import { SpeedDial, SpeedDialAction, SpeedDialIcon } from "@mui/material";
 import EditIcon from "@mui/icons-material/Edit";
 import AddIcon from "@mui/icons-material/Add";
 import ListIcon from "@mui/icons-material/List";
+import { LoadFetchErrorWithSeparateBanner } from "../components/FetchError";
 
 const Home = (props) => {
   const { themeColor } = props;
@@ -118,6 +119,15 @@ const Home = (props) => {
         setHomeAccodionDataList(data.categoryList);
         setMonthlyTotalAmount(data.balance);
         setLoading(false);
+      })
+      .catch(() => {
+        // サーバーエラーが発生した場合
+        LoadFetchErrorWithSeparateBanner(
+          setLoading,
+          setBanner,
+          setBannerMessage,
+          setBannerType
+        );
       });
   };
 

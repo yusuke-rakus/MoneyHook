@@ -14,6 +14,11 @@ import Sidebar from "../components/Sidebar";
 import { useCookies } from "react-cookie";
 import { useNavigate } from "react-router-dom";
 import { rootURI } from "../env/env";
+import Alert from "@mui/material/Alert";
+import IconButton from "@mui/material/IconButton";
+import Collapse from "@mui/material/Collapse";
+import CloseIcon from "@mui/icons-material/Close";
+import { LoadFetchError } from "../components/FetchError";
 
 const MonthlyFixed = (props) => {
   const { themeColor } = props;
@@ -32,6 +37,11 @@ const MonthlyFixed = (props) => {
   const [fixedSpendingCategoryData, setFixedSpendingCategoryData] = useState(
     []
   );
+  const [banner, setBanner] = useState({
+    banner: false,
+    bannerMessage: "",
+    bannerType: "",
+  });
 
   /** API関連 */
   const getInit = (month) => {
@@ -53,6 +63,10 @@ const MonthlyFixed = (props) => {
           setFixedIncomeCategoryData(data.monthlyFixedList);
           setTotalFixedIncome(data.disposableIncome);
         }
+      })
+      .catch(() => {
+        // サーバーエラーが発生した場合
+        LoadFetchError(setLoading, setBanner);
       });
 
     // 月別固定支出の取得
@@ -73,6 +87,10 @@ const MonthlyFixed = (props) => {
           setTotalFixedSpending(data.disposableIncome);
           setLoading(false);
         }
+      })
+      .catch(() => {
+        // サーバーエラーが発生した場合
+        LoadFetchError(setLoading, setBanner);
       });
   };
 
@@ -189,6 +207,30 @@ const MonthlyFixed = (props) => {
               </>
             )}
           </div>
+        </div>
+
+        {/* バーナー */}
+        <div className="bannerArea">
+          <Collapse in={banner.banner}>
+            <Alert
+              severity={banner.bannerType}
+              action={
+                <IconButton
+                  aria-label="close"
+                  color="inherit"
+                  size="small"
+                  onClick={() => {
+                    setBanner(false);
+                  }}
+                >
+                  <CloseIcon fontSize="inherit" />
+                </IconButton>
+              }
+              sx={{ mb: 1 }}
+            >
+              {banner.bannerMessage}
+            </Alert>
+          </Collapse>
         </div>
       </div>
     </>

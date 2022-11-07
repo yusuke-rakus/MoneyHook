@@ -121,7 +121,14 @@ const Login = (props) => {
       })
       .finally(() => {
         setLoading(false);
-      });
+      })
+      .catch(() =>
+        setBanner({
+          banner: true,
+          bannerMessage: "不明なエラーが発生しました",
+          bannerType: "error",
+        })
+      );
   };
 
   return (

@@ -40,6 +40,9 @@ const CategoryWindow = (props) => {
       .then((data) => {
         setLoading(false);
         setCategoryList(data.categoryList);
+      })
+      .catch(() => {
+        setLoading(false);
       });
   };
 

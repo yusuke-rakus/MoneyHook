@@ -20,6 +20,7 @@ import UncategorizedSavingWindow from "../components/window/UncategorizedSavingW
 import { useCookies } from "react-cookie";
 import { useNavigate } from "react-router-dom";
 import { rootURI } from "../env/env";
+import { LoadFetchErrorWithSeparateBanner } from "../components/FetchError";
 
 const TotalSaving = (props) => {
   const { themeColor } = props;
@@ -148,6 +149,15 @@ const TotalSaving = (props) => {
           setTotalSaving(data.totalSavingAmount);
           setLoading(false);
         }
+      })
+      .catch(() => {
+        // サーバーエラーが発生した場合
+        LoadFetchErrorWithSeparateBanner(
+          setLoading,
+          setBanner,
+          setBannerMessage,
+          setBannerType
+        );
       });
   };
 
@@ -171,6 +181,15 @@ const TotalSaving = (props) => {
           setSavingTargetData(data.savingTargetList);
           setLoading(false);
         }
+      })
+      .catch(() => {
+        // サーバーエラーが発生した場合
+        LoadFetchErrorWithSeparateBanner(
+          setLoading,
+          setBanner,
+          setBannerMessage,
+          setBannerType
+        );
       });
   };
 

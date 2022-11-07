@@ -67,6 +67,14 @@ const ForgotPassword = (props) => {
           bannerType: data.status,
         });
         setLoading(false);
+      })
+      .catch(() => {
+        closeWindow();
+        setBanner({
+          banner: true,
+          bannerMessage: "不明なエラーが発生しました",
+          bannerType: "error",
+        });
       });
   };
 

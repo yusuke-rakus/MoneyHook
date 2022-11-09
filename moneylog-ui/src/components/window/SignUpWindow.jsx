@@ -261,14 +261,16 @@ const SignUpWindow = (props) => {
       />
 
       {/* 登録ボタン */}
-      <Button
-        onClick={signUp}
-        variant="contained"
-        disabled={isLoading}
-        sx={{ marginY: 2 }}
-      >
-        {isLoading ? <CircularProgress size={20} /> : "登録"}
-      </Button>
+      <div>
+        <Button
+          onClick={signUp}
+          variant="contained"
+          disabled={isLoading}
+          sx={{ marginY: 2 }}
+        >
+          {isLoading ? <CircularProgress size={20} /> : "登録"}
+        </Button>
+      </div>
     </div>
   );
 };

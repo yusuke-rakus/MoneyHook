@@ -113,14 +113,16 @@ const ForgotPassword = (props) => {
       />
 
       {/* 登録ボタン */}
-      <Button
-        onClick={sendEmail}
-        variant="contained"
-        disabled={isLoading}
-        sx={{ marginY: 2 }}
-      >
-        {isLoading ? <CircularProgress size={20} /> : "登録"}
-      </Button>
+      <div>
+        <Button
+          onClick={sendEmail}
+          variant="contained"
+          disabled={isLoading}
+          sx={{ marginY: 2 }}
+        >
+          {isLoading ? <CircularProgress size={20} /> : "登録"}
+        </Button>
+      </div>
     </div>
   );
 };

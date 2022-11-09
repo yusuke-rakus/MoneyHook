@@ -10,6 +10,7 @@
   padding: 20px 100px;
   text-align: center;
   display: relative;
+  z-index: 3;
 }
 
 /* 目標名称 */

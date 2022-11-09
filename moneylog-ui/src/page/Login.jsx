@@ -175,32 +175,36 @@ const Login = (props) => {
         </div>
 
         {/* ログイン */}
-        <Button
-          onClick={login}
-          variant="contained"
-          disabled={isLoading}
-          className="loginButton"
-        >
-          {isLoading ? <CircularProgress size={20} /> : "ログイン"}
-        </Button>
-
-        <ButtonGroup
-          variant="standard"
-          sx={{ color: "#9e9e9e", marginTop: "20px" }}
-        >
-          {/* 新規登録 */}
-          <Button onClick={() => setWindow(true)} disabled={isLoading}>
-            新規登録
-          </Button>
-
-          {/* パスワード再設定 */}
+        <div>
           <Button
-            onClick={() => setForgotPasswordWindow(true)}
+            onClick={login}
+            variant="contained"
             disabled={isLoading}
+            className="loginButton"
           >
-            パスワードを忘れた
+            {isLoading ? <CircularProgress size={20} /> : "ログイン"}
           </Button>
-        </ButtonGroup>
+        </div>
+
+        <div>
+          <ButtonGroup
+            variant="standard"
+            sx={{ color: "#9e9e9e", marginTop: "20px" }}
+          >
+            {/* 新規登録 */}
+            <Button onClick={() => setWindow(true)} disabled={isLoading}>
+              新規登録
+            </Button>
+
+            {/* パスワード再設定 */}
+            <Button
+              onClick={() => setForgotPasswordWindow(true)}
+              disabled={isLoading}
+            >
+              パスワードを忘れた
+            </Button>
+          </ButtonGroup>
+        </div>
       </div>
 
       {/* バーナー */}

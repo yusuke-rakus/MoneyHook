@@ -1,6 +1,13 @@
 import React, { useEffect, useState } from "react";
 /** CSS */
 import "../components_CSS/window_CSS/AddSavingBox.css";
+/** 自作コンポーネント */
+import { rootURI } from "../../env/env";
+import {
+  LoadFetchErrorWithSeparateBanner,
+  PostErrorWithSeparateBanner,
+} from "../FetchError";
+import { getJST } from "../GetJST";
 /** 外部コンポーネント */
 import CloseIcon from "@mui/icons-material/Close";
 import {
@@ -16,11 +23,6 @@ import {
   IconButton,
 } from "@mui/material";
 import { useCookies } from "react-cookie";
-import { rootURI } from "../../env/env";
-import {
-  LoadFetchErrorWithSeparateBanner,
-  PostErrorWithSeparateBanner,
-} from "../FetchError";
 
 const AddSavingBox = (props) => {
   const {
@@ -55,7 +57,7 @@ const AddSavingBox = (props) => {
 
   /** 貯金日がなければ当日をセット */
   if (!saving.savingDate) {
-    setSaving({ ...saving, savingDate: new Date() });
+    setSaving({ ...saving, savingDate: getJST(new Date()) });
   }
 
   /** 金額表示処理 */
@@ -406,8 +408,11 @@ const AddSavingBox = (props) => {
               >
                 {[...Array(20)].map((v, i) => {
                   return (
-                    <MenuItem key={i} value={new Date().getFullYear() - i}>
-                      {new Date().getFullYear() - i}
+                    <MenuItem
+                      key={i}
+                      value={getJST(new Date()).getFullYear() - i}
+                    >
+                      {getJST(new Date()).getFullYear() - i}
                     </MenuItem>
                   );
                 })}

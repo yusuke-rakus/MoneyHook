@@ -1,12 +1,13 @@
 import React, { useState } from "react";
 /** CSS */
 import "../components_CSS/window_CSS/AddTargetBox.css";
+/** 自作コンポーネント */
+import { rootURI } from "../../env/env";
+import { PostErrorWithSeparateBanner } from "../FetchError";
+import { useCookies } from "react-cookie";
 /** 外部コンポーネント */
 import CloseIcon from "@mui/icons-material/Close";
 import { TextField, Button, CircularProgress } from "@mui/material";
-import { useCookies } from "react-cookie";
-import { rootURI } from "../../env/env";
-import { PostErrorWithSeparateBanner } from "../FetchError";
 
 const AddTargetBox = (props) => {
   const {

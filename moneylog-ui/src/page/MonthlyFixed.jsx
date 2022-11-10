@@ -3,6 +3,9 @@ import React, { useEffect, useState } from "react";
 import "./page_CSS/MonthlyFixed.css";
 import "./page_CSS/common.css";
 /** 自作コンポーネント */
+import { rootURI } from "../env/env";
+import { LoadFetchError } from "../components/FetchError";
+import { getJST } from "../components/GetJST";
 import FixedCategoryGroup from "../components/FixedCategoryGroup";
 /** 外部コンポーネント */
 import ArrowBackIosNewIcon from "@mui/icons-material/ArrowBackIosNew";
@@ -13,12 +16,10 @@ import Typography from "@mui/material/Typography";
 import Sidebar from "../components/Sidebar";
 import { useCookies } from "react-cookie";
 import { useNavigate } from "react-router-dom";
-import { rootURI } from "../env/env";
 import Alert from "@mui/material/Alert";
 import IconButton from "@mui/material/IconButton";
 import Collapse from "@mui/material/Collapse";
 import CloseIcon from "@mui/icons-material/Close";
-import { LoadFetchError } from "../components/FetchError";
 
 const MonthlyFixed = (props) => {
   const { themeColor } = props;
@@ -27,7 +28,7 @@ const MonthlyFixed = (props) => {
   const navigate = useNavigate();
 
   /** 今月 */
-  const [sysDate, setSysDate] = useState(new Date());
+  const [sysDate, setSysDate] = useState(getJST(new Date()));
   sysDate.setDate(1);
 
   const [totalFixedIncome, setTotalFixedIncome] = useState(0);

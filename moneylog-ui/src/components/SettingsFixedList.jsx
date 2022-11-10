@@ -1,11 +1,11 @@
-import { Button, CircularProgress, IconButton } from "@mui/material";
 import React, { useEffect, useState } from "react";
 import "./components_CSS/SettingsFixedList.css";
-import SettingsFixed from "./SettingsFixed";
-import AddCircleIcon from "@mui/icons-material/AddCircle";
-import { useCookies } from "react-cookie";
 import { rootURI } from "../env/env";
+import SettingsFixed from "./SettingsFixed";
+import { useCookies } from "react-cookie";
 import { SettingsFetchError } from "./FetchError";
+import AddCircleIcon from "@mui/icons-material/AddCircle";
+import { Button, CircularProgress, IconButton } from "@mui/material";
 
 const SettingsFixedList = (props) => {
   const { banner, setBanner } = props;

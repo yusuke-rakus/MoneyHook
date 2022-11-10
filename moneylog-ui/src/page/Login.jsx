@@ -3,8 +3,10 @@ import { useState } from "react";
 /** CSS */
 import "./page_CSS/Login.css";
 /** 自作コンポーネント */
+import { rootURI } from "../env/env";
 import SignUpWindow from "../components/window/SignUpWindow";
 import BlurView from "../components/window/BlurView";
+import ForgotPassword from "../components/window/ForgotPassword";
 /** 外部コンポーネント */
 import CloseIcon from "@mui/icons-material/Close";
 import { CSSTransition } from "react-transition-group";
@@ -18,8 +20,6 @@ import {
   TextField,
 } from "@mui/material";
 import { useNavigate } from "react-router-dom";
-import ForgotPassword from "../components/window/ForgotPassword";
-import { rootURI } from "../env/env";
 
 const Login = (props) => {
   const { setCookie, setThemeColor } = props;

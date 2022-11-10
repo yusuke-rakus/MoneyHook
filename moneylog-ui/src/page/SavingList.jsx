@@ -3,6 +3,10 @@ import React, { useEffect, useState } from "react";
 import "./page_CSS/SavingList.css";
 import "./page_CSS/common.css";
 /** 自作コンポーネント */
+import { rootURI } from "../env/env";
+import Sidebar from "../components/Sidebar";
+import { LoadFetchErrorWithSeparateBanner } from "../components/FetchError";
+import { getJST } from "../components/GetJST";
 import SavingListData from "../components/SavingListData";
 import AddSavingBox from "../components/window/AddSavingBox";
 import HouseholdBudgetButton from "../components/HouseholdBudgetButton";
@@ -11,15 +15,12 @@ import BlurView from "../components/window/BlurView";
 import ArrowBackIosNewIcon from "@mui/icons-material/ArrowBackIosNew";
 import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos";
 import { CSSTransition } from "react-transition-group";
-import Sidebar from "../components/Sidebar";
 import Alert from "@mui/material/Alert";
 import IconButton from "@mui/material/IconButton";
 import Collapse from "@mui/material/Collapse";
 import CloseIcon from "@mui/icons-material/Close";
 import { useCookies } from "react-cookie";
 import { useNavigate } from "react-router-dom";
-import { rootURI } from "../env/env";
-import { LoadFetchErrorWithSeparateBanner } from "../components/FetchError";
 
 const SavingList = (props) => {
   const { themeColor } = props;
@@ -33,7 +34,7 @@ const SavingList = (props) => {
   const [bannerType, setBannerType] = useState("");
 
   /** 今月 */
-  const [sysDate, setSysDate] = useState(new Date());
+  const [sysDate, setSysDate] = useState(getJST(new Date()));
   sysDate.setDate(1);
 
   const [AddSavingStatus, setAddSavingStatus] = useState(false);

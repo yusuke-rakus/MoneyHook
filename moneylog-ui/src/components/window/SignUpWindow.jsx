@@ -1,16 +1,17 @@
 import React from "react";
+import { useState } from "react";
 /** CSS */
 import "../components_CSS/window_CSS/SignUpWindow.css";
+/** 自作コンポーネント */
+import { rootURI } from "../../env/env";
 /** 外部コンポーネント */
 import InputAdornment from "@mui/material/InputAdornment";
 import TextField from "@mui/material/TextField";
 import AccountCircle from "@mui/icons-material/AccountCircle";
 import CloseIcon from "@mui/icons-material/Close";
 import { Button, CircularProgress } from "@mui/material";
-import { useState } from "react";
 import VisibilityIcon from "@mui/icons-material/Visibility";
 import VisibilityOffIcon from "@mui/icons-material/VisibilityOff";
-import { rootURI } from "../../env/env";
 
 const SignUpWindow = (props) => {
   const { setWindow, setBanner, newAccount, setNewAccount } = props;

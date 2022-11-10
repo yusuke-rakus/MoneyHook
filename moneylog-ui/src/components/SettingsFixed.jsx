@@ -1,8 +1,13 @@
 import React, { useState } from "react";
+import { useEffect } from "react";
+import { useCookies } from "react-cookie";
+import { useNavigate } from "react-router-dom";
 /** CSS */
 import "./components_CSS/SettingsFixed.css";
 /** 自作コンポーネント */
 import SwitchBalanceButton from "../components/SwitchBalanceButton";
+import { rootURI } from "../env/env";
+import { SettingsFetchError } from "./FetchError";
 /** 外部コンポーネント */
 import {
   TextField,
@@ -15,11 +20,6 @@ import {
   InputLabel,
 } from "@mui/material";
 import DeleteIcon from "@mui/icons-material/Delete";
-import { useEffect } from "react";
-import { useCookies } from "react-cookie";
-import { useNavigate } from "react-router-dom";
-import { rootURI } from "../env/env";
-import { SettingsFetchError } from "./FetchError";
 
 const SettingsFixed = (props) => {
   const {

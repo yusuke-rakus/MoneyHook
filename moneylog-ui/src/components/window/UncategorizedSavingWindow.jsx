@@ -1,6 +1,14 @@
 import React, { useState } from "react";
+import { useEffect } from "react";
+import { useCookies } from "react-cookie";
 /** CSS */
 import "../components_CSS/window_CSS/UncategorizedSavingWindow.css";
+/** 自作コンポーネント */
+import { rootURI } from "../../env/env";
+import {
+  LoadFetchErrorWithSeparateBanner,
+  PostErrorWithSeparateBanner,
+} from "../FetchError";
 /** 外部コンポーネント */
 import CloseIcon from "@mui/icons-material/Close";
 import {
@@ -19,13 +27,6 @@ import {
   MenuItem,
   Select,
 } from "@mui/material";
-import { useEffect } from "react";
-import { useCookies } from "react-cookie";
-import { rootURI } from "../../env/env";
-import {
-  LoadFetchErrorWithSeparateBanner,
-  PostErrorWithSeparateBanner,
-} from "../FetchError";
 
 const UncategorizedSavingWindow = (props) => {
   const {

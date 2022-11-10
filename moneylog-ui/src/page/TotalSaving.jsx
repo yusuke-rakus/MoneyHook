@@ -3,6 +3,10 @@ import React, { useEffect, useState } from "react";
 import "./page_CSS/TotalSaving.css";
 import "./page_CSS/common.css";
 /** 自作コンポーネント */
+import { rootURI } from "../env/env";
+import UncategorizedSavingWindow from "../components/window/UncategorizedSavingWindow";
+import { LoadFetchErrorWithSeparateBanner } from "../components/FetchError";
+import { getJST } from "../components/GetJST";
 import SavingTargetCard from "../components/SavingTargetCard";
 import UncategorizedSavingCard from "../components/UncategorizedSavingCard";
 import BlurView from "../components/window/BlurView";
@@ -16,11 +20,8 @@ import Alert from "@mui/material/Alert";
 import IconButton from "@mui/material/IconButton";
 import Collapse from "@mui/material/Collapse";
 import CloseIcon from "@mui/icons-material/Close";
-import UncategorizedSavingWindow from "../components/window/UncategorizedSavingWindow";
 import { useCookies } from "react-cookie";
 import { useNavigate } from "react-router-dom";
-import { rootURI } from "../env/env";
-import { LoadFetchErrorWithSeparateBanner } from "../components/FetchError";
 
 const TotalSaving = (props) => {
   const { themeColor } = props;
@@ -34,7 +35,7 @@ const TotalSaving = (props) => {
   const [bannerType, setBannerType] = useState("");
 
   /** 今月 */
-  const [sysDate] = useState(new Date());
+  const [sysDate] = useState(getJST(new Date()));
   sysDate.setDate(1);
 
   /** 貯金総額 */

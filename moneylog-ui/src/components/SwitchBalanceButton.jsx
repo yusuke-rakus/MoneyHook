@@ -1,10 +1,10 @@
+import { useEffect } from "react";
 import React, { useState } from "react";
 /** CSS */
 import "./components_CSS/SwitchBalanceButton.css";
 /** 外部コンポーネント */
 import AddIcon from "@mui/icons-material/Add";
 import RemoveIcon from "@mui/icons-material/Remove";
-import { useEffect } from "react";
 
 const SwitchBalanceButton = (props) => {
   // balanceの値に応じてボタンを切り替える

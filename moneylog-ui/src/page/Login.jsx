@@ -20,6 +20,7 @@ import {
   TextField,
 } from "@mui/material";
 import { useNavigate } from "react-router-dom";
+import { getCookieRange } from "../components/GetJST";
 
 const Login = (props) => {
   const { setCookie, setThemeColor } = props;
@@ -91,7 +92,9 @@ const Login = (props) => {
       .then((data) => {
         if (data.status === "success") {
           // 成功
-          setCookie("userId", data.user.userId);
+          setCookie("userId", data.user.userId, {
+            expires: getCookieRange(new Date()),
+          });
           setCookie(
             "themeColor",
             data.user.themeColorCode || data.user.themeColorGradientCode

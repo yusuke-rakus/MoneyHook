@@ -97,7 +97,8 @@ const Login = (props) => {
           });
           setCookie(
             "themeColor",
-            data.user.themeColorCode || data.user.themeColorGradientCode
+            data.user.themeColorCode || data.user.themeColorGradientCode,
+            { expires: getCookieRange(new Date()) }
           );
           setThemeColor(
             data.user.themeColorCode || data.user.themeColorGradientCode

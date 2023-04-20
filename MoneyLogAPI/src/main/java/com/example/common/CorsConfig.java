@@ -16,6 +16,7 @@ public class CorsConfig {
 	@Bean
 	public CorsFilter corsFilter() {
 		List<String> url = new ArrayList<>();
+		url.add("https://money-hooks.com");
 		url.add("http://localhost:3000");
 
 		CorsConfiguration config = new CorsConfiguration();

@@ -74,7 +74,7 @@
 			target_amount
 		FROM
 			saving_target
-		WHERE user_no IN (#{userNo}, 1)
+		WHERE user_no = #{userNo}
 		AND saving_target_name = #{savingTargetName};
 	</select>
 

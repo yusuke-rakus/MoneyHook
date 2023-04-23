@@ -36,7 +36,9 @@ public class ErrorMessage {
 	/** 変動費データの取得に失敗しました */
 	public static final String MONTHLY_VARIABLE_DATA_GET_FAILED = "変動費データの取得に失敗しました";
 	/** データの登録に失敗しました */
-	public static final String TRANSACTION_DATA_INSERT_FAILED = "データの登録に失敗しました";
+	public static final String TRANSACTION_DATA_INSERT_FAILED = "登録に失敗しました";
+	/** データの削除に失敗しました */
+	public static final String TRANSACTION_DATA_DELETE_FAILED = "削除に失敗しました";
 
 	// monthlyTransaction
 	/** 月次固定費が存在しない */

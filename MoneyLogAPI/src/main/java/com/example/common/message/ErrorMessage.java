@@ -43,6 +43,8 @@ public class ErrorMessage {
 	public static final String MONTHLY_TRANSACTION_NOT_EXISTS = "月次固定費が存在しませんでした";
 	/** 月次取引データの失敗 */
 	public static final String DELETE_FIXED_ERROR = "月次取引データの削除に失敗しました";
+	/** 月次取引データの編集失敗 */
+	public static final String MONTHLY_TRANSACTION_EDIT_ERROR = "データの編集に失敗しました";
 
 	// category
 	/** カテゴリデータの取得失敗 */

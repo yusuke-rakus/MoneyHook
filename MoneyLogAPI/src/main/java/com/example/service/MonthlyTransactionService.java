@@ -1,6 +1,7 @@
 package com.example.service;
 
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -46,6 +47,11 @@ public class MonthlyTransactionService {
 			List<MonthlyTransaction> monthlyTransactionList = monthlyTransactionMapper.getFixed(form);
 			if (monthlyTransactionList.size() == 0) {
 				throw new Exception();
+			} else {
+				monthlyTransactionList = monthlyTransactionList.stream()
+						.sorted(Comparator.comparing(MonthlyTransaction::getMonthlyTransactionId))
+						.sorted(Comparator.comparing(MonthlyTransaction::getMonthlyTransactionDate))
+						.collect(Collectors.toList());
 			}
 			res.setMonthlyTransactionList(monthlyTransactionList);
 		} catch (Exception e) {
@@ -64,12 +70,11 @@ public class MonthlyTransactionService {
 
 		try {
 			monthlyTransactionMapper.deleteFixed(form);
+			res.setMessage(SuccessMessage.MONTHLY_TRANSACTION_DELETE_SUCCESSED);
 		} catch (Exception e) {
 			res.setStatus(Status.ERROR.getStatus());
 			res.setMessage(ErrorMessage.DELETE_FIXED_ERROR);
 		}
-
-		res.setMessage(SuccessMessage.MONTHLY_TRANSACTION_DELETE_SUCCESSED);
 
 		return res;
 	}
@@ -182,6 +187,7 @@ public class MonthlyTransactionService {
 
 		} catch (Exception e) {
 			res.setStatus(Status.ERROR.getStatus());
+			res.setMessage(ErrorMessage.MONTHLY_TRANSACTION_EDIT_ERROR);
 		}
 
 		return res;

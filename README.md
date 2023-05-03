@@ -1,6 +1,6 @@
-# MoneyHooks-mobile
+# MoneyHooks
 
-Flutter を用いた家計簿アプリケーションです。
+React を用いた家計簿アプリケーションです。
 
 ## 概要
 
@@ -31,6 +31,8 @@ Flutter を用いた家計簿アプリケーションです。
 収支データの入力を行う。「固定費として計算する」ボタン押下で固定支出/変動支出の振り分けを行う
 
 ![input](https://user-images.githubusercontent.com/93502995/235864171-49d26d5c-f2b9-4c87-b1f6-86c46c2161ba.png)
+
+一括入力
 
 ![inputlist](https://user-images.githubusercontent.com/93502995/235864181-f6e8ecaf-2ae9-400c-961b-a4bcc1e0a151.png)
 

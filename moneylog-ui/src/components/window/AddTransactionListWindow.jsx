@@ -1,6 +1,11 @@
 import React, { useState } from "react";
 /** CSS */
 import "../components_CSS/window_CSS/AddTransactionListWindow.css";
+/** 自作コンポーネント */
+import { rootURI } from "../../env/env";
+import TransactionListData from "../TransactionListData";
+import { LoadFetchError } from "../FetchError";
+import { getJST } from "../GetJST";
 /** 外部コンポーネント */
 import {
   Button,
@@ -13,8 +18,6 @@ import AddCircleIcon from "@mui/icons-material/AddCircle";
 import CloseIcon from "@mui/icons-material/Close";
 import { useEffect } from "react";
 import { useCookies } from "react-cookie";
-import { rootURI } from "../../env/env";
-import TransactionListData from "../TransactionListData";
 
 const AddTransactionListWindow = (props) => {
   const [isLoading, setLoading] = useState(false);
@@ -41,7 +44,7 @@ const AddTransactionListWindow = (props) => {
     setTransactionList([
       ...transactionList,
       {
-        transactionDate: new Date(),
+        transactionDate: getJST(new Date()),
         transactionAmount: "",
         transactionSign: -1,
         transactionName: "",
@@ -205,6 +208,10 @@ const AddTransactionListWindow = (props) => {
       })
       .finally(() => {
         setLoading(false);
+      })
+      .catch(() => {
+        LoadFetchError(setLoading, setWindowBanner);
+        closeModalWindow();
       });
   };
 

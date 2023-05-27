@@ -232,8 +232,13 @@ public class SavingController {
 			res.setMessage(errorMessage);
 			return res;
 		}
-
-		savingService.deleteSaving(form);
+		try {
+			savingService.deleteSaving(form);
+		} catch (SystemException e) {
+			res.setStatus(Status.ERROR.getStatus());
+			res.setMessage(e.getMessage());
+			return res;
+		}
 
 		res.setMessage(SuccessMessage.SAVING_DATA_DELETE_SUCCESSED);
 		return res;

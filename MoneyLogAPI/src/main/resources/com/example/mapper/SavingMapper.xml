@@ -68,8 +68,9 @@
 			(SELECT
 				SUM(saving_amount)
 			FROM saving
-			WHERE
-				LAST_DAY(saving_month) > saving_date
+			WHERE 
+				user_no = #{userNo}
+			AND LAST_DAY(saving_month) > saving_date
 			) as monthly_total_saving_amount
 		FROM
 			saving s

@@ -1,16 +1,17 @@
 import React from "react";
+import { useState } from "react";
 /** CSS */
 import "../components_CSS/window_CSS/SignUpWindow.css";
+/** 自作コンポーネント */
+import { rootURI } from "../../env/env";
 /** 外部コンポーネント */
 import InputAdornment from "@mui/material/InputAdornment";
 import TextField from "@mui/material/TextField";
 import AccountCircle from "@mui/icons-material/AccountCircle";
 import CloseIcon from "@mui/icons-material/Close";
 import { Button, CircularProgress } from "@mui/material";
-import { useState } from "react";
 import VisibilityIcon from "@mui/icons-material/Visibility";
 import VisibilityOffIcon from "@mui/icons-material/VisibilityOff";
-import { rootURI } from "../../env/env";
 
 const SignUpWindow = (props) => {
   const { setWindow, setBanner, newAccount, setNewAccount } = props;
@@ -139,7 +140,6 @@ const SignUpWindow = (props) => {
           });
         } else {
           // 失敗
-          console.log("通信結果");
           setLabels((label) => ({
             ...label,
             email: { message: data.message, status: true },
@@ -150,6 +150,14 @@ const SignUpWindow = (props) => {
       })
       .finally(() => {
         setLoading(false);
+      })
+      .catch(() => {
+        closeWindow();
+        setBanner({
+          banner: true,
+          bannerMessage: "不明なエラーが発生しました",
+          bannerType: "error",
+        });
       });
   };
 
@@ -254,14 +262,16 @@ const SignUpWindow = (props) => {
       />
 
       {/* 登録ボタン */}
-      <Button
-        onClick={signUp}
-        variant="contained"
-        disabled={isLoading}
-        sx={{ marginY: 2 }}
-      >
-        {isLoading ? <CircularProgress size={20} /> : "登録"}
-      </Button>
+      <div>
+        <Button
+          onClick={signUp}
+          variant="contained"
+          disabled={isLoading}
+          sx={{ marginY: 2 }}
+        >
+          {isLoading ? <CircularProgress size={20} /> : "登録"}
+        </Button>
+      </div>
     </div>
   );
 };

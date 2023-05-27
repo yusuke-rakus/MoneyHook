@@ -3,6 +3,8 @@ import { useCookies } from "react-cookie";
 import { rootURI } from "../env/env";
 /** CSS */
 import "./components_CSS/SettingsSelectColor.css";
+/** 自作コンポーネント */
+import { SettingsFetchErrorOnlyBanner } from "./FetchError";
 
 const SettingsSelectColor = (props) => {
   /** カラーリスト */
@@ -52,6 +54,10 @@ const SettingsSelectColor = (props) => {
             ),
           });
         }
+      })
+      .catch(() => {
+        // サーバーエラーが発生した場合
+        SettingsFetchErrorOnlyBanner(setBanner);
       });
   };
 
@@ -84,6 +90,10 @@ const SettingsSelectColor = (props) => {
           bannerType: data.status,
           banner: true,
         });
+      })
+      .catch(() => {
+        // サーバーエラーが発生した場合
+        SettingsFetchErrorOnlyBanner(setBanner);
       });
   };
 

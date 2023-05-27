@@ -1,6 +1,14 @@
 import React, { useState } from "react";
+import { useEffect } from "react";
+import { useCookies } from "react-cookie";
 /** CSS */
 import "../components_CSS/window_CSS/UncategorizedSavingWindow.css";
+/** 自作コンポーネント */
+import { rootURI } from "../../env/env";
+import {
+  LoadFetchErrorWithSeparateBanner,
+  PostErrorWithSeparateBanner,
+} from "../FetchError";
 /** 外部コンポーネント */
 import CloseIcon from "@mui/icons-material/Close";
 import {
@@ -19,9 +27,6 @@ import {
   MenuItem,
   Select,
 } from "@mui/material";
-import { useEffect } from "react";
-import { useCookies } from "react-cookie";
-import { rootURI } from "../../env/env";
 
 const UncategorizedSavingWindow = (props) => {
   const {
@@ -104,7 +109,15 @@ const UncategorizedSavingWindow = (props) => {
         } else {
           // 失敗
         }
-      });
+      })
+      .catch(() =>
+        LoadFetchErrorWithSeparateBanner(
+          setLoading,
+          setBanner,
+          setBannerMessage,
+          setBannerType
+        )
+      );
   };
 
   const getSavingTargetList = () => {
@@ -129,7 +142,15 @@ const UncategorizedSavingWindow = (props) => {
       })
       .finally(() => {
         setLoading(false);
-      });
+      })
+      .catch(() =>
+        LoadFetchErrorWithSeparateBanner(
+          setLoading,
+          setBanner,
+          setBannerMessage,
+          setBannerType
+        )
+      );
   };
 
   /** 登録処理 */
@@ -167,7 +188,15 @@ const UncategorizedSavingWindow = (props) => {
       })
       .finally(() => {
         setLoading(false);
-      });
+      })
+      .catch(() =>
+        PostErrorWithSeparateBanner(
+          setLoading,
+          setBanner,
+          setBannerMessage,
+          setBannerType
+        )
+      );
   };
 
   useEffect(() => {

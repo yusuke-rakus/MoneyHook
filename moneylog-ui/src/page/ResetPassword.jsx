@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from "react";
 /** CSS */
 import "./page_CSS/ResetPassword.css";
+/** 自作コンポーネント */
+import { rootURI } from "../env/env";
 /** 外部コンポーネント */
 import InputAdornment from "@mui/material/InputAdornment";
 import TextField from "@mui/material/TextField";
@@ -9,7 +11,6 @@ import { Button, CircularProgress } from "@mui/material";
 import VisibilityIcon from "@mui/icons-material/Visibility";
 import VisibilityOffIcon from "@mui/icons-material/VisibilityOff";
 import { useLocation, useNavigate } from "react-router-dom";
-import { rootURI } from "../env/env";
 
 const ResetPassword = () => {
   const [isLoading, setLoading] = useState(false);

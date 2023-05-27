@@ -8,14 +8,16 @@
   min-height: 450px;
   max-height: 400px;
   background-color: #ffffff;
-  padding: 5%;
+  padding: 40px;
   text-align: center;
-  display: relative;
   border-radius: 15px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  z-index: 3;
 }
 
 .signupTitle {
-  padding-top: 40px;
   color: #424242;
   font-weight: lighter;
 }

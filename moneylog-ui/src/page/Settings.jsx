@@ -4,13 +4,14 @@ import "./page_CSS/Settings.css";
 import "./page_CSS/common.css";
 /** 自作コンポーネント */
 import SettingsSelectColor from "../components/SettingsSelectColor";
-/** 外部コンポーネント */
+import SettingsInquiry from "../components/SettingsInquiry";
 import SettingsUserSettings from "../components/SettingsUserSettings";
 import SettingsChangePassword from "../components/SettingsChangePassword";
 import SettingsFixedList from "../components/SettingsFixedList";
 import Sidebar from "../components/Sidebar";
 import DeletedSavingTarget from "../components/DeletedSavingTarget";
 import DeletedFixed from "../components/DeletedFixed";
+/** 外部コンポーネント */
 import Alert from "@mui/material/Alert";
 import IconButton from "@mui/material/IconButton";
 import Collapse from "@mui/material/Collapse";
@@ -18,7 +19,6 @@ import CloseIcon from "@mui/icons-material/Close";
 import { Button } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 import { useCookies } from "react-cookie";
-import SettingsInquiry from "../components/SettingsInquiry";
 
 const Settings = (props) => {
   const { colorList, setColorList, themeColor, setThemeColor } = props;

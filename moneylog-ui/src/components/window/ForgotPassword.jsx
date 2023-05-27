@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 /** CSS */
 import "../components_CSS/window_CSS/ForgotPassword.css";
+import { rootURI } from "../../env/env";
 /** 外部コンポーネント */
 import CloseIcon from "@mui/icons-material/Close";
 import {
@@ -10,7 +11,6 @@ import {
   TextField,
 } from "@mui/material";
 import { AccountCircle } from "@mui/icons-material";
-import { rootURI } from "../../env/env";
 
 const ForgotPassword = (props) => {
   const { setForgotPasswordWindow, setBanner, userEmail, setUserEmail } = props;
@@ -67,6 +67,14 @@ const ForgotPassword = (props) => {
           bannerType: data.status,
         });
         setLoading(false);
+      })
+      .catch(() => {
+        closeWindow();
+        setBanner({
+          banner: true,
+          bannerMessage: "不明なエラーが発生しました",
+          bannerType: "error",
+        });
       });
   };
 
@@ -105,14 +113,16 @@ const ForgotPassword = (props) => {
       />
 
       {/* 登録ボタン */}
-      <Button
-        onClick={sendEmail}
-        variant="contained"
-        disabled={isLoading}
-        sx={{ marginY: 2 }}
-      >
-        {isLoading ? <CircularProgress size={20} /> : "登録"}
-      </Button>
+      <div>
+        <Button
+          onClick={sendEmail}
+          variant="contained"
+          disabled={isLoading}
+          sx={{ marginY: 2 }}
+        >
+          {isLoading ? <CircularProgress size={20} /> : "登録"}
+        </Button>
+      </div>
     </div>
   );
 };

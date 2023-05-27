@@ -1,11 +1,13 @@
 import React, { useState } from "react";
 /** CSS */
 import "../components_CSS/window_CSS/AddTargetBox.css";
+/** 自作コンポーネント */
+import { rootURI } from "../../env/env";
+import { PostErrorWithSeparateBanner } from "../FetchError";
+import { useCookies } from "react-cookie";
 /** 外部コンポーネント */
 import CloseIcon from "@mui/icons-material/Close";
 import { TextField, Button, CircularProgress } from "@mui/material";
-import { useCookies } from "react-cookie";
-import { rootURI } from "../../env/env";
 
 const AddTargetBox = (props) => {
   const {
@@ -159,7 +161,16 @@ const AddTargetBox = (props) => {
       })
       .finally(() => {
         setLoading(false);
-      });
+      })
+      .catch(() =>
+        PostErrorWithSeparateBanner(
+          setLoading,
+          setBanner,
+          setBannerMessage,
+          setBannerType,
+          closeAddTargetStatus
+        )
+      );
   };
 
   /** 貯金目標を編集 */
@@ -192,7 +203,16 @@ const AddTargetBox = (props) => {
         closeAddTargetStatus();
         setBanner(true);
         getInit();
-      });
+      })
+      .catch(() =>
+        PostErrorWithSeparateBanner(
+          setLoading,
+          setBanner,
+          setBannerMessage,
+          setBannerType,
+          closeAddTargetStatus
+        )
+      );
   };
 
   /** 貯金削除 */
@@ -224,7 +244,16 @@ const AddTargetBox = (props) => {
         closeAddTargetStatus();
         setBanner(true);
         getInit();
-      });
+      })
+      .catch(() =>
+        PostErrorWithSeparateBanner(
+          setLoading,
+          setBanner,
+          setBannerMessage,
+          setBannerType,
+          closeAddTargetStatus
+        )
+      );
   };
 
   return (

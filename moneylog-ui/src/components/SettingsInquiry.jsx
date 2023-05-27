@@ -1,12 +1,13 @@
-import { Button, TextField } from "@mui/material";
 import React, { useState } from "react";
 import "./components_CSS/SettingsInquiry.css";
-import SendIcon from "@mui/icons-material/Send";
 import { useCookies } from "react-cookie";
+import { rootURI } from "../env/env";
+import { SettingsFetchError } from "./FetchError";
+import { Button, TextField } from "@mui/material";
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 import Modal from "@mui/material/Modal";
-import { rootURI } from "../env/env";
+import SendIcon from "@mui/icons-material/Send";
 
 const SettingsInquiry = (props) => {
   const { banner, setBanner } = props;
@@ -58,6 +59,10 @@ const SettingsInquiry = (props) => {
           });
           setLoading(false);
         }
+      })
+      .catch(() => {
+        // サーバーエラーが発生した場合
+        SettingsFetchError(setLoading, setBanner);
       });
   };
 
@@ -91,6 +96,10 @@ const SettingsInquiry = (props) => {
       .finally(() => {
         setCheck(false);
         setInquiryMessage("");
+      })
+      .catch(() => {
+        // サーバーエラーが発生した場合
+        SettingsFetchError(setLoading, setBanner);
       });
   };
 

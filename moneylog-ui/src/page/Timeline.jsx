@@ -3,6 +3,10 @@ import React, { useEffect, useState } from "react";
 import "./page_CSS/Timeline.css";
 import "./page_CSS/common.css";
 /** 自作コンポーネント */
+import { rootURI } from "../env/env";
+import Sidebar from "../components/Sidebar";
+import { LoadFetchErrorWithSeparateBanner } from "../components/FetchError";
+import { getJST } from "../components/GetJST";
 import TimelineDataList from "../components/TimelineDataList";
 import AddTransactionListWindow from "../components/window/AddTransactionListWindow";
 import ModalBox from "../components/window/ModalBox";
@@ -17,14 +21,12 @@ import MenuItem from "@mui/material/MenuItem";
 import FormControl from "@mui/material/FormControl";
 import Select from "@mui/material/Select";
 import { CSSTransition } from "react-transition-group";
-import Sidebar from "../components/Sidebar";
 import Alert from "@mui/material/Alert";
 import IconButton from "@mui/material/IconButton";
 import Collapse from "@mui/material/Collapse";
 import CloseIcon from "@mui/icons-material/Close";
 import { useCookies } from "react-cookie";
 import { useNavigate } from "react-router-dom";
-import { rootURI } from "../env/env";
 import { SpeedDial, SpeedDialAction, SpeedDialIcon } from "@mui/material";
 import EditIcon from "@mui/icons-material/Edit";
 import AddIcon from "@mui/icons-material/Add";
@@ -44,7 +46,7 @@ const Timeline = (props) => {
   const [bannerType, setBannerType] = useState("success");
 
   /** 今月 */
-  const [sysDate, setSysDate] = useState(new Date());
+  const [sysDate, setSysDate] = useState(getJST(new Date()));
   sysDate.setDate(1);
 
   const [transactionTitle, setTransactionTitle] = useState(
@@ -220,6 +222,15 @@ const Timeline = (props) => {
               .map((d) => `${d}月`)
           );
         }
+      })
+      .catch(() => {
+        // サーバーエラーが発生した場合
+        LoadFetchErrorWithSeparateBanner(
+          setLoading,
+          setBanner,
+          setBannerMessage,
+          setBannerType
+        );
       });
 
     // 当月のTransactionを取得
@@ -239,6 +250,15 @@ const Timeline = (props) => {
           setTimelineDataList(data.transactionList);
           setLoading(false);
         }
+      })
+      .catch(() => {
+        // サーバーエラーが発生した場合
+        LoadFetchErrorWithSeparateBanner(
+          setLoading,
+          setBanner,
+          setBannerMessage,
+          setBannerType
+        );
       });
   };
 

@@ -1,5 +1,7 @@
 package com.example.service;
 
+import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -15,6 +17,7 @@ import com.example.domain.MonthlyTransaction;
 import com.example.domain.SubCategory;
 import com.example.form.DeleteFixedForm;
 import com.example.form.EditFixedForm;
+import com.example.form.EditOneFixedForm;
 import com.example.form.GetDeletedFixedForm;
 import com.example.form.GetFixedForm;
 import com.example.form.MonthlyTransactionList;
@@ -22,6 +25,7 @@ import com.example.form.ReturnTargetForm;
 import com.example.mapper.MonthlyTransactionMapper;
 import com.example.response.DeleteFixedResponse;
 import com.example.response.EditFixedResponse;
+import com.example.response.EditOneFixedResponse;
 import com.example.response.GetDeletedFixedResponse;
 import com.example.response.GetFixedResponse;
 import com.example.response.ReturnTargetResponse;
@@ -43,6 +47,11 @@ public class MonthlyTransactionService {
 			List<MonthlyTransaction> monthlyTransactionList = monthlyTransactionMapper.getFixed(form);
 			if (monthlyTransactionList.size() == 0) {
 				throw new Exception();
+			} else {
+				monthlyTransactionList = monthlyTransactionList.stream()
+						.sorted(Comparator.comparing(MonthlyTransaction::getMonthlyTransactionId))
+						.sorted(Comparator.comparing(MonthlyTransaction::getMonthlyTransactionDate))
+						.collect(Collectors.toList());
 			}
 			res.setMonthlyTransactionList(monthlyTransactionList);
 		} catch (Exception e) {
@@ -61,12 +70,11 @@ public class MonthlyTransactionService {
 
 		try {
 			monthlyTransactionMapper.deleteFixed(form);
+			res.setMessage(SuccessMessage.MONTHLY_TRANSACTION_DELETE_SUCCESSED);
 		} catch (Exception e) {
 			res.setStatus(Status.ERROR.getStatus());
 			res.setMessage(ErrorMessage.DELETE_FIXED_ERROR);
 		}
-
-		res.setMessage(SuccessMessage.MONTHLY_TRANSACTION_DELETE_SUCCESSED);
 
 		return res;
 	}
@@ -150,6 +158,36 @@ public class MonthlyTransactionService {
 
 		} catch (Exception e) {
 			res.setStatus(Status.ERROR.getStatus());
+		}
+
+		return res;
+	}
+
+	/** 固定費の編集(1件) */
+	public EditOneFixedResponse editOneFixed(EditOneFixedForm form, EditOneFixedResponse res) throws SystemException {
+
+		try {
+			if (form.getMonthlyTransaction().getMonthlyTransactionId() != null) {
+				// monthlyTransactionIdを保持しているものを更新処理
+				List<MonthlyTransactionList> includingIdList = new ArrayList<>();
+				includingIdList.add(form.getMonthlyTransaction());
+				if (includingIdList.size() > 0) {
+					this.updateFixed(includingIdList);
+				}
+			} else if (form.getMonthlyTransaction().getMonthlyTransactionId() == null) {
+				// monthlyTransactionIdがないものを登録処理
+				List<MonthlyTransactionList> notIncludingIdList = new ArrayList<>();
+				notIncludingIdList.add(form.getMonthlyTransaction());
+				if (notIncludingIdList.size() > 0) {
+					this.registerFixed(notIncludingIdList);
+				}
+			}
+
+			res.setMessage(SuccessMessage.MONTHLY_TRANSACTION_EDIT_SUCCESSED);
+
+		} catch (Exception e) {
+			res.setStatus(Status.ERROR.getStatus());
+			res.setMessage(ErrorMessage.MONTHLY_TRANSACTION_EDIT_ERROR);
 		}
 
 		return res;

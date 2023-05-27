@@ -3,8 +3,10 @@ import { useState } from "react";
 /** CSS */
 import "./page_CSS/Login.css";
 /** 自作コンポーネント */
+import { rootURI } from "../env/env";
 import SignUpWindow from "../components/window/SignUpWindow";
 import BlurView from "../components/window/BlurView";
+import ForgotPassword from "../components/window/ForgotPassword";
 /** 外部コンポーネント */
 import CloseIcon from "@mui/icons-material/Close";
 import { CSSTransition } from "react-transition-group";
@@ -18,8 +20,7 @@ import {
   TextField,
 } from "@mui/material";
 import { useNavigate } from "react-router-dom";
-import ForgotPassword from "../components/window/ForgotPassword";
-import { rootURI } from "../env/env";
+import { getCookieRange } from "../components/GetJST";
 
 const Login = (props) => {
   const { setCookie, setThemeColor } = props;
@@ -91,10 +92,13 @@ const Login = (props) => {
       .then((data) => {
         if (data.status === "success") {
           // 成功
-          setCookie("userId", data.user.userId);
+          setCookie("userId", data.user.userId, {
+            expires: getCookieRange(new Date()),
+          });
           setCookie(
             "themeColor",
-            data.user.themeColorCode || data.user.themeColorGradientCode
+            data.user.themeColorCode || data.user.themeColorGradientCode,
+            { expires: getCookieRange(new Date()) }
           );
           setThemeColor(
             data.user.themeColorCode || data.user.themeColorGradientCode
@@ -121,7 +125,14 @@ const Login = (props) => {
       })
       .finally(() => {
         setLoading(false);
-      });
+      })
+      .catch(() =>
+        setBanner({
+          banner: true,
+          bannerMessage: "不明なエラーが発生しました",
+          bannerType: "error",
+        })
+      );
   };
 
   return (
@@ -168,32 +179,36 @@ const Login = (props) => {
         </div>
 
         {/* ログイン */}
-        <Button
-          onClick={login}
-          variant="contained"
-          disabled={isLoading}
-          className="loginButton"
-        >
-          {isLoading ? <CircularProgress size={20} /> : "ログイン"}
-        </Button>
-
-        <ButtonGroup
-          variant="standard"
-          sx={{ color: "#9e9e9e", marginTop: "20px" }}
-        >
-          {/* 新規登録 */}
-          <Button onClick={() => setWindow(true)} disabled={isLoading}>
-            新規登録
-          </Button>
-
-          {/* パスワード再設定 */}
+        <div>
           <Button
-            onClick={() => setForgotPasswordWindow(true)}
+            onClick={login}
+            variant="contained"
             disabled={isLoading}
+            className="loginButton"
           >
-            パスワードを忘れた
+            {isLoading ? <CircularProgress size={20} /> : "ログイン"}
           </Button>
-        </ButtonGroup>
+        </div>
+
+        <div>
+          <ButtonGroup
+            variant="standard"
+            sx={{ color: "#9e9e9e", marginTop: "20px" }}
+          >
+            {/* 新規登録 */}
+            <Button onClick={() => setWindow(true)} disabled={isLoading}>
+              新規登録
+            </Button>
+
+            {/* パスワード再設定 */}
+            <Button
+              onClick={() => setForgotPasswordWindow(true)}
+              disabled={isLoading}
+            >
+              パスワードを忘れた
+            </Button>
+          </ButtonGroup>
+        </div>
       </div>
 
       {/* バーナー */}

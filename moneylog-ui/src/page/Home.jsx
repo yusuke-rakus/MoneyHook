@@ -3,6 +3,9 @@ import React, { useEffect, useState } from "react";
 import "./page_CSS/Home.css";
 import "./page_CSS/common.css";
 /** 自作コンポーネント */
+import { rootURI } from "../env/env";
+import { LoadFetchErrorWithSeparateBanner } from "../components/FetchError";
+import { getJST } from "../components/GetJST";
 import HomeAccodion from "../components/HomeAccodion";
 import ModalBox from "../components/window/ModalBox";
 import AddTransactionListWindow from "../components/window/AddTransactionListWindow";
@@ -19,7 +22,6 @@ import Collapse from "@mui/material/Collapse";
 import CloseIcon from "@mui/icons-material/Close";
 import { useCookies } from "react-cookie";
 import { useNavigate } from "react-router-dom";
-import { rootURI } from "../env/env";
 import { SpeedDial, SpeedDialAction, SpeedDialIcon } from "@mui/material";
 import EditIcon from "@mui/icons-material/Edit";
 import AddIcon from "@mui/icons-material/Add";
@@ -37,7 +39,7 @@ const Home = (props) => {
   const [bannerType, setBannerType] = useState("");
 
   /** 今月 */
-  const [sysDate, setSysDate] = useState(new Date());
+  const [sysDate, setSysDate] = useState(getJST(new Date()));
   sysDate.setDate(1);
 
   const transactionTitle = "支出または収入の入力";
@@ -118,6 +120,15 @@ const Home = (props) => {
         setHomeAccodionDataList(data.categoryList);
         setMonthlyTotalAmount(data.balance);
         setLoading(false);
+      })
+      .catch(() => {
+        // サーバーエラーが発生した場合
+        LoadFetchErrorWithSeparateBanner(
+          setLoading,
+          setBanner,
+          setBannerMessage,
+          setBannerType
+        );
       });
   };
 

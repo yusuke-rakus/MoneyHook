@@ -36,13 +36,17 @@ public class ErrorMessage {
 	/** 変動費データの取得に失敗しました */
 	public static final String MONTHLY_VARIABLE_DATA_GET_FAILED = "変動費データの取得に失敗しました";
 	/** データの登録に失敗しました */
-	public static final String TRANSACTION_DATA_INSERT_FAILED = "データの登録に失敗しました";
+	public static final String TRANSACTION_DATA_INSERT_FAILED = "登録に失敗しました";
+	/** データの削除に失敗しました */
+	public static final String TRANSACTION_DATA_DELETE_FAILED = "削除に失敗しました";
 
 	// monthlyTransaction
 	/** 月次固定費が存在しない */
 	public static final String MONTHLY_TRANSACTION_NOT_EXISTS = "月次固定費が存在しませんでした";
 	/** 月次取引データの失敗 */
 	public static final String DELETE_FIXED_ERROR = "月次取引データの削除に失敗しました";
+	/** 月次取引データの編集失敗 */
+	public static final String MONTHLY_TRANSACTION_EDIT_ERROR = "データの編集に失敗しました";
 
 	// category
 	/** カテゴリデータの取得失敗 */
@@ -65,6 +69,8 @@ public class ErrorMessage {
 	public static final String SAVING_TARGET_NOT_FOUND = "存在しない貯金目標です";
 	/** 貯金目標の削除失敗 */
 	public static final String SAVING_TARGET_HAS_TOTAL_SAVED = "貯金が振り分けられている目標です";
+	/** 貯金目標の削除失敗 */
+	public static final String SAVING_TARGET_DELETE_FAILED = "貯金目標の削除に失敗しました";
 
 	// saving
 	/** 貯金データの取得失敗 */

@@ -10,6 +10,7 @@ const BlurView = (props) => {
     height: "100%",
     width: "100%",
     backgroundColor: "rgba(128, 128, 128, 0.7)",
+    zIndex: 2,
   };
 
   const onClickEvent = () => {

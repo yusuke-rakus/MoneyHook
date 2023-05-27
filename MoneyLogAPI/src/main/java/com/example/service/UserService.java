@@ -314,7 +314,7 @@ public class UserService {
 				userMapper.setResetPasswordParam(form);
 
 				// メール送信
-				String baseUrl = "http://localhost:3000";
+				String baseUrl = "https://money-hooks.com";
 				Context context = new Context();
 				context.setVariable("url", baseUrl + "/resetPassword?param=" + resetPasswordParam);
 				String email = form.getEmail();

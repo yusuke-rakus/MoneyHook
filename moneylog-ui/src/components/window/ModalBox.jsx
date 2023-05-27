@@ -3,6 +3,9 @@ import React, { useState } from "react";
 import "../components_CSS/window_CSS/ModalBox.css";
 import "../components_CSS/window_CSS/CategoryWindow.css";
 /** 自作コンポーネント */
+import { rootURI } from "../../env/env";
+import { PostErrorWithSeparateBanner } from "../FetchError";
+import { getJST } from "../GetJST";
 import CategoryWindow from "./CategoryWindow";
 import SwitchBalanceButton from "../SwitchBalanceButton";
 /** 外部コンポーネント */
@@ -22,7 +25,6 @@ import { CSSTransition } from "react-transition-group";
 import CloseIcon from "@mui/icons-material/Close";
 import { useEffect } from "react";
 import { useCookies } from "react-cookie";
-import { rootURI } from "../../env/env";
 
 const ModalBox = (props) => {
   const [isLoading, setLoading] = useState(false);
@@ -37,7 +39,7 @@ const ModalBox = (props) => {
     setBannerMessage,
     setBannerType,
   } = props;
-  const [cookie, setCookie] = useCookies();
+  const [cookie] = useCookies();
 
   useEffect(() => {
     /** 初期値 */
@@ -45,7 +47,7 @@ const ModalBox = (props) => {
       setTransaction({
         ...transaction,
         transactionSign: -1,
-        transactionDate: new Date(),
+        transactionDate: getJST(new Date()),
       });
     }
   }, [setTransaction]);
@@ -214,6 +216,15 @@ const ModalBox = (props) => {
       })
       .finally(() => {
         setLoading(false);
+      })
+      .catch(() => {
+        PostErrorWithSeparateBanner(
+          setLoading,
+          setBanner,
+          setBannerMessage,
+          setBannerType,
+          closeModalWindow
+        );
       });
   };
 
@@ -254,6 +265,15 @@ const ModalBox = (props) => {
         closeModalWindow();
         getInit(month);
         setBanner(true);
+      })
+      .catch(() => {
+        PostErrorWithSeparateBanner(
+          setLoading,
+          setBanner,
+          setBannerMessage,
+          setBannerType,
+          closeModalWindow
+        );
       });
   };
 
@@ -285,6 +305,15 @@ const ModalBox = (props) => {
         closeModalWindow();
         getInit(month);
         setBanner(true);
+      })
+      .catch(() => {
+        PostErrorWithSeparateBanner(
+          setLoading,
+          setBanner,
+          setBannerMessage,
+          setBannerType,
+          closeModalWindow
+        );
       });
   };
 
@@ -309,7 +338,8 @@ const ModalBox = (props) => {
         } else {
           // 失敗
         }
-      });
+      })
+      .catch(() => setRecommendList([]));
   };
 
   useEffect(() => {
@@ -339,8 +369,11 @@ const ModalBox = (props) => {
               >
                 {[...Array(20)].map((v, i) => {
                   return (
-                    <MenuItem key={i} value={new Date().getFullYear() - i}>
-                      {new Date().getFullYear() - i}
+                    <MenuItem
+                      key={i}
+                      value={getJST(new Date()).getFullYear() - i}
+                    >
+                      {getJST(new Date()).getFullYear() - i}
                     </MenuItem>
                   );
                 })}

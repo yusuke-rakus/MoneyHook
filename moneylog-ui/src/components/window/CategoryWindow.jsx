@@ -3,13 +3,13 @@ import React, { useEffect, useState } from "react";
 import "../components_CSS/window_CSS/CategoryWindow.css";
 /** 自作コンポーネント */
 import SubCategoryWindow from "./SubCategoryWindow.jsx";
-/** 外部コンポーネント */
+import { rootURI } from "../../env/env";
 import { CSSTransition } from "react-transition-group";
+/** 外部コンポーネント */
 import CloseIcon from "@mui/icons-material/Close";
 import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
 import ChevronRightIcon from "@mui/icons-material/ChevronRight";
 import { CircularProgress } from "@mui/material";
-import { rootURI } from "../../env/env";
 
 const CategoryWindow = (props) => {
   const {
@@ -40,6 +40,9 @@ const CategoryWindow = (props) => {
       .then((data) => {
         setLoading(false);
         setCategoryList(data.categoryList);
+      })
+      .catch(() => {
+        setLoading(false);
       });
   };
 

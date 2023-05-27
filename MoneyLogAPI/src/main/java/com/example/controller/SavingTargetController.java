@@ -1,7 +1,6 @@
 package com.example.controller;
 
 import java.util.List;
-import java.util.Objects;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.BindingResult;
@@ -12,7 +11,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import com.example.common.Status;
 import com.example.common.exception.AlreadyExistsException;
-import com.example.common.message.ErrorMessage;
 import com.example.common.message.SuccessMessage;
 import com.example.domain.SavingTarget;
 import com.example.form.AddSavingTargetForm;
@@ -113,16 +111,15 @@ public class SavingTargetController {
 		}
 
 		// 既存検索・追加処理
-		SavingTarget savingTarget = savingTargetService.searchByNameAndInsertSavingTarget(form);
-
-		// 既存検索・追加に失敗した場合
-		if (Objects.isNull(savingTarget)) {
-			res.setMessage(ErrorMessage.SAVING_TARGET_INSERT_FAILED);
-			return res;
+		try {
+			SavingTarget savingTarget = savingTargetService.searchByNameAndInsertSavingTarget(form, res);
+			res.setSavingTarget(savingTarget);
+			res.setMessage(SuccessMessage.SAVING_TARGET_INSERT_SUCCESSED);
+		} catch (Exception e) {
+			res.setStatus(Status.ERROR.getStatus());
+			res.setMessage(e.getMessage());
 		}
 
-		res.setSavingTarget(savingTarget);
-		res.setMessage(SuccessMessage.SAVING_TARGET_INSERT_SUCCESSED);
 		return res;
 	}
 
@@ -148,8 +145,8 @@ public class SavingTargetController {
 		}
 
 		try {
-			savingTargetService.editSavingTarget(form);
-		} catch (AlreadyExistsException e) {
+			savingTargetService.editSavingTarget(form, res);
+		} catch (Exception e) {
 			res.setStatus(Status.ERROR.getStatus());
 			res.setMessage(e.getMessage());
 			return res;
@@ -182,7 +179,7 @@ public class SavingTargetController {
 
 		try {
 			savingTargetService.deleteSavingTarget(form);
-		} catch (AlreadyExistsException e) {
+		} catch (Exception e) {
 			res.setStatus(Status.ERROR.getStatus());
 			res.setMessage(e.getMessage());
 			return res;

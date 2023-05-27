@@ -94,6 +94,7 @@ public class TransactionService {
 			res.setMessage(SuccessMessage.TRANSACTION_INSERT_SUCCESSED);
 		} catch (Exception e) {
 			res.setStatus(Status.ERROR.getStatus());
+			res.setMessage(ErrorMessage.TRANSACTION_DATA_INSERT_FAILED);
 		}
 		return res;
 	}
@@ -137,6 +138,7 @@ public class TransactionService {
 			res.setMessage(SuccessMessage.TRANSACTION_DELETE_SUCCESSED);
 		} catch (Exception e) {
 			res.setStatus(Status.ERROR.getStatus());
+			res.setMessage(ErrorMessage.TRANSACTION_DATA_DELETE_FAILED);
 			return res;
 		}
 
@@ -182,6 +184,7 @@ public class TransactionService {
 			res.setMessage(SuccessMessage.TRANSACTION_EDIT_SUCCESSED);
 		} catch (Exception e) {
 			res.setStatus(Status.ERROR.getStatus());
+			res.setMessage(ErrorMessage.TRANSACTION_DATA_INSERT_FAILED);
 			return res;
 		}
 

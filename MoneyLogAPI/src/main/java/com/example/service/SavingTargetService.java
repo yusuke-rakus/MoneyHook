@@ -18,6 +18,8 @@ import com.example.form.EditSavingTargetForm;
 import com.example.form.GetSavingTargetListForm;
 import com.example.form.ReturnSavingTargetForm;
 import com.example.mapper.SavingTargetMapper;
+import com.example.response.AddSavingTargetResponse;
+import com.example.response.EditSavingTargetResponse;
 
 @Service
 @Transactional
@@ -75,7 +77,8 @@ public class SavingTargetService {
 	 * @return savingTarget 既存検索で見つかった/新規追加された貯金目標
 	 * @throws Throwable
 	 */
-	public SavingTarget searchByNameAndInsertSavingTarget(AddSavingTargetForm form) throws Throwable {
+	public SavingTarget searchByNameAndInsertSavingTarget(AddSavingTargetForm form, AddSavingTargetResponse res)
+			throws Throwable {
 
 		SavingTarget savingTarget = new SavingTarget();
 
@@ -91,20 +94,14 @@ public class SavingTargetService {
 
 			// 名称で検索
 			SavingTarget searchedSavingTarget = findSavingTargetByTargetNameAndUserNo(savingTarget);
-
-			if (!Objects.isNull(searchedSavingTarget)) {
+			if (Objects.isNull(searchedSavingTarget)) {
+				// 新規登録
+				savingTargetMapper.addSavingTarget(savingTarget);
+			} else {
 				// 既にあれば、その内容を返す用のインスタンスに詰め替え
 				BeanUtils.copyProperties(searchedSavingTarget, savingTarget);
-
-			} else {
-				// なければ新規登録
-				savingTargetMapper.addSavingTarget(savingTarget);
+				throw new AlreadyExistsException(ErrorMessage.SAVING_TARGET_NAME_DUPLICATED);
 			}
-
-		}
-		// 取得失敗している場合はsavingTargetをnullに
-		if (Objects.isNull(savingTarget.getSavingTargetId())) {
-			savingTarget = null;
 		}
 		return savingTarget;
 	}
@@ -116,7 +113,7 @@ public class SavingTargetService {
 	 * @return
 	 * @throws SystemException
 	 */
-	public void editSavingTarget(EditSavingTargetForm form) throws SystemException {
+	public void editSavingTarget(EditSavingTargetForm form, EditSavingTargetResponse res) throws SystemException {
 		// ユーザーIDからユーザーNoを取得
 		Long userNo = authenticationService.authUser(form);
 		form.setUserNo(userNo);
@@ -130,7 +127,6 @@ public class SavingTargetService {
 
 			// 名称で検索
 			SavingTarget searchedSavingTarget = findSavingTargetByTargetNameAndUserNo(savingTarget);
-
 			if (!Objects.isNull(searchedSavingTarget)
 					&& !(savingTarget.getSavingTargetId().equals(searchedSavingTarget.getSavingTargetId()))) {
 				// 既にあり、それが変更対象以外であれば、編集に失敗したことを返す
@@ -154,8 +150,11 @@ public class SavingTargetService {
 		Long userNo = authenticationService.authUser(form);
 		form.setUserNo(userNo);
 
-		savingTargetMapper.deleteSavingTarget(form);
-
+		try {
+			savingTargetMapper.deleteSavingTarget(form);
+		} catch (Exception e) {
+			throw new SystemException(ErrorMessage.SAVING_TARGET_DELETE_FAILED);
+		}
 	}
 
 	/**
@@ -225,14 +224,6 @@ public class SavingTargetService {
 	 * @throws SystemException
 	 */
 	public SavingTarget findSavingTargetByTargetNameAndUserNo(SavingTarget savingTarget) throws SystemException {
-
-		savingTarget = savingTargetMapper.findSavingTargetByNameAndUserNo(savingTarget);
-
-		// 該当する貯金目標がある場合は、システム例外をスロー
-		if (!Objects.isNull(savingTarget)) {
-			throw new DataNotFoundException(ErrorMessage.SAVING_TARGET_NOT_FOUND);
-		}
-
-		return savingTarget;
+		return savingTargetMapper.findSavingTargetByNameAndUserNo(savingTarget);
 	}
 }

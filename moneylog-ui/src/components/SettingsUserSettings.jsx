@@ -1,7 +1,8 @@
-import { Button, CircularProgress, TextField } from "@mui/material";
 import React, { useEffect, useState } from "react";
 import { useCookies } from "react-cookie";
 import { rootURI } from "../env/env";
+import { SettingsFetchError } from "./FetchError";
+import { Button, CircularProgress, TextField } from "@mui/material";
 
 const SettingsUserSettings = (props) => {
   const { banner, setBanner } = props;
@@ -86,6 +87,10 @@ const SettingsUserSettings = (props) => {
             error: false,
           }));
         }
+      })
+      .catch(() => {
+        // サーバーエラーが発生した場合
+        SettingsFetchError(setLoading, setBanner);
       });
   };
 
@@ -126,6 +131,10 @@ const SettingsUserSettings = (props) => {
         setPassword("");
         getInit();
         setLoading(false);
+      })
+      .catch(() => {
+        // サーバーエラーが発生した場合
+        SettingsFetchError(setLoading, setBanner);
       });
   };
 

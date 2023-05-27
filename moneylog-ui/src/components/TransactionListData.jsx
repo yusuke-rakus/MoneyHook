@@ -1,3 +1,6 @@
+import { useEffect } from "react";
+import { useCookies } from "react-cookie";
+import { useNavigate } from "react-router-dom";
 import React, { useState } from "react";
 /** CSS */
 import "./components_CSS/TransactionListData.css";
@@ -17,9 +20,6 @@ import {
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { DatePicker } from "@mui/x-date-pickers/DatePicker";
-import { useEffect } from "react";
-import { useCookies } from "react-cookie";
-import { useNavigate } from "react-router-dom";
 
 const TransactionListData = (props) => {
   const { index, transaction, transactionList, setTransactionList } = props;
@@ -125,7 +125,8 @@ const TransactionListData = (props) => {
         } else {
           // 失敗
         }
-      });
+      })
+      .catch(() => setSubCategoryList([]));
   };
 
   /** カテゴリ取得 */
@@ -145,7 +146,8 @@ const TransactionListData = (props) => {
         } else {
           // 失敗
         }
-      });
+      })
+      .catch(() => setCategoryList([]));
   };
 
   useEffect(() => {
@@ -232,6 +234,7 @@ const TransactionListData = (props) => {
       {/* 取引名 */}
       <TextField
         id="standard-basic"
+        autoComplete="off"
         label={transaction.labels.transactionName.message}
         value={transaction.transactionName}
         onChange={inputTransactionName}
@@ -250,6 +253,7 @@ const TransactionListData = (props) => {
       {/* 金額 */}
       <TextField
         id="standard-basic"
+        autoComplete="off"
         label={transaction.labels.transactionAmount.message}
         value={transaction.transactionAmount.toLocaleString()}
         onChange={inputTransactionAmount}

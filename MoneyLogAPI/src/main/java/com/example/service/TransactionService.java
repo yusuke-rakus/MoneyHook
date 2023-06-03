@@ -30,6 +30,7 @@ import com.example.form.GetMonthlyFixedSpendingForm;
 import com.example.form.GetMonthlySpendingDataForm;
 import com.example.form.GetMonthlyVariableDataForm;
 import com.example.form.GetTimelineDataForm;
+import com.example.form.GetTotalSpendingForm;
 import com.example.form.GetTransactionForm;
 import com.example.mapper.SubCategoryMapper;
 import com.example.mapper.TransactionMapper;
@@ -44,6 +45,7 @@ import com.example.response.GetMonthlyFixedSpendingResponse;
 import com.example.response.GetMonthlySpendingDataResponse;
 import com.example.response.GetMonthlyVariableDataResponse;
 import com.example.response.GetTimelineDataResponse;
+import com.example.response.GetTotalSpendingResponse;
 import com.example.response.GetTransactionResponse;
 
 @Service
@@ -402,6 +404,28 @@ public class TransactionService {
 		try {
 			List<Transaction> transactionList = transactionMapper.getFrequentTransactionName(form);
 			res.setTransactionList(transactionList);
+		} catch (Exception e) {
+			res.setStatus(Status.ERROR.getStatus());
+		}
+
+		return res;
+	}
+
+	/**
+	 * カテゴリ毎の支出総額を取得
+	 * 
+	 * @throws AuthenticationException
+	 */
+	public GetTotalSpendingResponse getTotalSpending(GetTotalSpendingForm form, GetTotalSpendingResponse res)
+			throws SystemException {
+
+		// データを取得
+		try {
+			List<CategoryList> categoryList = transactionMapper.getTotalSpending(form);
+			res.setCategoryTotalList(categoryList);
+
+			Integer totalSpending = categoryList.stream().mapToInt(i -> i.getCategoryTotalAmount()).sum();
+			res.setTotalSpending(totalSpending);
 		} catch (Exception e) {
 			res.setStatus(Status.ERROR.getStatus());
 		}

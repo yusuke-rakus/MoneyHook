@@ -22,6 +22,7 @@ import com.example.form.GetMonthlyFixedSpendingForm;
 import com.example.form.GetMonthlySpendingDataForm;
 import com.example.form.GetMonthlyVariableDataForm;
 import com.example.form.GetTimelineDataForm;
+import com.example.form.GetTotalSpendingForm;
 import com.example.form.GetTransactionForm;
 import com.example.response.AddTransactionListResponse;
 import com.example.response.AddTransactionResponse;
@@ -34,6 +35,7 @@ import com.example.response.GetMonthlyFixedSpendingResponse;
 import com.example.response.GetMonthlySpendingDataResponse;
 import com.example.response.GetMonthlyVariableDataResponse;
 import com.example.response.GetTimelineDataResponse;
+import com.example.response.GetTotalSpendingResponse;
 import com.example.response.GetTransactionResponse;
 import com.example.service.AuthenticationService;
 import com.example.service.TransactionService;
@@ -264,5 +266,21 @@ public class TransactionController {
 		form.setUserNo(userNo);
 
 		return transactionService.getFrequentTransactionName(form, res);
+	}
+
+	/**
+	 * カテゴリ毎の支出総額を取得
+	 * 
+	 * @throws AuthenticationException
+	 */
+	@PostMapping("/getTotalSpending")
+	public GetTotalSpendingResponse getTotalSpending(@RequestBody GetTotalSpendingForm form) throws SystemException {
+		GetTotalSpendingResponse res = new GetTotalSpendingResponse();
+
+		// ユーザー認証
+		Long userNo = authenticationService.authUser(form);
+		form.setUserNo(userNo);
+
+		return transactionService.getTotalSpending(form, res);
 	}
 }

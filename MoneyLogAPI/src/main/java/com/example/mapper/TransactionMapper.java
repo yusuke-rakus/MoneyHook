@@ -18,6 +18,7 @@ import com.example.form.GetMonthlyFixedSpendingForm;
 import com.example.form.GetMonthlySpendingDataForm;
 import com.example.form.GetMonthlyVariableDataForm;
 import com.example.form.GetTimelineDataForm;
+import com.example.form.GetTotalSpendingForm;
 import com.example.form.GetTransactionForm;
 
 @Mapper
@@ -58,5 +59,8 @@ public interface TransactionMapper {
 
 	/** 取引名のレコメンドを取得 */
 	public List<Transaction> getFrequentTransactionName(FrequentTransactionNameForm form);
+
+	/** カテゴリ毎の支出総額を取得 */
+	public List<CategoryList> getTotalSpending(GetTotalSpendingForm form);
 
 }

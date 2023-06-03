@@ -260,7 +260,7 @@
 			</collection>
 		</collection>
 	</resultMap>
-	
+
 	<!-- 指定月の変動費用・変動費合計を取得 -->
 	<select id="getMonthlyVariableData" resultMap="getMonthlyVariableMap">
 		SELECT
@@ -294,7 +294,7 @@
 		AND t.fixed_flg = false
 		ORDER BY category_total_amount, sub_category_total_amount, transaction_amount;
 	</select>
-	
+
 	<!-- 取引名の候補 -->
 	<select id="getFrequentTransactionName" resultType="com.example.domain.Transaction">
 		(SELECT
@@ -313,6 +313,59 @@
 		WHERE user_no = #{userNo}
 		ORDER BY transaction_id DESC
 		LIMIT 3)
+	</select>
+
+ 	<!-- カテゴリ毎の支出総額を取得 -->
+	<resultMap type="com.example.domain.CategoryList" id="getTotalSpendingMap">
+		<result column="category_name" property="categoryName" />
+		<result column="category_total_amount" property="categoryTotalAmount" />
+		<collection property="subCategoryList" ofType="com.example.domain.Transaction">
+			<result column="sub_category_name" property="subCategoryName" />
+			<result column="sub_category_total_amount" property="subCategoryTotalAmount" />
+			<collection property="transactionList" ofType="com.example.domain.Transaction">
+				<result column="transaction_id" property="transactionId" />
+				<result column="transaction_name" property="transactionName" />
+				<result column="transaction_amount" property="transactionAmount" />
+				<result column="transaction_date" property="transactionDate" />
+			</collection>
+		</collection>
+	</resultMap>
+
+ 	<!-- カテゴリ毎の支出総額を取得 -->
+	<select id="getTotalSpending" resultMap="getTotalSpendingMap">
+		SELECT
+			c.category_name,
+			SUM(t.transaction_amount) OVER(PARTITION BY c.category_name) AS category_total_amount,
+			sub_clist.sub_category_name,
+			sub_clist.sub_category_total_amount,
+			tran_list.transaction_id,
+			tran_list.transaction_name,
+			tran_list.transaction_amount,
+			t.transaction_date
+		FROM transaction t
+		INNER JOIN category c ON c.category_id = t.category_id
+		INNER JOIN sub_category sc ON sc.sub_category_id = t.sub_category_id
+		RIGHT JOIN (
+			SELECT transaction_id, transaction_name, transaction_amount
+			FROM transaction
+			WHERE user_no=#{userNo}
+			AND transaction_date BETWEEN #{startMonth} AND LAST_DAY(#{endMonth})
+			) tran_list ON tran_list.transaction_id = t.transaction_id
+		RIGHT JOIN (
+			SELECT t.sub_category_id, sc.sub_category_name, SUM(t.transaction_amount) AS sub_category_total_amount
+			FROM transaction t
+			INNER JOIN sub_category sc ON t.sub_category_id = sc.sub_category_id
+			WHERE t.user_no=#{userNo}
+			AND transaction_date BETWEEN #{startMonth} AND LAST_DAY(#{endMonth})
+			AND t.fixed_flg = false
+			GROUP BY t.sub_category_id
+			) sub_clist ON sub_clist.sub_category_id = t.sub_category_id
+		WHERE t.user_no=#{userNo}		
+		<if test="categoryId != null">AND c.category_id = #{categoryId}</if>
+		<if test="subCategoryId != null">AND sc.sub_category_id = #{subCategoryId}</if>
+		AND transaction_date BETWEEN #{startMonth} AND LAST_DAY(#{endMonth})
+		AND 0 > t.transaction_amount
+		ORDER BY category_total_amount, sub_category_total_amount, transaction_amount;
 	</select>
 
 </mapper>

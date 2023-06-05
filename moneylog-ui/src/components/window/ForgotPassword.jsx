@@ -21,6 +21,13 @@ const ForgotPassword = (props) => {
     setUserEmail({});
   };
 
+  /** キーボードで登録ボタン押下 */
+  const onEnter = (e) => {
+    if (e.keyCode === 13) {
+      sendEmail();
+    }
+  };
+
   const sendEmail = () => {
     setLoading(true);
     setBanner({
@@ -93,6 +100,7 @@ const ForgotPassword = (props) => {
         label={userEmail.message}
         fullWidth={true}
         value={userEmail.value}
+        onKeyUp={onEnter}
         onChange={(e) =>
           setUserEmail({
             value: e.target.value,

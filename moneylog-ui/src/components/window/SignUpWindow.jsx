@@ -33,6 +33,13 @@ const SignUpWindow = (props) => {
     setNewAccount({});
   };
 
+  /** キーボードで登録ボタン押下 */
+  const onEnter = (e) => {
+    if (e.keyCode === 13) {
+      signUp();
+    }
+  };
+
   const signUp = () => {
     setLoading(true);
     // 未入力チェック
@@ -234,6 +241,7 @@ const SignUpWindow = (props) => {
         label={labels.checkPassword.message}
         value={newAccount.checkPassword}
         type={showPassword.checkPassword ? "text" : "password"}
+        onKeyUp={onEnter}
         onChange={(e) =>
           setNewAccount({ ...newAccount, checkPassword: e.target.value })
         }

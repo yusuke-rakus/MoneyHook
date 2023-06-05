@@ -55,6 +55,13 @@ const Login = (props) => {
   const [forgotPasswordWindow, setForgotPasswordWindow] = useState(false);
   const navigate = useNavigate();
 
+  /** キーボードでログインボタン押下 */
+  const onEnterPassword = (e) => {
+    if (e.keyCode === 13) {
+      login();
+    }
+  };
+
   /** API関連 */
   /** ログイン処理 */
   const login = () => {
@@ -163,6 +170,7 @@ const Login = (props) => {
             type="password"
             fullWidth={true}
             value={loginForm.password.value}
+            onKeyUp={onEnterPassword}
             onChange={(e) => {
               setLoginForm((v) => ({
                 ...v,

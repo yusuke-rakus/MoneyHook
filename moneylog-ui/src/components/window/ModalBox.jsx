@@ -130,8 +130,9 @@ const ModalBox = (props) => {
   const registerTransaction = () => {
     // 未入力チェック
     if (
-      (!transaction.transactionAmount || !transaction.transactionName,
-      !transaction.subCategoryName)
+      !transaction.transactionAmount ||
+      !transaction.transactionName ||
+      !transaction.subCategoryName
     ) {
       setError((error) => ({
         ...error,

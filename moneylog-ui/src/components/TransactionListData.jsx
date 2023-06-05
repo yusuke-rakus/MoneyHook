@@ -34,7 +34,7 @@ const TransactionListData = (props) => {
     console.log(value);
     setTransactionList(
       transactionList.map((t, i) =>
-        i == index ? { ...t, transactionDate: value } : t
+        i === index ? { ...t, transactionDate: value } : t
       )
     );
   };
@@ -43,7 +43,7 @@ const TransactionListData = (props) => {
   const selectCategory = (e) => {
     setTransactionList(
       transactionList.map((t, i) =>
-        i == index ? { ...t, categoryId: e.target.value } : t
+        i === index ? { ...t, categoryId: e.target.value } : t
       )
     );
     getSubCategory(e.target.value);
@@ -53,7 +53,7 @@ const TransactionListData = (props) => {
   const selectSubCategory = (e) => {
     setTransactionList(
       transactionList.map((t, i) =>
-        i == index ? { ...t, subCategoryId: e.target.value } : t
+        i === index ? { ...t, subCategoryId: e.target.value } : t
       )
     );
   };
@@ -62,23 +62,23 @@ const TransactionListData = (props) => {
   const inputTransactionName = (e) => {
     setTransactionList(
       transactionList.map((t, i) =>
-        i == index ? { ...t, transactionName: e.target.value } : t
+        i === index ? { ...t, transactionName: e.target.value } : t
       )
     );
   };
 
   /** 符号の変更 */
   const changeSign = () => {
-    if (transaction.transactionSign == -1) {
+    if (transaction.transactionSign === -1) {
       setTransactionList(
         transactionList.map((t, i) =>
-          i == index ? { ...t, transactionSign: 1 } : t
+          i === index ? { ...t, transactionSign: 1 } : t
         )
       );
     } else {
       setTransactionList(
         transactionList.map((t, i) =>
-          i == index ? { ...t, transactionSign: -1 } : t
+          i === index ? { ...t, transactionSign: -1 } : t
         )
       );
     }
@@ -90,7 +90,7 @@ const TransactionListData = (props) => {
     if (!isNaN(tempNum)) {
       setTransactionList(
         transactionList.map((t, i) =>
-          i == index ? { ...t, transactionAmount: tempNum } : t
+          i === index ? { ...t, transactionAmount: tempNum } : t
         )
       );
     }
@@ -100,7 +100,7 @@ const TransactionListData = (props) => {
   const setFixed = (e) => {
     setTransactionList(
       transactionList.map((t, i) =>
-        i == index ? { ...t, fixedFlg: e.target.checked } : t
+        i === index ? { ...t, fixedFlg: e.target.checked } : t
       )
     );
   };

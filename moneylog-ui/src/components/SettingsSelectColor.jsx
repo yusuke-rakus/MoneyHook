@@ -114,9 +114,9 @@ const SettingsSelectColor = (props) => {
               style={{
                 background: data.themeColorCode,
                 border:
-                  data.themeColorCode == themeColor ? "3px solid #2196f3" : "",
+                  data.themeColorCode === themeColor ? "3px solid #2196f3" : "",
                 transform:
-                  data.themeColorCode == themeColor ? "scale(1.2)" : "",
+                  data.themeColorCode === themeColor ? "scale(1.2)" : "",
               }}
               className="colorBox"
             ></div>
@@ -132,11 +132,13 @@ const SettingsSelectColor = (props) => {
               style={{
                 background: `linear-gradient(${data.themeColorGradientCode})`,
                 border:
-                  data.themeColorGradientCode == themeColor
+                  data.themeColorGradientCode === themeColor
                     ? "3px solid #2196f3"
                     : "",
                 transform:
-                  data.themeColorGradientCode == themeColor ? "scale(1.2)" : "",
+                  data.themeColorGradientCode === themeColor
+                    ? "scale(1.2)"
+                    : "",
               }}
               className="gradientColorBox"
             ></div>

@@ -13,7 +13,7 @@ const UncategorizedSavingCard = (props) => {
     >
       <span>未分類の貯金額:</span>
       <span>
-        {UncategorizedSavingAmount == void 0
+        {UncategorizedSavingAmount === void 0
           ? "¥0"
           : `¥${UncategorizedSavingAmount.toLocaleString()}`}
       </span>

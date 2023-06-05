@@ -157,7 +157,7 @@ const AddSavingBox = (props) => {
       return;
     }
 
-    if (saving.savingId == void 0) {
+    if (saving.savingId === void 0) {
       // 登録処理
       addSaving();
     } else {

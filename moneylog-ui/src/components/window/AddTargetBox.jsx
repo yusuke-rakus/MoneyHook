@@ -112,7 +112,7 @@ const AddTargetBox = (props) => {
       return;
     }
 
-    if (savingTargetData.savingTargetId == void 0) {
+    if (savingTargetData.savingTargetId === void 0) {
       // 登録処理
       addSavingTarget();
     } else {

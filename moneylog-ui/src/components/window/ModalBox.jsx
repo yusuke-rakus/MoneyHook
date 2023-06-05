@@ -43,7 +43,7 @@ const ModalBox = (props) => {
 
   useEffect(() => {
     /** 初期値 */
-    if (transaction.transactionId == void 0) {
+    if (transaction.transactionId === void 0) {
       setTransaction({
         ...transaction,
         transactionSign: -1,
@@ -65,7 +65,7 @@ const ModalBox = (props) => {
 
   /** 符号の変更 */
   const changeSign = () => {
-    if (transaction.transactionSign == -1) {
+    if (transaction.transactionSign === -1) {
       setTransaction({ ...transaction, transactionSign: 1 });
     } else {
       setTransaction({ ...transaction, transactionSign: -1 });
@@ -110,7 +110,7 @@ const ModalBox = (props) => {
 
   /** 固定費フラグのセット */
   const [fixedFlg, setFixedFlg] = useState(
-    transaction.fixedFlg == void 0 ? false : transaction.fixedFlg
+    transaction.fixedFlg === void 0 ? false : transaction.fixedFlg
   );
   const changeFixedFlg = (e) => {
     setFixedFlg(e.target.checked);
@@ -172,7 +172,7 @@ const ModalBox = (props) => {
       return;
     }
 
-    if (transaction.transactionId == void 0) {
+    if (transaction.transactionId === void 0) {
       // 登録処理
       addTransaction();
     } else {
@@ -448,7 +448,7 @@ const ModalBox = (props) => {
                   },
                 }}
                 value={
-                  transaction.transactionAmount == void 0
+                  transaction.transactionAmount === void 0
                     ? ""
                     : Math.abs(transaction.transactionAmount).toLocaleString()
                 }

@@ -115,7 +115,7 @@ const DeletedSavingTarget = (props) => {
       .then((res) => res.json())
       .then((data) => {
         if (data.status === "success") {
-          if (data.savingTarget == 0) {
+          if (data.savingTarget === 0) {
             setSavingTarget(null);
           } else {
             setSavingTarget(data.savingTarget);

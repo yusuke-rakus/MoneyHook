@@ -40,7 +40,7 @@ const SettingsFixed = (props) => {
   const transactionChange = (e) => {
     data.monthlyTransactionName = e.target.value;
     setMonthlyTransactionList(
-      monthlyTransactionList.map((mt, i) => (i == index ? data : mt))
+      monthlyTransactionList.map((mt, i) => (i === index ? data : mt))
     );
   };
 
@@ -48,7 +48,7 @@ const SettingsFixed = (props) => {
   const dateChange = (e) => {
     data.monthlyTransactionDate = e.target.value;
     setMonthlyTransactionList(
-      monthlyTransactionList.map((mt, i) => (i == index ? data : mt))
+      monthlyTransactionList.map((mt, i) => (i === index ? data : mt))
     );
   };
 
@@ -56,22 +56,22 @@ const SettingsFixed = (props) => {
   const amountChange = (e) => {
     data.monthlyTransactionAmount = String(e.target.value).replace(/,/g, "");
     setMonthlyTransactionList(
-      monthlyTransactionList.map((mt, i) => (i == index ? data : mt))
+      monthlyTransactionList.map((mt, i) => (i === index ? data : mt))
     );
   };
 
   /** 符号の変更 */
   const changeSign = () => {
-    if (data.monthlyTransactionSign == -1) {
+    if (data.monthlyTransactionSign === -1) {
       setMonthlyTransactionList(
         monthlyTransactionList.map((mt, i) =>
-          i == index ? { ...mt, monthlyTransactionSign: 1 } : mt
+          i === index ? { ...mt, monthlyTransactionSign: 1 } : mt
         )
       );
     } else {
       setMonthlyTransactionList(
         monthlyTransactionList.map((mt, i) =>
-          i == index ? { ...mt, monthlyTransactionSign: -1 } : mt
+          i === index ? { ...mt, monthlyTransactionSign: -1 } : mt
         )
       );
     }
@@ -136,7 +136,7 @@ const SettingsFixed = (props) => {
   const selectCategory = (e) => {
     setMonthlyTransactionList(
       monthlyTransactionList.map((mt, i) =>
-        i == index ? { ...mt, categoryId: e.target.value } : mt
+        i === index ? { ...mt, categoryId: e.target.value } : mt
       )
     );
     getSubCategory(e.target.value);
@@ -146,7 +146,7 @@ const SettingsFixed = (props) => {
   const selectSubCategory = (e) => {
     setMonthlyTransactionList(
       monthlyTransactionList.map((mt, i) =>
-        i == index ? { ...mt, subCategoryId: e.target.value } : mt
+        i === index ? { ...mt, subCategoryId: e.target.value } : mt
       )
     );
   };
@@ -309,7 +309,7 @@ const SettingsFixed = (props) => {
             },
           }}
           value={
-            data.monthlyTransactionAmount == void 0
+            data.monthlyTransactionAmount === void 0
               ? ""
               : Math.abs(data.monthlyTransactionAmount).toLocaleString()
           }

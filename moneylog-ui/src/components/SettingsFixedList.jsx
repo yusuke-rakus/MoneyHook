@@ -52,7 +52,7 @@ const SettingsFixedList = (props) => {
       )
     );
 
-    monthlyTransactionList.map((data) => {
+    monthlyTransactionList.forEach((data) => {
       // 未入力チェック
       if (
         !data.categoryId ||
@@ -198,7 +198,7 @@ const SettingsFixedList = (props) => {
       .then((res) => res.json())
       .then((data) => {
         if (data.status === "success") {
-          data.monthlyTransactionList.map((data) => {
+          data.monthlyTransactionList.forEach((data) => {
             data["label"] = {
               monthlyTransactionName: { message: "取引名", status: false },
               monthlyTransactionAmount: { message: "金額", status: false },

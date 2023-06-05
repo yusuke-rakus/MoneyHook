@@ -85,7 +85,7 @@ const AddTransactionListWindow = (props) => {
       )
     );
 
-    transactionList.map((data) => {
+    transactionList.forEach((data) => {
       //未入力チェック
       if (
         !data.categoryId ||

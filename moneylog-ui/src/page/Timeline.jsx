@@ -49,9 +49,8 @@ const Timeline = (props) => {
   const [sysDate, setSysDate] = useState(getJST(new Date()));
   sysDate.setDate(1);
 
-  const [transactionTitle, setTransactionTitle] = useState(
-    "支出または収入の入力"
-  );
+  const [transactionTitle, setTransactionTitle] =
+    useState("支出または収入の入力");
 
   /** グラフデータ */
   const [graphData, setGraphData] = useState([]);
@@ -272,7 +271,7 @@ const Timeline = (props) => {
 
   /** 次月データを取得 */
   const getForwardMonth = () => {
-    if (sysDate.getMonth() < new Date().getMonth()) {
+    if (sysDate < new Date()) {
       let tempDate = new Date(sysDate);
       tempDate.setMonth(tempDate.getMonth() + 1);
       setSysDate(tempDate);

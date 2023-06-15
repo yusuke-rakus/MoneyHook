@@ -17,15 +17,15 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.example.common.Status;
-import com.example.form.GetTimelineDataForm;
-import com.example.response.GetTimelineDataResponse;
+import com.example.form.GetMonthlySpendingDataForm;
+import com.example.response.GetMonthlySpendingDataResponse;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 @SpringBootTest
 @AutoConfigureMockMvc
-class GetTimelineDataTest {
+class GetTotalSpendingTest {
 
-	final String URL = "/transaction/getTimelineData";
+	final String URL = "/transaction/getMonthlySpendingData";
 	final String USER_ID = "a77a6e94-6aa2-47ea-87dd-129f580fb669";
 
 	@Autowired
@@ -37,11 +37,12 @@ class GetTimelineDataTest {
 	@Test
 	@Transactional(readOnly = true)
 	void getHomeTest() throws Exception {
+
 		Date month = Date.valueOf("2023-06-01");
 
-		GetTimelineDataForm requestForm = new GetTimelineDataForm();
-		requestForm.setUserId(USER_ID);
+		GetMonthlySpendingDataForm requestForm = new GetMonthlySpendingDataForm();
 		requestForm.setMonth(month);
+		requestForm.setUserId(USER_ID);
 
 		String result = mvc
 				.perform(post(URL).content(mapper.writeValueAsString(requestForm))
@@ -49,15 +50,13 @@ class GetTimelineDataTest {
 				.andDo(print()).andExpect(status().isOk()).andReturn().getResponse()
 				.getContentAsString(Charset.defaultCharset());
 
-		GetTimelineDataResponse response = mapper.readValue(result, GetTimelineDataResponse.class);
+		GetMonthlySpendingDataResponse response = mapper.readValue(result, GetMonthlySpendingDataResponse.class);
 
 		/* 検証 */
-		int timelineDataCount = 45;
-		Date date = Date.valueOf("2023-06-30");
+		int dataCount = 6;
 
 		assertEquals(Status.SUCCESS.getStatus(), response.getStatus());
 		assertEquals(null, response.getMessage());
-		assertEquals(timelineDataCount, response.getTransactionList().size());
-		assertEquals(date.toString(), response.getTransactionList().get(0).getTransactionDate().toString());
+		assertEquals(response.getMonthlyTotalAmountList().size(), dataCount);
 	}
 }

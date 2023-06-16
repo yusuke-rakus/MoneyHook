@@ -1,4 +1,4 @@
-package com.example.controller;
+package com.example.controller.user;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;

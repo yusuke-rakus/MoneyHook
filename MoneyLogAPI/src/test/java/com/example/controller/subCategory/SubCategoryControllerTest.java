@@ -1,4 +1,4 @@
-package com.example.controller;
+package com.example.controller.subCategory;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;

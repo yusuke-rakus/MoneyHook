@@ -1,9 +1,9 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { useState } from "react";
 /** CSS */
 import "./page_CSS/Login.css";
 /** 自作コンポーネント */
-import { rootURI } from "../env/env";
+import { rootURI, timeoutRange } from "../env/env";
 import SignUpWindow from "../components/window/SignUpWindow";
 import BlurView from "../components/window/BlurView";
 import ForgotPassword from "../components/window/ForgotPassword";
@@ -51,6 +51,14 @@ const Login = (props) => {
     bannerMessage: "",
     bannerType: "",
   });
+  useEffect(() => {
+    setTimeout(() => {
+      setBanner({
+        ...banner,
+        banner: false,
+      });
+    }, timeoutRange);
+  }, [banner]);
   const [window, setWindow] = useState(false);
   const [forgotPasswordWindow, setForgotPasswordWindow] = useState(false);
   const navigate = useNavigate();

@@ -3,7 +3,7 @@ import React, { useEffect, useState } from "react";
 import "./page_CSS/MonthlyFixed.css";
 import "./page_CSS/common.css";
 /** 自作コンポーネント */
-import { rootURI } from "../env/env";
+import { rootURI, timeoutRange } from "../env/env";
 import { LoadFetchError } from "../components/FetchError";
 import { getJST } from "../components/GetJST";
 import FixedCategoryGroup from "../components/FixedCategoryGroup";
@@ -43,6 +43,14 @@ const MonthlyFixed = (props) => {
     bannerMessage: "",
     bannerType: "",
   });
+  useEffect(() => {
+    setTimeout(() => {
+      setBanner({
+        ...banner,
+        banner: false,
+      });
+    }, timeoutRange);
+  }, [banner]);
 
   /** API関連 */
   const getInit = (month) => {

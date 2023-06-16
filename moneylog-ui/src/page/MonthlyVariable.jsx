@@ -3,7 +3,7 @@ import React, { useEffect, useState } from "react";
 import "./page_CSS/MonthlyVariable.css";
 import "./page_CSS/common.css";
 /** 自作コンポーネント */
-import { rootURI } from "../env/env";
+import { rootURI, timeoutRange } from "../env/env";
 import { LoadFetchError } from "../components/FetchError";
 import { getJST } from "../components/GetJST";
 import VariableCategoryGroup from "../components/VariableCategoryGroup";
@@ -37,6 +37,14 @@ const MonthlyVariable = (props) => {
     bannerMessage: "",
     bannerType: "",
   });
+  useEffect(() => {
+    setTimeout(() => {
+      setBanner({
+        ...banner,
+        banner: false,
+      });
+    }, timeoutRange);
+  }, [banner]);
 
   /** API関連 */
   // 当月の変動費を取得

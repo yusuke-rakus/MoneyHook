@@ -3,7 +3,7 @@ import React, { useEffect, useState } from "react";
 import "./page_CSS/Home.css";
 import "./page_CSS/common.css";
 /** 自作コンポーネント */
-import { rootURI } from "../env/env";
+import { rootURI, timeoutRange } from "../env/env";
 import { LoadFetchErrorWithSeparateBanner } from "../components/FetchError";
 import { getJST } from "../components/GetJST";
 import HomeAccodion from "../components/HomeAccodion";
@@ -37,6 +37,12 @@ const Home = (props) => {
   const [banner, setBanner] = useState(false);
   const [bannerMessage, setBannerMessage] = useState("");
   const [bannerType, setBannerType] = useState("");
+
+  useEffect(() => {
+    setTimeout(() => {
+      setBanner(false);
+    }, timeoutRange);
+  }, [banner]);
 
   /** 今月 */
   const [sysDate, setSysDate] = useState(getJST(new Date()));

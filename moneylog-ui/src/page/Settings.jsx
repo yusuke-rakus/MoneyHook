@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 /** CSS */
 import "./page_CSS/Settings.css";
 import "./page_CSS/common.css";
@@ -19,6 +19,7 @@ import CloseIcon from "@mui/icons-material/Close";
 import { Button } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 import { useCookies } from "react-cookie";
+import { timeoutRange } from "../env/env";
 
 const Settings = (props) => {
   const { colorList, setColorList, themeColor, setThemeColor } = props;
@@ -30,6 +31,16 @@ const Settings = (props) => {
     bannerMessage: "",
     bannerType: "",
   });
+
+  useEffect(() => {
+    setTimeout(() => {
+      console.log("実行");
+      setBanner({
+        ...banner,
+        banner: false,
+      });
+    }, timeoutRange);
+  }, [banner.banner]);
 
   const logout = () => {
     // ユーザーIDを削除

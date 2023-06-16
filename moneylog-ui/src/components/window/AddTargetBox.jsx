@@ -83,6 +83,13 @@ const AddTargetBox = (props) => {
     });
   };
 
+  /** キーボードで登録ボタン押下 */
+  const onEnterTargetAmount = (e) => {
+    if (e.keyCode === 13) {
+      register();
+    }
+  };
+
   /** API関連 */
   /** 登録処理 */
   const register = () => {
@@ -321,6 +328,7 @@ const AddTargetBox = (props) => {
                 : Math.abs(savingTargetData.targetAmount).toLocaleString()
             }
             onChange={changeAmount}
+            onKeyUp={onEnterTargetAmount}
           />
           <span className="input-span">円</span>
         </div>

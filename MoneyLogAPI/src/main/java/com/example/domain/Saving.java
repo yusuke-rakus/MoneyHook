@@ -2,6 +2,9 @@ package com.example.domain;
 
 import java.sql.Date;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
+
+@JsonInclude(JsonInclude.Include.NON_EMPTY)
 public class Saving {
 
 	private Long savingId;

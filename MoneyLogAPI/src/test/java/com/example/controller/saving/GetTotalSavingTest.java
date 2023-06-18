@@ -1,12 +1,12 @@
-package com.example.controller.transaction;
+package com.example.controller.saving;
 
-import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import java.nio.charset.Charset;
+import java.sql.Date;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,15 +17,15 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.example.common.Status;
-import com.example.form.FrequentTransactionNameForm;
-import com.example.response.FrequentTransactionNameResponse;
+import com.example.common.message.SuccessMessage;
+import com.example.form.GetTotalSavingForm;
+import com.example.response.GetTotalSavingResponse;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 @SpringBootTest
 @AutoConfigureMockMvc
-class GetFrequentTransactionNameTest {
-
-	final String URL = "/transaction/getFrequentTransactionName";
+public class GetTotalSavingTest {
+	final String URL = "/saving/getTotalSaving";
 	final String USER_ID = "a77a6e94-6aa2-47ea-87dd-129f580fb669";
 
 	@Autowired
@@ -36,10 +36,12 @@ class GetFrequentTransactionNameTest {
 
 	@Test
 	@Transactional(readOnly = true)
-	void getHomeTest() throws Exception {
+	void getTotalSavingTest() throws Exception {
+		Date month = Date.valueOf("2023-06-01");
 
-		FrequentTransactionNameForm requestForm = new FrequentTransactionNameForm();
+		GetTotalSavingForm requestForm = new GetTotalSavingForm();
 		requestForm.setUserId(USER_ID);
+		requestForm.setMonth(month);
 
 		String result = mvc
 				.perform(post(URL).content(mapper.writeValueAsString(requestForm))
@@ -47,13 +49,14 @@ class GetFrequentTransactionNameTest {
 				.andDo(print()).andExpect(status().isOk()).andReturn().getResponse()
 				.getContentAsString(Charset.defaultCharset());
 
-		FrequentTransactionNameResponse response = mapper.readValue(result, FrequentTransactionNameResponse.class);
-
+		GetTotalSavingResponse response = mapper.readValue(result, GetTotalSavingResponse.class);
 		/* 検証 */
-		int frequentMaxCount = 5;
+		int savingDataCount = 6;
+		int totalSavingAmount = 602322;
 
 		assertEquals(Status.SUCCESS.getStatus(), response.getStatus());
-		assertEquals(null, response.getMessage());
-		assertThat(response.getTransactionList().size()).isLessThanOrEqualTo(frequentMaxCount);
+		assertEquals(SuccessMessage.SAVING_TOTAL_DATA_GET_SUCCESSED, response.getMessage());
+		assertEquals(response.getSavingDataList().size(), savingDataCount);
+		assertEquals(response.getTotalSavingAmount(), totalSavingAmount);
 	}
 }

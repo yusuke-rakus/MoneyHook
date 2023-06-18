@@ -3,6 +3,9 @@ package com.example.domain;
 import java.sql.Date;
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
+
+@JsonInclude(JsonInclude.Include.NON_EMPTY)
 public class Transaction {
 
 	private Long transactionId;

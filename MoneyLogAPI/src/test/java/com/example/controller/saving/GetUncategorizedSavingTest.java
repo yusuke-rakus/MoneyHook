@@ -1,6 +1,5 @@
-package com.example.controller.transaction;
+package com.example.controller.saving;
 
-import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
@@ -17,15 +16,15 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.example.common.Status;
-import com.example.form.FrequentTransactionNameForm;
-import com.example.response.FrequentTransactionNameResponse;
+import com.example.common.message.SuccessMessage;
+import com.example.form.GetSavingListForm;
+import com.example.response.GetSavingListResponse;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 @SpringBootTest
 @AutoConfigureMockMvc
-class GetFrequentTransactionNameTest {
-
-	final String URL = "/transaction/getFrequentTransactionName";
+public class GetUncategorizedSavingTest {
+	final String URL = "/saving/getUncategorizedSaving";
 	final String USER_ID = "a77a6e94-6aa2-47ea-87dd-129f580fb669";
 
 	@Autowired
@@ -36,9 +35,9 @@ class GetFrequentTransactionNameTest {
 
 	@Test
 	@Transactional(readOnly = true)
-	void getHomeTest() throws Exception {
+	void getUncategorizedSavingTest() throws Exception {
 
-		FrequentTransactionNameForm requestForm = new FrequentTransactionNameForm();
+		GetSavingListForm requestForm = new GetSavingListForm();
 		requestForm.setUserId(USER_ID);
 
 		String result = mvc
@@ -47,13 +46,13 @@ class GetFrequentTransactionNameTest {
 				.andDo(print()).andExpect(status().isOk()).andReturn().getResponse()
 				.getContentAsString(Charset.defaultCharset());
 
-		FrequentTransactionNameResponse response = mapper.readValue(result, FrequentTransactionNameResponse.class);
-
+		GetSavingListResponse response = mapper.readValue(result, GetSavingListResponse.class);
 		/* 検証 */
-		int frequentMaxCount = 5;
+		int savingListCount = 2;
 
 		assertEquals(Status.SUCCESS.getStatus(), response.getStatus());
-		assertEquals(null, response.getMessage());
-		assertThat(response.getTransactionList().size()).isLessThanOrEqualTo(frequentMaxCount);
+		assertEquals(SuccessMessage.SAVING_LIST_GET_SUCCESSED, response.getMessage());
+		assertEquals(response.getSavingList().size(), savingListCount);
+
 	}
 }

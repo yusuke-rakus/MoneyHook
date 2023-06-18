@@ -1,6 +1,6 @@
 package com.example.controller.subCategory;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -25,19 +25,19 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 @SpringBootTest
 @AutoConfigureMockMvc
 class SubCategoryControllerTest {
-	
+
 	final String URL = "/subCategory/getSubCategoryList";
 	final String USER_ID1 = "4f4da417-7693-4fa1-b153-a3511ed1a57a";
 	final String USER_ID2 = "a77a6e94-6aa2-47ea-87dd-129f580fb669";
-	
-	//コントローラテスト実施のため用意
+
+	// コントローラテスト実施のため用意
 	@Autowired
 	private MockMvc mvc;
-	
-	//JSONへの双方向の変換を行うため用意
+
+	// JSONへの双方向の変換を行うため用意
 	@Autowired
 	private ObjectMapper mapper;
-	
+
 	@Test
 	@Transactional(readOnly = true)
 	void getSubCategorySuccessByUser1Test() throws Exception {
@@ -47,17 +47,15 @@ class SubCategoryControllerTest {
 		GetSubCategoryListForm requsetForm = new GetSubCategoryListForm();
 		requsetForm.setUserId(USER_ID1);
 		requsetForm.setCategoryId(categoryId);
-		
+
 		/* 実行 */
-		String result = mvc.perform(post(URL) //対象のURLに対してPOSTでリクエストを送る
-				.content(mapper.writeValueAsString(requsetForm)) //FormをJSONに変換してリクエストにセット
-				.contentType(MediaType.APPLICATION_JSON)) //headerにセット
-				.andDo(print()) //ログにリクエスト・レスポンを表示
-				.andExpect(status().isOk()) //変換ステータスを指定
-				.andReturn()
-				.getResponse()
-				.getContentAsString(Charset.defaultCharset()); //文字列に変換
-		
+		String result = mvc.perform(post(URL) // 対象のURLに対してPOSTでリクエストを送る
+				.content(mapper.writeValueAsString(requsetForm)) // FormをJSONに変換してリクエストにセット
+				.contentType(MediaType.APPLICATION_JSON)) // headerにセット
+				.andDo(print()) // ログにリクエスト・レスポンを表示
+				.andExpect(status().isOk()) // 変換ステータスを指定
+				.andReturn().getResponse().getContentAsString(Charset.defaultCharset()); // 文字列に変換
+
 		/* JSONをresponseに変換 */
 		SubCategoryResponse response = mapper.readValue(result, SubCategoryResponse.class);
 		/* 検証 */
@@ -66,7 +64,6 @@ class SubCategoryControllerTest {
 		assertEquals(null, response.getMessage());
 		assertEquals(getCount, response.getSubCategoryList().size());
 	}
-	
 
 	@Test
 	@Transactional(readOnly = true)
@@ -76,26 +73,23 @@ class SubCategoryControllerTest {
 		GetSubCategoryListForm requsetForm = new GetSubCategoryListForm();
 		requsetForm.setUserId(USER_ID2);
 		requsetForm.setCategoryId(categoryId);
-		
+
 		/* 実行 */
-		String result = mvc.perform(post(URL) 
-				.content(mapper.writeValueAsString(requsetForm))
-				.contentType(MediaType.APPLICATION_JSON)) 
-				.andDo(print())
-				.andExpect(status().isOk())
-				.andReturn()
-				.getResponse()
-				.getContentAsString(Charset.defaultCharset()); 
-		
+		String result = mvc
+				.perform(post(URL).content(mapper.writeValueAsString(requsetForm))
+						.contentType(MediaType.APPLICATION_JSON))
+				.andDo(print()).andExpect(status().isOk()).andReturn().getResponse()
+				.getContentAsString(Charset.defaultCharset());
+
 		SubCategoryResponse response = mapper.readValue(result, SubCategoryResponse.class);
 		/* 検証 */
 		int getCount = 8;
 		assertEquals(Status.SUCCESS.getStatus(), response.getStatus());
 		assertEquals(null, response.getMessage());
 		assertEquals(getCount, response.getSubCategoryList().size());
-		
+
 	}
-	
+
 	@Test
 	@Transactional(readOnly = true)
 	void authErrorTest() throws Exception {
@@ -106,23 +100,20 @@ class SubCategoryControllerTest {
 		GetSubCategoryListForm requsetForm = new GetSubCategoryListForm();
 		requsetForm.setUserId(userId);
 		requsetForm.setCategoryId(categoryId);
-		
+
 		/* 実行 */
-		String result = mvc.perform(post(URL) 
-				.content(mapper.writeValueAsString(requsetForm))
-				.contentType(MediaType.APPLICATION_JSON)) 
-				.andDo(print())
-				.andExpect(status().isOk())
-				.andReturn()
-				.getResponse()
-				.getContentAsString(Charset.defaultCharset()); 
-		
+		String result = mvc
+				.perform(post(URL).content(mapper.writeValueAsString(requsetForm))
+						.contentType(MediaType.APPLICATION_JSON))
+				.andDo(print()).andExpect(status().isOk()).andReturn().getResponse()
+				.getContentAsString(Charset.defaultCharset());
+
 		SubCategoryResponse response = mapper.readValue(result, SubCategoryResponse.class);
 		assertEquals(Status.ERROR.getStatus(), response.getStatus());
 		assertEquals(ErrorMessage.AUTHENTICATION_ERROR, response.getMessage());
 		assertEquals(null, response.getSubCategoryList());
 	}
-	
+
 	@Test
 	@Transactional(readOnly = true)
 	void getSubCategoryiIs0Test() throws Exception {
@@ -131,17 +122,14 @@ class SubCategoryControllerTest {
 		GetSubCategoryListForm requsetForm = new GetSubCategoryListForm();
 		requsetForm.setUserId(USER_ID2);
 		requsetForm.setCategoryId(categoryId);
-		
+
 		/* 実行 */
-		String result = mvc.perform(post(URL) 
-				.content(mapper.writeValueAsString(requsetForm))
-				.contentType(MediaType.APPLICATION_JSON)) 
-				.andDo(print())
-				.andExpect(status().isOk())
-				.andReturn()
-				.getResponse()
-				.getContentAsString(Charset.defaultCharset()); 
-		
+		String result = mvc
+				.perform(post(URL).content(mapper.writeValueAsString(requsetForm))
+						.contentType(MediaType.APPLICATION_JSON))
+				.andDo(print()).andExpect(status().isOk()).andReturn().getResponse()
+				.getContentAsString(Charset.defaultCharset());
+
 		SubCategoryResponse response = mapper.readValue(result, SubCategoryResponse.class);
 		assertEquals(Status.ERROR.getStatus(), response.getStatus());
 		assertEquals(ErrorMessage.SUB_CATEGORY_GET_FAILED, response.getMessage());

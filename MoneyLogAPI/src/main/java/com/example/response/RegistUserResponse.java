@@ -1,7 +1,9 @@
 package com.example.response;
 
 import com.example.domain.User;
+import com.fasterxml.jackson.annotation.JsonInclude;
 
+@JsonInclude(JsonInclude.Include.NON_EMPTY)
 public class RegistUserResponse extends response {
 
 	private User user;

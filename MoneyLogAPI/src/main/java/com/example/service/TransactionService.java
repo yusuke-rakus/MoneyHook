@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.example.common.Status;
+import com.example.common.DateFormatter;
 import com.example.common.exception.AuthenticationException;
 import com.example.common.exception.SystemException;
 import com.example.common.message.ErrorMessage;
@@ -90,7 +91,7 @@ public class TransactionService {
 
 		try {
 			Integer transactionAmount = form.getTransactionAmount();
-			Integer sign = form.getTransactionSign();
+			Integer sign = form.getTransactionSign() < 0 ? -1 : 1;
 			form.setTransactionAmount(transactionAmount * sign);
 			transactionMapper.addTransaction(form);
 			res.setMessage(SuccessMessage.TRANSACTION_INSERT_SUCCESSED);
@@ -229,6 +230,7 @@ public class TransactionService {
 
 		// 合計支出リストを取得
 		try {
+			form.setMonth(DateFormatter.toFirstDayOfMonth(form.getMonth()));
 			List<Transaction> monthlyTotalAmountList = transactionMapper.getMonthlySpendingData(form);
 
 			if (monthlyTotalAmountList.size() < 6) {
@@ -265,6 +267,7 @@ public class TransactionService {
 
 		// 合計支出リストを取得
 		try {
+			form.setMonth(DateFormatter.toFirstDayOfMonth(form.getMonth()));
 			List<MonthlyFixedList> monthlyFixedList = transactionMapper.getMonthlyFixedSpending(form);
 			res.setMonthlyFixedList(monthlyFixedList);
 
@@ -288,6 +291,7 @@ public class TransactionService {
 
 		// 合計収入リストを取得
 		try {
+			form.setMonth(DateFormatter.toFirstDayOfMonth(form.getMonth()));
 			List<MonthlyFixedList> monthlyFixedList = transactionMapper.getMonthlyFixedIncome(form);
 			res.setMonthlyFixedList(monthlyFixedList);
 
@@ -311,6 +315,7 @@ public class TransactionService {
 
 		// タイムラインデータを取得
 		try {
+			form.setMonth(DateFormatter.toFirstDayOfMonth(form.getMonth()));
 			List<Transaction> transactionList = transactionMapper.getTimelineData(form);
 			res.setTransactionList(transactionList);
 		} catch (Exception e) {
@@ -330,6 +335,7 @@ public class TransactionService {
 
 		// タイムラインデータを取得
 		try {
+			form.setMonth(DateFormatter.toFirstDayOfMonth(form.getMonth()));
 			List<CategoryList> categoryList = transactionMapper.getHome(form);
 
 			if (categoryList.size() > 7) {
@@ -379,6 +385,7 @@ public class TransactionService {
 
 		// データを取得
 		try {
+			form.setMonth(DateFormatter.toFirstDayOfMonth(form.getMonth()));
 			List<CategoryList> categoryList = transactionMapper.getMonthlyVariableData(form);
 			res.setMonthlyVariableList(categoryList);
 

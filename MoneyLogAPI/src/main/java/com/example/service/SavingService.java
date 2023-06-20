@@ -9,6 +9,8 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import com.example.common.DateFormatter;
 import com.example.common.exception.DataNotFoundException;
 import com.example.common.exception.SystemException;
 import com.example.common.message.ErrorMessage;
@@ -46,6 +48,7 @@ public class SavingService {
 		// ユーザーIDからユーザーNoを取得
 		Long userNo = authenticationService.authUser(form);
 		form.setUserNo(userNo);
+		form.setMonth(DateFormatter.toFirstDayOfMonth(form.getMonth()));
 
 		savingList = savingMapper.getMonthlySavingList(form);
 
@@ -214,6 +217,7 @@ public class SavingService {
 		// ユーザーIDからユーザーNoを取得
 		Long userNo = authenticationService.authUser(form);
 		form.setUserNo(userNo);
+		form.setMonth(DateFormatter.toFirstDayOfMonth(form.getMonth()));
 
 		return savingMapper.getTotalSavingAmount(form);
 	}

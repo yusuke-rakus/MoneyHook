@@ -39,6 +39,8 @@ public class ErrorMessage {
 	public static final String TRANSACTION_DATA_INSERT_FAILED = "登録に失敗しました";
 	/** データの削除に失敗しました */
 	public static final String TRANSACTION_DATA_DELETE_FAILED = "削除に失敗しました";
+	/** カテゴリ・サブカテゴリにリレーションがない */
+	public static final String CATEGORY_IS_NOT_RELATIONAL = "カテゴリとサブカテゴリが紐づいていません";
 
 	// monthlyTransaction
 	/** 月次固定費が存在しない */

@@ -10,12 +10,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.example.common.Status;
 import com.example.common.DateFormatter;
+import com.example.common.Status;
 import com.example.common.exception.AuthenticationException;
 import com.example.common.exception.SystemException;
 import com.example.common.message.ErrorMessage;
 import com.example.common.message.SuccessMessage;
+import com.example.domain.Category;
 import com.example.domain.CategoryList;
 import com.example.domain.MonthlyFixedList;
 import com.example.domain.SubCategory;
@@ -59,6 +60,9 @@ public class TransactionService {
 	@Autowired
 	private SubCategoryMapper subCategoryMapper;
 
+	@Autowired
+	private CategoryService categoryService;
+
 	/**
 	 * 収支を登録
 	 * 
@@ -87,6 +91,17 @@ public class TransactionService {
 				Long createdSubCategoryId = subCategory.getSubCategoryId();
 				form.setSubCategoryId(createdSubCategoryId);
 			}
+		}
+
+		// カテゴリとサブカテゴリのリレーションをチェック
+		Category category = new Category();
+		category.setUserNo(form.getUserNo());
+		category.setCategoryId(form.getCategoryId());
+		boolean isCategoryRelational = categoryService.isCategoryRelational(category, form.getSubCategoryId());
+		if (!isCategoryRelational) {
+			res.setStatus(Status.ERROR.getStatus());
+			res.setMessage(ErrorMessage.CATEGORY_IS_NOT_RELATIONAL);
+			return res;
 		}
 
 		try {

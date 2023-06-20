@@ -12,4 +12,7 @@ public interface CategoryMapper {
 	/** カテゴリ一覧の取得 */
 	public List<Category> getCategoryList();
 
+	/** カテゴリ・サブカテゴリの取得 */
+	public List<Category> getCategoryWithSubCategory(Category category);
+
 }

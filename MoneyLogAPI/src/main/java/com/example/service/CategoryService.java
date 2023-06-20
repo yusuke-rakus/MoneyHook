@@ -1,6 +1,7 @@
 package com.example.service;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -36,6 +37,18 @@ public class CategoryService {
 		}
 
 		return res;
+	}
+
+	/** カテゴリ・サブカテゴリのリレーションチェック */
+	public boolean isCategoryRelational(Category param, Long subCategoryId) {
+		List<Category> categoryList = categoryMapper.getCategoryWithSubCategory(param);
+		boolean isCategoryRelational = categoryList.stream().filter(i -> subCategoryId.equals(i.getSubCategoryId()))
+				.collect(Collectors.toList()).isEmpty();
+		if (isCategoryRelational) {
+			return false;
+		} else {
+			return true;
+		}
 	}
 
 }

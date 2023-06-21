@@ -13,6 +13,7 @@ import com.example.common.Status;
 import com.example.common.exception.SystemException;
 import com.example.common.message.ErrorMessage;
 import com.example.common.message.SuccessMessage;
+import com.example.domain.Category;
 import com.example.domain.MonthlyTransaction;
 import com.example.domain.SubCategory;
 import com.example.form.DeleteFixedForm;
@@ -39,6 +40,13 @@ public class MonthlyTransactionService {
 
 	@Autowired
 	SubCategoryService subCategoryService;
+
+	@Autowired
+	private CategoryService categoryService;
+
+	private final Integer SUCCESS = 0;
+
+	private final Integer CATEGORY_IS_NOT_RELATIONAL_ERROR = 1;
 
 	/** 毎月の固定費一覧の取得 */
 	public GetFixedResponse getFixed(GetFixedForm form, GetFixedResponse res) throws SystemException {
@@ -139,19 +147,27 @@ public class MonthlyTransactionService {
 	/** 固定費の編集 */
 	public EditFixedResponse editFixed(EditFixedForm form, EditFixedResponse res) throws SystemException {
 
+		Integer updateStatus = null;
+
 		try {
 			// monthlyTransactionIdを保持しているものを更新処理
 			List<MonthlyTransactionList> includingIdList = form.getMonthlyTransactionList().stream()
 					.filter(i -> i.getMonthlyTransactionId() != null).collect(Collectors.toList());
 			if (includingIdList.size() > 0) {
-				this.updateFixed(includingIdList);
+				updateStatus = this.updateFixed(includingIdList);
 			}
 
 			// monthlyTransactionIdがないものを登録処理
 			List<MonthlyTransactionList> notIncludingIdList = form.getMonthlyTransactionList().stream()
 					.filter(i -> i.getMonthlyTransactionId() == null).collect(Collectors.toList());
 			if (notIncludingIdList.size() > 0) {
-				this.registerFixed(notIncludingIdList);
+				updateStatus = this.registerFixed(notIncludingIdList);
+			}
+
+			if (CATEGORY_IS_NOT_RELATIONAL_ERROR.equals(updateStatus)) {
+				res.setStatus(Status.ERROR.getStatus());
+				res.setMessage(ErrorMessage.CATEGORY_IS_NOT_RELATIONAL);
+				return res;
 			}
 
 			res.setMessage(SuccessMessage.MONTHLY_TRANSACTION_EDIT_SUCCESSED);
@@ -166,21 +182,29 @@ public class MonthlyTransactionService {
 	/** 固定費の編集(1件) */
 	public EditOneFixedResponse editOneFixed(EditOneFixedForm form, EditOneFixedResponse res) throws SystemException {
 
+		Integer updateStatus = null;
+
 		try {
 			if (form.getMonthlyTransaction().getMonthlyTransactionId() != null) {
 				// monthlyTransactionIdを保持しているものを更新処理
 				List<MonthlyTransactionList> includingIdList = new ArrayList<>();
 				includingIdList.add(form.getMonthlyTransaction());
 				if (includingIdList.size() > 0) {
-					this.updateFixed(includingIdList);
+					updateStatus = this.updateFixed(includingIdList);
 				}
 			} else if (form.getMonthlyTransaction().getMonthlyTransactionId() == null) {
 				// monthlyTransactionIdがないものを登録処理
 				List<MonthlyTransactionList> notIncludingIdList = new ArrayList<>();
 				notIncludingIdList.add(form.getMonthlyTransaction());
 				if (notIncludingIdList.size() > 0) {
-					this.registerFixed(notIncludingIdList);
+					updateStatus = this.registerFixed(notIncludingIdList);
 				}
+			}
+
+			if (CATEGORY_IS_NOT_RELATIONAL_ERROR.equals(updateStatus)) {
+				res.setStatus(Status.ERROR.getStatus());
+				res.setMessage(ErrorMessage.CATEGORY_IS_NOT_RELATIONAL);
+				return res;
 			}
 
 			res.setMessage(SuccessMessage.MONTHLY_TRANSACTION_EDIT_SUCCESSED);
@@ -194,7 +218,7 @@ public class MonthlyTransactionService {
 	}
 
 	/** 固定費の登録 */
-	public void registerFixed(List<MonthlyTransactionList> list) throws SystemException {
+	public Integer registerFixed(List<MonthlyTransactionList> list) throws SystemException {
 
 		// サブカテゴリをDBのリストから選択した場合
 		List<MonthlyTransactionList> chosenSubCategoryList = list.stream().filter(i -> i.getSubCategoryId() != null)
@@ -218,19 +242,41 @@ public class MonthlyTransactionService {
 				// サブカテゴリの登録
 				subCategory = subCategoryService.insertSubCategory(subCategory);
 				monthlyTran.setSubCategoryId(subCategory.getSubCategoryId());
+
+				// カテゴリとサブカテゴリのリレーションをチェック
+				Category category = new Category();
+				category.setUserNo(monthlyTran.getUserNo());
+				category.setCategoryId(monthlyTran.getCategoryId());
+				boolean isCategoryRelational = categoryService.isCategoryRelational(category,
+						monthlyTran.getSubCategoryId());
+				if (!isCategoryRelational) {
+					return CATEGORY_IS_NOT_RELATIONAL_ERROR;
+				}
 			}
 			monthlyTransactionMapper.registerFixed(userInputSubCategoryList);
 		}
+		return SUCCESS;
 	}
 
 	/** 固定費の更新 */
-	public void updateFixed(List<MonthlyTransactionList> list) throws SystemException {
+	public Integer updateFixed(List<MonthlyTransactionList> list) throws SystemException {
 
 		// サブカテゴリをDBのリストから選択した場合
 		List<MonthlyTransactionList> chosenSubCategoryList = list.stream().filter(i -> i.getSubCategoryId() != null)
 				.collect(Collectors.toList());
 		if (chosenSubCategoryList.size() > 0) {
 			for (MonthlyTransactionList monthlyTran : chosenSubCategoryList) {
+
+				// カテゴリとサブカテゴリのリレーションをチェック
+				Category category = new Category();
+				category.setUserNo(monthlyTran.getUserNo());
+				category.setCategoryId(monthlyTran.getCategoryId());
+				boolean isCategoryRelational = categoryService.isCategoryRelational(category,
+						monthlyTran.getSubCategoryId());
+				if (!isCategoryRelational) {
+					return CATEGORY_IS_NOT_RELATIONAL_ERROR;
+				}
+
 				Integer monthlyTransactionAmount = monthlyTran.getMonthlyTransactionAmount();
 				Integer sign = monthlyTran.getMonthlyTransactionSign();
 				monthlyTran.setMonthlyTransactionAmount(monthlyTransactionAmount * sign);
@@ -255,11 +301,23 @@ public class MonthlyTransactionService {
 			}
 			// データを更新
 			for (MonthlyTransactionList monthlyTran : userInputSubCategoryList) {
+
+				// カテゴリとサブカテゴリのリレーションをチェック
+				Category category = new Category();
+				category.setUserNo(monthlyTran.getUserNo());
+				category.setCategoryId(monthlyTran.getCategoryId());
+				boolean isCategoryRelational = categoryService.isCategoryRelational(category,
+						monthlyTran.getSubCategoryId());
+				if (!isCategoryRelational) {
+					return CATEGORY_IS_NOT_RELATIONAL_ERROR;
+				}
+
 				Integer monthlyTransactionAmount = monthlyTran.getMonthlyTransactionAmount();
 				Integer sign = monthlyTran.getMonthlyTransactionSign();
 				monthlyTran.setMonthlyTransactionAmount(monthlyTransactionAmount * sign);
 				monthlyTransactionMapper.updateFixed(monthlyTran);
 			}
 		}
+		return SUCCESS;
 	}
 }

@@ -36,7 +36,7 @@ class GetFrequentTransactionNameTest {
 
 	@Test
 	@Transactional(readOnly = true)
-	void getHomeTest() throws Exception {
+	void getFrequentTransactionNameTest() throws Exception {
 
 		FrequentTransactionNameForm requestForm = new FrequentTransactionNameForm();
 		requestForm.setUserId(USER_ID);

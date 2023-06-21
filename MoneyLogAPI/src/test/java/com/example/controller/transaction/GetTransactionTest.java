@@ -37,7 +37,7 @@ class GetTransactionTest {
 
 	@Test
 	@Transactional(readOnly = true)
-	void getHomeTest() throws Exception {
+	void getTransactionTest() throws Exception {
 		Long transactionId = 1l;
 
 		GetTransactionForm requestForm = new GetTransactionForm();

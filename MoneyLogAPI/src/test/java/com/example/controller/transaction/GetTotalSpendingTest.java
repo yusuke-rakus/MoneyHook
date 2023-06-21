@@ -17,15 +17,15 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.example.common.Status;
-import com.example.form.GetMonthlySpendingDataForm;
-import com.example.response.GetMonthlySpendingDataResponse;
+import com.example.form.GetTotalSpendingForm;
+import com.example.response.GetTotalSpendingResponse;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 @SpringBootTest
 @AutoConfigureMockMvc
 class GetTotalSpendingTest {
 
-	final String URL = "/transaction/getMonthlySpendingData";
+	final String URL = "/transaction/getTotalSpending";
 	final String USER_ID = "a77a6e94-6aa2-47ea-87dd-129f580fb669";
 
 	@Autowired
@@ -36,27 +36,32 @@ class GetTotalSpendingTest {
 
 	@Test
 	@Transactional(readOnly = true)
-	void getHomeTest() throws Exception {
+	void getTotalSpendingTest() throws Exception {
 
-		Date month = Date.valueOf("2023-06-01");
+		Long categoryId = Long.valueOf("5");
+		Long subCategoryId = Long.valueOf("9");
+		Date startMonth = Date.valueOf("2022-12-01");
+		Date endMonth = Date.valueOf("2023-06-01");
 
-		GetMonthlySpendingDataForm requestForm = new GetMonthlySpendingDataForm();
-		requestForm.setMonth(month);
-		requestForm.setUserId(USER_ID);
+		GetTotalSpendingForm req = new GetTotalSpendingForm();
+		req.setCategoryId(categoryId);
+		req.setSubCategoryId(subCategoryId);
+		req.setStartMonth(startMonth);
+		req.setEndMonth(endMonth);
+		req.setUserId(USER_ID);
 
 		String result = mvc
-				.perform(post(URL).content(mapper.writeValueAsString(requestForm))
-						.contentType(MediaType.APPLICATION_JSON))
+				.perform(post(URL).content(mapper.writeValueAsString(req)).contentType(MediaType.APPLICATION_JSON))
 				.andDo(print()).andExpect(status().isOk()).andReturn().getResponse()
 				.getContentAsString(Charset.defaultCharset());
 
-		GetMonthlySpendingDataResponse response = mapper.readValue(result, GetMonthlySpendingDataResponse.class);
+		GetTotalSpendingResponse response = mapper.readValue(result, GetTotalSpendingResponse.class);
 
 		/* 検証 */
-		int dataCount = 6;
+		Integer totalSpending = -130697;
 
 		assertEquals(Status.SUCCESS.getStatus(), response.getStatus());
 		assertEquals(null, response.getMessage());
-		assertEquals(response.getMonthlyTotalAmountList().size(), dataCount);
+		assertEquals(response.getTotalSpending(), totalSpending);
 	}
 }

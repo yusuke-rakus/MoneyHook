@@ -17,15 +17,15 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.example.common.Status;
-import com.example.form.GetTimelineDataForm;
-import com.example.response.GetTimelineDataResponse;
+import com.example.form.GetMonthlyFixedSpendingForm;
+import com.example.response.GetMonthlyFixedSpendingResponse;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 @SpringBootTest
 @AutoConfigureMockMvc
-class GetTimelineDataTest {
+class GetMonthlyFixedSpendingTest {
 
-	final String URL = "/transaction/getTimelineData";
+	final String URL = "/transaction/getMonthlyFixedSpending";
 	final String USER_ID = "a77a6e94-6aa2-47ea-87dd-129f580fb669";
 
 	@Autowired
@@ -36,28 +36,28 @@ class GetTimelineDataTest {
 
 	@Test
 	@Transactional(readOnly = true)
-	void getTimelineDataTest() throws Exception {
+	void getMonthlyFixedSpendingTest() throws Exception {
+
 		Date month = Date.valueOf("2023-06-01");
 
-		GetTimelineDataForm requestForm = new GetTimelineDataForm();
-		requestForm.setUserId(USER_ID);
-		requestForm.setMonth(month);
+		GetMonthlyFixedSpendingForm req = new GetMonthlyFixedSpendingForm();
+		req.setMonth(month);
+		req.setUserId(USER_ID);
 
 		String result = mvc
-				.perform(post(URL).content(mapper.writeValueAsString(requestForm))
-						.contentType(MediaType.APPLICATION_JSON))
+				.perform(post(URL).content(mapper.writeValueAsString(req)).contentType(MediaType.APPLICATION_JSON))
 				.andDo(print()).andExpect(status().isOk()).andReturn().getResponse()
 				.getContentAsString(Charset.defaultCharset());
 
-		GetTimelineDataResponse response = mapper.readValue(result, GetTimelineDataResponse.class);
+		GetMonthlyFixedSpendingResponse response = mapper.readValue(result, GetMonthlyFixedSpendingResponse.class);
 
 		/* 検証 */
-		int timelineDataCount = 45;
-		Date date = Date.valueOf("2023-06-30");
+		Integer disposableIncome = -119620;
+		Integer fixedListCount = 6;
 
 		assertEquals(Status.SUCCESS.getStatus(), response.getStatus());
 		assertEquals(null, response.getMessage());
-		assertEquals(timelineDataCount, response.getTransactionList().size());
-		assertEquals(date.toString(), response.getTransactionList().get(0).getTransactionDate().toString());
+		assertEquals(response.getDisposableIncome(), disposableIncome);
+		assertEquals(response.getMonthlyFixedList().size(), fixedListCount);
 	}
 }

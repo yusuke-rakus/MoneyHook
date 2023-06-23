@@ -30,6 +30,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 @AutoConfigureMockMvc
 class UserControllerChangeThemaColorTest {
 	
+
 	final String URL = "/user/editThemeColor";
 	final String USER_ID = "a77a6e94-6aa2-47ea-87dd-129f580fb669";
 	
@@ -111,7 +112,6 @@ class UserControllerChangeThemaColorTest {
 		assertNotEquals(user.getThemeColorId(), newThemaColorId);
 		assertEquals(user.getThemeColorId(), nowThemaColorId);
 	}
-	
 	
 	
 }

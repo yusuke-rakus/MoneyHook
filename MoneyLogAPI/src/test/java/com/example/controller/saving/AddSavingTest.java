@@ -16,6 +16,7 @@ import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.math.BigInteger;
 import java.nio.charset.Charset;
 import java.sql.Date;
 import java.util.stream.Collectors;
@@ -47,7 +48,7 @@ class AddSavingTest {
 
         Date savingDate = Date.valueOf("2023-06-01");
         String savingName = "貯金追加テスト";
-        Integer savingAmount = 1000;
+        BigInteger savingAmount = BigInteger.valueOf(1000);
         Long savingTargetId = null;
 
         AddSavingForm req = new AddSavingForm();

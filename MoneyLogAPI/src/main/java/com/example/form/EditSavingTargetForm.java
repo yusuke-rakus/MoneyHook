@@ -1,43 +1,43 @@
 package com.example.form;
 
-import javax.validation.constraints.NotNull;
-
 import com.example.common.message.ValidatingMessage;
 import com.example.common.validation.AnyOneNotEmpty;
 
-@AnyOneNotEmpty(fields = { "savingTargetName",
-		"targetAmount" }, message = ValidatingMessage.BOTH_OF_NAME_AND_TARGET_AMOUNT_EMPTY_ERROR)
+import javax.validation.constraints.NotNull;
+import java.math.BigInteger;
+
+@AnyOneNotEmpty(fields = {"savingTargetName",
+        "targetAmount"}, message = ValidatingMessage.BOTH_OF_NAME_AND_TARGET_AMOUNT_EMPTY_ERROR)
 public class EditSavingTargetForm extends form {
 
-	@NotNull(message = ValidatingMessage.ID_EMPTY_ERROR)
-	private Long savingTargetId;
+    @NotNull(message = ValidatingMessage.ID_EMPTY_ERROR)
+    private Long savingTargetId;
 
-	private String savingTargetName;
+    private String savingTargetName;
 
-	private Integer targetAmount;
+    private BigInteger targetAmount;
 
-	public Long getSavingTargetId() {
-		return savingTargetId;
-	}
+    public Long getSavingTargetId() {
+        return savingTargetId;
+    }
 
-	public void setSavingTargetId(Long savingTargetId) {
-		this.savingTargetId = savingTargetId;
-	}
+    public void setSavingTargetId(Long savingTargetId) {
+        this.savingTargetId = savingTargetId;
+    }
 
-	public String getSavingTargetName() {
-		return savingTargetName;
-	}
+    public String getSavingTargetName() {
+        return savingTargetName;
+    }
 
-	public void setSavingTargetName(String savingTargetName) {
-		this.savingTargetName = savingTargetName;
-	}
+    public void setSavingTargetName(String savingTargetName) {
+        this.savingTargetName = savingTargetName;
+    }
 
-	public Integer getTargetAmount() {
-		return targetAmount;
-	}
+    public BigInteger getTargetAmount() {
+        return targetAmount;
+    }
 
-	public void setTargetAmount(Integer targetAmount) {
-		this.targetAmount = targetAmount;
-	}
-
+    public void setTargetAmount(BigInteger targetAmount) {
+        this.targetAmount = targetAmount;
+    }
 }

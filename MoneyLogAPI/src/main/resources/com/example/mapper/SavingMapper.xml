@@ -1,174 +1,174 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.example.mapper.SavingMapper">
-	<!-- 月別貯金一覧の取得 -->
-	<select id="getMonthlySavingList" resultType="com.example.domain.Saving">
-		SELECT
-			s.saving_id,
-			s.saving_name,
-			s.saving_date,
-			s.saving_amount, 
-			s.saving_target_id,
-			st.saving_target_name
-		FROM
-			saving s
-		LEFT JOIN saving_target st using (saving_target_id) 
-		WHERE s.user_no = #{userNo} 
-		AND s.saving_date 
-				BETWEEN #{month} 
-				AND LAST_DAY(#{month})
-		ORDER BY s.saving_date desc ,saving_target_id
-	</select>
+    <!-- 月別貯金一覧の取得 -->
+    <select id="getMonthlySavingList" resultType="com.example.domain.Saving">
+        SELECT
+        s.saving_id,
+        s.saving_name,
+        s.saving_date,
+        s.saving_amount,
+        s.saving_target_id,
+        st.saving_target_name
+        FROM
+        saving s
+        LEFT JOIN saving_target st using (saving_target_id)
+        WHERE s.user_no = #{userNo}
+        AND s.saving_date
+        BETWEEN #{month}
+        AND LAST_DAY(#{month})
+        ORDER BY s.saving_date desc ,saving_target_id
+    </select>
 
-	<!-- 未振り分け貯金一覧の取得 -->
-	<select id="getUncategorizedSavingList" resultType="com.example.domain.Saving">
-		SELECT
-			s.saving_id,
-			s.saving_name,
-			s.saving_date,
-			s.saving_amount, 
-			s.saving_target_id
-		FROM
-			saving s
-		WHERE s.user_no = #{userNo} 
-		AND s.saving_target_id IS NULL
-		ORDER BY s.saving_date desc ,saving_target_id
-	</select>
-	
-	<!-- 貯金詳細の取得 -->
-	<select id="load" resultType="com.example.domain.Saving">
-		SELECT
-			s.saving_id,
-			s.saving_name,
-			s.saving_date,
-			s.saving_amount, 
-			s.saving_target_id,
-			st.saving_target_name
-		FROM
-			saving s
-		LEFT JOIN saving_target st using (saving_target_id)
-		WHERE s.user_no = #{userNo}
-		AND s.saving_id = #{savingId} 
-	</select>
-	
-	<!-- 累計貯金総額の取得 -->
-	<select id="getTotalSavingAmount" resultType="java.lang.Integer">
-		SELECT
-	      	SUM(`saving_amount`) as 'total_saving_amount'
-		FROM
-			saving s
-		WHERE s.user_no = #{userNo} 
-		GROUP BY s.user_no
-	</select>
-	
-	<!-- 月別貯金総額の取得 -->
-	<select id="getTotalMonthlySavingAmount" resultType="com.example.domain.MonthlySavingData">
-		SELECT
-			DATE_FORMAT(`saving_date`, '%Y-%m-01') as `saving_month`,
-			(SELECT
-				SUM(saving_amount)
-			FROM saving
-			WHERE 
-				user_no = #{userNo}
-			AND LAST_DAY(saving_month) > saving_date
-			) as monthly_total_saving_amount
-		FROM
-			saving s
-		WHERE s.user_no = #{userNo}
-		AND
-			saving_date
-				BETWEEN DATE_SUB(#{month}, INTERVAL 5 MONTH)
-				AND LAST_DAY(#{month})
-		GROUP BY saving_month
-		ORDER BY saving_month DESC
-	</select>
+    <!-- 未振り分け貯金一覧の取得 -->
+    <select id="getUncategorizedSavingList" resultType="com.example.domain.Saving">
+        SELECT
+        s.saving_id,
+        s.saving_name,
+        s.saving_date,
+        s.saving_amount,
+        s.saving_target_id
+        FROM
+        saving s
+        WHERE s.user_no = #{userNo}
+        AND s.saving_target_id IS NULL
+        ORDER BY s.saving_date desc ,saving_target_id
+    </select>
 
-	<!-- 未振り分け貯金総額の取得 -->
-	<select id="getUncategorizedSavingAmount" resultType="java.lang.Integer">
-		SELECT 
-	      	SUM(`saving_amount`) as 'total_saving_amount'
-		FROM
-			saving s
-		WHERE s.user_no = #{userNo} 
-		AND s.saving_target_id IS NULL
-		GROUP BY s.user_no
-	</select>
-	
-	<!-- 貯金を登録 -->
-	<insert id="insertSaving" parameterType="com.example.form.AddSavingForm">
-		INSERT INTO
-		saving(
-			user_no,
-			saving_name,
-			saving_amount,
-			saving_date,
-			saving_target_id
-		)
-		VALUES(
-			#{userNo},
-			#{savingName},
-			#{savingAmount},
-			#{savingDate},
-			#{savingTargetId}
-		);
-	</insert>
-	
-	<!-- 貯金を編集 -->
-	<update id="editSaving">
-		UPDATE
-			saving
-		<set>
-			<if test="savingName != null">saving_name = #{savingName},</if>
-			<if test="savingAmount != null">saving_amount = #{savingAmount},</if>
-			<if test="savingDate != null">saving_date = #{savingDate},</if>
-			saving_target_id = #{savingTargetId}
-		</set>
-		WHERE
-			saving_id = #{savingId}
-		AND
-			user_no = #{userNo};
-	</update>
-	
-	<!-- 貯金を削除 -->
-	<delete id="deleteSaving" parameterType="com.example.form.DeleteSavingForm">
-		DELETE FROM 
-			saving
-		WHERE
-			saving_id = #{savingId} AND user_no = #{userNo};
-	</delete>
+    <!-- 貯金詳細の取得 -->
+    <select id="load" resultType="com.example.domain.Saving">
+        SELECT
+        s.saving_id,
+        s.saving_name,
+        s.saving_date,
+        s.saving_amount,
+        s.saving_target_id,
+        st.saving_target_name
+        FROM
+        saving s
+        LEFT JOIN saving_target st using (saving_target_id)
+        WHERE s.user_no = #{userNo}
+        AND s.saving_id = #{savingId}
+    </select>
 
-	<!-- 貯金を一括振り分け -->
-	<update id="allotSaving">
-		UPDATE
-			saving
-		SET
-			saving_target_id = #{savingTargetId}
-		WHERE
-			user_no = #{userNo}
-		<foreach item="savingIdList" collection="savingIdList"
-			open="AND saving_id in (" separator="," close=")">
-			#{savingIdList}
-		</foreach>
-	</update>
-	
-	<!-- 貯金名の候補 -->
-	<select id="getFrequentSavingName" resultType="com.example.domain.Saving">
-		(SELECT
-			saving_name
-		FROM
-			saving
-		WHERE user_no = #{userNo}
-		GROUP BY saving_name
-		ORDER BY COUNT(saving_name) DESC
-		LIMIT 3)
-		UNION
-		(SELECT
-			saving_name
-		FROM
-			saving
-		WHERE user_no = #{userNo}
-		ORDER BY saving_id DESC
-		LIMIT 3)
-	</select>
+    <!-- 累計貯金総額の取得 -->
+    <select id="getTotalSavingAmount" resultType="java.math.BigInteger">
+        SELECT
+        SUM(`saving_amount`) as 'total_saving_amount'
+        FROM
+        saving s
+        WHERE s.user_no = #{userNo}
+        GROUP BY s.user_no
+    </select>
+
+    <!-- 月別貯金総額の取得 -->
+    <select id="getTotalMonthlySavingAmount" resultType="com.example.domain.MonthlySavingData">
+        SELECT
+        DATE_FORMAT(`saving_date`, '%Y-%m-01') as `saving_month`,
+        (SELECT
+        SUM(saving_amount)
+        FROM saving
+        WHERE
+        user_no = #{userNo}
+        AND LAST_DAY(saving_month) > saving_date
+        ) as monthly_total_saving_amount
+        FROM
+        saving s
+        WHERE s.user_no = #{userNo}
+        AND
+        saving_date
+        BETWEEN DATE_SUB(#{month}, INTERVAL 5 MONTH)
+        AND LAST_DAY(#{month})
+        GROUP BY saving_month
+        ORDER BY saving_month DESC
+    </select>
+
+    <!-- 未振り分け貯金総額の取得 -->
+    <select id="getUncategorizedSavingAmount" resultType="java.math.BigInteger">
+        SELECT
+        SUM(`saving_amount`) as 'total_saving_amount'
+        FROM
+        saving s
+        WHERE s.user_no = #{userNo}
+        AND s.saving_target_id IS NULL
+        GROUP BY s.user_no
+    </select>
+
+    <!-- 貯金を登録 -->
+    <insert id="insertSaving" parameterType="com.example.form.AddSavingForm">
+        INSERT INTO
+        saving(
+        user_no,
+        saving_name,
+        saving_amount,
+        saving_date,
+        saving_target_id
+        )
+        VALUES(
+        #{userNo},
+        #{savingName},
+        #{savingAmount},
+        #{savingDate},
+        #{savingTargetId}
+        );
+    </insert>
+
+    <!-- 貯金を編集 -->
+    <update id="editSaving">
+        UPDATE
+        saving
+        <set>
+            <if test="savingName != null">saving_name = #{savingName},</if>
+            <if test="savingAmount != null">saving_amount = #{savingAmount},</if>
+            <if test="savingDate != null">saving_date = #{savingDate},</if>
+            saving_target_id = #{savingTargetId}
+        </set>
+        WHERE
+        saving_id = #{savingId}
+        AND
+        user_no = #{userNo};
+    </update>
+
+    <!-- 貯金を削除 -->
+    <delete id="deleteSaving" parameterType="com.example.form.DeleteSavingForm">
+        DELETE FROM
+        saving
+        WHERE
+        saving_id = #{savingId} AND user_no = #{userNo};
+    </delete>
+
+    <!-- 貯金を一括振り分け -->
+    <update id="allotSaving">
+        UPDATE
+        saving
+        SET
+        saving_target_id = #{savingTargetId}
+        WHERE
+        user_no = #{userNo}
+        <foreach item="savingIdList" collection="savingIdList"
+                 open="AND saving_id in (" separator="," close=")">
+            #{savingIdList}
+        </foreach>
+    </update>
+
+    <!-- 貯金名の候補 -->
+    <select id="getFrequentSavingName" resultType="com.example.domain.Saving">
+        (SELECT
+        saving_name
+        FROM
+        saving
+        WHERE user_no = #{userNo}
+        GROUP BY saving_name
+        ORDER BY COUNT(saving_name) DESC
+        LIMIT 3)
+        UNION
+        (SELECT
+        saving_name
+        FROM
+        saving
+        WHERE user_no = #{userNo}
+        ORDER BY saving_id DESC
+        LIMIT 3)
+    </select>
 
 </mapper>

@@ -1,34 +1,35 @@
 package com.example.response;
 
-import java.util.List;
-
 import com.example.domain.SavingTarget;
+
+import java.math.BigInteger;
+import java.util.List;
 
 public class GetSavingAmountForSavingTargetResponse extends response {
 
-	private List<SavingTarget> savingTargetList;
-	private Integer uncategorizedAmount;
+    private List<SavingTarget> savingTargetList;
+    private BigInteger uncategorizedAmount;
 
-	public List<SavingTarget> getSavingTargetList() {
-		return savingTargetList;
-	}
+    public List<SavingTarget> getSavingTargetList() {
+        return savingTargetList;
+    }
 
-	public void setSavingTargetList(List<SavingTarget> savingTargetList) {
-		this.savingTargetList = savingTargetList;
-	}
+    public void setSavingTargetList(List<SavingTarget> savingTargetList) {
+        this.savingTargetList = savingTargetList;
+    }
 
-	public Integer getUncategorizedAmount() {
-		return uncategorizedAmount;
-	}
+    public BigInteger getUncategorizedAmount() {
+        return uncategorizedAmount;
+    }
 
-	public void setUncategorizedAmount(Integer uncategorizedAmount) {
-		this.uncategorizedAmount = uncategorizedAmount;
-	}
+    public void setUncategorizedAmount(BigInteger uncategorizedAmount) {
+        this.uncategorizedAmount = uncategorizedAmount;
+    }
 
-	@Override
-	public String toString() {
-		return "GetSavingAmountForSavingTargetResponse [savingTargetList=" + savingTargetList + ", uncategorizedAmount="
-				+ uncategorizedAmount + "]";
-	}
+    @Override
+    public String toString() {
+        return "GetSavingAmountForSavingTargetResponse [savingTargetList=" + savingTargetList + ", uncategorizedAmount="
+                + uncategorizedAmount + "]";
+    }
 
 }

@@ -16,6 +16,7 @@ import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.math.BigInteger;
 import java.nio.charset.Charset;
 import java.util.stream.Collectors;
 
@@ -45,7 +46,7 @@ class AddSavingTargetTest {
     void addSavingTargetTest() throws Exception {
 
         String savingTargetName = "貯金目標追加テスト";
-        Integer targetAmount = 1000;
+        BigInteger targetAmount = BigInteger.valueOf(1000);
 
         AddSavingTargetForm req = new AddSavingTargetForm();
         req.setUserId(USER_ID);

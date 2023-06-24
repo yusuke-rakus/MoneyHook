@@ -1,29 +1,30 @@
 package com.example.response;
 
-import java.util.List;
-
 import com.example.domain.CategoryList;
+
+import java.math.BigInteger;
+import java.util.List;
 
 public class GetMonthlyVariableDataResponse extends response {
 
-	private Integer totalVariable;
+    private BigInteger totalVariable;
 
-	private List<CategoryList> monthlyVariableList;
+    private List<CategoryList> monthlyVariableList;
 
-	public Integer getTotalVariable() {
-		return totalVariable;
-	}
+    public BigInteger getTotalVariable() {
+        return totalVariable;
+    }
 
-	public void setTotalVariable(Integer totalVariable) {
-		this.totalVariable = totalVariable;
-	}
+    public void setTotalVariable(BigInteger totalVariable) {
+        this.totalVariable = totalVariable;
+    }
 
-	public List<CategoryList> getMonthlyVariableList() {
-		return monthlyVariableList;
-	}
+    public List<CategoryList> getMonthlyVariableList() {
+        return monthlyVariableList;
+    }
 
-	public void setMonthlyVariableList(List<CategoryList> monthlyVariableList) {
-		this.monthlyVariableList = monthlyVariableList;
-	}
+    public void setMonthlyVariableList(List<CategoryList> monthlyVariableList) {
+        this.monthlyVariableList = monthlyVariableList;
+    }
 
 }

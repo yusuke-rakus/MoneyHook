@@ -1,35 +1,36 @@
 package com.example.domain;
 
+import java.math.BigInteger;
 import java.util.List;
 
 public class MonthlyFixedList {
 
-	private String categoryName;
-	private Integer totalCategoryAmount;
-	private List<Transaction> transactionList;
+    private String categoryName;
+    private BigInteger totalCategoryAmount;
+    private List<Transaction> transactionList;
 
-	public String getCategoryName() {
-		return categoryName;
-	}
+    public String getCategoryName() {
+        return categoryName;
+    }
 
-	public void setCategoryName(String categoryName) {
-		this.categoryName = categoryName;
-	}
+    public void setCategoryName(String categoryName) {
+        this.categoryName = categoryName;
+    }
 
-	public Integer getTotalCategoryAmount() {
-		return totalCategoryAmount;
-	}
+    public BigInteger getTotalCategoryAmount() {
+        return totalCategoryAmount;
+    }
 
-	public void setTotalCategoryAmount(Integer totalCategoryAmount) {
-		this.totalCategoryAmount = totalCategoryAmount;
-	}
+    public void setTotalCategoryAmount(BigInteger totalCategoryAmount) {
+        this.totalCategoryAmount = totalCategoryAmount;
+    }
 
-	public List<Transaction> getTransactionList() {
-		return transactionList;
-	}
+    public List<Transaction> getTransactionList() {
+        return transactionList;
+    }
 
-	public void setTransactionList(List<Transaction> transactionList) {
-		this.transactionList = transactionList;
-	}
+    public void setTransactionList(List<Transaction> transactionList) {
+        this.transactionList = transactionList;
+    }
 
 }

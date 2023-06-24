@@ -1,28 +1,29 @@
 package com.example.response;
 
-import java.util.List;
-
 import com.example.domain.CategoryList;
+
+import java.math.BigInteger;
+import java.util.List;
 
 public class GetHomeResponse extends response {
 
-	private Integer balance;
-	private List<CategoryList> categoryList;
+    private BigInteger balance;
+    private List<CategoryList> categoryList;
 
-	public Integer getBalance() {
-		return balance;
-	}
+    public BigInteger getBalance() {
+        return balance;
+    }
 
-	public void setBalance(Integer balance) {
-		this.balance = balance;
-	}
+    public void setBalance(BigInteger balance) {
+        this.balance = balance;
+    }
 
-	public List<CategoryList> getCategoryList() {
-		return categoryList;
-	}
+    public List<CategoryList> getCategoryList() {
+        return categoryList;
+    }
 
-	public void setCategoryList(List<CategoryList> categoryList) {
-		this.categoryList = categoryList;
-	}
+    public void setCategoryList(List<CategoryList> categoryList) {
+        this.categoryList = categoryList;
+    }
 
 }

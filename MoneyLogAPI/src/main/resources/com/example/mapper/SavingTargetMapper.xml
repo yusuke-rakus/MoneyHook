@@ -157,4 +157,13 @@
 		WHERE
 			st.saving_target_id = #{savingTargetId};
 	</select>
+
+    <select id="isSavingTargetExist" resultType="java.lang.Boolean">
+	    SELECT
+		    COUNT(saving_target_id)
+        FROM saving_target
+        WHERE user_no = #{userNo}
+        AND saving_target_id = #{savingTargetId}
+        LIMIT 1;
+    </select>
 </mapper>

@@ -208,9 +208,6 @@ class UserControllerChangeEmailTest {
 		assertEquals(EMAIL, user.getEmail());
 	}
 	
-	/* TODO 
-	 * メール送信が失敗した場合はロールバックするか
-	 * */
 	@Test
 	@Transactional(readOnly = false)
 	void sendEmailErrorTest() throws Exception {

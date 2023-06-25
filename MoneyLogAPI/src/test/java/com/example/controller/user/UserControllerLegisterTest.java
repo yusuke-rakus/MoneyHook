@@ -24,6 +24,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.example.common.SHA256;
 import com.example.common.Status;
+import com.example.common.message.ErrorMessage;
 import com.example.common.message.SuccessMessage;
 import com.example.domain.User;
 import com.example.form.LoginForm;
@@ -95,6 +96,39 @@ class UserControllerLegisterTest {
 		/* DBに正しく登録されているかを判定 */
 		assertEquals(user.getUserId(), response.getUser().getUserId());
 		assertEquals(user.getPassword(), hashedPassword);
+	}
+	
+	@Test
+	@Transactional(readOnly = false)
+	void createUserByIdenticalMailTest() throws Exception {
+		/*準備*/
+		String identicalEmail = "sample@sample.com";
+		String createPassword = "junittest0001";
+		RegistUserForm form = new RegistUserForm();
+		form.setEmail(identicalEmail);
+		form.setPassword(createPassword);
+		
+		/* テスト実施時にメール送信回避のためモック化*/
+		doNothing().when(mockSendMailService).sendMail(any(), anyString(), anyString(), anyString());
+		
+		String result = mvc.perform(post(URL)
+				.content(mapper.writeValueAsString(form))
+				.contentType(MediaType.APPLICATION_JSON))
+				.andDo(print())
+				.andExpect(status().isOk())
+				.andReturn()
+				.getResponse()
+				.getContentAsString(Charset.defaultCharset());
+		
+		RegistUserResponse response = mapper.readValue(result, RegistUserResponse.class);
+		
+		/* 検証
+		 * モック化されたSendMailServiceが正しく呼ばれているかを判定 */
+		verify(mockSendMailService, times(0)).sendMail(any(), anyString(), anyString(), anyString());
+		
+		/* レスポンスに正しく値がセットされているかの判定*/
+		assertEquals(Status.ERROR.getStatus(), response.getStatus());
+		assertEquals(ErrorMessage.MAIL_ADDRESS_ALREADY_REGISTERED, response.getMessage());
 	}
 
 }

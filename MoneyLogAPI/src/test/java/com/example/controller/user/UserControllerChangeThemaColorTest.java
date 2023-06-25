@@ -112,6 +112,4 @@ class UserControllerChangeThemaColorTest {
 		assertNotEquals(user.getThemeColorId(), newThemaColorId);
 		assertEquals(user.getThemeColorId(), nowThemaColorId);
 	}
-	
-	
 }

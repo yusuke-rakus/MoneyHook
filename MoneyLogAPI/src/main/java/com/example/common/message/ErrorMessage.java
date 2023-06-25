@@ -25,6 +25,8 @@ public class ErrorMessage {
 	public static final String EMAIL_NOT_EXIST_ERROR = "メールアドレスが存在しません";
 	/** パスワードを忘れた場合の再設定失敗 */
 	public static final String FORGOT_RESET_PASSWORD_ERROR = "パスワード再設定に失敗しました。再度設定してください";
+	/** 存在しないテーマカラーIDを登録した場合*/
+	public static final String THEME_COLOR_NOT_FOUND = "存在しないテーマカラーです。";
 
 	// transaction
 	/** 収支データの取得失敗 */

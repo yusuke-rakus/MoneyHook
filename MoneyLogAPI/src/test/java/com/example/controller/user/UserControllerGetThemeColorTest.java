@@ -27,7 +27,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 
 @SpringBootTest
 @AutoConfigureMockMvc
-class UserControllerGetThemaColorTest {
+class UserControllerGetThemeColorTest {
 
 	
 	final String URL = "/user/getThemeColor";

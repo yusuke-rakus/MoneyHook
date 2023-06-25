@@ -1,5 +1,7 @@
 package com.example.common;
 
+import java.util.Objects;
+
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -20,15 +22,20 @@ public class GlobalExceptionHandler  {
 
     /**
      * 定義されていない例外を処理します。
-     * 
+     * @param 各Exceptionクラス
      * @return 失敗結果
      */
     @ExceptionHandler( Exception.class )
 	@ResponseBody
-    public ExceptionResponse handleSystemExceptionError() {
+    public ExceptionResponse handleSystemExceptionError(Exception e) {
     	ExceptionResponse res = new ExceptionResponse();
         res.setStatus(Status.ERROR.getStatus());
-		res.setMessage(ErrorMessage.SYSTEM_ERROR);
+        /* エラーメッセージがセットされている場合の分岐処理を追加*/
+        if(!Objects.isNull(e.getMessage())) {
+        	res.setMessage(e.getMessage());
+        } else {
+        	res.setMessage(ErrorMessage.SYSTEM_ERROR);
+        }
         return res;
     }
 

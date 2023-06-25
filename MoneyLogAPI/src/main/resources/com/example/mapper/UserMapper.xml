@@ -185,5 +185,15 @@
 		WHERE
 			reset_password_param = #{param};
 	</select>
+	
+	<!-- テーマカラーの存在チェック -->
+	<select id="isThemeColorExist" resultType="java.lang.Boolean">
+		SELECT
+			COUNT(theme_color_id)
+		FROM theme_color
+		WHERE theme_color_id = #{themeColorId}
+		LIMIT 1;
+			
+	</select>
 
 </mapper>

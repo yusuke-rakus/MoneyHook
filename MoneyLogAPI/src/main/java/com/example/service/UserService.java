@@ -12,6 +12,8 @@ import org.thymeleaf.context.Context;
 
 import com.example.common.SHA256;
 import com.example.common.Status;
+import com.example.common.exception.AlreadyExistsException;
+import com.example.common.exception.SystemException;
 import com.example.common.message.ErrorMessage;
 import com.example.common.message.SuccessMessage;
 import com.example.domain.User;
@@ -202,11 +204,15 @@ public class UserService {
 	 * 
 	 * @throws Exception
 	 */
-	public EditThemeColorResponse editThemeColor(EditThemeColorForm form, EditThemeColorResponse res) throws Exception {
+	public EditThemeColorResponse editThemeColor(EditThemeColorForm form, EditThemeColorResponse res) throws SystemException {
 
+		if(!userMapper.isThemeColorExist(form)) {
+			throw new AlreadyExistsException(ErrorMessage.THEME_COLOR_NOT_FOUND);
+		}
+		
 		boolean updateResult = userMapper.editThemeColor(form);
 		if (!updateResult) {
-			throw new Exception();
+			throw new SystemException(ErrorMessage.THEME_COLOR_NOT_FOUND);
 		} else {
 			res.setMessage(SuccessMessage.USER_THEME_COLOR_CHANGED);
 		}

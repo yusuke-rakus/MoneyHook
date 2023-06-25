@@ -28,7 +28,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 
 @SpringBootTest
 @AutoConfigureMockMvc
-class UserControllerChangeThemaColorTest {
+class UserControllerChangeThemeColorTest {
 	
 
 	final String URL = "/user/editThemeColor";
@@ -109,6 +109,41 @@ class UserControllerChangeThemaColorTest {
 		EditThemeColorResponse response = mapper.readValue(result, EditThemeColorResponse.class);
 		assertEquals(Status.ERROR.getStatus(), response.getStatus());
 		assertEquals(ErrorMessage.AUTHENTICATION_ERROR, response.getMessage());
+		assertNotEquals(user.getThemeColorId(), newThemaColorId);
+		assertEquals(user.getThemeColorId(), nowThemaColorId);
+	}
+	
+	@Test
+	@Transactional(readOnly = false)
+	void updateNoThemaColorIdTest() throws Exception {
+		/*準備*/
+		Long themaColorId = 100L;
+		
+		EditThemeColorForm form = new EditThemeColorForm(); 
+		form.setUserId(USER_ID);
+		form.setThemeColorId(themaColorId);
+		
+		//実行
+		String result = mvc.perform(post(URL)
+				.content(mapper.writeValueAsString(form))
+				.contentType(MediaType.APPLICATION_JSON))
+				.andDo(print())
+				.andExpect(status().isOk())
+				.andReturn()
+				.getResponse()
+				.getContentAsString(Charset.defaultCharset());
+		
+		//ユーザー情報取得
+		String sql = "SELECT * FROM user WHERE user_id = ?";
+		RowMapper<User> rowMapper = new BeanPropertyRowMapper<User>(User.class);
+		User user = jdbcTemplate.queryForObject(sql, rowMapper, USER_ID);
+		
+		Integer newThemaColorId = Math.toIntExact(themaColorId);
+		int nowThemaColorId = 1;
+
+		EditThemeColorResponse response = mapper.readValue(result, EditThemeColorResponse.class);
+		assertEquals(Status.ERROR.getStatus(), response.getStatus());
+		assertEquals(ErrorMessage.THEME_COLOR_NOT_FOUND, response.getMessage());
 		assertNotEquals(user.getThemeColorId(), newThemaColorId);
 		assertEquals(user.getThemeColorId(), nowThemaColorId);
 	}

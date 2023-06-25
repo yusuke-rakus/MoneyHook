@@ -64,5 +64,8 @@ public interface UserMapper {
 
 	/** リセットパスワードパラメータのリセット */
 	public void deletePasswordParam(User form);
+	
+	/* テーマカラーの存在チェック*/
+	public boolean isThemeColorExist(EditThemeColorForm form);
 
 }

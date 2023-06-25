@@ -1,5 +1,6 @@
 DROP TABLE IF EXISTS theme_color,
 user,
+user_token,
 saving_target,
 saving,
 category,
@@ -25,6 +26,12 @@ CREATE TABLE IF NOT EXISTS user(
     reset_password_param varchar(128),
     PRIMARY KEY(user_no),
     FOREIGN KEY theme_color_id(theme_color_id) REFERENCES theme_color(theme_color_id)
+);
+
+CREATE TABLE IF NOT EXISTS user_token(
+    user_no bigint UNSIGNED NOT NULL,
+    token varchar(64) NOT NULL,
+    FOREIGN KEY user_no(user_no) REFERENCES user(user_no)
 );
 
 CREATE TABLE IF NOT EXISTS category (

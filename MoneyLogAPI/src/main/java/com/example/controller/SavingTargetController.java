@@ -192,7 +192,7 @@ public class SavingTargetController {
 			res.setMessage(errorMessage);
 			return res;
 		}
-		
+
 		// 貯金目標の有効化
 		try {
 			savingTargetService.returnSavingTarget(form);

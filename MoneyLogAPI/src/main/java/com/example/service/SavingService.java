@@ -25,234 +25,248 @@ import java.util.Objects;
 @Transactional
 public class SavingService {
 
-    @Autowired
-    private SavingMapper savingMapper;
+	@Autowired
+	private SavingMapper savingMapper;
 
-    @Autowired
-    private AuthenticationService authenticationService;
+	@Autowired
+	private AuthenticationService authenticationService;
 
-    @Autowired
-    private SavingTargetService savingTargetService;
+	@Autowired
+	private SavingTargetService savingTargetService;
 
-    /**
-     * 月別貯金一覧の取得
-     */
-    public List<Saving> getMonthlySavingList(GetMonthlySavingListForm form) throws SystemException {
-        List<Saving> savingList = new ArrayList<>();
+	/**
+	 * 月別貯金一覧の取得
+	 */
+	public List<Saving> getMonthlySavingList(GetMonthlySavingListForm form) throws SystemException {
+		List<Saving> savingList = new ArrayList<>();
 
-        // ユーザーIDからユーザーNoを取得
-        Long userNo = authenticationService.authUser(form);
-        form.setUserNo(userNo);
-        form.setMonth(DateFormatter.toFirstDayOfMonth(form.getMonth()));
+		// ユーザーIDからユーザーNoを取得
+		Long userNo = authenticationService.authUser(form);
+		form.setUserNo(userNo);
+		form.setMonth(DateFormatter.toFirstDayOfMonth(form.getMonth()));
 
-        savingList = savingMapper.getMonthlySavingList(form);
+		savingList = savingMapper.getMonthlySavingList(form);
 
-        return savingList;
-    }
+		return savingList;
+	}
 
-    /**
-     * 月別貯金一覧の取得
-     */
-    public Saving getSavingDetailBySavingId(GetSavingForm form) throws SystemException {
-        Saving saving = new Saving();
+	/**
+	 * 月別貯金一覧の取得
+	 */
+	public Saving getSavingDetailBySavingId(GetSavingForm form) throws SystemException {
+		Saving saving = new Saving();
 
-        // ユーザーIDからユーザーNoを取得
-        Long userNo = authenticationService.authUser(form);
-        form.setUserNo(userNo);
+		// ユーザーIDからユーザーNoを取得
+		Long userNo = authenticationService.authUser(form);
+		form.setUserNo(userNo);
 
-        saving = savingMapper.load(form);
+		saving = savingMapper.load(form);
 
-        if (Objects.isNull(saving)) {
-            throw new DataNotFoundException(ErrorMessage.SAVING_DATA_SELECT_FAILED);
-        }
+		if (Objects.isNull(saving)) {
+			throw new DataNotFoundException(ErrorMessage.SAVING_DATA_SELECT_FAILED);
+		}
 
-        return saving;
-    }
+		return saving;
+	}
 
-    /**
-     * 貯金の編集
-     */
-    public void editSaving(EditSavingForm form) throws SystemException {
+	/**
+	 * 貯金の編集
+	 */
+	public void editSaving(EditSavingForm form) throws SystemException {
 
-        // ユーザーIDからユーザーNoを取得
-        Long userNo = authenticationService.authUser(form);
-        form.setUserNo(userNo);
+		// ユーザーIDからユーザーNoを取得
+		Long userNo = authenticationService.authUser(form);
+		form.setUserNo(userNo);
 
-        // 貯金目標(振り分け先)を変更する場合
-        if (!Objects.isNull(form.getSavingTargetId())) {
+		// 貯金目標(振り分け先)を変更する場合
+		if (!Objects.isNull(form.getSavingTargetId())) {
 
-            SavingTarget savingTarget = new SavingTarget();
-            BeanUtils.copyProperties(form, savingTarget);
+			SavingTarget savingTarget = new SavingTarget();
+			BeanUtils.copyProperties(form, savingTarget);
 
-            // IDでの指定
-            // 対象としているsavingTargetIdを持ち、かつリクエスト元のuserNoを持つデータが有るかを検索
-            savingTarget = savingTargetService.findSavingTargetByTargetIdAndUserNo(savingTarget);
-        }
+			// IDでの指定
+			// 対象としているsavingTargetIdを持ち、かつリクエスト元のuserNoを持つデータが有るかを検索
+			savingTarget = savingTargetService.findSavingTargetByTargetIdAndUserNo(savingTarget);
+		}
 
-        try {
-            savingMapper.editSaving(form);
-        } catch (Exception e) {
-            throw new SystemException(ErrorMessage.SAVING_DATA_EDIT_FAILED);
-        }
-    }
+		Saving param = new Saving();
+		param.setUserNo(form.getUserNo());
+		param.setSavingId(form.getSavingId());
+		if (!savingMapper.isSavingExist(param)) {
+			throw new DataNotFoundException(ErrorMessage.SAVING_DATA_NOT_FOUND);
+		}
 
-    /**
-     * 貯金の登録
-     */
-    public void insertSaving(AddSavingForm form) throws SystemException {
+		try {
+			savingMapper.editSaving(form);
+		} catch (Exception e) {
+			throw new SystemException(ErrorMessage.SAVING_DATA_EDIT_FAILED);
+		}
+	}
 
-        // ユーザーIDからユーザーNoを取得
-        Long userNo = authenticationService.authUser(form);
-        form.setUserNo(userNo);
+	/**
+	 * 貯金の登録
+	 */
+	public void insertSaving(AddSavingForm form) throws SystemException {
 
-        // 貯金目標(振り分け先)を登録する場合
-        if (!Objects.isNull(form.getSavingTargetId())) {
+		// ユーザーIDからユーザーNoを取得
+		Long userNo = authenticationService.authUser(form);
+		form.setUserNo(userNo);
 
-            SavingTarget savingTarget = new SavingTarget();
-            BeanUtils.copyProperties(form, savingTarget);
+		// 貯金目標(振り分け先)を登録する場合
+		if (!Objects.isNull(form.getSavingTargetId())) {
 
-            // IDでの指定
-            // 対象としているsavingTargetIdを持ち、かつリクエスト元のuserNoを持つデータが有るかを検索
-            savingTarget = savingTargetService.findSavingTargetByTargetIdAndUserNo(savingTarget);
-        }
+			SavingTarget savingTarget = new SavingTarget();
+			BeanUtils.copyProperties(form, savingTarget);
 
-        try {
-            savingMapper.insertSaving(form);
-        } catch (Exception e) {
-            throw new SystemException(ErrorMessage.SAVING_DATA_INSERT_FAILED);
-        }
-    }
+			// IDでの指定
+			// 対象としているsavingTargetIdを持ち、かつリクエスト元のuserNoを持つデータが有るかを検索
+			savingTarget = savingTargetService.findSavingTargetByTargetIdAndUserNo(savingTarget);
+		}
 
-    /**
-     * 貯金の削除
-     */
-    public void deleteSaving(DeleteSavingForm form) throws SystemException {
+		try {
+			savingMapper.insertSaving(form);
+		} catch (Exception e) {
+			throw new SystemException(ErrorMessage.SAVING_DATA_INSERT_FAILED);
+		}
+	}
 
-        // ユーザーIDからユーザーNoを取得
-        Long userNo = authenticationService.authUser(form);
-        form.setUserNo(userNo);
+	/**
+	 * 貯金の削除
+	 */
+	public void deleteSaving(DeleteSavingForm form) throws SystemException {
 
-        try {
-            savingMapper.deleteSaving(form);
-        } catch (Exception e) {
-            throw new SystemException(ErrorMessage.SAVING_DATA_DELETE_FAILED);
-        }
-    }
+		// ユーザーIDからユーザーNoを取得
+		Long userNo = authenticationService.authUser(form);
+		form.setUserNo(userNo);
 
-    /**
-     * 貯金の一括振り分け
-     */
-    public void allotSaving(AllotSavingForm form) throws SystemException {
+		Saving param = new Saving();
+		param.setUserNo(form.getUserNo());
+		param.setSavingId(form.getSavingId());
+		if (!savingMapper.isSavingExist(param)) {
+			throw new DataNotFoundException(ErrorMessage.SAVING_DATA_NOT_FOUND);
+		}
 
-        // ユーザーIDからユーザーNoを取得
-        Long userNo = authenticationService.authUser(form);
-        form.setUserNo(userNo);
+		try {
+			savingMapper.deleteSaving(form);
+		} catch (Exception e) {
+			throw new SystemException(ErrorMessage.SAVING_DATA_DELETE_FAILED);
+		}
+	}
 
-        SavingTarget savingTarget = new SavingTarget();
-        savingTarget.setSavingTargetId(form.getSavingTargetId());
-        savingTarget.setUserNo(form.getUserNo());
+	/**
+	 * 貯金の一括振り分け
+	 */
+	public void allotSaving(AllotSavingForm form) throws SystemException {
 
-        // IDでの指定
-        // 対象としているsavingTargetIdを持ち、かつリクエスト元のuserNoを持つデータが有るかを検索
-        savingTarget = savingTargetService.findSavingTargetByTargetIdAndUserNo(savingTarget);
+		// ユーザーIDからユーザーNoを取得
+		Long userNo = authenticationService.authUser(form);
+		form.setUserNo(userNo);
 
-        try {
-            savingMapper.allotSaving(form);
-        } catch (Exception e) {
-            throw new SystemException(ErrorMessage.SAVING_DATA_ALLOT_FAILED);
-        }
-    }
+		SavingTarget savingTarget = new SavingTarget();
+		savingTarget.setSavingTargetId(form.getSavingTargetId());
+		savingTarget.setUserNo(form.getUserNo());
 
-    /**
-     * 未振り分け貯金一覧の取得
-     */
-    public List<Saving> getUncategorizedSavingList(GetSavingListForm form) throws SystemException {
-        List<Saving> savingList = new ArrayList<>();
+		// IDでの指定
+		// 対象としているsavingTargetIdを持ち、かつリクエスト元のuserNoを持つデータが有るかを検索
+		savingTarget = savingTargetService.findSavingTargetByTargetIdAndUserNo(savingTarget);
 
-        // ユーザーIDからユーザーNoを取得
-        Long userNo = authenticationService.authUser(form);
-        form.setUserNo(userNo);
+		try {
+			savingMapper.allotSaving(form);
+		} catch (Exception e) {
+			throw new SystemException(ErrorMessage.SAVING_DATA_ALLOT_FAILED);
+		}
+	}
 
-        savingList = savingMapper.getUncategorizedSavingList(form);
+	/**
+	 * 未振り分け貯金一覧の取得
+	 */
+	public List<Saving> getUncategorizedSavingList(GetSavingListForm form) throws SystemException {
+		List<Saving> savingList = new ArrayList<>();
 
-        return savingList;
-    }
+		// ユーザーIDからユーザーNoを取得
+		Long userNo = authenticationService.authUser(form);
+		form.setUserNo(userNo);
 
-    /**
-     * 月ごと貯金総額の取得
-     */
-    public List<MonthlySavingData> getTotalMonthlySavingAmount(GetTotalSavingForm form) throws SystemException {
-        // ユーザーIDからユーザーNoを取得
-        Long userNo = authenticationService.authUser(form);
-        form.setUserNo(userNo);
+		savingList = savingMapper.getUncategorizedSavingList(form);
 
-        List<MonthlySavingData> savingAmountList = new ArrayList<>();
+		return savingList;
+	}
 
-        savingAmountList = savingMapper.getTotalMonthlySavingAmount(form);
+	/**
+	 * 月ごと貯金総額の取得
+	 */
+	public List<MonthlySavingData> getTotalMonthlySavingAmount(GetTotalSavingForm form) throws SystemException {
+		// ユーザーIDからユーザーNoを取得
+		Long userNo = authenticationService.authUser(form);
+		form.setUserNo(userNo);
 
-        if (savingAmountList.size() < 6) {
+		List<MonthlySavingData> savingAmountList = new ArrayList<>();
 
-            List<MonthlySavingData> savingList = new ArrayList<>();
-            // 受け取った月から6ヶ月分の空データを作成
-            for (int i = 0; i < 6; i++) {
-                LocalDate localDate = form.getMonth().toLocalDate().minusMonths(i);
-                MonthlySavingData tempSaving = new MonthlySavingData(Date.valueOf(localDate));
-                savingList.add(tempSaving);
-            }
+		savingAmountList = savingMapper.getTotalMonthlySavingAmount(form);
 
-            // 取得したデータの値をマッチする月にセット
-            for (MonthlySavingData savingData : savingAmountList) {
-                savingList.stream().filter(s -> s.getSavingMonth().equals(savingData.getSavingMonth()))
-                        .forEach(s -> s.setMonthlyTotalSavingAmount(savingData.getMonthlyTotalSavingAmount()));
-            }
+		if (savingAmountList.size() < 6) {
 
-            // 金額がnullの場合は前月の値をセット
-            Integer monthlyTotalSavingAmount = 0;
-            for (int i = savingList.size() - 1; i >= 0; i--) {
-                if (Objects.isNull(savingList.get(i).getMonthlyTotalSavingAmount())) {
-                    savingList.get(i).setMonthlyTotalSavingAmount(monthlyTotalSavingAmount);
-                }
-                monthlyTotalSavingAmount = savingList.get(i).getMonthlyTotalSavingAmount();
-            }
+			List<MonthlySavingData> savingList = new ArrayList<>();
+			// 受け取った月から6ヶ月分の空データを作成
+			for (int i = 0; i < 6; i++) {
+				LocalDate localDate = form.getMonth().toLocalDate().minusMonths(i);
+				MonthlySavingData tempSaving = new MonthlySavingData(Date.valueOf(localDate));
+				savingList.add(tempSaving);
+			}
 
-            savingAmountList = savingList;
-        }
+			// 取得したデータの値をマッチする月にセット
+			for (MonthlySavingData savingData : savingAmountList) {
+				savingList.stream().filter(s -> s.getSavingMonth().equals(savingData.getSavingMonth()))
+						.forEach(s -> s.setMonthlyTotalSavingAmount(savingData.getMonthlyTotalSavingAmount()));
+			}
 
-        return savingAmountList;
-    }
+			// 金額がnullの場合は前月の値をセット
+			Integer monthlyTotalSavingAmount = 0;
+			for (int i = savingList.size() - 1; i >= 0; i--) {
+				if (Objects.isNull(savingList.get(i).getMonthlyTotalSavingAmount())) {
+					savingList.get(i).setMonthlyTotalSavingAmount(monthlyTotalSavingAmount);
+				}
+				monthlyTotalSavingAmount = savingList.get(i).getMonthlyTotalSavingAmount();
+			}
 
-    /**
-     * 累計貯金金額を取得
-     */
-    public BigInteger getTotalSavingAmount(GetTotalSavingForm form) throws SystemException {
-        // ユーザーIDからユーザーNoを取得
-        Long userNo = authenticationService.authUser(form);
-        form.setUserNo(userNo);
-        form.setMonth(DateFormatter.toFirstDayOfMonth(form.getMonth()));
+			savingAmountList = savingList;
+		}
 
-        return savingMapper.getTotalSavingAmount(form);
-    }
+		return savingAmountList;
+	}
 
-    /**
-     * 未振り分け貯金金額を取得
-     */
-    public BigInteger getUncategorizedSavingAmount(form form) throws SystemException {
-        // ユーザーIDからユーザーNoを取得
-        Long userNo = authenticationService.authUser(form);
-        form.setUserNo(userNo);
+	/**
+	 * 累計貯金金額を取得
+	 */
+	public BigInteger getTotalSavingAmount(GetTotalSavingForm form) throws SystemException {
+		// ユーザーIDからユーザーNoを取得
+		Long userNo = authenticationService.authUser(form);
+		form.setUserNo(userNo);
+		form.setMonth(DateFormatter.toFirstDayOfMonth(form.getMonth()));
 
-        return savingMapper.getUncategorizedSavingAmount(form);
-    }
+		return savingMapper.getTotalSavingAmount(form);
+	}
 
-    /**
-     * 貯金名を取得
-     */
-    public List<Saving> getFrequentSavingName(form form) throws SystemException {
-        // ユーザーIDからユーザーNoを取得
-        Long userNo = authenticationService.authUser(form);
-        form.setUserNo(userNo);
+	/**
+	 * 未振り分け貯金金額を取得
+	 */
+	public BigInteger getUncategorizedSavingAmount(form form) throws SystemException {
+		// ユーザーIDからユーザーNoを取得
+		Long userNo = authenticationService.authUser(form);
+		form.setUserNo(userNo);
 
-        return savingMapper.getFrequentSavingName(form);
-    }
+		return savingMapper.getUncategorizedSavingAmount(form);
+	}
+
+	/**
+	 * 貯金名を取得
+	 */
+	public List<Saving> getFrequentSavingName(form form) throws SystemException {
+		// ユーザーIDからユーザーNoを取得
+		Long userNo = authenticationService.authUser(form);
+		form.setUserNo(userNo);
+
+		return savingMapper.getFrequentSavingName(form);
+	}
 
 }

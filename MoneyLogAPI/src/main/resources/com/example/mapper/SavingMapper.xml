@@ -171,4 +171,13 @@
         LIMIT 3)
     </select>
 
+    <select id="isSavingExist" resultType="java.lang.Boolean">
+	    SELECT
+		    COUNT(saving_id)
+        FROM saving
+        WHERE user_no = #{userNo}
+        AND saving_id = #{savingId}
+        LIMIT 1;
+    </select>
+
 </mapper>

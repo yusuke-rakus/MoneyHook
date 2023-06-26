@@ -1,6 +1,7 @@
 package com.example.controller.saving;
 
 import com.example.common.Status;
+import com.example.common.message.ErrorMessage;
 import com.example.common.message.SuccessMessage;
 import com.example.form.GetTotalSavingForm;
 import com.example.response.GetTotalSavingResponse;
@@ -25,38 +26,82 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @SpringBootTest
 @AutoConfigureMockMvc
 public class GetMonthlySavingDataTest {
-    final String URL = "/saving/getTotalSaving";
-    final String USER_ID = "a77a6e94-6aa2-47ea-87dd-129f580fb669";
+	final String URL = "/saving/getTotalSaving";
+	final String USER_ID = "a77a6e94-6aa2-47ea-87dd-129f580fb669";
+	final String FAIL_USER_ID = "fail_user_id";
+	final String NULL_USER_ID = null;
 
-    @Autowired
-    private MockMvc mvc;
+	@Autowired
+	private MockMvc mvc;
 
-    @Autowired
-    private ObjectMapper mapper;
+	@Autowired
+	private ObjectMapper mapper;
 
-    @Test
-    @Transactional(readOnly = true)
-    void getTotalSavingTest() throws Exception {
-        Date month = Date.valueOf("2023-06-01");
+	@Test
+	@Transactional(readOnly = true)
+	void getTotalSavingTest() throws Exception {
+		Date month = Date.valueOf("2023-06-01");
 
-        GetTotalSavingForm requestForm = new GetTotalSavingForm();
-        requestForm.setUserId(USER_ID);
-        requestForm.setMonth(month);
+		GetTotalSavingForm requestForm = new GetTotalSavingForm();
+		requestForm.setUserId(USER_ID);
+		requestForm.setMonth(month);
 
-        String result = mvc
-                .perform(post(URL).content(mapper.writeValueAsString(requestForm))
-                        .contentType(MediaType.APPLICATION_JSON))
-                .andDo(print()).andExpect(status().isOk()).andReturn().getResponse()
-                .getContentAsString(Charset.defaultCharset());
+		String result = mvc
+				.perform(post(URL).content(mapper.writeValueAsString(requestForm))
+						.contentType(MediaType.APPLICATION_JSON))
+				.andDo(print()).andExpect(status().isOk()).andReturn().getResponse()
+				.getContentAsString(Charset.defaultCharset());
 
-        GetTotalSavingResponse response = mapper.readValue(result, GetTotalSavingResponse.class);
-        /* 検証 */
-        int savingDataCount = 6;
-        BigInteger totalSavingAmount = BigInteger.valueOf(602100);
+		GetTotalSavingResponse response = mapper.readValue(result, GetTotalSavingResponse.class);
+		/* 検証 */
+		int savingDataCount = 6;
+		BigInteger totalSavingAmount = BigInteger.valueOf(602100);
 
-        assertEquals(Status.SUCCESS.getStatus(), response.getStatus());
-        assertEquals(SuccessMessage.SAVING_TOTAL_DATA_GET_SUCCESSED, response.getMessage());
-        assertEquals(response.getSavingDataList().size(), savingDataCount);
-        assertEquals(response.getTotalSavingAmount(), totalSavingAmount);
-    }
+		assertEquals(Status.SUCCESS.getStatus(), response.getStatus());
+		assertEquals(SuccessMessage.SAVING_TOTAL_DATA_GET_SUCCESSED, response.getMessage());
+		assertEquals(response.getSavingDataList().size(), savingDataCount);
+		assertEquals(response.getTotalSavingAmount(), totalSavingAmount);
+	}
+
+	@Test
+	@Transactional(readOnly = true)
+	void getTotalSavingUserError01Test() throws Exception {
+		Date month = Date.valueOf("2023-06-01");
+
+		GetTotalSavingForm requestForm = new GetTotalSavingForm();
+		requestForm.setUserId(FAIL_USER_ID);
+		requestForm.setMonth(month);
+
+		String result = mvc
+				.perform(post(URL).content(mapper.writeValueAsString(requestForm))
+						.contentType(MediaType.APPLICATION_JSON))
+				.andDo(print()).andExpect(status().isOk()).andReturn().getResponse()
+				.getContentAsString(Charset.defaultCharset());
+
+		GetTotalSavingResponse response = mapper.readValue(result, GetTotalSavingResponse.class);
+		/* 検証 */
+		assertEquals(Status.ERROR.getStatus(), response.getStatus());
+		assertEquals(ErrorMessage.AUTHENTICATION_ERROR, response.getMessage());
+	}
+
+	@Test
+	@Transactional(readOnly = true)
+	void getTotalSavingUserError02Test() throws Exception {
+		Date month = Date.valueOf("2023-06-01");
+
+		GetTotalSavingForm requestForm = new GetTotalSavingForm();
+		requestForm.setUserId(NULL_USER_ID);
+		requestForm.setMonth(month);
+
+		String result = mvc
+				.perform(post(URL).content(mapper.writeValueAsString(requestForm))
+						.contentType(MediaType.APPLICATION_JSON))
+				.andDo(print()).andExpect(status().isOk()).andReturn().getResponse()
+				.getContentAsString(Charset.defaultCharset());
+
+		GetTotalSavingResponse response = mapper.readValue(result, GetTotalSavingResponse.class);
+		/* 検証 */
+		assertEquals(Status.ERROR.getStatus(), response.getStatus());
+		assertEquals(ErrorMessage.AUTHENTICATION_ERROR, response.getMessage());
+	}
 }

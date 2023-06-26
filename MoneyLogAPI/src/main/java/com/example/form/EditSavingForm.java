@@ -1,64 +1,75 @@
 package com.example.form;
 
 import com.example.common.message.ValidatingMessage;
+import org.hibernate.validator.constraints.Length;
 
+import javax.validation.constraints.Max;
+import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import java.math.BigInteger;
 import java.sql.Date;
 
 public class EditSavingForm extends form {
 
-    @NotNull(message = ValidatingMessage.ID_EMPTY_ERROR)
-    private Long savingId;
+	@NotNull(message = ValidatingMessage.ID_EMPTY_ERROR)
+	private Long savingId;
 
-    private String savingName;
-    private BigInteger savingAmount;
-    private Date savingDate;
-    private Long savingTargetId;
+	@NotEmpty(message = ValidatingMessage.SAVING_NAME_EMPTY_ERROR)
+	@Length(max = 32, message = ValidatingMessage.SAVING_NAME_LENGTH_ERROR)
+	private String savingName;
 
-    public Long getSavingId() {
-        return savingId;
-    }
+	@NotNull(message = ValidatingMessage.SAVING_AMOUNT_EMPTY_ERROR)
+	@Max(value = 9999999, message = ValidatingMessage.SAVING_AMOUNT_RANGE_ERROR)
+	private BigInteger savingAmount;
 
-    public void setSavingId(Long savingId) {
-        this.savingId = savingId;
-    }
+	@NotNull(message = ValidatingMessage.DATE_EMPTY_ERROR)
+	private Date savingDate;
 
-    public String getSavingName() {
-        return savingName;
-    }
+	private Long savingTargetId;
 
-    public void setSavingName(String savingName) {
-        this.savingName = savingName;
-    }
+	public Long getSavingId() {
+		return savingId;
+	}
 
-    public BigInteger getSavingAmount() {
-        return savingAmount;
-    }
+	public void setSavingId(Long savingId) {
+		this.savingId = savingId;
+	}
 
-    public void setSavingAmount(BigInteger savingAmount) {
-        this.savingAmount = savingAmount;
-    }
+	public String getSavingName() {
+		return savingName;
+	}
 
-    public Date getSavingDate() {
-        return savingDate;
-    }
+	public void setSavingName(String savingName) {
+		this.savingName = savingName;
+	}
 
-    public void setSavingDate(Date savingDate) {
-        this.savingDate = savingDate;
-    }
+	public BigInteger getSavingAmount() {
+		return savingAmount;
+	}
 
-    public Long getSavingTargetId() {
-        return savingTargetId;
-    }
+	public void setSavingAmount(BigInteger savingAmount) {
+		this.savingAmount = savingAmount;
+	}
 
-    public void setSavingTargetId(Long savingTargetId) {
-        this.savingTargetId = savingTargetId;
-    }
+	public Date getSavingDate() {
+		return savingDate;
+	}
 
-    @Override
-    public String toString() {
-        return "EditSavingForm [savingId=" + savingId + ", savingName=" + savingName + ", savingAmount=" + savingAmount
-                + ", savingDate=" + savingDate + ", savingTargetId=" + savingTargetId + "]";
-    }
+	public void setSavingDate(Date savingDate) {
+		this.savingDate = savingDate;
+	}
+
+	public Long getSavingTargetId() {
+		return savingTargetId;
+	}
+
+	public void setSavingTargetId(Long savingTargetId) {
+		this.savingTargetId = savingTargetId;
+	}
+
+	@Override
+	public String toString() {
+		return "EditSavingForm [savingId=" + savingId + ", savingName=" + savingName + ", savingAmount=" + savingAmount
+				+ ", savingDate=" + savingDate + ", savingTargetId=" + savingTargetId + "]";
+	}
 }

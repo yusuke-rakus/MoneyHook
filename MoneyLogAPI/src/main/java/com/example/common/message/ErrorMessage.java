@@ -25,7 +25,7 @@ public class ErrorMessage {
 	public static final String EMAIL_NOT_EXIST_ERROR = "メールアドレスが存在しません";
 	/** パスワードを忘れた場合の再設定失敗 */
 	public static final String FORGOT_RESET_PASSWORD_ERROR = "パスワード再設定に失敗しました。再度設定してください";
-	/** 存在しないテーマカラーIDを登録した場合*/
+	/** 存在しないテーマカラーIDを登録した場合 */
 	public static final String THEME_COLOR_NOT_FOUND = "存在しないテーマカラーです。";
 
 	// transaction
@@ -87,4 +87,6 @@ public class ErrorMessage {
 	public static final String SAVING_DATA_DELETE_FAILED = "貯金データの削除に失敗しました";
 	/** 貯金データの振り分け失敗 */
 	public static final String SAVING_DATA_ALLOT_FAILED = "貯金データの振り分けに失敗しました";
+	/** 貯金データ未存在 */
+	public static final String SAVING_DATA_NOT_FOUND = "貯金データが存在しません";
 }

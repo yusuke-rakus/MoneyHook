@@ -1,6 +1,7 @@
 package com.example.controller.transaction;
 
 import com.example.common.Status;
+import com.example.common.message.ErrorMessage;
 import com.example.form.GetMonthlyVariableDataForm;
 import com.example.response.GetMonthlyVariableDataResponse;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -26,39 +27,85 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @AutoConfigureMockMvc
 class GetMonthlyVariableDataTest {
 
-    final String URL = "/transaction/getMonthlyVariableData";
-    final String USER_ID = "a77a6e94-6aa2-47ea-87dd-129f580fb669";
+	final String URL = "/transaction/getMonthlyVariableData";
+	final String USER_ID = "a77a6e94-6aa2-47ea-87dd-129f580fb669";
+	final String FAIL_USER_ID = "fail_user_id";
+	final String NULL_USER_ID = null;
 
-    @Autowired
-    private MockMvc mvc;
+	@Autowired
+	private MockMvc mvc;
 
-    @Autowired
-    private ObjectMapper mapper;
+	@Autowired
+	private ObjectMapper mapper;
 
-    @Test
-    @Transactional(readOnly = true)
-    void getMonthlyVariableDataTest() throws Exception {
+	@Test
+	@Transactional(readOnly = true)
+	void getMonthlyVariableDataTest() throws Exception {
 
-        Date month = Date.valueOf("2023-06-01");
+		Date month = Date.valueOf("2023-06-01");
 
-        GetMonthlyVariableDataForm req = new GetMonthlyVariableDataForm();
-        req.setMonth(month);
-        req.setUserId(USER_ID);
+		GetMonthlyVariableDataForm req = new GetMonthlyVariableDataForm();
+		req.setMonth(month);
+		req.setUserId(USER_ID);
 
-        String result = mvc
-                .perform(post(URL).content(mapper.writeValueAsString(req)).contentType(MediaType.APPLICATION_JSON))
-                .andDo(print()).andExpect(status().isOk()).andReturn().getResponse()
-                .getContentAsString(Charset.defaultCharset());
+		String result = mvc
+				.perform(post(URL).content(mapper.writeValueAsString(req)).contentType(MediaType.APPLICATION_JSON))
+				.andDo(print()).andExpect(status().isOk()).andReturn().getResponse()
+				.getContentAsString(Charset.defaultCharset());
 
-        GetMonthlyVariableDataResponse response = mapper.readValue(result, GetMonthlyVariableDataResponse.class);
+		GetMonthlyVariableDataResponse response = mapper.readValue(result, GetMonthlyVariableDataResponse.class);
 
-        /* 検証 */
-        BigInteger totalVariable = BigInteger.valueOf(-45961);
-        Integer monthlyVariableListCount = 7;
+		/* 検証 */
+		BigInteger totalVariable = BigInteger.valueOf(-45961);
+		Integer monthlyVariableListCount = 7;
 
-        assertEquals(Status.SUCCESS.getStatus(), response.getStatus());
-        assertNull(response.getMessage());
-        assertEquals(response.getTotalVariable(), totalVariable);
-        assertEquals(response.getMonthlyVariableList().size(), monthlyVariableListCount);
-    }
+		assertEquals(Status.SUCCESS.getStatus(), response.getStatus());
+		assertNull(response.getMessage());
+		assertEquals(response.getTotalVariable(), totalVariable);
+		assertEquals(response.getMonthlyVariableList().size(), monthlyVariableListCount);
+	}
+
+	@Test
+	@Transactional(readOnly = true)
+	void getMonthlyVariableDataUserError01Test() throws Exception {
+
+		Date month = Date.valueOf("2023-06-01");
+
+		GetMonthlyVariableDataForm req = new GetMonthlyVariableDataForm();
+		req.setMonth(month);
+		req.setUserId(FAIL_USER_ID);
+
+		String result = mvc
+				.perform(post(URL).content(mapper.writeValueAsString(req)).contentType(MediaType.APPLICATION_JSON))
+				.andDo(print()).andExpect(status().isOk()).andReturn().getResponse()
+				.getContentAsString(Charset.defaultCharset());
+
+		GetMonthlyVariableDataResponse response = mapper.readValue(result, GetMonthlyVariableDataResponse.class);
+
+		/* 検証 */
+		assertEquals(Status.ERROR.getStatus(), response.getStatus());
+		assertEquals(ErrorMessage.AUTHENTICATION_ERROR, response.getMessage());
+	}
+
+	@Test
+	@Transactional(readOnly = true)
+	void getMonthlyVariableDataUserError02Test() throws Exception {
+
+		Date month = Date.valueOf("2023-06-01");
+
+		GetMonthlyVariableDataForm req = new GetMonthlyVariableDataForm();
+		req.setMonth(month);
+		req.setUserId(NULL_USER_ID);
+
+		String result = mvc
+				.perform(post(URL).content(mapper.writeValueAsString(req)).contentType(MediaType.APPLICATION_JSON))
+				.andDo(print()).andExpect(status().isOk()).andReturn().getResponse()
+				.getContentAsString(Charset.defaultCharset());
+
+		GetMonthlyVariableDataResponse response = mapper.readValue(result, GetMonthlyVariableDataResponse.class);
+
+		/* 検証 */
+		assertEquals(Status.ERROR.getStatus(), response.getStatus());
+		assertEquals(ErrorMessage.AUTHENTICATION_ERROR, response.getMessage());
+	}
 }

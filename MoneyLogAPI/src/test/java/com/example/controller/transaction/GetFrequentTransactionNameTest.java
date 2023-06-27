@@ -1,6 +1,7 @@
 package com.example.controller.transaction;
 
 import com.example.common.Status;
+import com.example.common.message.ErrorMessage;
 import com.example.form.FrequentTransactionNameForm;
 import com.example.response.FrequentTransactionNameResponse;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -25,35 +26,77 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @AutoConfigureMockMvc
 class GetFrequentTransactionNameTest {
 
-    final String URL = "/transaction/getFrequentTransactionName";
-    final String USER_ID = "a77a6e94-6aa2-47ea-87dd-129f580fb669";
+	final String URL = "/transaction/getFrequentTransactionName";
+	final String USER_ID = "a77a6e94-6aa2-47ea-87dd-129f580fb669";
+	final String FAIL_USER_ID = "fail_user_id";
+	final String NULL_USER_ID = null;
 
-    @Autowired
-    private MockMvc mvc;
+	@Autowired
+	private MockMvc mvc;
 
-    @Autowired
-    private ObjectMapper mapper;
+	@Autowired
+	private ObjectMapper mapper;
 
-    @Test
-    @Transactional(readOnly = true)
-    void getFrequentTransactionNameTest() throws Exception {
+	@Test
+	@Transactional(readOnly = true)
+	void getFrequentTransactionNameTest() throws Exception {
 
-        FrequentTransactionNameForm requestForm = new FrequentTransactionNameForm();
-        requestForm.setUserId(USER_ID);
+		FrequentTransactionNameForm requestForm = new FrequentTransactionNameForm();
+		requestForm.setUserId(USER_ID);
 
-        String result = mvc
-                .perform(post(URL).content(mapper.writeValueAsString(requestForm))
-                        .contentType(MediaType.APPLICATION_JSON))
-                .andDo(print()).andExpect(status().isOk()).andReturn().getResponse()
-                .getContentAsString(Charset.defaultCharset());
+		String result = mvc
+				.perform(post(URL).content(mapper.writeValueAsString(requestForm))
+						.contentType(MediaType.APPLICATION_JSON))
+				.andDo(print()).andExpect(status().isOk()).andReturn().getResponse()
+				.getContentAsString(Charset.defaultCharset());
 
-        FrequentTransactionNameResponse response = mapper.readValue(result, FrequentTransactionNameResponse.class);
+		FrequentTransactionNameResponse response = mapper.readValue(result, FrequentTransactionNameResponse.class);
 
-        /* 検証 */
-        int frequentMaxCount = 5;
+		/* 検証 */
+		int frequentMaxCount = 5;
 
-        assertEquals(Status.SUCCESS.getStatus(), response.getStatus());
-        assertNull(response.getMessage());
-        assertThat(frequentMaxCount).isLessThanOrEqualTo(response.getTransactionList().size());
-    }
+		assertEquals(Status.SUCCESS.getStatus(), response.getStatus());
+		assertNull(response.getMessage());
+		assertThat(frequentMaxCount).isLessThanOrEqualTo(response.getTransactionList().size());
+	}
+
+	@Test
+	@Transactional(readOnly = true)
+	void getFrequentTransactionNameUserError01Test() throws Exception {
+
+		FrequentTransactionNameForm requestForm = new FrequentTransactionNameForm();
+		requestForm.setUserId(FAIL_USER_ID);
+
+		String result = mvc
+				.perform(post(URL).content(mapper.writeValueAsString(requestForm))
+						.contentType(MediaType.APPLICATION_JSON))
+				.andDo(print()).andExpect(status().isOk()).andReturn().getResponse()
+				.getContentAsString(Charset.defaultCharset());
+
+		FrequentTransactionNameResponse response = mapper.readValue(result, FrequentTransactionNameResponse.class);
+
+		/* 検証 */
+		assertEquals(Status.ERROR.getStatus(), response.getStatus());
+		assertEquals(ErrorMessage.AUTHENTICATION_ERROR, response.getMessage());
+	}
+
+	@Test
+	@Transactional(readOnly = true)
+	void getFrequentTransactionNameUserError02Test() throws Exception {
+
+		FrequentTransactionNameForm requestForm = new FrequentTransactionNameForm();
+		requestForm.setUserId(NULL_USER_ID);
+
+		String result = mvc
+				.perform(post(URL).content(mapper.writeValueAsString(requestForm))
+						.contentType(MediaType.APPLICATION_JSON))
+				.andDo(print()).andExpect(status().isOk()).andReturn().getResponse()
+				.getContentAsString(Charset.defaultCharset());
+
+		FrequentTransactionNameResponse response = mapper.readValue(result, FrequentTransactionNameResponse.class);
+
+		/* 検証 */
+		assertEquals(Status.ERROR.getStatus(), response.getStatus());
+		assertEquals(ErrorMessage.AUTHENTICATION_ERROR, response.getMessage());
+	}
 }

@@ -30,4 +30,12 @@
 		AND sc.user_no IN (1, #{userNo});
 	</select>
 
+	<select id="isCategoryExist" resultType="java.lang.Boolean">
+		SELECT
+			COUNT(category_id)
+		FROM category
+		WHERE category_id = #{categoryId}
+		LIMIT 1;
+	</select>
+
 </mapper>

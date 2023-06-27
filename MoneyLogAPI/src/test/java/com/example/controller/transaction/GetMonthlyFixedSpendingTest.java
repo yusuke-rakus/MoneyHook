@@ -1,6 +1,7 @@
 package com.example.controller.transaction;
 
 import com.example.common.Status;
+import com.example.common.message.ErrorMessage;
 import com.example.form.GetMonthlyFixedSpendingForm;
 import com.example.response.GetMonthlyFixedSpendingResponse;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -26,39 +27,85 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @AutoConfigureMockMvc
 class GetMonthlyFixedSpendingTest {
 
-    final String URL = "/transaction/getMonthlyFixedSpending";
-    final String USER_ID = "a77a6e94-6aa2-47ea-87dd-129f580fb669";
+	final String URL = "/transaction/getMonthlyFixedSpending";
+	final String USER_ID = "a77a6e94-6aa2-47ea-87dd-129f580fb669";
+	final String FAIL_USER_ID = "fail_user_id";
+	final String NULL_USER_ID = null;
 
-    @Autowired
-    private MockMvc mvc;
+	@Autowired
+	private MockMvc mvc;
 
-    @Autowired
-    private ObjectMapper mapper;
+	@Autowired
+	private ObjectMapper mapper;
 
-    @Test
-    @Transactional(readOnly = true)
-    void getMonthlyFixedSpendingTest() throws Exception {
+	@Test
+	@Transactional(readOnly = true)
+	void getMonthlyFixedSpendingTest() throws Exception {
 
-        Date month = Date.valueOf("2023-06-01");
+		Date month = Date.valueOf("2023-06-01");
 
-        GetMonthlyFixedSpendingForm req = new GetMonthlyFixedSpendingForm();
-        req.setMonth(month);
-        req.setUserId(USER_ID);
+		GetMonthlyFixedSpendingForm req = new GetMonthlyFixedSpendingForm();
+		req.setMonth(month);
+		req.setUserId(USER_ID);
 
-        String result = mvc
-                .perform(post(URL).content(mapper.writeValueAsString(req)).contentType(MediaType.APPLICATION_JSON))
-                .andDo(print()).andExpect(status().isOk()).andReturn().getResponse()
-                .getContentAsString(Charset.defaultCharset());
+		String result = mvc
+				.perform(post(URL).content(mapper.writeValueAsString(req)).contentType(MediaType.APPLICATION_JSON))
+				.andDo(print()).andExpect(status().isOk()).andReturn().getResponse()
+				.getContentAsString(Charset.defaultCharset());
 
-        GetMonthlyFixedSpendingResponse response = mapper.readValue(result, GetMonthlyFixedSpendingResponse.class);
+		GetMonthlyFixedSpendingResponse response = mapper.readValue(result, GetMonthlyFixedSpendingResponse.class);
 
-        /* 検証 */
-        BigInteger disposableIncome = BigInteger.valueOf(-121619);
-        Integer fixedListCount = 6;
+		/* 検証 */
+		BigInteger disposableIncome = BigInteger.valueOf(-121619);
+		Integer fixedListCount = 6;
 
-        assertEquals(Status.SUCCESS.getStatus(), response.getStatus());
-        assertNull(response.getMessage());
-        assertEquals(response.getDisposableIncome(), disposableIncome);
-        assertEquals(response.getMonthlyFixedList().size(), fixedListCount);
-    }
+		assertEquals(Status.SUCCESS.getStatus(), response.getStatus());
+		assertNull(response.getMessage());
+		assertEquals(response.getDisposableIncome(), disposableIncome);
+		assertEquals(response.getMonthlyFixedList().size(), fixedListCount);
+	}
+
+	@Test
+	@Transactional(readOnly = true)
+	void getMonthlyFixedSpendingUserError01Test() throws Exception {
+
+		Date month = Date.valueOf("2023-06-01");
+
+		GetMonthlyFixedSpendingForm req = new GetMonthlyFixedSpendingForm();
+		req.setMonth(month);
+		req.setUserId(FAIL_USER_ID);
+
+		String result = mvc
+				.perform(post(URL).content(mapper.writeValueAsString(req)).contentType(MediaType.APPLICATION_JSON))
+				.andDo(print()).andExpect(status().isOk()).andReturn().getResponse()
+				.getContentAsString(Charset.defaultCharset());
+
+		GetMonthlyFixedSpendingResponse response = mapper.readValue(result, GetMonthlyFixedSpendingResponse.class);
+
+		/* 検証 */
+		assertEquals(Status.ERROR.getStatus(), response.getStatus());
+		assertEquals(ErrorMessage.AUTHENTICATION_ERROR, response.getMessage());
+	}
+
+	@Test
+	@Transactional(readOnly = true)
+	void getMonthlyFixedSpendingUserError02Test() throws Exception {
+
+		Date month = Date.valueOf("2023-06-01");
+
+		GetMonthlyFixedSpendingForm req = new GetMonthlyFixedSpendingForm();
+		req.setMonth(month);
+		req.setUserId(NULL_USER_ID);
+
+		String result = mvc
+				.perform(post(URL).content(mapper.writeValueAsString(req)).contentType(MediaType.APPLICATION_JSON))
+				.andDo(print()).andExpect(status().isOk()).andReturn().getResponse()
+				.getContentAsString(Charset.defaultCharset());
+
+		GetMonthlyFixedSpendingResponse response = mapper.readValue(result, GetMonthlyFixedSpendingResponse.class);
+
+		/* 検証 */
+		assertEquals(Status.ERROR.getStatus(), response.getStatus());
+		assertEquals(ErrorMessage.AUTHENTICATION_ERROR, response.getMessage());
+	}
 }

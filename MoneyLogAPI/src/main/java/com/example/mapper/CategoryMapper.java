@@ -1,10 +1,9 @@
 package com.example.mapper;
 
-import java.util.List;
-
+import com.example.domain.Category;
 import org.apache.ibatis.annotations.Mapper;
 
-import com.example.domain.Category;
+import java.util.List;
 
 @Mapper
 public interface CategoryMapper {
@@ -14,5 +13,8 @@ public interface CategoryMapper {
 
 	/** カテゴリ・サブカテゴリの取得 */
 	public List<Category> getCategoryWithSubCategory(Category category);
+
+	/** カテゴリ存在チェック */
+	public boolean isCategoryExist(Category param);
 
 }

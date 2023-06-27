@@ -368,4 +368,13 @@
 		ORDER BY category_total_amount, sub_category_total_amount, transaction_amount;
 	</select>
 
+	<select id="isTransactionExist" resultType="java.lang.Boolean">
+		SELECT
+			COUNT(transaction_id)
+		FROM transaction
+		WHERE user_no = #{userNo}
+		AND transaction_id = #{transactionId}
+		LIMIT 1;
+	</select>
+
 </mapper>

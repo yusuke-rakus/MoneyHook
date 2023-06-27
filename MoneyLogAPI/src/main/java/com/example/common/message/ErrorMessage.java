@@ -43,6 +43,10 @@ public class ErrorMessage {
 	public static final String TRANSACTION_DATA_DELETE_FAILED = "削除に失敗しました";
 	/** カテゴリ・サブカテゴリにリレーションがない */
 	public static final String CATEGORY_IS_NOT_RELATIONAL = "カテゴリとサブカテゴリが紐づいていません";
+	/** 収支未存在 */
+	public static final String TRANSACTION_DATA_NOT_FOUND = "収支が存在しません";
+	/** 収支エラー存在 */
+	public static final String TRANSACTION_ERROR_DATA_EXIST = "エラーデータが含まれています";
 
 	// monthlyTransaction
 	/** 月次固定費が存在しない */
@@ -55,6 +59,8 @@ public class ErrorMessage {
 	// category
 	/** カテゴリデータの取得失敗 */
 	public static final String CATEGORY_GET_FAILED = "カテゴリの取得に失敗しました";
+	/** カテゴリ未存在 */
+	public static final String CATEGORY_NOT_FOUND_ERROR = "カテゴリが存在しません";
 
 	// subCategory
 	/** サブカテゴリデータの取得失敗 */

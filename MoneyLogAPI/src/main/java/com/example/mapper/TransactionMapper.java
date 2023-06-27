@@ -1,25 +1,13 @@
 package com.example.mapper;
 
-import java.util.List;
-
-import org.apache.ibatis.annotations.Mapper;
-import org.apache.ibatis.annotations.Param;
-
 import com.example.domain.CategoryList;
 import com.example.domain.MonthlyFixedList;
 import com.example.domain.Transaction;
-import com.example.form.AddTransactionForm;
-import com.example.form.DeleteTransactionForm;
-import com.example.form.EditTransactionForm;
-import com.example.form.FrequentTransactionNameForm;
-import com.example.form.GetHomeForm;
-import com.example.form.GetMonthlyFixedIncomeForm;
-import com.example.form.GetMonthlyFixedSpendingForm;
-import com.example.form.GetMonthlySpendingDataForm;
-import com.example.form.GetMonthlyVariableDataForm;
-import com.example.form.GetTimelineDataForm;
-import com.example.form.GetTotalSpendingForm;
-import com.example.form.GetTransactionForm;
+import com.example.form.*;
+import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
+
+import java.util.List;
 
 @Mapper
 public interface TransactionMapper {
@@ -62,5 +50,8 @@ public interface TransactionMapper {
 
 	/** カテゴリ毎の支出総額を取得 */
 	public List<CategoryList> getTotalSpending(GetTotalSpendingForm form);
+
+	/** 収支の存在チェック */
+	public boolean isTransactionExist(Transaction param);
 
 }

@@ -19,7 +19,7 @@ public class ValidatingMessage {
 	public static final String SAVING_TARGET_AMOUNT_EMPTY_ERROR = "貯金目標金額を入力してください";
 	/** 名前と目標金額両方未入力 */
 	public static final String BOTH_OF_NAME_AND_TARGET_AMOUNT_EMPTY_ERROR = "名前か目標金額を入力してください";
-	
+
 	// 貯金系
 	/** 金額未入力 */
 	public static final String SAVING_AMOUNT_EMPTY_ERROR = "金額を入力してください";
@@ -29,7 +29,7 @@ public class ValidatingMessage {
 	public static final String SAVING_NAME_LENGTH_ERROR = "32文字以内";
 	/** 金額エラー */
 	public static final String SAVING_AMOUNT_RANGE_ERROR = "¥9,999,999以内";
-	
+
 	// ユーザー系
 	/** メールアドレス未入力 */
 	public static final String EMAIL_EMPTY_ERROR = "メールアドレスを入力してください";
@@ -49,11 +49,11 @@ public class ValidatingMessage {
 	public static final String TRANSACTION_NAME_EMPTY_ERROR = "取引名を入力してください";
 	/** カテゴリ未選択 */
 	public static final String CATEGORY_NOT_SELECT_ERROR = "カテゴリを選択してください";
-	/** サブカテゴリ未選択 */
-	public static final String SUB_CATEGORY_NOT_SELECT_ERROR = "サブカテゴリを選択してください";
 	/** サブカテゴリ文字数 */
 	public static final String SUB_CATEGORY_OVER_LIMIT_ERROR = "16文字以内で入力してください";
-	/**  */
+	/** サブカテゴリ未入力 */
 	public static final String SUB_CATEGORY_NO_SELECT_AND_INPUT_ERROR = "サブカテゴリを選択するか入力してください";
+	/** 取引未選択 */
+	public static final String TRANSACTION_ID_NOT_SELECT_ERROR = "取引を選択してください";
 
 }

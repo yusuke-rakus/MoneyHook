@@ -12,6 +12,7 @@ public class User {
 	private Integer themeColorId;
 	private String themeColorCode;
 	private String themeColorGradientCode;
+	private String resetPasswordParam;
 
 	public Long getUserNo() {
 		return userNo;
@@ -69,10 +70,20 @@ public class User {
 		this.themeColorGradientCode = themeColorGradientCode;
 	}
 
+	public String getResetPasswordParam() {
+		return resetPasswordParam;
+	}
+
+	public void setResetPasswordParam(String resetPasswordParam) {
+		this.resetPasswordParam = resetPasswordParam;
+	}
+
 	@Override
 	public String toString() {
 		return "User [userNo=" + userNo + ", userId=" + userId + ", email=" + email + ", password=" + password
-				+ ", themeColorId=" + themeColorId + "]";
+				+ ", themeColorId=" + themeColorId + ", themeColorCode=" + themeColorCode + ", themeColorGradientCode="
+				+ themeColorGradientCode + ", resetPasswordParam=" + resetPasswordParam + "]";
 	}
 
+	
 }

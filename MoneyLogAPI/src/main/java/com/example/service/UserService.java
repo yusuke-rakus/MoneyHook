@@ -13,6 +13,7 @@ import org.thymeleaf.context.Context;
 import com.example.common.SHA256;
 import com.example.common.Status;
 import com.example.common.exception.AlreadyExistsException;
+import com.example.common.exception.DataNotFoundException;
 import com.example.common.exception.SystemException;
 import com.example.common.message.ErrorMessage;
 import com.example.common.message.SuccessMessage;
@@ -312,7 +313,7 @@ public class UserService {
 			// メール存在チェック
 			User user = userMapper.checkEmailExist(form);
 			if (Objects.isNull(user)) {
-				throw new Exception();
+				throw new DataNotFoundException(ErrorMessage.EMAIL_NOT_EXIST_ERROR);
 			} else {
 				// userテーブルのステータス更新
 				String resetPasswordParam = SHA256.getHashedValue(form.getEmail());
@@ -330,9 +331,12 @@ public class UserService {
 				scheduledService.scheduleDeleteParam(user);
 			}
 			res.setMessage(SuccessMessage.FORGOT_PASSWORD_EMAIL_SUCCESS);
+		} catch (DataNotFoundException e) {
+			res.setStatus(Status.ERROR.getStatus());
+			res.setMessage(e.getMessage());
 		} catch (Exception e) {
 			res.setStatus(Status.ERROR.getStatus());
-			res.setMessage(ErrorMessage.EMAIL_NOT_EXIST_ERROR);
+			res.setMessage(ErrorMessage.SYSTEM_ERROR);
 		}
 		return res;
 	}

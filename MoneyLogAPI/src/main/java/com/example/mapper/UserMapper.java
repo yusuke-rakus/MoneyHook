@@ -1,21 +1,10 @@
 package com.example.mapper;
 
-import java.util.List;
-
+import com.example.domain.User;
+import com.example.form.*;
 import org.apache.ibatis.annotations.Mapper;
 
-import com.example.domain.User;
-import com.example.form.ChangeEmailForm;
-import com.example.form.ChangePasswordForm;
-import com.example.form.EditThemeColorForm;
-import com.example.form.ForgotPasswordResetForm;
-import com.example.form.ForgotPasswordSendEmailForm;
-import com.example.form.GetThemeColorForm;
-import com.example.form.GetUserInfoForm;
-import com.example.form.LoginForm;
-import com.example.form.RegistUserForm;
-import com.example.form.ResetPasswordPageForm;
-import com.example.form.SendInquiryForm;
+import java.util.List;
 
 @Mapper
 public interface UserMapper {
@@ -25,6 +14,12 @@ public interface UserMapper {
 
 	/** ユーザー登録 */
 	public void registUser(RegistUserForm form);
+
+	/** Googleで登録 */
+	public void signInWithGoogle(GoogleSignInForm form);
+
+	/** ユーザ存在チェック */
+	public boolean isUserExist(GoogleSignInForm form);
 
 	/** ログイン */
 	public User login(LoginForm form);
@@ -64,8 +59,8 @@ public interface UserMapper {
 
 	/** リセットパスワードパラメータのリセット */
 	public void deletePasswordParam(User form);
-	
-	/* テーマカラーの存在チェック*/
+
+	/** テーマカラーの存在チェック */
 	public boolean isThemeColorExist(EditThemeColorForm form);
 
 }

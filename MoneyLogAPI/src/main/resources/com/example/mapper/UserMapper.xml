@@ -27,7 +27,29 @@
 			#{password}
 		);
 	</insert>
-	
+
+	<!-- Googleサインイン -->
+	<insert id="signInWithGoogle"
+		parameterType="com.example.form.GoogleSignInForm"
+        useGeneratedKeys="true" keyProperty="userNo">
+		INSERT INTO
+		user(
+			user_id
+		)
+		VALUES(
+			#{userId}
+		);
+	</insert>
+
+    <!-- ユーザ存在チェック -->
+	<select id="isUserExist" resultType="java.lang.Boolean">
+		SELECT
+			COUNT(user_id)
+		FROM user
+		WHERE user_id = #{userId}
+		LIMIT 1;
+	</select>
+
 	<!-- ログイン -->
 	<select id="login" resultType="com.example.domain.User">
 		SELECT
@@ -52,7 +74,7 @@
 		WHERE
 			u.email = #{email};
 	</select>
-	
+
 	<!-- ユーザー情報の取得 -->
 	<select id="getUserInfo" resultType="com.example.domain.User">
 		SELECT
@@ -62,7 +84,7 @@
 		WHERE
 			user_id = #{userId};
 	</select>
-	
+
 	<!-- パスワード変更 -->
 	<update id="changePassword">
 		UPDATE
@@ -74,7 +96,7 @@
 		AND
 			password=#{password};
 	</update>
-	
+
 	<!-- メールアドレス変更 -->
 	<update id="changeEmail">
 		UPDATE
@@ -86,7 +108,7 @@
 		AND
 			password=#{password};
 	</update>
-	
+
 	<!-- テーマカラーの変更 -->
 	<update id="editThemeColor">
 		UPDATE
@@ -96,7 +118,7 @@
 		WHERE
 			user_no=#{userNo};
 	</update>
-	
+
 	<!-- テーマカラーリストの取得 -->
 	<select id="getThemeColor" resultType="com.example.domain.User">
 		SELECT
@@ -106,7 +128,7 @@
 		FROM
 			theme_color;
 	</select>
-	
+
 	<!-- 当日に問い合わせをしたかチェック -->
 	<select id="getInquiry" resultType="com.example.form.SendInquiryForm">
 		SELECT
@@ -119,7 +141,7 @@
 			user_no = #{userNo}
 		AND inquiry_date = #{inquiryDate};
 	</select>
-	
+
 	<!-- 問い合わせを登録 -->
 	<insert id="insertInquiry" parameterType="com.example.form.SendInquiryForm">
 		INSERT INTO
@@ -134,7 +156,7 @@
 			#{inquiryDate}
 		);
 	</insert>
-	
+
 	<!-- パスワードを忘れた場合の再設定メール送信 -->
 	<select id="checkEmailExist" resultType="com.example.domain.User">
 		SELECT
@@ -144,7 +166,7 @@
 		WHERE
 			email = #{email};
 	</select>
-	
+
 	<!-- リセットパスワードパラメータの設定 -->
 	<update id="setResetPasswordParam">
 		UPDATE
@@ -154,7 +176,7 @@
 		WHERE
 			email=#{email};
 	</update>
-	
+
 	<!-- パスワードを忘れた場合の再設定実行 -->
 	<update id="resetPassword">
 		UPDATE
@@ -165,7 +187,7 @@
 		WHERE
 			email=#{email};
 	</update>
-	
+
 	<!-- リセットパスワードパラメータのリセット -->
 	<update id="deletePasswordParam">
 		UPDATE
@@ -175,7 +197,7 @@
 		WHERE
 			user_no=#{userNo};
 	</update>
-	
+
 	<!-- パスワードを忘れた場合の再設定画面表示 -->
 	<select id="resetPasswordPage" resultType="com.example.domain.User">
 		SELECT
@@ -185,7 +207,7 @@
 		WHERE
 			reset_password_param = #{param};
 	</select>
-	
+
 	<!-- テーマカラーの存在チェック -->
 	<select id="isThemeColorExist" resultType="java.lang.Boolean">
 		SELECT
@@ -193,7 +215,7 @@
 		FROM theme_color
 		WHERE theme_color_id = #{themeColorId}
 		LIMIT 1;
-			
+
 	</select>
 
 </mapper>

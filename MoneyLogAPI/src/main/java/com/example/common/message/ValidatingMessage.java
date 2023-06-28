@@ -39,6 +39,8 @@ public class ValidatingMessage {
 	public static final String PASSWORD_EMPTY_ERROR = "パスワードを入力してください";
 	/** パスワード文字数 */
 	public static final String PASSWORD_RANGE_ERROR = "8から32文字以内で入力してください";
+	/** ユーザID未入力 */
+	public static final String USER_ID_NOT_FOUND = "ユーザIDが未入力です";
 
 	// 収支系
 	/** 取引名文字数 */

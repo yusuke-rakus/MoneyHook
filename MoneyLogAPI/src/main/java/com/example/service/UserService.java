@@ -1,15 +1,5 @@
 package com.example.service;
 
-import java.util.Date;
-import java.util.List;
-import java.util.Objects;
-import java.util.UUID;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
-import org.thymeleaf.context.Context;
-
 import com.example.common.SHA256;
 import com.example.common.Status;
 import com.example.common.exception.AlreadyExistsException;
@@ -18,29 +8,19 @@ import com.example.common.exception.SystemException;
 import com.example.common.message.ErrorMessage;
 import com.example.common.message.SuccessMessage;
 import com.example.domain.User;
-import com.example.form.ChangeEmailForm;
-import com.example.form.ChangePasswordForm;
-import com.example.form.EditThemeColorForm;
-import com.example.form.ForgotPasswordResetForm;
-import com.example.form.ForgotPasswordSendEmailForm;
-import com.example.form.GetThemeColorForm;
-import com.example.form.GetUserInfoForm;
-import com.example.form.LoginForm;
-import com.example.form.RegistUserForm;
-import com.example.form.ResetPasswordPageForm;
-import com.example.form.SendInquiryForm;
+import com.example.form.*;
 import com.example.mapper.UserMapper;
-import com.example.response.ChangeEmailResponse;
-import com.example.response.ChangePasswordResponse;
-import com.example.response.EditThemeColorResponse;
-import com.example.response.ForgotPasswordResetResponse;
-import com.example.response.ForgotPasswordSendEmailResponse;
-import com.example.response.GetThemeColorResponse;
-import com.example.response.GetUserInfoResponse;
-import com.example.response.LoginResponse;
-import com.example.response.RegistUserResponse;
-import com.example.response.ResetPasswordPageResponse;
-import com.example.response.SendInquiryResponse;
+import com.example.mapper.UserTokenMapper;
+import com.example.response.*;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+import org.thymeleaf.context.Context;
+
+import java.util.Date;
+import java.util.List;
+import java.util.Objects;
+import java.util.UUID;
 
 @Service
 @Transactional
@@ -48,6 +28,9 @@ public class UserService {
 
 	@Autowired
 	private UserMapper userMapper;
+
+	@Autowired
+	private UserTokenMapper userTokenMapper;
 
 	@Autowired
 	private AuthenticationService authenticationService;
@@ -117,6 +100,32 @@ public class UserService {
 		return res;
 	}
 
+	/** Googleログイン */
+	public GoogleSignInResponse login(GoogleSignInForm form, GoogleSignInResponse res) {
+
+		try {
+			// ユーザIDがuserテーブルに存在するかチェック
+			if (userMapper.isUserExist(form)) {
+				// アカウント登録済の場合
+
+				Long userNo = authenticationService.authUser(form);
+				form.setUserNo(userNo);
+
+				// トークンを更新
+				userTokenMapper.updateToken(form);
+			} else {
+				// アカウント未登録の場合 新規登録処理
+				userMapper.signInWithGoogle(form);
+				userTokenMapper.insertToken(form);
+			}
+		} catch (Exception e) {
+			res.setStatus(Status.ERROR.getStatus());
+			res.setMessage(ErrorMessage.AUTHENTICATION_ERROR);
+		}
+
+		return res;
+	}
+
 	/** ユーザー情報の取得 */
 	public GetUserInfoResponse getUserInfo(GetUserInfoForm form) {
 		GetUserInfoResponse res = new GetUserInfoResponse();
@@ -137,7 +146,7 @@ public class UserService {
 
 	/**
 	 * パスワード変更
-	 * 
+	 *
 	 * @throws Exception
 	 */
 	public ChangePasswordResponse changePassword(ChangePasswordForm form, ChangePasswordResponse res) throws Exception {
@@ -168,7 +177,7 @@ public class UserService {
 
 	/**
 	 * メールアドレスを変更
-	 * 
+	 *
 	 * @throws Exception
 	 */
 	public ChangeEmailResponse changeEmail(ChangeEmailForm form, ChangeEmailResponse res) throws Exception {
@@ -202,15 +211,15 @@ public class UserService {
 
 	/**
 	 * テーマカラー変更
-	 * 
+	 *
 	 * @throws Exception
 	 */
 	public EditThemeColorResponse editThemeColor(EditThemeColorForm form, EditThemeColorResponse res) throws SystemException {
 
-		if(!userMapper.isThemeColorExist(form)) {
+		if (!userMapper.isThemeColorExist(form)) {
 			throw new AlreadyExistsException(ErrorMessage.THEME_COLOR_NOT_FOUND);
 		}
-		
+
 		boolean updateResult = userMapper.editThemeColor(form);
 		if (!updateResult) {
 			throw new SystemException(ErrorMessage.THEME_COLOR_NOT_FOUND);
@@ -223,7 +232,7 @@ public class UserService {
 
 	/**
 	 * テーマカラー取得
-	 * 
+	 *
 	 * @throws Exception
 	 */
 	public GetThemeColorResponse getThemeColor(GetThemeColorForm form, GetThemeColorResponse res) throws Exception {
@@ -244,7 +253,7 @@ public class UserService {
 
 	/**
 	 * お問い合わせ・ご意見のチェック
-	 * 
+	 *
 	 * @throws Exception
 	 */
 	public SendInquiryResponse checkInquiry(SendInquiryForm form, SendInquiryResponse res) throws Exception {
@@ -271,7 +280,7 @@ public class UserService {
 
 	/**
 	 * お問い合わせ・ご意見
-	 * 
+	 *
 	 * @throws Exception
 	 */
 	public SendInquiryResponse sendInquiry(SendInquiryForm form, SendInquiryResponse res) throws Exception {
@@ -303,11 +312,11 @@ public class UserService {
 
 	/**
 	 * パスワードを忘れた場合の再設定メール送信
-	 * 
+	 *
 	 * @throws Exception
 	 */
 	public ForgotPasswordSendEmailResponse forgotPasswordSendEmail(ForgotPasswordSendEmailForm form,
-			ForgotPasswordSendEmailResponse res) throws Exception {
+																   ForgotPasswordSendEmailResponse res) throws Exception {
 
 		try {
 			// メール存在チェック
@@ -343,11 +352,11 @@ public class UserService {
 
 	/**
 	 * パスワードを忘れた場合の再設定
-	 * 
+	 *
 	 * @throws Exception
 	 */
 	public ForgotPasswordResetResponse forgotPasswordReset(ForgotPasswordResetForm form,
-			ForgotPasswordResetResponse res) throws Exception {
+														   ForgotPasswordResetResponse res) throws Exception {
 
 		try {
 			// パスワードをハッシュ化
@@ -364,7 +373,7 @@ public class UserService {
 
 	/**
 	 * パスワードを忘れた場合の再設定画面表示
-	 * 
+	 *
 	 * @throws Exception
 	 */
 	public ResetPasswordPageResponse resetPasswordPage(ResetPasswordPageForm form, ResetPasswordPageResponse res)

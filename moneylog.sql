@@ -18,10 +18,10 @@ CREATE TABLE IF NOT EXISTS theme_color(
 );
 
 CREATE TABLE IF NOT EXISTS user(
-    user_id varchar(36) NOT NULL,
+    user_id varchar(64) NOT NULL,
     user_no bigint UNSIGNED AUTO_INCREMENT,
-    email varchar(128) NOT NULL UNIQUE,
-    PASSWORD text NOT NULL,
+    email varchar(128) UNIQUE,
+    PASSWORD text,
     theme_color_id bigint UNSIGNED NOT NULL DEFAULT 1,
     reset_password_param varchar(128),
     PRIMARY KEY(user_no),

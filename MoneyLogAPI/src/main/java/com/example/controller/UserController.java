@@ -1,5 +1,11 @@
 package com.example.controller;
 
+import com.example.common.Status;
+import com.example.form.*;
+import com.example.response.*;
+import com.example.service.AuthenticationService;
+import com.example.service.UserService;
+import com.example.service.ValidationService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
@@ -7,33 +13,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-
-import com.example.common.Status;
-import com.example.form.ChangeEmailForm;
-import com.example.form.ChangePasswordForm;
-import com.example.form.EditThemeColorForm;
-import com.example.form.ForgotPasswordResetForm;
-import com.example.form.ForgotPasswordSendEmailForm;
-import com.example.form.GetThemeColorForm;
-import com.example.form.GetUserInfoForm;
-import com.example.form.LoginForm;
-import com.example.form.RegistUserForm;
-import com.example.form.ResetPasswordPageForm;
-import com.example.form.SendInquiryForm;
-import com.example.response.ChangeEmailResponse;
-import com.example.response.ChangePasswordResponse;
-import com.example.response.EditThemeColorResponse;
-import com.example.response.ForgotPasswordResetResponse;
-import com.example.response.ForgotPasswordSendEmailResponse;
-import com.example.response.GetThemeColorResponse;
-import com.example.response.GetUserInfoResponse;
-import com.example.response.LoginResponse;
-import com.example.response.RegistUserResponse;
-import com.example.response.ResetPasswordPageResponse;
-import com.example.response.SendInquiryResponse;
-import com.example.service.AuthenticationService;
-import com.example.service.UserService;
-import com.example.service.ValidationService;
 
 @RestController
 @RequestMapping("/user")
@@ -79,6 +58,22 @@ public class UserController {
 		return userService.login(form, res);
 	}
 
+	/** Googleログイン */
+	@PostMapping("/googleSignIn")
+	public GoogleSignInResponse googleSignIn(@RequestBody @Validated GoogleSignInForm form, BindingResult result) {
+
+		GoogleSignInResponse res = new GoogleSignInResponse();
+
+		if (result.hasErrors()) {
+			String errorMessage = validationService.getFirstErrorMessage(result);
+			res.setStatus(Status.ERROR.getStatus());
+			res.setMessage(errorMessage);
+			return res;
+		}
+
+		return userService.login(form, res);
+	}
+
 	/** ユーザー情報の取得 */
 	@PostMapping("/getUserInfo")
 	public GetUserInfoResponse getUserInfo(@RequestBody GetUserInfoForm form) {
@@ -87,8 +82,6 @@ public class UserController {
 
 	/**
 	 * パスワード変更
-	 * 
-	 * @throws Exception
 	 */
 	@PostMapping("/changePassword")
 	public ChangePasswordResponse changePassword(@RequestBody @Validated ChangePasswordForm form, BindingResult result)
@@ -108,8 +101,6 @@ public class UserController {
 
 	/**
 	 * メールアドレスを変更
-	 * 
-	 * @throws Exception
 	 */
 	@PostMapping("/changeEmail")
 	public ChangeEmailResponse changeEmail(@RequestBody @Validated ChangeEmailForm form, BindingResult result)
@@ -128,8 +119,6 @@ public class UserController {
 
 	/**
 	 * テーマカラーの変更
-	 * 
-	 * @throws Exception
 	 */
 	@PostMapping("/editThemeColor")
 	public EditThemeColorResponse editThemeColor(@RequestBody EditThemeColorForm form) throws Exception {
@@ -144,8 +133,6 @@ public class UserController {
 
 	/**
 	 * テーマカラーの取得
-	 * 
-	 * @throws Exception
 	 */
 	@PostMapping("/getThemeColor")
 	public GetThemeColorResponse getThemeColor(@RequestBody GetThemeColorForm form) throws Exception {
@@ -160,8 +147,6 @@ public class UserController {
 
 	/**
 	 * お問い合わせ・ご意見のチェック
-	 * 
-	 * @throws Exception
 	 */
 	@PostMapping("/checkInquiry")
 	public SendInquiryResponse checkInquiry(@Validated @RequestBody SendInquiryForm form, BindingResult result)
@@ -177,8 +162,6 @@ public class UserController {
 
 	/**
 	 * お問い合わせ・ご意見
-	 * 
-	 * @throws Exception
 	 */
 	@PostMapping("/sendInquiry")
 	public SendInquiryResponse sendInquiry(@Validated @RequestBody SendInquiryForm form, BindingResult result)
@@ -201,8 +184,6 @@ public class UserController {
 
 	/**
 	 * パスワードを忘れた場合の再設定メール送信
-	 * 
-	 * @throws Exception
 	 */
 	@PostMapping("/forgotPasswordSendEmail")
 	public ForgotPasswordSendEmailResponse forgotPasswordSendEmail(@RequestBody ForgotPasswordSendEmailForm form)
@@ -214,8 +195,6 @@ public class UserController {
 
 	/**
 	 * パスワードを忘れた場合の再設定
-	 * 
-	 * @throws Exception
 	 */
 	@PostMapping("/forgotPasswordReset")
 	public ForgotPasswordResetResponse forgotPasswordReset(@RequestBody ForgotPasswordResetForm form) throws Exception {
@@ -226,8 +205,6 @@ public class UserController {
 
 	/**
 	 * パスワードを忘れた場合の再設定画面表示
-	 * 
-	 * @throws Exception
 	 */
 	@PostMapping("/resetPasswordPage")
 	public ResetPasswordPageResponse resetPasswordPage(@RequestBody ResetPasswordPageForm form) throws Exception {

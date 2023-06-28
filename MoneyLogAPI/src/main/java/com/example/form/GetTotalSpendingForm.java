@@ -1,12 +1,18 @@
 package com.example.form;
 
+import com.example.common.message.ValidatingMessage;
+
+import javax.validation.constraints.NotNull;
 import java.sql.Date;
 
 public class GetTotalSpendingForm extends form {
 
+	@NotNull(message = ValidatingMessage.CATEGORY_NOT_SELECT_ERROR)
 	private Long categoryId;
 	private Long subCategoryId;
+	@NotNull(message = ValidatingMessage.START_MONTH_NOT_INPUT_ERROR)
 	private Date startMonth;
+	@NotNull(message = ValidatingMessage.END_MONTH_NOT_INPUT_ERROR)
 	private Date endMonth;
 
 	public Long getCategoryId() {

@@ -1,30 +1,32 @@
 package com.example.response;
 
 import com.example.domain.CategoryList;
+import com.fasterxml.jackson.annotation.JsonInclude;
 
 import java.math.BigInteger;
 import java.util.List;
 
+@JsonInclude(JsonInclude.Include.NON_EMPTY)
 public class GetTotalSpendingResponse extends response {
 
-    private BigInteger totalSpending;
+	private BigInteger totalSpending;
 
-    private List<CategoryList> categoryTotalList;
+	private List<CategoryList> categoryTotalList;
 
-    public BigInteger getTotalSpending() {
-        return totalSpending;
-    }
+	public BigInteger getTotalSpending() {
+		return totalSpending;
+	}
 
-    public void setTotalSpending(BigInteger totalSpending) {
-        this.totalSpending = totalSpending;
-    }
+	public void setTotalSpending(BigInteger totalSpending) {
+		this.totalSpending = totalSpending;
+	}
 
-    public List<CategoryList> getCategoryTotalList() {
-        return categoryTotalList;
-    }
+	public List<CategoryList> getCategoryTotalList() {
+		return categoryTotalList;
+	}
 
-    public void setCategoryTotalList(List<CategoryList> categoryTotalList) {
-        this.categoryTotalList = categoryTotalList;
-    }
+	public void setCategoryTotalList(List<CategoryList> categoryTotalList) {
+		this.categoryTotalList = categoryTotalList;
+	}
 
 }

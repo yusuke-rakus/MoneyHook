@@ -55,5 +55,9 @@ public class ValidatingMessage {
 	public static final String SUB_CATEGORY_NO_SELECT_AND_INPUT_ERROR = "サブカテゴリを選択するか入力してください";
 	/** 取引未選択 */
 	public static final String TRANSACTION_ID_NOT_SELECT_ERROR = "取引を選択してください";
+	/** 集計開始月未入力 */
+	public static final String START_MONTH_NOT_INPUT_ERROR = "開始月を入力してください";
+	/** 集計終了月未入力 */
+	public static final String END_MONTH_NOT_INPUT_ERROR = "終了月を入力してください";
 
 }

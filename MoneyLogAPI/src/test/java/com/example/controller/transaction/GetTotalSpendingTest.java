@@ -2,6 +2,7 @@ package com.example.controller.transaction;
 
 import com.example.common.Status;
 import com.example.common.message.ErrorMessage;
+import com.example.common.message.ValidatingMessage;
 import com.example.form.GetTotalSpendingForm;
 import com.example.response.GetTotalSpendingResponse;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -42,9 +43,9 @@ class GetTotalSpendingTest {
 	@Transactional(readOnly = true)
 	void getTotalSpendingTest() throws Exception {
 
-		Long categoryId = Long.valueOf("5");
-		Long subCategoryId = Long.valueOf("9");
-		Date startMonth = Date.valueOf("2022-12-01");
+		Long categoryId = 1L;
+		Long subCategoryId = 1L;
+		Date startMonth = Date.valueOf("2022-01-01");
 		Date endMonth = Date.valueOf("2023-06-01");
 
 		GetTotalSpendingForm req = new GetTotalSpendingForm();
@@ -73,9 +74,9 @@ class GetTotalSpendingTest {
 	@Transactional(readOnly = true)
 	void getTotalSpendingUserError01Test() throws Exception {
 
-		Long categoryId = Long.valueOf("5");
-		Long subCategoryId = Long.valueOf("9");
-		Date startMonth = Date.valueOf("2022-12-01");
+		Long categoryId = 1L;
+		Long subCategoryId = 1L;
+		Date startMonth = Date.valueOf("2022-01-01");
 		Date endMonth = Date.valueOf("2023-06-01");
 
 		GetTotalSpendingForm req = new GetTotalSpendingForm();
@@ -101,9 +102,9 @@ class GetTotalSpendingTest {
 	@Transactional(readOnly = true)
 	void getTotalSpendingUserError02Test() throws Exception {
 
-		Long categoryId = Long.valueOf("5");
-		Long subCategoryId = Long.valueOf("9");
-		Date startMonth = Date.valueOf("2022-12-01");
+		Long categoryId = 1L;
+		Long subCategoryId = 1L;
+		Date startMonth = Date.valueOf("2022-01-01");
 		Date endMonth = Date.valueOf("2023-06-01");
 
 		GetTotalSpendingForm req = new GetTotalSpendingForm();
@@ -123,5 +124,173 @@ class GetTotalSpendingTest {
 		/* 検証 */
 		assertEquals(Status.ERROR.getStatus(), response.getStatus());
 		assertEquals(ErrorMessage.AUTHENTICATION_ERROR, response.getMessage());
+	}
+
+	@Test
+	@Transactional(readOnly = true)
+	void getTotalSpendingCategoryErrorTest() throws Exception {
+
+		Long categoryId = null;
+		Long subCategoryId = 1L;
+		Date startMonth = Date.valueOf("2022-01-01");
+		Date endMonth = Date.valueOf("2023-06-01");
+
+		GetTotalSpendingForm req = new GetTotalSpendingForm();
+		req.setCategoryId(categoryId);
+		req.setSubCategoryId(subCategoryId);
+		req.setStartMonth(startMonth);
+		req.setEndMonth(endMonth);
+		req.setUserId(USER_ID);
+
+		String result = mvc
+				.perform(post(URL).content(mapper.writeValueAsString(req)).contentType(MediaType.APPLICATION_JSON))
+				.andDo(print()).andExpect(status().isOk()).andReturn().getResponse()
+				.getContentAsString(Charset.defaultCharset());
+
+		GetTotalSpendingResponse response = mapper.readValue(result, GetTotalSpendingResponse.class);
+
+		/* 検証 */
+		assertEquals(Status.ERROR.getStatus(), response.getStatus());
+		assertEquals(ValidatingMessage.CATEGORY_NOT_SELECT_ERROR, response.getMessage());
+	}
+
+	@Test
+	@Transactional(readOnly = true)
+	void getTotalSpendingCategoryStartMonthErrorTest() throws Exception {
+
+		Long categoryId = 1L;
+		Long subCategoryId = 1L;
+		Date startMonth = null;
+		Date endMonth = Date.valueOf("2023-06-01");
+
+		GetTotalSpendingForm req = new GetTotalSpendingForm();
+		req.setCategoryId(categoryId);
+		req.setSubCategoryId(subCategoryId);
+		req.setStartMonth(startMonth);
+		req.setEndMonth(endMonth);
+		req.setUserId(USER_ID);
+
+		String result = mvc
+				.perform(post(URL).content(mapper.writeValueAsString(req)).contentType(MediaType.APPLICATION_JSON))
+				.andDo(print()).andExpect(status().isOk()).andReturn().getResponse()
+				.getContentAsString(Charset.defaultCharset());
+
+		GetTotalSpendingResponse response = mapper.readValue(result, GetTotalSpendingResponse.class);
+
+		/* 検証 */
+		assertEquals(Status.ERROR.getStatus(), response.getStatus());
+		assertEquals(ValidatingMessage.START_MONTH_NOT_INPUT_ERROR, response.getMessage());
+	}
+
+	@Test
+	@Transactional(readOnly = true)
+	void getTotalSpendingCategoryEndMonthErrorTest() throws Exception {
+
+		Long categoryId = 1L;
+		Long subCategoryId = 1L;
+		Date startMonth = Date.valueOf("2022-01-01");
+		Date endMonth = null;
+
+		GetTotalSpendingForm req = new GetTotalSpendingForm();
+		req.setCategoryId(categoryId);
+		req.setSubCategoryId(subCategoryId);
+		req.setStartMonth(startMonth);
+		req.setEndMonth(endMonth);
+		req.setUserId(USER_ID);
+
+		String result = mvc
+				.perform(post(URL).content(mapper.writeValueAsString(req)).contentType(MediaType.APPLICATION_JSON))
+				.andDo(print()).andExpect(status().isOk()).andReturn().getResponse()
+				.getContentAsString(Charset.defaultCharset());
+
+		GetTotalSpendingResponse response = mapper.readValue(result, GetTotalSpendingResponse.class);
+
+		/* 検証 */
+		assertEquals(Status.ERROR.getStatus(), response.getStatus());
+		assertEquals(ValidatingMessage.END_MONTH_NOT_INPUT_ERROR, response.getMessage());
+	}
+
+	@Test
+	@Transactional(readOnly = true)
+	void getTotalSpendingCategoryCategoryRelationalErrorTest() throws Exception {
+
+		Long categoryId = 1L;
+		Long subCategoryId = 99L;
+		Date startMonth = Date.valueOf("2022-01-01");
+		Date endMonth = Date.valueOf("2023-06-01");
+
+		GetTotalSpendingForm req = new GetTotalSpendingForm();
+		req.setCategoryId(categoryId);
+		req.setSubCategoryId(subCategoryId);
+		req.setStartMonth(startMonth);
+		req.setEndMonth(endMonth);
+		req.setUserId(USER_ID);
+
+		String result = mvc
+				.perform(post(URL).content(mapper.writeValueAsString(req)).contentType(MediaType.APPLICATION_JSON))
+				.andDo(print()).andExpect(status().isOk()).andReturn().getResponse()
+				.getContentAsString(Charset.defaultCharset());
+
+		GetTotalSpendingResponse response = mapper.readValue(result, GetTotalSpendingResponse.class);
+
+		/* 検証 */
+		assertEquals(Status.ERROR.getStatus(), response.getStatus());
+		assertEquals(ErrorMessage.CATEGORY_IS_NOT_RELATIONAL, response.getMessage());
+	}
+
+	@Test
+	@Transactional(readOnly = true)
+	void getTotalSpendingCategoryDateError01Test() throws Exception {
+
+		Long categoryId = 1L;
+		Long subCategoryId = 1L;
+		Date startMonth = Date.valueOf("2022-01-01");
+		Date endMonth = Date.valueOf("2025-01-01");
+
+		GetTotalSpendingForm req = new GetTotalSpendingForm();
+		req.setCategoryId(categoryId);
+		req.setSubCategoryId(subCategoryId);
+		req.setStartMonth(startMonth);
+		req.setEndMonth(endMonth);
+		req.setUserId(USER_ID);
+
+		String result = mvc
+				.perform(post(URL).content(mapper.writeValueAsString(req)).contentType(MediaType.APPLICATION_JSON))
+				.andDo(print()).andExpect(status().isOk()).andReturn().getResponse()
+				.getContentAsString(Charset.defaultCharset());
+
+		GetTotalSpendingResponse response = mapper.readValue(result, GetTotalSpendingResponse.class);
+
+		/* 検証 */
+		assertEquals(Status.ERROR.getStatus(), response.getStatus());
+		assertEquals(ErrorMessage.DATE_RANGE_ERROR, response.getMessage());
+	}
+
+	@Test
+	@Transactional(readOnly = true)
+	void getTotalSpendingCategoryDateError02Test() throws Exception {
+
+		Long categoryId = 1L;
+		Long subCategoryId = 1L;
+		Date startMonth = Date.valueOf("2022-01-01");
+		Date endMonth = Date.valueOf("2021-12-31");
+
+		GetTotalSpendingForm req = new GetTotalSpendingForm();
+		req.setCategoryId(categoryId);
+		req.setSubCategoryId(subCategoryId);
+		req.setStartMonth(startMonth);
+		req.setEndMonth(endMonth);
+		req.setUserId(USER_ID);
+
+		String result = mvc
+				.perform(post(URL).content(mapper.writeValueAsString(req)).contentType(MediaType.APPLICATION_JSON))
+				.andDo(print()).andExpect(status().isOk()).andReturn().getResponse()
+				.getContentAsString(Charset.defaultCharset());
+
+		GetTotalSpendingResponse response = mapper.readValue(result, GetTotalSpendingResponse.class);
+
+		/* 検証 */
+		assertEquals(Status.ERROR.getStatus(), response.getStatus());
+		assertEquals(ErrorMessage.DATE_REVERSED_ERROR, response.getMessage());
 	}
 }

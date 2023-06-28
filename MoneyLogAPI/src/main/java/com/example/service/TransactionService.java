@@ -2,10 +2,7 @@ package com.example.service;
 
 import com.example.common.DateFormatter;
 import com.example.common.Status;
-import com.example.common.exception.CategoryRelationalException;
-import com.example.common.exception.DataNotFoundException;
-import com.example.common.exception.HasErrorTransactionException;
-import com.example.common.exception.SystemException;
+import com.example.common.exception.*;
 import com.example.common.message.ErrorMessage;
 import com.example.common.message.SuccessMessage;
 import com.example.domain.*;
@@ -22,6 +19,7 @@ import java.math.BigInteger;
 import java.sql.Date;
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 import java.util.Objects;
 
@@ -374,11 +372,16 @@ public class TransactionService {
 	/**
 	 * カテゴリ毎の支出総額を取得
 	 */
-	public GetTotalSpendingResponse getTotalSpending(GetTotalSpendingForm form, GetTotalSpendingResponse res)
-			throws SystemException {
+	public GetTotalSpendingResponse getTotalSpending(GetTotalSpendingForm form, GetTotalSpendingResponse res) {
 
-		// データを取得
 		try {
+			// 期間チェック
+			checkDateRange(form.getStartMonth(), form.getEndMonth());
+
+			// カテゴリ・サブカテゴリのリレーションチェック
+			checkCategoryRelational(form.getUserNo(), form.getCategoryId(), form.getSubCategoryId());
+
+			// データを取得
 			List<CategoryList> categoryList = transactionMapper.getTotalSpending(form);
 			res.setCategoryTotalList(categoryList);
 
@@ -386,6 +389,9 @@ public class TransactionService {
 					categoryList.stream().map(CategoryList::getCategoryTotalAmount).reduce(BigInteger.ZERO,
 							BigInteger::add);
 			res.setTotalSpending(totalSpending);
+		} catch (CategoryRelationalException | DateException e) {
+			res.setStatus(Status.ERROR.getStatus());
+			res.setMessage(e.getMessage());
 		} catch (Exception e) {
 			res.setStatus(Status.ERROR.getStatus());
 		}
@@ -480,6 +486,26 @@ public class TransactionService {
 		boolean isCategoryRelational = categoryService.isCategoryRelational(category, subCategoryId);
 		if (!isCategoryRelational) {
 			throw new CategoryRelationalException(ErrorMessage.CATEGORY_IS_NOT_RELATIONAL);
+		}
+	}
+
+	/** 日付期間チェック */
+	private void checkDateRange(Date startMonth, Date endMonth) throws DateException {
+		// 期間の逆転チェック
+		if (startMonth.after(endMonth)) {
+			throw new DateException(ErrorMessage.DATE_REVERSED_ERROR);
+		}
+
+		// 期間の範囲チェック(3年未満)
+		Calendar startCal = Calendar.getInstance();
+		startCal.setTime(startMonth);
+		Calendar endCal = Calendar.getInstance();
+		endCal.setTime(endMonth);
+
+		int yearDiff = endCal.get(Calendar.YEAR) - startCal.get(Calendar.YEAR);
+
+		if (yearDiff > 2) {
+			throw new DateException(ErrorMessage.DATE_RANGE_ERROR);
 		}
 	}
 

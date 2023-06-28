@@ -229,8 +229,16 @@ public class TransactionController {
 	 * カテゴリ毎の支出総額を取得
 	 */
 	@PostMapping("/getTotalSpending")
-	public GetTotalSpendingResponse getTotalSpending(@RequestBody GetTotalSpendingForm form) throws SystemException {
+	public GetTotalSpendingResponse getTotalSpending(@RequestBody @Validated GetTotalSpendingForm form,
+													 BindingResult result) throws SystemException {
 		GetTotalSpendingResponse res = new GetTotalSpendingResponse();
+
+		if (result.hasErrors()) {
+			String errorMessage = validationService.getFirstErrorMessage(result);
+			res.setStatus(Status.ERROR.getStatus());
+			res.setMessage(errorMessage);
+			return res;
+		}
 
 		// ユーザー認証
 		Long userNo = authenticationService.authUser(form);

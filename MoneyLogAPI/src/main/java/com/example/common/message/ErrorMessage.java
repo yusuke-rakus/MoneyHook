@@ -47,6 +47,10 @@ public class ErrorMessage {
 	public static final String TRANSACTION_DATA_NOT_FOUND = "収支が存在しません";
 	/** 収支エラー存在 */
 	public static final String TRANSACTION_ERROR_DATA_EXIST = "エラーデータが含まれています";
+	/** 日付逆転 */
+	public static final String DATE_REVERSED_ERROR = "日付が逆転しています";
+	/** 日付範囲エラー */
+	public static final String DATE_RANGE_ERROR = "3年未満で集計を行ってください";
 
 	// monthlyTransaction
 	/** 月次固定費が存在しない */

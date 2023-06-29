@@ -385,8 +385,10 @@ public class TransactionService {
 			// 期間チェック
 			checkDateRange(form.getStartMonth(), form.getEndMonth());
 
-			// カテゴリ・サブカテゴリのリレーションチェック
-			checkCategoryRelational(form.getUserNo(), form.getCategoryId(), form.getSubCategoryId());
+			if (!Objects.isNull(form.getSubCategoryId())) {
+				// カテゴリ・サブカテゴリのリレーションチェック
+				checkCategoryRelational(form.getUserNo(), form.getCategoryId(), form.getSubCategoryId());
+			}
 
 			// データを取得
 			List<CategoryList> categoryList = transactionMapper.getTotalSpending(form);

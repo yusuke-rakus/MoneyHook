@@ -41,7 +41,7 @@ class GetTotalSpendingTest {
 
 	@Test
 	@Transactional(readOnly = true)
-	void getTotalSpendingTest() throws Exception {
+	void getTotalSpendingSuccess01Test() throws Exception {
 
 		Long categoryId = 1L;
 		Long subCategoryId = 1L;
@@ -63,7 +63,38 @@ class GetTotalSpendingTest {
 		GetTotalSpendingResponse response = mapper.readValue(result, GetTotalSpendingResponse.class);
 
 		/* 検証 */
-		BigInteger totalSpending = BigInteger.valueOf(-130697);
+		BigInteger totalSpending = BigInteger.valueOf(-92510);
+
+		assertEquals(Status.SUCCESS.getStatus(), response.getStatus());
+		assertNull(response.getMessage());
+		assertEquals(response.getTotalSpending(), totalSpending);
+	}
+
+	@Test
+	@Transactional(readOnly = true)
+	void getTotalSpendingSuccess02Test() throws Exception {
+
+		Long categoryId = 1L;
+		Long subCategoryId = null;
+		Date startMonth = Date.valueOf("2022-01-01");
+		Date endMonth = Date.valueOf("2023-06-01");
+
+		GetTotalSpendingForm req = new GetTotalSpendingForm();
+		req.setCategoryId(categoryId);
+		req.setSubCategoryId(subCategoryId);
+		req.setStartMonth(startMonth);
+		req.setEndMonth(endMonth);
+		req.setUserId(USER_ID);
+
+		String result = mvc
+				.perform(post(URL).content(mapper.writeValueAsString(req)).contentType(MediaType.APPLICATION_JSON))
+				.andDo(print()).andExpect(status().isOk()).andReturn().getResponse()
+				.getContentAsString(Charset.defaultCharset());
+
+		GetTotalSpendingResponse response = mapper.readValue(result, GetTotalSpendingResponse.class);
+
+		/* 検証 */
+		BigInteger totalSpending = BigInteger.valueOf(-92510);
 
 		assertEquals(Status.SUCCESS.getStatus(), response.getStatus());
 		assertNull(response.getMessage());

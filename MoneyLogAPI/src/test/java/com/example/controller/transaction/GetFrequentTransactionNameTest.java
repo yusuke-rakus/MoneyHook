@@ -2,6 +2,7 @@ package com.example.controller.transaction;
 
 import com.example.common.Status;
 import com.example.common.message.ErrorMessage;
+import com.example.domain.Transaction;
 import com.example.form.FrequentTransactionNameForm;
 import com.example.response.FrequentTransactionNameResponse;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -16,8 +17,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.nio.charset.Charset;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -44,20 +44,25 @@ class GetFrequentTransactionNameTest {
 		FrequentTransactionNameForm requestForm = new FrequentTransactionNameForm();
 		requestForm.setUserId(USER_ID);
 
-		String result = mvc
-				.perform(post(URL).content(mapper.writeValueAsString(requestForm))
-						.contentType(MediaType.APPLICATION_JSON))
-				.andDo(print()).andExpect(status().isOk()).andReturn().getResponse()
-				.getContentAsString(Charset.defaultCharset());
+		String result = mvc.perform(post(URL).content(mapper.writeValueAsString(requestForm))
+						.contentType(MediaType.APPLICATION_JSON)).andDo(print()).andExpect(status().isOk()).andReturn()
+				.getResponse().getContentAsString(Charset.defaultCharset());
 
 		FrequentTransactionNameResponse response = mapper.readValue(result, FrequentTransactionNameResponse.class);
 
 		/* 検証 */
-		int frequentMaxCount = 5;
+		int frequentMaxCount = 6;
 
 		assertEquals(Status.SUCCESS.getStatus(), response.getStatus());
 		assertNull(response.getMessage());
-		assertThat(frequentMaxCount).isLessThanOrEqualTo(response.getTransactionList().size());
+		assertThat(frequentMaxCount).isGreaterThanOrEqualTo(response.getTransactionList().size());
+		for (Transaction tran : response.getTransactionList()) {
+			assertNotNull(tran.getTransactionName());
+			assertNotNull(tran.getCategoryId());
+			assertNotNull(tran.getCategoryName());
+			assertNotNull(tran.getSubCategoryId());
+			assertNotNull(tran.getSubCategoryName());
+		}
 	}
 
 	@Test
@@ -67,11 +72,9 @@ class GetFrequentTransactionNameTest {
 		FrequentTransactionNameForm requestForm = new FrequentTransactionNameForm();
 		requestForm.setUserId(FAIL_USER_ID);
 
-		String result = mvc
-				.perform(post(URL).content(mapper.writeValueAsString(requestForm))
-						.contentType(MediaType.APPLICATION_JSON))
-				.andDo(print()).andExpect(status().isOk()).andReturn().getResponse()
-				.getContentAsString(Charset.defaultCharset());
+		String result = mvc.perform(post(URL).content(mapper.writeValueAsString(requestForm))
+						.contentType(MediaType.APPLICATION_JSON)).andDo(print()).andExpect(status().isOk()).andReturn()
+				.getResponse().getContentAsString(Charset.defaultCharset());
 
 		FrequentTransactionNameResponse response = mapper.readValue(result, FrequentTransactionNameResponse.class);
 

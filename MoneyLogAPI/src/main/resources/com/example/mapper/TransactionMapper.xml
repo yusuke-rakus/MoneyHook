@@ -311,7 +311,7 @@
 			transaction tran
 			JOIN category c ON tran.category_id = c.category_id
 			JOIN sub_category sc ON tran.sub_category_id = sc.sub_category_id
-			WHERE tran.user_no = 2
+			WHERE tran.user_no = #{userNo}
 			GROUP BY tran.transaction_name, tran.category_id, tran.sub_category_id, tran.fixed_flg
 			ORDER BY COUNT(tran.transaction_name) DESC
 		),
@@ -328,7 +328,7 @@
 			transaction tran
 			JOIN category c ON tran.category_id = c.category_id
 			JOIN sub_category sc ON tran.sub_category_id = sc.sub_category_id
-			WHERE tran.user_no = 2
+			WHERE tran.user_no = #{userNo}
 			ORDER BY tran.transaction_id DESC LIMIT 3
 		)
 		(SELECT * FROM tmp1 WHERE row_num = 1 LIMIT 3)

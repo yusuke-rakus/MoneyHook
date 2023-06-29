@@ -297,22 +297,43 @@
 
 	<!-- 取引名の候補 -->
 	<select id="getFrequentTransactionName" resultType="com.example.domain.Transaction">
-		(SELECT
-			transaction_name
-		FROM
-			transaction
-		WHERE user_no = #{userNo}
-		GROUP BY transaction_name
-		ORDER BY COUNT(transaction_name) DESC
-		LIMIT 3)
+		WITH
+		tmp1 AS(
+			SELECT
+				tran.transaction_name,
+				tran.category_id,
+				c.category_name,
+				tran.sub_category_id,
+				sc.sub_category_name,
+				tran.fixed_flg,
+				row_number() over(PARTITION BY tran.transaction_name ORDER BY count(tran.transaction_name) DESC) AS row_num
+			FROM
+			transaction tran
+			JOIN category c ON tran.category_id = c.category_id
+			JOIN sub_category sc ON tran.sub_category_id = sc.sub_category_id
+			WHERE tran.user_no = 2
+			GROUP BY tran.transaction_name, tran.category_id, tran.sub_category_id, tran.fixed_flg
+			ORDER BY COUNT(tran.transaction_name) DESC
+		),
+		tmp2 AS(
+			SELECT
+				tran.transaction_name,
+				tran.category_id,
+				c.category_name,
+				tran.sub_category_id,
+				sc.sub_category_name,
+				tran.fixed_flg,
+				1
+			FROM
+			transaction tran
+			JOIN category c ON tran.category_id = c.category_id
+			JOIN sub_category sc ON tran.sub_category_id = sc.sub_category_id
+			WHERE tran.user_no = 2
+			ORDER BY tran.transaction_id DESC LIMIT 3
+		)
+		(SELECT * FROM tmp1 WHERE row_num = 1 LIMIT 3)
 		UNION
-		(SELECT
-			transaction_name
-		FROM
-			transaction
-		WHERE user_no = #{userNo}
-		ORDER BY transaction_id DESC
-		LIMIT 3)
+		(SELECT * FROM tmp2 LIMIT 3);
 	</select>
 
  	<!-- カテゴリ毎の支出総額を取得 -->

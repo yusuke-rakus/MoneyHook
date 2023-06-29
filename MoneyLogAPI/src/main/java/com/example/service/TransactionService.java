@@ -18,10 +18,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.math.BigInteger;
 import java.sql.Date;
 import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.List;
-import java.util.Objects;
+import java.util.*;
 
 @Service
 @Transactional
@@ -356,12 +353,22 @@ public class TransactionService {
 	 * 取引名レコメンド
 	 */
 	public FrequentTransactionNameResponse getFrequentTransactionName(FrequentTransactionNameForm form,
-																	  FrequentTransactionNameResponse res) throws SystemException {
+																	  FrequentTransactionNameResponse res) {
 
 		// データを取得
 		try {
-			List<Transaction> transactionList = transactionMapper.getFrequentTransactionName(form);
-			res.setTransactionList(transactionList);
+			List<Transaction> transactionList =
+					transactionMapper.getFrequentTransactionName(form);
+			Map<String, Transaction> tranMap = new LinkedHashMap<>();
+
+			for (Transaction tran : transactionList) {
+				if (!tranMap.containsKey(tran.getTransactionName())) {
+					tranMap.put(tran.getTransactionName(), tran);
+				}
+			}
+			new ArrayList<>(tranMap.values());
+
+			res.setTransactionList(new ArrayList<>(tranMap.values()));
 		} catch (Exception e) {
 			res.setStatus(Status.ERROR.getStatus());
 		}

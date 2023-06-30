@@ -39,8 +39,8 @@ public class TransactionService {
 	/**
 	 * 収支を登録
 	 */
-	public AddTransactionResponse addTransaction(AddTransactionForm form, AddTransactionResponse res)
-			throws SystemException {
+	public AddTransactionResponse addTransaction(AddTransactionForm form,
+			AddTransactionResponse res) throws SystemException {
 
 		// サブカテゴリを新規追加した場合
 		if (Objects.isNull(form.getSubCategoryId())) {
@@ -77,8 +77,8 @@ public class TransactionService {
 			// 収支リストのエラーチェック
 			checkTransactionList(form.getTransactionList(), res);
 
-			form.getTransactionList().forEach(
-					tran -> tran.setTransactionAmount(tran.getTransactionAmount().multiply(BigInteger.valueOf(tran.getTransactionSign()))));
+			form.getTransactionList().forEach(tran -> tran.setTransactionAmount(tran.getTransactionAmount()
+					.multiply(BigInteger.valueOf(tran.getTransactionSign()))));
 
 			// 収支登録
 			transactionMapper.addTransactionList(form.getTransactionList());
@@ -96,8 +96,8 @@ public class TransactionService {
 	/**
 	 * 収支データの削除
 	 */
-	public DeleteTransactionResponse deleteTransaction(DeleteTransactionForm form, DeleteTransactionResponse res)
-			throws SystemException {
+	public DeleteTransactionResponse deleteTransaction(DeleteTransactionForm form,
+			DeleteTransactionResponse res) throws SystemException {
 
 		// 収支存在チェック
 		checkTransactionExist(form.getUserNo(), form.getTransactionId());
@@ -118,8 +118,8 @@ public class TransactionService {
 	/**
 	 * 収支データの編集
 	 */
-	public EditTransactionResponse editTransaction(EditTransactionForm form, EditTransactionResponse res)
-			throws SystemException {
+	public EditTransactionResponse editTransaction(EditTransactionForm form,
+			EditTransactionResponse res) throws SystemException {
 
 		// サブカテゴリを新規追加した場合
 		if (Objects.isNull(form.getSubCategoryId())) {
@@ -153,8 +153,8 @@ public class TransactionService {
 	/**
 	 * 収支詳細の取得
 	 */
-	public GetTransactionResponse getTransaction(GetTransactionForm form, GetTransactionResponse res)
-			throws SystemException {
+	public GetTransactionResponse getTransaction(GetTransactionForm form,
+			GetTransactionResponse res) throws SystemException {
 
 		// 収支データを取得
 		try {
@@ -178,7 +178,7 @@ public class TransactionService {
 	 * ６ヶ月分の合計支出を取得
 	 */
 	public GetMonthlySpendingDataResponse getMonthlySpendingData(GetMonthlySpendingDataForm form,
-																 GetMonthlySpendingDataResponse res) throws SystemException {
+			GetMonthlySpendingDataResponse res) throws SystemException {
 
 		// 合計支出リストを取得
 		try {
@@ -213,7 +213,7 @@ public class TransactionService {
 	 * 月別固定支出の取得
 	 */
 	public GetMonthlyFixedSpendingResponse getMonthlyFixedSpending(GetMonthlyFixedSpendingForm form,
-																   GetMonthlyFixedSpendingResponse res) throws SystemException {
+			GetMonthlyFixedSpendingResponse res) throws SystemException {
 
 		// 合計支出リストを取得
 		try {
@@ -221,9 +221,8 @@ public class TransactionService {
 			List<MonthlyFixedList> monthlyFixedList = transactionMapper.getMonthlyFixedSpending(form);
 			res.setMonthlyFixedList(monthlyFixedList);
 
-			BigInteger disposableIncome =
-					monthlyFixedList.stream().map(MonthlyFixedList::getTotalCategoryAmount).reduce(BigInteger.ZERO,
-							BigInteger::add);
+			BigInteger disposableIncome = monthlyFixedList.stream().map(MonthlyFixedList::getTotalCategoryAmount)
+					.reduce(BigInteger.ZERO, BigInteger::add);
 			res.setDisposableIncome(disposableIncome);
 		} catch (Exception e) {
 			res.setStatus(Status.ERROR.getStatus());
@@ -237,7 +236,7 @@ public class TransactionService {
 	 * 月別固定収入の取得
 	 */
 	public GetMonthlyFixedIncomeResponse getMonthlyFixedIncome(GetMonthlyFixedIncomeForm form,
-															   GetMonthlyFixedIncomeResponse res) throws SystemException {
+			GetMonthlyFixedIncomeResponse res) throws SystemException {
 
 		// 合計収入リストを取得
 		try {
@@ -245,9 +244,8 @@ public class TransactionService {
 			List<MonthlyFixedList> monthlyFixedList = transactionMapper.getMonthlyFixedIncome(form);
 			res.setMonthlyFixedList(monthlyFixedList);
 
-			BigInteger disposableIncome =
-					monthlyFixedList.stream().map(MonthlyFixedList::getTotalCategoryAmount).reduce(BigInteger.ZERO,
-							BigInteger::add);
+			BigInteger disposableIncome = monthlyFixedList.stream().map(MonthlyFixedList::getTotalCategoryAmount)
+					.reduce(BigInteger.ZERO, BigInteger::add);
 			res.setDisposableIncome(disposableIncome);
 		} catch (Exception e) {
 			res.setStatus(Status.ERROR.getStatus());
@@ -260,8 +258,8 @@ public class TransactionService {
 	/**
 	 * 当月のTransactionデータを取得
 	 */
-	public GetTimelineDataResponse getTimelineData(GetTimelineDataForm form, GetTimelineDataResponse res)
-			throws SystemException {
+	public GetTimelineDataResponse getTimelineData(GetTimelineDataForm form,
+			GetTimelineDataResponse res) throws SystemException {
 
 		// タイムラインデータを取得
 		try {
@@ -299,8 +297,8 @@ public class TransactionService {
 						processedCategoryList.add(categoryList.get(i));
 					} else {
 						othersTotalAmount.add(categoryList.get(i).getCategoryTotalAmount());
-						othersCategoryName.add(new Transaction(categoryList.get(i).getCategoryName(),
-								categoryList.get(i).getCategoryTotalAmount()));
+						othersCategoryName.add(new Transaction(categoryList.get(i)
+								.getCategoryName(), categoryList.get(i).getCategoryTotalAmount()));
 					}
 
 				}
@@ -313,9 +311,8 @@ public class TransactionService {
 
 			res.setCategoryList(categoryList);
 
-			BigInteger balance =
-					categoryList.stream().map(CategoryList::getCategoryTotalAmount).reduce(BigInteger.ZERO,
-							BigInteger::add);
+			BigInteger balance = categoryList.stream().map(CategoryList::getCategoryTotalAmount)
+					.reduce(BigInteger.ZERO, BigInteger::add);
 			res.setBalance(balance);
 		} catch (Exception e) {
 			res.setStatus(Status.ERROR.getStatus());
@@ -329,7 +326,7 @@ public class TransactionService {
 	 * 指定月の変動費用・変動費合計を取得
 	 */
 	public GetMonthlyVariableDataResponse getMonthlyVariableData(GetMonthlyVariableDataForm form,
-																 GetMonthlyVariableDataResponse res) throws SystemException {
+			GetMonthlyVariableDataResponse res) throws SystemException {
 
 		// データを取得
 		try {
@@ -337,9 +334,8 @@ public class TransactionService {
 			List<CategoryList> categoryList = transactionMapper.getMonthlyVariableData(form);
 			res.setMonthlyVariableList(categoryList);
 
-			BigInteger totalVariable =
-					categoryList.stream().map(CategoryList::getCategoryTotalAmount).reduce(BigInteger.ZERO,
-							BigInteger::add);
+			BigInteger totalVariable = categoryList.stream().map(CategoryList::getCategoryTotalAmount)
+					.reduce(BigInteger.ZERO, BigInteger::add);
 			res.setTotalVariable(totalVariable);
 		} catch (Exception e) {
 			res.setStatus(Status.ERROR.getStatus());
@@ -353,12 +349,11 @@ public class TransactionService {
 	 * 取引名レコメンド
 	 */
 	public FrequentTransactionNameResponse getFrequentTransactionName(FrequentTransactionNameForm form,
-																	  FrequentTransactionNameResponse res) {
+			FrequentTransactionNameResponse res) {
 
 		// データを取得
 		try {
-			List<Transaction> transactionList =
-					transactionMapper.getFrequentTransactionName(form);
+			List<Transaction> transactionList = transactionMapper.getFrequentTransactionName(form);
 			Map<String, Transaction> tranMap = new LinkedHashMap<>();
 
 			for (Transaction tran : transactionList) {
@@ -391,12 +386,12 @@ public class TransactionService {
 			}
 
 			// データを取得
+			form.setStartMonth(DateFormatter.toFirstDayOfMonth(form.getStartMonth()));
 			List<CategoryList> categoryList = transactionMapper.getTotalSpending(form);
 			res.setCategoryTotalList(categoryList);
 
-			BigInteger totalSpending =
-					categoryList.stream().map(CategoryList::getCategoryTotalAmount).reduce(BigInteger.ZERO,
-							BigInteger::add);
+			BigInteger totalSpending = categoryList.stream().map(CategoryList::getCategoryTotalAmount)
+					.reduce(BigInteger.ZERO, BigInteger::add);
 			res.setTotalSpending(totalSpending);
 		} catch (CategoryRelationalException | DateException e) {
 			res.setStatus(Status.ERROR.getStatus());
@@ -410,19 +405,13 @@ public class TransactionService {
 
 	/** 収支リストエラーチェック */
 	private void checkTransactionList(List<Transaction> transactionList,
-									  AddTransactionListResponse res) throws SystemException {
+			AddTransactionListResponse res) throws SystemException {
 		List<Transaction> ErrorList = new ArrayList<>();
 
 		for (Transaction tran : transactionList) {
 			// バリデーションチェック
-			if (Objects.isNull(tran.getTransactionDate()) ||
-					Objects.isNull(tran.getTransactionAmount()) ||
-					Objects.isNull(tran.getTransactionSign()) ||
-					Objects.isNull(tran.getTransactionName()) ||
-					tran.getTransactionName().isBlank() ||
-					Objects.isNull(tran.getCategoryId()) ||
-					Objects.isNull(tran.getSubCategoryId())
-			) {
+			if (Objects.isNull(tran.getTransactionDate()) || Objects.isNull(tran.getTransactionAmount()) || Objects.isNull(tran.getTransactionSign()) || Objects.isNull(tran.getTransactionName()) || tran.getTransactionName()
+					.isBlank() || Objects.isNull(tran.getCategoryId()) || Objects.isNull(tran.getSubCategoryId())) {
 				ErrorList.add(tran);
 				continue;
 			}

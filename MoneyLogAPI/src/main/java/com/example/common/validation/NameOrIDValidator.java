@@ -1,12 +1,11 @@
 package com.example.common.validation;
 
-import java.util.Objects;
+import org.springframework.beans.BeanWrapper;
+import org.springframework.beans.BeanWrapperImpl;
 
 import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;
-
-import org.springframework.beans.BeanWrapper;
-import org.springframework.beans.BeanWrapperImpl;
+import java.util.Objects;
 
 public class NameOrIDValidator implements ConstraintValidator<AnyOneNotEmpty, Object> {
 
@@ -28,7 +27,7 @@ public class NameOrIDValidator implements ConstraintValidator<AnyOneNotEmpty, Ob
 		BeanWrapper beanWrapper = new BeanWrapperImpl(value);
 
 		// 入力されている回数をカウントする変数を作成
-		Integer idCount = 0;
+		int idCount = 0;
 
 		for (String string : fields) {
 			// 以下で、fieldValueに、validation対象の各値（今回の場合、name1, name2）が入る
@@ -41,11 +40,7 @@ public class NameOrIDValidator implements ConstraintValidator<AnyOneNotEmpty, Ob
 		}
 
 		// 入力数が2以上のときはtrueを返す
-		if (idCount >= 2) {
-			return false;
-		}
-
-		return true;
+		return idCount < 2;
 	}
 
 }

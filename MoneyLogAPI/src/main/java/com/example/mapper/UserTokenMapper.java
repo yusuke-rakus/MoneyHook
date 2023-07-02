@@ -11,4 +11,7 @@ public interface UserTokenMapper {
 	/** トークンを登録 */
 	public void insertToken(GoogleSignInForm form);
 
+	/** トークンを確認 */
+	public boolean checkUserToken(GoogleSignInForm form);
+
 }

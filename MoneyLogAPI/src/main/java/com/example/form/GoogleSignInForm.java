@@ -11,7 +11,6 @@ public class GoogleSignInForm extends form {
 	@Size(min = 64, max = 64, message = ValidatingMessage.USER_ID_NOT_FOUND)
 	private String userId;
 
-	@NotBlank(message = ValidatingMessage.USER_ID_NOT_FOUND)
 	private String token;
 
 	@Override

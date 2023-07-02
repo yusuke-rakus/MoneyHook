@@ -9,10 +9,7 @@ import com.example.service.ValidationService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/user")
@@ -55,14 +52,16 @@ public class UserController {
 			return res;
 		}
 
-		return userService.login(form, res);
+		return userService.googleSignIn(form, res);
 	}
 
 	/** Googleログイン */
 	@PostMapping("/googleSignIn")
-	public GoogleSignInResponse googleSignIn(@RequestBody @Validated GoogleSignInForm form, BindingResult result) {
+	public GoogleSignInResponse googleSignIn(@RequestHeader(name = "Authorization") String token,
+			@RequestBody @Validated GoogleSignInForm form, BindingResult result) {
 
 		GoogleSignInResponse res = new GoogleSignInResponse();
+		form.setToken(token);
 
 		if (result.hasErrors()) {
 			String errorMessage = validationService.getFirstErrorMessage(result);
@@ -71,7 +70,7 @@ public class UserController {
 			return res;
 		}
 
-		return userService.login(form, res);
+		return userService.googleSignIn(form, res);
 	}
 
 	/** ユーザー情報の取得 */
@@ -84,8 +83,8 @@ public class UserController {
 	 * パスワード変更
 	 */
 	@PostMapping("/changePassword")
-	public ChangePasswordResponse changePassword(@RequestBody @Validated ChangePasswordForm form, BindingResult result)
-			throws Exception {
+	public ChangePasswordResponse changePassword(@RequestBody @Validated ChangePasswordForm form,
+			BindingResult result) throws Exception {
 
 		ChangePasswordResponse res = new ChangePasswordResponse();
 
@@ -103,8 +102,8 @@ public class UserController {
 	 * メールアドレスを変更
 	 */
 	@PostMapping("/changeEmail")
-	public ChangeEmailResponse changeEmail(@RequestBody @Validated ChangeEmailForm form, BindingResult result)
-			throws Exception {
+	public ChangeEmailResponse changeEmail(@RequestBody @Validated ChangeEmailForm form,
+			BindingResult result) throws Exception {
 		ChangeEmailResponse res = new ChangeEmailResponse();
 
 		if (result.hasErrors()) {
@@ -149,8 +148,8 @@ public class UserController {
 	 * お問い合わせ・ご意見のチェック
 	 */
 	@PostMapping("/checkInquiry")
-	public SendInquiryResponse checkInquiry(@Validated @RequestBody SendInquiryForm form, BindingResult result)
-			throws Exception {
+	public SendInquiryResponse checkInquiry(@Validated @RequestBody SendInquiryForm form,
+			BindingResult result) throws Exception {
 		SendInquiryResponse res = new SendInquiryResponse();
 
 		// ユーザー認証
@@ -164,8 +163,8 @@ public class UserController {
 	 * お問い合わせ・ご意見
 	 */
 	@PostMapping("/sendInquiry")
-	public SendInquiryResponse sendInquiry(@Validated @RequestBody SendInquiryForm form, BindingResult result)
-			throws Exception {
+	public SendInquiryResponse sendInquiry(@Validated @RequestBody SendInquiryForm form,
+			BindingResult result) throws Exception {
 		SendInquiryResponse res = new SendInquiryResponse();
 
 		if (result.hasErrors()) {
@@ -186,8 +185,8 @@ public class UserController {
 	 * パスワードを忘れた場合の再設定メール送信
 	 */
 	@PostMapping("/forgotPasswordSendEmail")
-	public ForgotPasswordSendEmailResponse forgotPasswordSendEmail(@RequestBody ForgotPasswordSendEmailForm form)
-			throws Exception {
+	public ForgotPasswordSendEmailResponse forgotPasswordSendEmail(
+			@RequestBody ForgotPasswordSendEmailForm form) throws Exception {
 		ForgotPasswordSendEmailResponse res = new ForgotPasswordSendEmailResponse();
 
 		return userService.forgotPasswordSendEmail(form, res);

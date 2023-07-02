@@ -75,7 +75,7 @@ public class UserService {
 	}
 
 	/** ログイン */
-	public LoginResponse login(LoginForm form, LoginResponse res) {
+	public LoginResponse googleSignIn(LoginForm form, LoginResponse res) {
 
 		try {
 			// パスワードをハッシュ化
@@ -101,7 +101,7 @@ public class UserService {
 	}
 
 	/** Googleログイン */
-	public GoogleSignInResponse login(GoogleSignInForm form, GoogleSignInResponse res) {
+	public GoogleSignInResponse googleSignIn(GoogleSignInForm form, GoogleSignInResponse res) {
 
 		try {
 			// ユーザIDがuserテーブルに存在するかチェック
@@ -214,7 +214,8 @@ public class UserService {
 	 *
 	 * @throws Exception
 	 */
-	public EditThemeColorResponse editThemeColor(EditThemeColorForm form, EditThemeColorResponse res) throws SystemException {
+	public EditThemeColorResponse editThemeColor(EditThemeColorForm form,
+			EditThemeColorResponse res) throws SystemException {
 
 		if (!userMapper.isThemeColorExist(form)) {
 			throw new AlreadyExistsException(ErrorMessage.THEME_COLOR_NOT_FOUND);
@@ -316,7 +317,7 @@ public class UserService {
 	 * @throws Exception
 	 */
 	public ForgotPasswordSendEmailResponse forgotPasswordSendEmail(ForgotPasswordSendEmailForm form,
-																   ForgotPasswordSendEmailResponse res) throws Exception {
+			ForgotPasswordSendEmailResponse res) throws Exception {
 
 		try {
 			// メール存在チェック
@@ -356,7 +357,7 @@ public class UserService {
 	 * @throws Exception
 	 */
 	public ForgotPasswordResetResponse forgotPasswordReset(ForgotPasswordResetForm form,
-														   ForgotPasswordResetResponse res) throws Exception {
+			ForgotPasswordResetResponse res) throws Exception {
 
 		try {
 			// パスワードをハッシュ化
@@ -376,8 +377,8 @@ public class UserService {
 	 *
 	 * @throws Exception
 	 */
-	public ResetPasswordPageResponse resetPasswordPage(ResetPasswordPageForm form, ResetPasswordPageResponse res)
-			throws Exception {
+	public ResetPasswordPageResponse resetPasswordPage(ResetPasswordPageForm form,
+			ResetPasswordPageResponse res) throws Exception {
 
 		try {
 			User user = userMapper.resetPasswordPage(form);

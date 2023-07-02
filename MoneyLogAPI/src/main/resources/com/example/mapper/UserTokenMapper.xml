@@ -26,4 +26,15 @@
 		);
 	</insert>
 
+	<select id="checkUserToken" resultType="java.lang.Boolean">
+		SELECT
+			COUNT(ut.user_no)
+		FROM user_token ut
+		JOIN user u
+		ON ut.user_no = u.user_no
+		WHERE u.user_id = #{userId}
+		AND token = #{token}
+		LIMIT 1;
+	</select>
+
 </mapper>

@@ -7,6 +7,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import java.nio.charset.Charset;
+import java.util.List;
 
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestMethodOrder;
@@ -23,17 +24,19 @@ import org.springframework.transaction.annotation.Transactional;
 import com.example.common.Status;
 import com.example.common.message.ErrorMessage;
 import com.example.common.message.SuccessMessage;
-import com.example.form.DeleteFixedForm;
+import com.example.domain.MonthlyTransaction;
+import com.example.form.GetFixedForm;
+import com.example.form.ReturnTargetForm;
 import com.example.mapper.MonthlyTransactionMapper;
-import com.example.response.DeleteFixedResponse;
+import com.example.response.ReturnTargetResponse;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 @SpringBootTest
 @AutoConfigureMockMvc
 @TestMethodOrder(OrderAnnotation.class)
-class MTControllerDeleteFixedTest {
+class MTControllerReturnTargetTest {
 	
-	final String URL = "/fixed/deleteFixed";
+	final String URL = "/fixed/returnTarget";
 	final String USER_ID = "a77a6e94-6aa2-47ea-87dd-129f580fb669";
 	
 	@Autowired
@@ -42,72 +45,18 @@ class MTControllerDeleteFixedTest {
 	@Autowired
 	private ObjectMapper mapper;
 	
-
 	@SpyBean
 	private MonthlyTransactionMapper mtMapper;
 
 	@Order(1)
 	@Test
 	@Transactional(readOnly = false)
-	void deleteFixedSuccessTest() throws Exception {
-		
-		Long mtId = 2l;
-		DeleteFixedForm form = new DeleteFixedForm();
-		form.setUserId(USER_ID);
-		form.setMonthlyTransactionId(mtId);
-		
-		String result = mvc.perform(post(URL)
-				.content(mapper.writeValueAsString(form))
-				.contentType(MediaType.APPLICATION_JSON))
-				.andDo(print())
-				.andExpect(status().isOk()) 
-				.andReturn()
-				.getResponse()
-				.getContentAsString(Charset.defaultCharset());
-		
-		
-		DeleteFixedResponse response = mapper.readValue(result, DeleteFixedResponse.class);
-		assertEquals(Status.SUCCESS.getStatus(), response.getStatus());
-		assertEquals(SuccessMessage.MONTHLY_TRANSACTION_DELETE_SUCCESSED, response.getMessage());
-	}
-	
-	@Order(2)
-	@Test
-	@Transactional(readOnly = false)
-	void deleteFixedUnAuthorizeTest() throws Exception {
-		
-		Long mtId = 2l;
-		String nonUserId = "b77a6e94-6aa2-47ea-87dd-129f580fb669";
-		DeleteFixedForm form = new DeleteFixedForm();
-		form.setUserId(nonUserId);
-		form.setMonthlyTransactionId(mtId);
-		
-		String result = mvc.perform(post(URL)
-				.content(mapper.writeValueAsString(form))
-				.contentType(MediaType.APPLICATION_JSON))
-				.andDo(print())
-				.andExpect(status().isOk()) 
-				.andReturn()
-				.getResponse()
-				.getContentAsString(Charset.defaultCharset());
-		
-		DeleteFixedResponse response = mapper.readValue(result, DeleteFixedResponse.class);
-		assertEquals(Status.ERROR.getStatus(), response.getStatus());
-		assertEquals(ErrorMessage.AUTHENTICATION_ERROR, response.getMessage());
-	}
-	
-	@Order(3)
-	@Test
-	@Transactional(readOnly = false)
-	void deleteFixedDbErrorTest() throws Exception {
+	void returnTargetSuccessTest() throws Exception {
 		//準備
-		Long mtId = 2l;
-		DeleteFixedForm form = new DeleteFixedForm();
+		Long mtId = 6l;
+		ReturnTargetForm form = new ReturnTargetForm();
 		form.setUserId(USER_ID);
 		form.setMonthlyTransactionId(mtId);
-		
-		//モック化
-		doThrow(new RuntimeException()).when(mtMapper).deleteFixed(any());
 		
 		//実行
 		String result = mvc.perform(post(URL)
@@ -119,9 +68,87 @@ class MTControllerDeleteFixedTest {
 				.getResponse()
 				.getContentAsString(Charset.defaultCharset());
 		
-		//検証
-		DeleteFixedResponse response = mapper.readValue(result, DeleteFixedResponse.class);
-		assertEquals(Status.ERROR.getStatus(), response.getStatus());
-		assertEquals(ErrorMessage.DELETE_FIXED_ERROR, response.getMessage());
+		GetFixedForm getForm = new GetFixedForm();
+		getForm.setUserNo(2L);
+		List<MonthlyTransaction> mtList = mtMapper.getFixed(getForm);
+		
+		//検証　
+		ReturnTargetResponse response = mapper.readValue(result, ReturnTargetResponse.class);
+		assertEquals(Status.SUCCESS.getStatus(), response.getStatus());
+		assertEquals(SuccessMessage.MONTHLY_TRANSACTION_BACK_SUCCESSED, response.getMessage());
+		assertEquals(true, 
+				mtList.stream().anyMatch(mt -> mt.getMonthlyTransactionId() == 6)
+				);
 	}
+	
+	@Order(2)
+	@Test
+	@Transactional(readOnly = false)
+	void returnTargetUnauthororizedTest() throws Exception {
+		//準備
+		Long mtId = 6l;
+		String nonUserId = "aaa";
+		ReturnTargetForm form = new ReturnTargetForm();
+		form.setUserId(nonUserId);
+		form.setMonthlyTransactionId(mtId);
+		
+		//実行
+		String result = mvc.perform(post(URL)
+				.content(mapper.writeValueAsString(form))
+				.contentType(MediaType.APPLICATION_JSON))
+				.andDo(print())
+				.andExpect(status().isOk()) 
+				.andReturn()
+				.getResponse()
+				.getContentAsString(Charset.defaultCharset());
+		
+		GetFixedForm getForm = new GetFixedForm();
+		getForm.setUserNo(2L);
+		List<MonthlyTransaction> mtList = mtMapper.getFixed(getForm);
+		
+		//検証　
+		ReturnTargetResponse response = mapper.readValue(result, ReturnTargetResponse.class);
+		assertEquals(Status.ERROR.getStatus(), response.getStatus());
+		assertEquals(ErrorMessage.AUTHENTICATION_ERROR, response.getMessage());
+		assertEquals(false, 
+				mtList.stream().anyMatch(mt -> mt.getMonthlyTransactionId() == 6)
+				);
+	}
+	
+	@Order(3)
+	@Test
+	@Transactional(readOnly = false)
+	void returnTargetDBErrorTest() throws Exception {
+		//準備
+		Long mtId = 6l;
+		ReturnTargetForm form = new ReturnTargetForm();
+		form.setUserId(USER_ID);
+		form.setMonthlyTransactionId(mtId);
+		
+		//returnTargetメソッドをモック化
+		doThrow(new RuntimeException()).when(mtMapper).returnTarget(any());
+		
+		//実行
+		String result = mvc.perform(post(URL)
+				.content(mapper.writeValueAsString(form))
+				.contentType(MediaType.APPLICATION_JSON))
+				.andDo(print())
+				.andExpect(status().isOk()) 
+				.andReturn()
+				.getResponse()
+				.getContentAsString(Charset.defaultCharset());
+		
+		GetFixedForm getForm = new GetFixedForm();
+		getForm.setUserNo(2L);
+		List<MonthlyTransaction> mtList = mtMapper.getFixed(getForm);
+		
+		//検証　
+		ReturnTargetResponse response = mapper.readValue(result, ReturnTargetResponse.class);
+		assertEquals(Status.ERROR.getStatus(), response.getStatus());
+		assertEquals(ErrorMessage.SYSTEM_ERROR, response.getMessage());
+		assertEquals(false, 
+				mtList.stream().anyMatch(mt -> mt.getMonthlyTransactionId() == 6)
+				);
+	}
+	
 }

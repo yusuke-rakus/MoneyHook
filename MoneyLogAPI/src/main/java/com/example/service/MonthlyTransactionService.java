@@ -116,8 +116,7 @@ public class MonthlyTransactionService {
 		try {
 			monthlyTransactionMapper.returnTarget(form);
 		} catch (Exception e) {
-			res.setStatus(Status.ERROR.getStatus());
-			res.setMessage(ErrorMessage.DELETE_FIXED_ERROR);
+			throw new SystemException(ErrorMessage.SYSTEM_ERROR);
 		}
 
 		res.setMessage(SuccessMessage.MONTHLY_TRANSACTION_BACK_SUCCESSED);

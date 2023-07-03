@@ -98,8 +98,7 @@ public class MonthlyTransactionService {
 		try {
 			monthlyTransactionMapper.deleteFixedFromTable(form);
 		} catch (Exception e) {
-			res.setStatus(Status.ERROR.getStatus());
-			res.setMessage(ErrorMessage.DELETE_FIXED_ERROR);
+			throw new SystemException(ErrorMessage.DELETE_FIXED_ERROR);
 		}
 
 		res.setMessage(SuccessMessage.MONTHLY_TRANSACTION_DELETE_FROM_TABLE_SUCCESSED);

@@ -146,8 +146,6 @@ public class UserService {
 
 	/**
 	 * パスワード変更
-	 *
-	 * @throws Exception
 	 */
 	public ChangePasswordResponse changePassword(ChangePasswordForm form, ChangePasswordResponse res) throws Exception {
 
@@ -177,8 +175,6 @@ public class UserService {
 
 	/**
 	 * メールアドレスを変更
-	 *
-	 * @throws Exception
 	 */
 	public ChangeEmailResponse changeEmail(ChangeEmailForm form, ChangeEmailResponse res) throws Exception {
 
@@ -211,8 +207,6 @@ public class UserService {
 
 	/**
 	 * テーマカラー変更
-	 *
-	 * @throws Exception
 	 */
 	public EditThemeColorResponse editThemeColor(EditThemeColorForm form,
 			EditThemeColorResponse res) throws SystemException {
@@ -233,8 +227,6 @@ public class UserService {
 
 	/**
 	 * テーマカラー取得
-	 *
-	 * @throws Exception
 	 */
 	public GetThemeColorResponse getThemeColor(GetThemeColorForm form, GetThemeColorResponse res) throws Exception {
 
@@ -254,8 +246,6 @@ public class UserService {
 
 	/**
 	 * お問い合わせ・ご意見のチェック
-	 *
-	 * @throws Exception
 	 */
 	public SendInquiryResponse checkInquiry(SendInquiryForm form, SendInquiryResponse res) throws Exception {
 
@@ -281,8 +271,6 @@ public class UserService {
 
 	/**
 	 * お問い合わせ・ご意見
-	 *
-	 * @throws Exception
 	 */
 	public SendInquiryResponse sendInquiry(SendInquiryForm form, SendInquiryResponse res) throws Exception {
 
@@ -313,8 +301,6 @@ public class UserService {
 
 	/**
 	 * パスワードを忘れた場合の再設定メール送信
-	 *
-	 * @throws Exception
 	 */
 	public ForgotPasswordSendEmailResponse forgotPasswordSendEmail(ForgotPasswordSendEmailForm form,
 			ForgotPasswordSendEmailResponse res) throws Exception {
@@ -353,8 +339,6 @@ public class UserService {
 
 	/**
 	 * パスワードを忘れた場合の再設定
-	 *
-	 * @throws Exception
 	 */
 	public ForgotPasswordResetResponse forgotPasswordReset(ForgotPasswordResetForm form,
 			ForgotPasswordResetResponse res) throws Exception {
@@ -374,11 +358,8 @@ public class UserService {
 
 	/**
 	 * パスワードを忘れた場合の再設定画面表示
-	 *
-	 * @throws Exception
 	 */
-	public ResetPasswordPageResponse resetPasswordPage(ResetPasswordPageForm form,
-			ResetPasswordPageResponse res) throws Exception {
+	public ResetPasswordPageResponse resetPasswordPage(ResetPasswordPageForm form, ResetPasswordPageResponse res) {
 
 		try {
 			User user = userMapper.resetPasswordPage(form);

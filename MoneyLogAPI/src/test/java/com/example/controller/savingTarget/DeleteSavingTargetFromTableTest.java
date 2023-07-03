@@ -4,7 +4,6 @@ import com.example.common.Status;
 import com.example.common.message.ErrorMessage;
 import com.example.common.message.SuccessMessage;
 import com.example.form.DeleteSavingTargetForm;
-import com.example.mapper.SavingTargetMapper;
 import com.example.response.DeleteSavingTargetResponse;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.Test;
@@ -36,10 +35,7 @@ class DeleteSavingTargetFromTableTest {
 
 	@Autowired
 	private ObjectMapper mapper;
-
-	@Autowired
-	private SavingTargetMapper savingTargetMapper;
-
+	
 	@Test
 	@Transactional(readOnly = false)
 	void deleteSavingTargetFromTableTest() throws Exception {
@@ -50,10 +46,9 @@ class DeleteSavingTargetFromTableTest {
 		req.setUserId(USER_ID);
 		req.setSavingTargetId(savingTargetId);
 
-		String result = mvc
-				.perform(post(URL).content(mapper.writeValueAsString(req)).contentType(MediaType.APPLICATION_JSON))
-				.andDo(print()).andExpect(status().isOk()).andReturn().getResponse()
-				.getContentAsString(Charset.defaultCharset());
+		String result = mvc.perform(post(URL).content(mapper.writeValueAsString(req))
+						.contentType(MediaType.APPLICATION_JSON)).andDo(print()).andExpect(status().isOk()).andReturn()
+				.getResponse().getContentAsString(Charset.defaultCharset());
 
 		DeleteSavingTargetResponse response = mapper.readValue(result, DeleteSavingTargetResponse.class);
 
@@ -72,10 +67,9 @@ class DeleteSavingTargetFromTableTest {
 		req.setUserId(FAIL_USER_ID);
 		req.setSavingTargetId(savingTargetId);
 
-		String result = mvc
-				.perform(post(URL).content(mapper.writeValueAsString(req)).contentType(MediaType.APPLICATION_JSON))
-				.andDo(print()).andExpect(status().isOk()).andReturn().getResponse()
-				.getContentAsString(Charset.defaultCharset());
+		String result = mvc.perform(post(URL).content(mapper.writeValueAsString(req))
+						.contentType(MediaType.APPLICATION_JSON)).andDo(print()).andExpect(status().isOk()).andReturn()
+				.getResponse().getContentAsString(Charset.defaultCharset());
 
 		DeleteSavingTargetResponse response = mapper.readValue(result, DeleteSavingTargetResponse.class);
 
@@ -94,10 +88,9 @@ class DeleteSavingTargetFromTableTest {
 		req.setUserId(NULL_USER_ID);
 		req.setSavingTargetId(savingTargetId);
 
-		String result = mvc
-				.perform(post(URL).content(mapper.writeValueAsString(req)).contentType(MediaType.APPLICATION_JSON))
-				.andDo(print()).andExpect(status().isOk()).andReturn().getResponse()
-				.getContentAsString(Charset.defaultCharset());
+		String result = mvc.perform(post(URL).content(mapper.writeValueAsString(req))
+						.contentType(MediaType.APPLICATION_JSON)).andDo(print()).andExpect(status().isOk()).andReturn()
+				.getResponse().getContentAsString(Charset.defaultCharset());
 
 		DeleteSavingTargetResponse response = mapper.readValue(result, DeleteSavingTargetResponse.class);
 
@@ -116,10 +109,9 @@ class DeleteSavingTargetFromTableTest {
 		req.setUserId(USER_ID);
 		req.setSavingTargetId(savingTargetId);
 
-		String result = mvc
-				.perform(post(URL).content(mapper.writeValueAsString(req)).contentType(MediaType.APPLICATION_JSON))
-				.andDo(print()).andExpect(status().isOk()).andReturn().getResponse()
-				.getContentAsString(Charset.defaultCharset());
+		String result = mvc.perform(post(URL).content(mapper.writeValueAsString(req))
+						.contentType(MediaType.APPLICATION_JSON)).andDo(print()).andExpect(status().isOk()).andReturn()
+				.getResponse().getContentAsString(Charset.defaultCharset());
 
 		DeleteSavingTargetResponse response = mapper.readValue(result, DeleteSavingTargetResponse.class);
 
@@ -138,10 +130,9 @@ class DeleteSavingTargetFromTableTest {
 		req.setUserId(USER_ID);
 		req.setSavingTargetId(savingTargetId);
 
-		String result = mvc
-				.perform(post(URL).content(mapper.writeValueAsString(req)).contentType(MediaType.APPLICATION_JSON))
-				.andDo(print()).andExpect(status().isOk()).andReturn().getResponse()
-				.getContentAsString(Charset.defaultCharset());
+		String result = mvc.perform(post(URL).content(mapper.writeValueAsString(req))
+						.contentType(MediaType.APPLICATION_JSON)).andDo(print()).andExpect(status().isOk()).andReturn()
+				.getResponse().getContentAsString(Charset.defaultCharset());
 
 		DeleteSavingTargetResponse response = mapper.readValue(result, DeleteSavingTargetResponse.class);
 

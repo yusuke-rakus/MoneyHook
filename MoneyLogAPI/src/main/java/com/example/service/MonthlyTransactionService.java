@@ -1,6 +1,7 @@
 package com.example.service;
 
 import com.example.common.Status;
+import com.example.common.exception.DataNotFoundException;
 import com.example.common.exception.SystemException;
 import com.example.common.message.ErrorMessage;
 import com.example.common.message.SuccessMessage;
@@ -113,12 +114,15 @@ public class MonthlyTransactionService {
 		try {
 			List<MonthlyTransaction> monthlyTransactionList = monthlyTransactionMapper.getDeletedFixed(form);
 			if (monthlyTransactionList.size() == 0) {
-				throw new Exception();
+				throw new DataNotFoundException(ErrorMessage.MONTHLY_TRANSACTION_NOT_EXISTS);
 			}
 			res.setMonthlyTransactionList(monthlyTransactionList);
+		} catch (DataNotFoundException e) {
+			res.setStatus(Status.ERROR.getStatus());
+			res.setMessage(e.getMessage());
 		} catch (Exception e) {
 			res.setStatus(Status.ERROR.getStatus());
-			res.setMessage(ErrorMessage.MONTHLY_TRANSACTION_NOT_EXISTS);
+			res.setMessage(ErrorMessage.SYSTEM_ERROR);
 		}
 
 		return res;

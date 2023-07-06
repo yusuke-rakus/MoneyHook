@@ -33,7 +33,7 @@ public class MonthlyTransactionController {
 
 	@Autowired
 	private AuthenticationService authenticationService;
-
+	
 	/** 月次データ一覧の取得 */
 	@PostMapping("/getFixed")
 	public GetFixedResponse getFixed(@RequestBody GetFixedForm form) throws SystemException {
@@ -99,7 +99,7 @@ public class MonthlyTransactionController {
 	public EditFixedResponse editFixed(@RequestBody @Validated EditFixedForm form, BindingResult result)
 			throws SystemException {
 		EditFixedResponse res = new EditFixedResponse();
-
+		
 		// ユーザー認証
 		Long userNo = authenticationService.authUser(form);
 		form.setUserNo(userNo);

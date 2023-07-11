@@ -182,6 +182,7 @@ class MTControllerEditFixedTest {
 		
 		EditFixedResponse response = mapper.readValue(result, EditFixedResponse.class);
 		assertEquals(Status.ERROR.getStatus(), response.getStatus());
+		assertEquals(ErrorMessage.MONTHLY_TRANSACTION_EDIT_ERROR, response.getMessage());
 		assertEquals(editName, map.get(editName).getMonthlyTransactionName());
 	}
 }

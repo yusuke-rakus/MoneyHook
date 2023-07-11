@@ -157,7 +157,7 @@ public class MonthlyTransactionService {
 			res.setMessage(SuccessMessage.MONTHLY_TRANSACTION_EDIT_SUCCESSED);
 
 		} catch (Exception e) {
-			res.setStatus(Status.ERROR.getStatus());
+			throw new SystemException(ErrorMessage.MONTHLY_TRANSACTION_EDIT_ERROR);
 		}
 
 		return res;

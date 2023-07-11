@@ -74,6 +74,7 @@ class MTControllerEditFixedTest {
 		content.setSubCategoryName("");
 		return content;
 	}
+	
 
 	@Order(1)
 	@Test
@@ -83,8 +84,9 @@ class MTControllerEditFixedTest {
 		List<MonthlyTransactionList> mtlist = new ArrayList<>();
 		String editName = "junit1";
 		String addName = "jnuit2";
-		mtlist.add(createList(false, 2l, editName, 1000));
-		mtlist.add(createList(true, null, addName, 2000));
+		mtlist.add(createList(false, null, editName, 1000));
+		mtlist.add(createList(false, null, addName, 2000));
+
 		
 		EditFixedForm form = new EditFixedForm();
 		form.setMonthlyTransactionList(mtlist);
@@ -112,7 +114,6 @@ class MTControllerEditFixedTest {
 		assertEquals(editName, map.get(editName).getMonthlyTransactionName());
 		assertNotNull(map.get(addName));
 	}
-	
 	
 	@Order(2)
 	@Test

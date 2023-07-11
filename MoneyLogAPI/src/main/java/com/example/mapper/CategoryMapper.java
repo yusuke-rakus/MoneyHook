@@ -2,6 +2,7 @@ package com.example.mapper;
 
 import com.example.domain.Category;
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 
@@ -16,5 +17,10 @@ public interface CategoryMapper {
 
 	/** カテゴリ存在チェック */
 	public boolean isCategoryExist(Category param);
+
+	/** 対象のカテゴリ取得*/
+	public List<Category> getCategoryWithSubCategoryByIds(
+			@Param("ids") List<Long> ids,
+			@Param("userNo") Long userNo);
 
 }

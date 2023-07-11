@@ -1,6 +1,7 @@
 package com.example.service;
 
 import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -49,6 +50,12 @@ public class CategoryService {
 		} else {
 			return true;
 		}
+	}
+
+	/*　カテゴリ・サブカテゴリの複数取得*/
+	public List<Category> getList(List<Long> categoryIds, Long userNo) {
+		List<Category> categoryList = categoryMapper.getCategoryWithSubCategoryByIds(categoryIds, userNo);
+		return categoryList;
 	}
 
 }

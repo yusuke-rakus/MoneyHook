@@ -38,4 +38,20 @@
 		LIMIT 1;
 	</select>
 
+	<select id="getCategoryWithSubCategoryByIds" resultType="com.example.domain.Category">
+		SELECT
+			c.category_id,
+			c.category_name,
+			sc.sub_category_id,
+			sc.sub_category_name,
+			sc.user_no
+		FROM category c
+				 INNER JOIN sub_category sc ON c.category_id = sc.category_id
+		WHERE c.category_id in
+			<foreach item="id" collection="ids" open="(" separator="," close=")">
+				#{id}
+			</foreach>
+		AND sc.user_no IN (1, #{userNo});
+	</select>
+
 </mapper>

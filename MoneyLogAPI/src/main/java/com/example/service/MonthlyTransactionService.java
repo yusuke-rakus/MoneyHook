@@ -231,17 +231,6 @@ public class MonthlyTransactionService {
 				// サブカテゴリの登録
 				subCategory = subCategoryService.insertSubCategory(subCategory);
 				monthlyTran.setSubCategoryId(subCategory.getSubCategoryId());
-
-
-				// カテゴリとサブカテゴリのリレーションをチェック
-//				Category category = new Category();
-//				category.setUserNo(monthlyTran.getUserNo());
-//				category.setCategoryId(monthlyTran.getCategoryId());
-//				boolean isCategoryRelational = categoryService.isCategoryRelational(category,
-//						monthlyTran.getSubCategoryId());
-//				if (!isCategoryRelational) {
-//					return CATEGORY_IS_NOT_RELATIONAL_ERROR;
-//				}
 			}
 			monthlyTransactionMapper.registerFixed(userInputSubCategoryList);
 		}
@@ -261,15 +250,9 @@ public class MonthlyTransactionService {
 
 		if (chosenSubCategoryList.size() > 0) {
 			for (MonthlyTransactionList monthlyTran : chosenSubCategoryList) {
-				// カテゴリとサブカテゴリのリレーションをチェック
-//				Category category = new Category();
-//				category.setUserNo(monthlyTran.getUserNo());
-//				category.setCategoryId(monthlyTran.getCategoryId());
-//				boolean isCategoryRelational = categoryService.isCategoryRelational(category,
-//						monthlyTran.getSubCategoryId());
 				List<Category> categoryList = categoryMap.get(monthlyTran.getCategoryId());
-				if (!categoryList.stream()
-						.anyMatch(c ->
+				if (categoryList.stream()
+						.noneMatch(c ->
 								c.getSubCategoryId().equals(monthlyTran.getSubCategoryId()))) {
 					return CATEGORY_IS_NOT_RELATIONAL_ERROR;
 				}
@@ -298,23 +281,6 @@ public class MonthlyTransactionService {
 				// サブカテゴリの登録
 				subCategory = subCategoryService.insertSubCategory(subCategory);
 				monthlyTran.setSubCategoryId(subCategory.getSubCategoryId());
-//			}
-//			// データを更新
-//			for (MonthlyTransactionList monthlyTran : userInputSubCategoryList) {
-
-				// カテゴリとサブカテゴリのリレーションをチェック
-//				Category category = new Category();
-//				category.setUserNo(monthlyTran.getUserNo());
-//				category.setCategoryId(monthlyTran.getCategoryId());
-//				boolean isCategoryRelational = categoryService.isCategoryRelational(category,
-//						monthlyTran.getSubCategoryId());
-//				List<Category> categoryList = categoryMap.get(monthlyTran.getCategoryId());
-//				if (!categoryList.stream()
-//						.anyMatch(c ->
-//								c.getSubCategoryName().equals(monthlyTran.getSubCategoryName()))
-//				) {
-//					return CATEGORY_IS_NOT_RELATIONAL_ERROR;
-//				}
 
 				Integer monthlyTransactionAmount = monthlyTran.getMonthlyTransactionAmount();
 				Integer sign = monthlyTran.getMonthlyTransactionSign();
@@ -328,13 +294,13 @@ public class MonthlyTransactionService {
 	/* カテゴリとサブカテゴリのリレーションチェックを行うためのMapを作成*/
 	private Map<Long, List<Category>> getCategory(List<MonthlyTransactionList> mtList, Long userNo) {
 		Set<Long> categoryIdSet = mtList.stream()
-				.map(mt -> mt.getCategoryId())
+				.map(MonthlyTransactionList::getCategoryId)
 				.collect(Collectors.toSet());
 		List<Long> categoryIds = new ArrayList<>(categoryIdSet);
 		List<Category> categoryList = categoryService.getList(categoryIds, userNo);
 		Map<Long, List<Category>> categoryMap = categoryList
 				.stream()
-				.collect(Collectors.groupingBy(a-> a.getCategoryId()));
+				.collect(Collectors.groupingBy(Category::getCategoryId));
 
 		return categoryMap;
 	}

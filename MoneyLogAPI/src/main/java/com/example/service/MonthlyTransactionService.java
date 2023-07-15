@@ -202,15 +202,14 @@ public class MonthlyTransactionService {
 	/** 固定費の登録 */
 	public Integer registerFixed(List<MonthlyTransactionList> list) throws SystemException {
 		// 更新対象のカテゴリ及びサブカテゴリMapを取得
-		Map<Long, List<Category>> categoryMap = getCategory(
-				list,
-				list.get(0).getUserNo());
+		Map<Long, List<Category>> categoryMap = getCategory(list, list.get(0).getUserNo());
 
 		// サブカテゴリをDBのリストから選択した場合
 		List<MonthlyTransactionList> chosenSubCategoryList = list.stream().filter(i -> i.getSubCategoryId() != null)
 				.collect(Collectors.toList());
 		if (chosenSubCategoryList.size() > 0) {
 			monthlyTransactionMapper.registerFixed(chosenSubCategoryList);
+			return SUCCESS;
 		}
 
 		// ユーザー入力のサブカテゴリがある場合
@@ -220,7 +219,7 @@ public class MonthlyTransactionService {
 		if (userInputSubCategoryList.size() > 0) {
 
 			for (MonthlyTransactionList monthlyTran : userInputSubCategoryList) {
-				if(Objects.isNull(categoryMap.get(monthlyTran.getCategoryId()))) {
+				if (Objects.isNull(categoryMap.get(monthlyTran.getCategoryId()))) {
 					return CATEGORY_IS_NOT_RELATIONAL_ERROR;
 				}
 				SubCategory subCategory = new SubCategory();
@@ -240,9 +239,7 @@ public class MonthlyTransactionService {
 	/** 固定費の更新 */
 	public Integer updateFixed(List<MonthlyTransactionList> list) throws SystemException {
 		// 更新対象のカテゴリ及びサブカテゴリMapを取得
-		Map<Long, List<Category>> categoryMap = getCategory(
-				list,
-				list.get(0).getUserNo());
+		Map<Long, List<Category>> categoryMap = getCategory(list, list.get(0).getUserNo());
 
 		// サブカテゴリをDBのリストから選択した場合
 		List<MonthlyTransactionList> chosenSubCategoryList = list.stream().filter(i -> i.getSubCategoryId() != null)
@@ -251,9 +248,7 @@ public class MonthlyTransactionService {
 		if (chosenSubCategoryList.size() > 0) {
 			for (MonthlyTransactionList monthlyTran : chosenSubCategoryList) {
 				List<Category> categoryList = categoryMap.get(monthlyTran.getCategoryId());
-				if (categoryList.stream()
-						.noneMatch(c ->
-								c.getSubCategoryId().equals(monthlyTran.getSubCategoryId()))) {
+				if (categoryList.stream().noneMatch(c -> c.getSubCategoryId().equals(monthlyTran.getSubCategoryId()))) {
 					return CATEGORY_IS_NOT_RELATIONAL_ERROR;
 				}
 
@@ -269,7 +264,7 @@ public class MonthlyTransactionService {
 				.collect(Collectors.toList());
 		if (userInputSubCategoryList.size() > 0) {
 			for (MonthlyTransactionList monthlyTran : userInputSubCategoryList) {
-				if(Objects.isNull(categoryMap.get(monthlyTran.getCategoryId()))) {
+				if (Objects.isNull(categoryMap.get(monthlyTran.getCategoryId()))) {
 					return CATEGORY_IS_NOT_RELATIONAL_ERROR;
 				}
 
@@ -293,13 +288,11 @@ public class MonthlyTransactionService {
 
 	/* カテゴリとサブカテゴリのリレーションチェックを行うためのMapを作成*/
 	private Map<Long, List<Category>> getCategory(List<MonthlyTransactionList> mtList, Long userNo) {
-		Set<Long> categoryIdSet = mtList.stream()
-				.map(MonthlyTransactionList::getCategoryId)
+		Set<Long> categoryIdSet = mtList.stream().map(MonthlyTransactionList::getCategoryId)
 				.collect(Collectors.toSet());
 		List<Long> categoryIds = new ArrayList<>(categoryIdSet);
 		List<Category> categoryList = categoryService.getList(categoryIds, userNo);
-		Map<Long, List<Category>> categoryMap = categoryList
-				.stream()
+		Map<Long, List<Category>> categoryMap = categoryList.stream()
 				.collect(Collectors.groupingBy(Category::getCategoryId));
 
 		return categoryMap;

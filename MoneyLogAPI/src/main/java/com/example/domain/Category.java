@@ -2,6 +2,8 @@ package com.example.domain;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 
+import java.util.List;
+
 @JsonInclude(JsonInclude.Include.NON_EMPTY)
 public class Category {
 
@@ -10,6 +12,7 @@ public class Category {
 	private Long subCategoryId;
 	private String subCategoryName;
 	private Long userNo;
+	private List<SubCategory> subCategoryList;
 
 	public Long getCategoryId() {
 		return categoryId;
@@ -51,10 +54,11 @@ public class Category {
 		this.userNo = userNo;
 	}
 
-	@Override
-	public String toString() {
-		return "Category [categoryId=" + categoryId + ", categoryName=" + categoryName + ", subCategoryId="
-				+ subCategoryId + ", subCategoryName=" + subCategoryName + ", userNo=" + userNo + "]";
+	public List<SubCategory> getSubCategoryList() {
+		return subCategoryList;
 	}
 
+	public void setSubCategoryList(List<SubCategory> subCategoryList) {
+		this.subCategoryList = subCategoryList;
+	}
 }

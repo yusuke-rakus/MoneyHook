@@ -54,4 +54,25 @@
 		AND sc.user_no IN (1, #{userNo});
 	</select>
 
+	<resultMap type="com.example.domain.Category" id="categoryListMap">
+		<result column="category_id" property="categoryId" />
+		<result column="category_name" property="categoryName" />
+		<collection property="subCategoryList" ofType="com.example.domain.SubCategory">
+			<result column="sub_category_id" property="subCategoryId" />
+			<result column="sub_category_name" property="subCategoryName" />
+		</collection>
+	</resultMap>
+
+	<select id="getCategoryWithSubCategoryList" resultMap="categoryListMap">
+		SELECT
+			c.category_id,
+			c.category_name,
+			sc.sub_category_id,
+			sc.sub_category_name
+		FROM
+		category c
+		JOIN sub_category sc ON c.category_id = sc.category_id
+		WHERE sc.user_no IN (1, #{userNo});
+	</select>
+
 </mapper>

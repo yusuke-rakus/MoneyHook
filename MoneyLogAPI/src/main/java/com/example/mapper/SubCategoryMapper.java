@@ -1,11 +1,11 @@
 package com.example.mapper;
 
-import java.util.List;
-
+import com.example.domain.SubCategory;
+import com.example.form.EditSubCategoryForm;
+import com.example.form.GetSubCategoryListForm;
 import org.apache.ibatis.annotations.Mapper;
 
-import com.example.domain.SubCategory;
-import com.example.form.GetSubCategoryListForm;
+import java.util.List;
 
 @Mapper
 public interface SubCategoryMapper {
@@ -18,5 +18,11 @@ public interface SubCategoryMapper {
 
 	/** サブカテゴリ存在チェック */
 	public Long checkSubCategory(SubCategory subCategory);
+
+	/** サブカテゴリを非表示にする */
+	public void disableSubCategory(EditSubCategoryForm form);
+
+	/** サブカテゴリを表示にする */
+	public void enableSubCategory(EditSubCategoryForm form);
 
 }

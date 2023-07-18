@@ -3,9 +3,12 @@ package com.example.service;
 import com.example.common.Status;
 import com.example.common.exception.SystemException;
 import com.example.common.message.ErrorMessage;
+import com.example.common.message.SuccessMessage;
 import com.example.domain.SubCategory;
+import com.example.form.EditSubCategoryForm;
 import com.example.form.GetSubCategoryListForm;
 import com.example.mapper.SubCategoryMapper;
+import com.example.response.EditSubCategoryResponse;
 import com.example.response.SubCategoryResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -64,4 +67,28 @@ public class SubCategoryService {
 		return subCategory;
 	}
 
+	/** サブカテゴリの編集 */
+	public EditSubCategoryResponse editSubCategory(EditSubCategoryForm form,
+			EditSubCategoryResponse res) throws SystemException {
+		// ユーザーIDからユーザーNoを取得
+		Long userNo = authenticationService.authUser(form);
+		form.setUserNo(userNo);
+
+		try {
+			if (form.isEnable()) {
+				// サブカテゴリを表示対象にする
+				subCategoryMapper.enableSubCategory(form);
+			} else {
+				// サブカテゴリを非表示にする
+				subCategoryMapper.disableSubCategory(form);
+			}
+			res.setMessage(SuccessMessage.TRANSACTION_EDIT_SUCCESSED);
+		} catch (Exception e) {
+			String errorMessage = ErrorMessage.SYSTEM_ERROR;
+			res.setStatus(Status.ERROR.getStatus());
+			res.setMessage(errorMessage);
+		}
+
+		return res;
+	}
 }

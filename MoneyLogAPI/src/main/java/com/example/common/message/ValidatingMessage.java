@@ -9,6 +9,8 @@ public class ValidatingMessage {
 	public static final String DATE_EMPTY_ERROR = "日付を入力してください";
 	/** IDと名前両方未入力 */
 	public static final String BOTH_OF_ID_AND_NAME_EMPTY_ERROR = "対象を選択するか、名前を入力してください";
+	/** バリデーションエラー */
+	public static final String VALIDATING_ERROR = "バリデーションエラー";
 
 	// 貯金目標系
 	/** 貯金振り分け先未入力 */

@@ -55,7 +55,8 @@ CREATE TABLE IF NOT EXISTS hidden_sub_category (
     user_no bigint UNSIGNED NOT NULL,
     sub_category_id bigint UNSIGNED NOT NULL,
     FOREIGN KEY user_no(user_no) REFERENCES user(user_no),
-    FOREIGN KEY sub_category_id(sub_category_id) REFERENCES sub_category(sub_category_id)
+    FOREIGN KEY sub_category_id(sub_category_id) REFERENCES sub_category(sub_category_id),
+    UNIQUE(user_no, sub_category_id)
 );
 
 CREATE TABLE IF NOT EXISTS transaction(

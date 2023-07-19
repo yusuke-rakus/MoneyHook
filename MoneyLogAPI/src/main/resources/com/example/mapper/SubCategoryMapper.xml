@@ -10,12 +10,14 @@
 
     <select id="getSubCategoryList" resultMap="subCategoryMap">
         SELECT
-        sub_category_id,
-        sub_category_name
+            sc.sub_category_id,
+            sc.sub_category_name
         FROM
-        sub_category
-        WHERE user_no IN (#{userNo}, 1)
-        AND category_id = #{categoryId};
+            sub_category sc
+        LEFT JOIN hidden_sub_category hsc ON sc.sub_category_id = hsc.sub_category_id
+        WHERE sc.user_no IN (#{userNo}, 1)
+        AND sc.category_id = #{userNo}
+        AND hsc.sub_category_id is NULL;
     </select>
 
     <!-- サブカテゴリを新規追加してIDをリターン -->

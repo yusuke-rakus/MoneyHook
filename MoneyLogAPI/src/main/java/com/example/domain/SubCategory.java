@@ -9,6 +9,7 @@ public class SubCategory {
 	private Long userNo;
 	private Long categoryId;
 	private String subCategoryName;
+	private boolean enable;
 
 	public Long getSubCategoryId() {
 		return subCategoryId;
@@ -42,10 +43,11 @@ public class SubCategory {
 		this.subCategoryName = subCategoryName;
 	}
 
-	@Override
-	public String toString() {
-		return "SubCategory [subCategoryId=" + subCategoryId + ", userNo=" + userNo + ", categoryId=" + categoryId
-				+ ", subCategoryName=" + subCategoryName + "]";
+	public boolean isEnable() {
+		return enable;
 	}
 
+	public void setEnable(boolean enable) {
+		this.enable = enable;
+	}
 }

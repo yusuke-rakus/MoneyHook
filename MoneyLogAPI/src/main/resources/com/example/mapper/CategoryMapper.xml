@@ -60,6 +60,7 @@
 		<collection property="subCategoryList" ofType="com.example.domain.SubCategory">
 			<result column="sub_category_id" property="subCategoryId" />
 			<result column="sub_category_name" property="subCategoryName" />
+			<result column="enable" property="enable" />
 		</collection>
 	</resultMap>
 
@@ -68,10 +69,12 @@
 			c.category_id,
 			c.category_name,
 			sc.sub_category_id,
-			sc.sub_category_name
+			sc.sub_category_name,
+			hsc.sub_category_id IS NULL as enable
 		FROM
 		category c
 		JOIN sub_category sc ON c.category_id = sc.category_id
+		LEFT JOIN hidden_sub_category hsc ON sc.sub_category_id = hsc.sub_category_id
 		WHERE sc.user_no IN (1, #{userNo});
 	</select>
 

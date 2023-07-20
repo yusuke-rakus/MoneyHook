@@ -16,7 +16,7 @@
             sub_category sc
         LEFT JOIN hidden_sub_category hsc ON sc.sub_category_id = hsc.sub_category_id
         WHERE sc.user_no IN (#{userNo}, 1)
-        AND sc.category_id = #{userNo}
+        AND sc.category_id = #{categoryId}
         AND hsc.sub_category_id is NULL;
     </select>
 

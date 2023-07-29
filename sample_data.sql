@@ -447,9 +447,9 @@ INSERT INTO
         delete_flg
     )
 VALUES
-    (2, 'M2 MacBook Air', 160000, false),
-    (2, '沖縄旅行', 1000000, false),
-    (2, '北海道旅行', 1000000, TRUE);
+    (2, 'M2 MacBook Air', 160000, false, 1),
+    (2, '沖縄旅行', 1000000, false, 2),
+    (2, '北海道旅行', 1000000, TRUE, 3);
 
 -- 貯金
 INSERT INTO

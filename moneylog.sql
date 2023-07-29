@@ -80,6 +80,7 @@ CREATE TABLE IF NOT EXISTS saving_target (
     saving_target_name varchar(32) NOT NULL,
     target_amount bigint NOT NULL,
     delete_flg boolean NOT NULL,
+    sort_no int,
     PRIMARY KEY(saving_target_id),
     FOREIGN KEY user_no(user_no) REFERENCES user(user_no),
     UNIQUE(user_no, saving_target_name)

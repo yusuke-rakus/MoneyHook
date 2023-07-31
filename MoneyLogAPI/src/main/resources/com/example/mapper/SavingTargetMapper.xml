@@ -13,13 +13,16 @@
 		SELECT
 			saving_target_id,
 			saving_target_name,
-			target_amount
+			target_amount,
+			sort_no
 		FROM
 			saving_target
 		WHERE 
 		 	user_no = #{userNo}
 		AND
 			delete_flg = false
+		ORDER BY
+		    sort_no
 	</select>
 	
 	<!-- 貯金金額含めた貯金目標一覧の取得 -->

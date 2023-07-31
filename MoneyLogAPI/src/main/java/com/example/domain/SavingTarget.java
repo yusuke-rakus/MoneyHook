@@ -12,6 +12,7 @@ public class SavingTarget {
     private String savingTargetName;
     private BigInteger targetAmount;
     private boolean deleteFlg;
+    private Integer sortNo;
     private Integer totalSavedAmount;
     private Integer savingCount;
 
@@ -71,11 +72,25 @@ public class SavingTarget {
         this.savingCount = savingCount;
     }
 
-    @Override
-    public String toString() {
-        return "SavingTarget [savingTargetId=" + savingTargetId + ", userNo=" + userNo + ", savingTargetName="
-                + savingTargetName + ", targetAmount=" + targetAmount + ", deleteFlg=" + deleteFlg
-                + ", totalSavedAmount=" + totalSavedAmount + "]";
+    public Integer getSortNo() {
+        return sortNo;
     }
 
+    public void setSortNo(Integer sortNo) {
+        this.sortNo = sortNo;
+    }
+
+    @Override
+    public String toString() {
+        return "SavingTarget{" +
+                "savingTargetId=" + savingTargetId +
+                ", userNo=" + userNo +
+                ", savingTargetName='" + savingTargetName + '\'' +
+                ", targetAmount=" + targetAmount +
+                ", deleteFlg=" + deleteFlg +
+                ", sortNo=" + sortNo +
+                ", totalSavedAmount=" + totalSavedAmount +
+                ", savingCount=" + savingCount +
+                '}';
+    }
 }

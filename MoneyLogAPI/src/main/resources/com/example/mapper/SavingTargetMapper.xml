@@ -169,4 +169,18 @@
 		AND saving_target_id = #{savingTargetId}
 		LIMIT 1;
 	</select>
+
+	<!-- 貯金目標の編集 -->
+	<update id="updateSavingTargetSortNo">
+		UPDATE
+			saving_target
+		SET
+			sort_no = #{sortNo}
+		WHERE
+			saving_target_id = #{savingTargetId}
+		AND
+			user_no = #{userNo}
+		AND
+			delete_flg = false ;
+	</update>
 </mapper>

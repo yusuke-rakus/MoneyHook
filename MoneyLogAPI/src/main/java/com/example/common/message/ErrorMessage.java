@@ -85,6 +85,8 @@ public class ErrorMessage {
 	public static final String SAVING_TARGET_HAS_TOTAL_SAVED = "貯金が振り分けられている目標です";
 	/** 貯金目標の削除失敗 */
 	public static final String SAVING_TARGET_DELETE_FAILED = "貯金目標の削除に失敗しました";
+	/** 貯金目標の編集失敗 */
+	public static final String SAVING_TARGET_UPDATE_SORT_NO_FAILED = "並び替えに失敗しました";
 
 	// saving
 	/** 貯金データの取得失敗 */

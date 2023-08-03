@@ -31,6 +31,8 @@ public class SuccessMessage {
 	public static final String SAVING_TARGET_RETURN_SUCCESSED = "貯金目標を有効にしました";
 	/** 貯金目標ごとの貯金金額一覧の取得成功 */
 	public static final String SAVING_TARGET_AMOUNT_LIST_GET_SUCCESSED = "貯金目標ごとの貯金金額一覧の取得が完了しました。";
+	/** 貯金目標の編集成功 */
+	public static final String SAVING_TARGET_EDIT_SORT_NO_SUCCESSED = "並べ替えが完了しました";
 
 	// saving
 	/** 貯金一覧の取得成功 */

@@ -15,7 +15,7 @@ public interface SavingTargetMapper {
 	/**
 	 * 貯金目標一覧の取得
 	 */
-	public List<SavingTarget> getSavingTargetList(GetSavingTargetListForm form);
+	public List<SavingTarget> getSavingTargetList(Long userNo);
 
 	/**
 	 * 貯金金額含めた目標一覧の取得
@@ -71,5 +71,7 @@ public interface SavingTargetMapper {
 	 * 貯金目標に貯金実績があるか判定
 	 */
 	public Integer isTargetHasTotalSaved(DeleteSavingTargetForm form);
+
+	public void updateSavingTargetSortNo(SavingTarget form);
 
 }

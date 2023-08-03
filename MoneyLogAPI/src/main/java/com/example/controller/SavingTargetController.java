@@ -236,4 +236,11 @@ public class SavingTargetController {
 		res.setMessage(SuccessMessage.SAVING_TARGET_DELETE_SUCCESSED);
 		return res;
 	}
+
+	@PostMapping("/sortSavingTarget")
+	public SortSavingTargetResponse sortSavingTarget(@RequestBody SortSavingTargetForm form) throws Throwable {
+		SortSavingTargetResponse response = new SortSavingTargetResponse();
+		response = savingTargetService.sortNewSavingTarget(form, response);
+		return response;
+	}
 }

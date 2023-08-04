@@ -55,7 +55,7 @@ public interface SavingTargetMapper {
 	/**
 	 * 貯金目標を戻す
 	 */
-	public void returnSavingTarget(ReturnSavingTargetForm form);
+	public void returnSavingTarget(SavingTarget form);
 
 	/**
 	 * 貯金目標の存在チェック

@@ -185,7 +185,9 @@ public class SavingTargetService {
 		if (!savingTargetMapper.isSavingTargetExist(checkForm)) {
 			throw new AlreadyExistsException(ErrorMessage.SAVING_TARGET_NOT_FOUND);
 		} else {
-			savingTargetMapper.returnSavingTarget(form);
+			List<SavingTarget> savingTargetList = savingTargetMapper.getSavingTargetList(userNo);
+			checkForm.setSortNo(savingTargetList.size() + 1);
+			savingTargetMapper.returnSavingTarget(checkForm);
 		}
 
 	}

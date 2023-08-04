@@ -6,6 +6,7 @@
 		<id column="saving_target_id" property="savingTargetId" />
 		<result column="saving_target_name" property="savingTargetName" />
 		<result column="target_amount" property="targetAmount" />
+		<result column="sort_no" property="sortNo" />
 	</resultMap>
 	
 	<!-- 貯金目標一覧の取得 -->
@@ -63,7 +64,8 @@
 	<select id="findSavingTargetByIdAndUserNo" resultType="com.example.domain.SavingTarget">
 		SELECT
 			saving_target_id,
-			saving_target_name
+			saving_target_name,
+			sort_no
 		FROM
 			saving_target
 		WHERE user_no IN (#{userNo}, 1)
@@ -74,7 +76,7 @@
 		SELECT
 			saving_target_id,
 			saving_target_name,
-			target_amount
+			target_amount,
 		FROM
 			saving_target
 		WHERE user_no = #{userNo}
@@ -115,17 +117,18 @@
 	</update>
 		
 	<!-- 貯金目標の削除(論理) -->
-	<delete id="deleteSavingTarget">
+	<update id="deleteSavingTarget">
 		UPDATE
 			saving_target
 		<set>
-			delete_flg = true
+			delete_flg = true,
+			sort_no = #{sortNo, jdbcType=INTEGER}
 		</set>
 		WHERE 
 			saving_target_id = #{savingTargetId} 
 		AND 
 			user_no = #{userNo} ;
-	</delete>
+	</update>
 		
 	<!-- 貯金目標を戻す -->
 	<delete id="returnSavingTarget">
@@ -170,7 +173,7 @@
 		LIMIT 1;
 	</select>
 
-	<!-- 貯金目標の編集 -->
+	<!-- 貯金目標の並び替え編集 -->
 	<update id="updateSavingTargetSortNo">
 		UPDATE
 			saving_target
@@ -183,4 +186,22 @@
 		AND
 			delete_flg = false ;
 	</update>
+
+	<!-- 貯金目標一覧の取得 -->
+	<select id="getSavingTargetListBySortNo" resultMap="savingTargetMap">
+		SELECT
+			saving_target_id,
+			sort_no
+		FROM
+			saving_target
+		WHERE
+			user_no = #{userNo}
+		AND
+			delete_flg = false
+		AND
+		    sort_no &gt; #{sortNo}
+		ORDER BY
+			sort_no
+	</select>
+
 </mapper>

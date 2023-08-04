@@ -50,7 +50,7 @@ public interface SavingTargetMapper {
 	/**
 	 * 貯金目標を削除(論理)
 	 */
-	public void deleteSavingTarget(DeleteSavingTargetForm form);
+	public void deleteSavingTarget(SavingTarget form);
 
 	/**
 	 * 貯金目標を戻す
@@ -72,6 +72,11 @@ public interface SavingTargetMapper {
 	 */
 	public Integer isTargetHasTotalSaved(DeleteSavingTargetForm form);
 
+	/**
+	* ソート順の並び替え
+	*/
 	public void updateSavingTargetSortNo(SavingTarget form);
+
+	public List<SavingTarget> getSavingTargetListBySortNo(SavingTarget form);
 
 }

@@ -149,14 +149,20 @@ public class SavingTargetService {
 		SavingTarget checkForm = new SavingTarget();
 		checkForm.setUserNo(form.getUserNo());
 		checkForm.setSavingTargetId(form.getSavingTargetId());
-		if (!savingTargetMapper.isSavingTargetExist(checkForm)) {
-			throw new AlreadyExistsException(ErrorMessage.SAVING_TARGET_NOT_FOUND);
-		}
+		SavingTarget deleteTarget = findSavingTargetByTargetIdAndUserNo(checkForm);
+		deleteTarget.setUserNo(userNo);
 
 		try {
+			//ソート順を変更する貯金目標を取得
+			List<SavingTarget> changeTargetList = savingTargetMapper.getSavingTargetListBySortNo(deleteTarget);
 			// 削除実行
-			savingTargetMapper.deleteSavingTarget(form);
+			savingTargetMapper.deleteSavingTarget(checkForm);
+			if(!changeTargetList.isEmpty()) {
+				updateAnotherTarget(changeTargetList, userNo, false);
+			}
+
 		} catch (Exception e) {
+			e.printStackTrace();
 			throw new SystemException(ErrorMessage.SAVING_TARGET_DELETE_FAILED);
 		}
 	}

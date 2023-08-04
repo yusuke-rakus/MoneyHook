@@ -92,7 +92,11 @@ public class SavingTargetService {
 
 			// 名称で検索
 			SavingTarget searchedSavingTarget = findSavingTargetByTargetNameAndUserNo(savingTarget);
+
 			if (Objects.isNull(searchedSavingTarget)) {
+
+				List<SavingTarget> savingTargetList = savingTargetMapper.getSavingTargetList(userNo);
+				savingTarget.setSortNo(savingTargetList.size() + 1);
 				// 新規登録
 				savingTargetMapper.addSavingTarget(savingTarget);
 			} else {

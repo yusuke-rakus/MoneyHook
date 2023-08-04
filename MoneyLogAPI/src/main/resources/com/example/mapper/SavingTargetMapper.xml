@@ -76,11 +76,13 @@
 		SELECT
 			saving_target_id,
 			saving_target_name,
-			target_amount,
+			target_amount
 		FROM
 			saving_target
-		WHERE user_no = #{userNo}
-		AND saving_target_name = #{savingTargetName};
+		WHERE
+		    user_no = #{userNo}
+		AND
+		    saving_target_name = #{savingTargetName} ;
 	</select>
 
 	<!-- 貯金目標を新規追加してIDをリターン -->
@@ -92,13 +94,15 @@
 			user_no,
 			saving_target_name,
 			target_amount,
-			delete_flg
+			delete_flg,
+		    sort_no
 		)
 		VALUES(
 			#{userNo},
 			#{savingTargetName},
 			#{targetAmount},
-			false
+			false,
+		    #{sortNo}
 		);
 	</insert>
 	

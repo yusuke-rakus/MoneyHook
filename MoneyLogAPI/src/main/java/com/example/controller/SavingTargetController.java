@@ -237,6 +237,13 @@ public class SavingTargetController {
 		return res;
 	}
 
+	/**
+	 * 貯金目標の並び替え
+	 *
+	 * @param form 貯金目標並び替えフォーム
+	 * @return 貯金目標並び替え結果
+	 * @throws Throwable error
+	 */
 	@PostMapping("/sortSavingTarget")
 	public SortSavingTargetResponse sortSavingTarget(@RequestBody SortSavingTargetForm form) throws Throwable {
 		SortSavingTargetResponse response = new SortSavingTargetResponse();

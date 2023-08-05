@@ -77,6 +77,9 @@ public interface SavingTargetMapper {
 	*/
 	public void updateSavingTargetSortNo(SavingTarget form);
 
+	/**
+	 *　貯金目標並び替えを行う一覧の取得
+	 */
 	public List<SavingTarget> getSavingTargetListBySortNo(SavingTarget form);
 
 }

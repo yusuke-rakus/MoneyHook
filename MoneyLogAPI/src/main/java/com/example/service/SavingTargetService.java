@@ -28,6 +28,9 @@ public class SavingTargetService {
 	private AuthenticationService authenticationService;
 
 
+	/**
+	 * 並び替えの際にMAPで使うEnum
+	 */
 	private enum SortNoTarget {
 		OldTarget,
 		NewTarget
@@ -94,7 +97,7 @@ public class SavingTargetService {
 			SavingTarget searchedSavingTarget = findSavingTargetByTargetNameAndUserNo(savingTarget);
 
 			if (Objects.isNull(searchedSavingTarget)) {
-
+				//有効な貯金目標を全て取得
 				List<SavingTarget> savingTargetList = savingTargetMapper.getSavingTargetList(userNo);
 				savingTarget.setSortNo(savingTargetList.size() + 1);
 				// 新規登録
@@ -267,16 +270,21 @@ public class SavingTargetService {
 
 		Long userNo = authenticationService.authUser(form);
 		List<SavingTarget> dbTargetList = savingTargetMapper.getSavingTargetList(userNo);
+
+		//ソートNoが変わる対象オブジェクトを探す
 		Map<SortNoTarget, SavingTarget> map = compareSavingTarget(dbTargetList, form.getSavingTargetList());
+		//並び替えが発生しない場合は正常終了とする
 		if(Objects.isNull(map)){
 			response.setMessage(SuccessMessage.SAVING_TARGET_EDIT_SORT_NO_SUCCESSED);
 			return response;
 		}
 
 		try{
+			//影響受ける他のオブジェクトを先に更新
 			updateTargetFilter(dbTargetList,
 					map.get(SortNoTarget.OldTarget).getSortNo(),
 					map.get(SortNoTarget.NewTarget).getSortNo(), userNo);
+			//対象のオブジェクトの更新
 			SavingTarget newSortTarget = map.get(SortNoTarget.NewTarget);
 			newSortTarget.setUserNo(userNo);
 			savingTargetMapper.updateSavingTargetSortNo(newSortTarget);
@@ -293,7 +301,7 @@ public class SavingTargetService {
 	 *
 	 * @param dbTargetList　DBの貯金目標
 	 * @param newTargetList　リクエストの貯金目標
-	 * @return Map<SortNoTarget, SavingTarget> 変更があったオブジェクトをもったMAP
+	 * @return Map<SortNoTarget, SavingTarget> 変更があったオブジェクトをもったMAP or 変更がなければnullを返す
 	 */
 	private Map<SortNoTarget, SavingTarget> compareSavingTarget(List<SavingTarget> dbTargetList, List<SavingTarget> newTargetList) {
 		Map<SortNoTarget, SavingTarget> map = new HashMap<>();
@@ -315,13 +323,14 @@ public class SavingTargetService {
 	/**
 	 * 貯金目標の並び替えによって受ける他データを判別します。
 	 *
-	 * @param savingTargetList　
-	 * @param oldSortNo
-	 * @param newSortNo
-	 * @param userNo
+	 * @param savingTargetList　更新対象の貯金目標
+	 * @param oldSortNo 変更前のソート順
+	 * @param newSortNo 変更後のソート順
+	 * @param userNo current_user userNo
 	 */
 	private void updateTargetFilter(List<SavingTarget> savingTargetList, int oldSortNo, int newSortNo, Long userNo){
 		List<SavingTarget> updateSavingTargetList;
+		//新旧のソートNoの大きさを比較
 		if(newSortNo < oldSortNo) {
 			updateSavingTargetList = savingTargetList.stream()
 					.filter(saving -> saving.getSortNo() < oldSortNo && saving.getSortNo() >= newSortNo)
@@ -337,13 +346,14 @@ public class SavingTargetService {
 	}
 
 	/**
-	 * 貯金目標の並び替えによって受ける他データを更新します。
+	 * 貯金目標の並び替えによって影響する他データを更新します。
 	 *
 	 * @param updateList
 	 * @param userNo
 	 * @param upFlg
 	 */
 	private void updateAnotherTarget(List<SavingTarget> updateList, Long userNo ,boolean upFlg) {
+		//更新処理を分岐
 		if(upFlg) {
 			for(SavingTarget target: updateList) {
 				target.setSortNo(target.getSortNo() + 1);

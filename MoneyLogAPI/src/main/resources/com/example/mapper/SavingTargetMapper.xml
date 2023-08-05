@@ -192,7 +192,7 @@
 			delete_flg = false ;
 	</update>
 
-	<!-- 貯金目標一覧の取得 -->
+	<!-- 貯金目標並び替えを行う一覧の取得 -->
 	<select id="getSavingTargetListBySortNo" resultMap="savingTargetMap">
 		SELECT
 			saving_target_id,

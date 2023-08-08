@@ -36,7 +36,7 @@ public class SavingTargetController {
 	 */
 	@PostMapping("/getSavingTargetList")
 	public GetSavingTargetListResponse getSavingTargetList(@RequestBody @Validated GetSavingTargetListForm form,
-														   BindingResult result) throws Throwable {
+			BindingResult result) throws Throwable {
 
 		GetSavingTargetListResponse res = new GetSavingTargetListResponse();
 
@@ -62,7 +62,7 @@ public class SavingTargetController {
 	 */
 	@PostMapping("/getDeletedSavingTarget")
 	public GetSavingTargetListResponse getDeletedSavingTarget(@RequestBody @Validated GetSavingTargetListForm form,
-															  BindingResult result) throws Throwable {
+			BindingResult result) throws Throwable {
 		GetSavingTargetListResponse res = new GetSavingTargetListResponse();
 
 		if (result.hasErrors()) {
@@ -88,7 +88,7 @@ public class SavingTargetController {
 	 */
 	@PostMapping("/addSavingTarget")
 	public AddSavingTargetResponse addSavingTarget(@RequestBody @Validated AddSavingTargetForm form,
-												   BindingResult result) throws Throwable {
+			BindingResult result) throws Throwable {
 		AddSavingTargetResponse res = new AddSavingTargetResponse();
 
 		if (result.hasErrors()) {
@@ -120,7 +120,7 @@ public class SavingTargetController {
 	 */
 	@PostMapping("/editSavingTarget")
 	public EditSavingTargetResponse editSavingTarget(@RequestBody @Validated EditSavingTargetForm form,
-													 BindingResult result) throws Throwable {
+			BindingResult result) throws Throwable {
 		EditSavingTargetResponse res = new EditSavingTargetResponse();
 
 		if (result.hasErrors()) {
@@ -151,7 +151,7 @@ public class SavingTargetController {
 	 */
 	@PostMapping("/deleteSavingTarget")
 	public DeleteSavingTargetResponse deleteSavingTarget(@RequestBody @Validated DeleteSavingTargetForm form,
-														 BindingResult result) throws Throwable {
+			BindingResult result) throws Throwable {
 		DeleteSavingTargetResponse res = new DeleteSavingTargetResponse();
 
 		if (result.hasErrors()) {
@@ -182,7 +182,7 @@ public class SavingTargetController {
 	 */
 	@PostMapping("/returnSavingTarget")
 	public ReturnSavingTargetResponse returnSavingTargetTarget(@RequestBody @Validated ReturnSavingTargetForm form,
-															   BindingResult result) throws Throwable {
+			BindingResult result) throws Throwable {
 		ReturnSavingTargetResponse res = new ReturnSavingTargetResponse();
 
 		if (result.hasErrors()) {
@@ -213,8 +213,8 @@ public class SavingTargetController {
 	 * @return result 貯金目標削除結果
 	 */
 	@PostMapping("/deleteSavingTargetFromTable")
-	public DeleteSavingTargetResponse deleteSavingTargetFromTable(@RequestBody @Validated DeleteSavingTargetForm form
-			, BindingResult result) throws Throwable {
+	public DeleteSavingTargetResponse deleteSavingTargetFromTable(@RequestBody @Validated DeleteSavingTargetForm form,
+			BindingResult result) throws Throwable {
 		DeleteSavingTargetResponse res = new DeleteSavingTargetResponse();
 
 		if (result.hasErrors()) {
@@ -247,7 +247,6 @@ public class SavingTargetController {
 	@PostMapping("/sortSavingTarget")
 	public SortSavingTargetResponse sortSavingTarget(@RequestBody SortSavingTargetForm form) throws Throwable {
 		SortSavingTargetResponse response = new SortSavingTargetResponse();
-		response = savingTargetService.sortNewSavingTarget(form, response);
-		return response;
+		return savingTargetService.sortNewSavingTarget(form, response);
 	}
 }

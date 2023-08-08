@@ -59,10 +59,9 @@ class EditSavingTargetTest {
 		req.setSavingTargetName(savingTargetName);
 		req.setTargetAmount(targetAmount);
 
-		String result = mvc
-				.perform(post(URL).content(mapper.writeValueAsString(req)).contentType(MediaType.APPLICATION_JSON))
-				.andDo(print()).andExpect(status().isOk()).andReturn().getResponse()
-				.getContentAsString(Charset.defaultCharset());
+		String result = mvc.perform(post(URL).content(mapper.writeValueAsString(req))
+						.contentType(MediaType.APPLICATION_JSON)).andDo(print()).andExpect(status().isOk()).andReturn()
+				.getResponse().getContentAsString(Charset.defaultCharset());
 
 		EditSavingTargetResponse response = mapper.readValue(result, EditSavingTargetResponse.class);
 
@@ -72,9 +71,8 @@ class EditSavingTargetTest {
 
 		GetSavingTargetListForm form = new GetSavingTargetListForm();
 		form.setUserNo(2L);
-		SavingTarget savingTarget =
-				savingTargetMapper.getSavingTargetList(form).stream().filter(i -> savingTargetId.equals(i.getSavingTargetId()))
-						.collect(Collectors.toList()).get(0);
+		SavingTarget savingTarget = savingTargetMapper.getSavingTargetList(form.getUserNo()).stream()
+				.filter(i -> savingTargetId.equals(i.getSavingTargetId())).collect(Collectors.toList()).get(0);
 
 		assertEquals(savingTargetName, savingTarget.getSavingTargetName());
 		assertEquals(targetAmount, savingTarget.getTargetAmount());
@@ -94,10 +92,9 @@ class EditSavingTargetTest {
 		req.setSavingTargetName(savingTargetName);
 		req.setTargetAmount(targetAmount);
 
-		String result = mvc
-				.perform(post(URL).content(mapper.writeValueAsString(req)).contentType(MediaType.APPLICATION_JSON))
-				.andDo(print()).andExpect(status().isOk()).andReturn().getResponse()
-				.getContentAsString(Charset.defaultCharset());
+		String result = mvc.perform(post(URL).content(mapper.writeValueAsString(req))
+						.contentType(MediaType.APPLICATION_JSON)).andDo(print()).andExpect(status().isOk()).andReturn()
+				.getResponse().getContentAsString(Charset.defaultCharset());
 
 		EditSavingTargetResponse response = mapper.readValue(result, EditSavingTargetResponse.class);
 
@@ -120,10 +117,9 @@ class EditSavingTargetTest {
 		req.setSavingTargetName(savingTargetName);
 		req.setTargetAmount(targetAmount);
 
-		String result = mvc
-				.perform(post(URL).content(mapper.writeValueAsString(req)).contentType(MediaType.APPLICATION_JSON))
-				.andDo(print()).andExpect(status().isOk()).andReturn().getResponse()
-				.getContentAsString(Charset.defaultCharset());
+		String result = mvc.perform(post(URL).content(mapper.writeValueAsString(req))
+						.contentType(MediaType.APPLICATION_JSON)).andDo(print()).andExpect(status().isOk()).andReturn()
+				.getResponse().getContentAsString(Charset.defaultCharset());
 
 		EditSavingTargetResponse response = mapper.readValue(result, EditSavingTargetResponse.class);
 
@@ -146,10 +142,9 @@ class EditSavingTargetTest {
 		req.setSavingTargetName(savingTargetName);
 		req.setTargetAmount(targetAmount);
 
-		String result = mvc
-				.perform(post(URL).content(mapper.writeValueAsString(req)).contentType(MediaType.APPLICATION_JSON))
-				.andDo(print()).andExpect(status().isOk()).andReturn().getResponse()
-				.getContentAsString(Charset.defaultCharset());
+		String result = mvc.perform(post(URL).content(mapper.writeValueAsString(req))
+						.contentType(MediaType.APPLICATION_JSON)).andDo(print()).andExpect(status().isOk()).andReturn()
+				.getResponse().getContentAsString(Charset.defaultCharset());
 
 		EditSavingTargetResponse response = mapper.readValue(result, EditSavingTargetResponse.class);
 
@@ -172,10 +167,9 @@ class EditSavingTargetTest {
 		req.setSavingTargetName(savingTargetName);
 		req.setTargetAmount(targetAmount);
 
-		String result = mvc
-				.perform(post(URL).content(mapper.writeValueAsString(req)).contentType(MediaType.APPLICATION_JSON))
-				.andDo(print()).andExpect(status().isOk()).andReturn().getResponse()
-				.getContentAsString(Charset.defaultCharset());
+		String result = mvc.perform(post(URL).content(mapper.writeValueAsString(req))
+						.contentType(MediaType.APPLICATION_JSON)).andDo(print()).andExpect(status().isOk()).andReturn()
+				.getResponse().getContentAsString(Charset.defaultCharset());
 
 		EditSavingTargetResponse response = mapper.readValue(result, EditSavingTargetResponse.class);
 
@@ -198,10 +192,9 @@ class EditSavingTargetTest {
 		req.setSavingTargetName(savingTargetName);
 		req.setTargetAmount(targetAmount);
 
-		String result = mvc
-				.perform(post(URL).content(mapper.writeValueAsString(req)).contentType(MediaType.APPLICATION_JSON))
-				.andDo(print()).andExpect(status().isOk()).andReturn().getResponse()
-				.getContentAsString(Charset.defaultCharset());
+		String result = mvc.perform(post(URL).content(mapper.writeValueAsString(req))
+						.contentType(MediaType.APPLICATION_JSON)).andDo(print()).andExpect(status().isOk()).andReturn()
+				.getResponse().getContentAsString(Charset.defaultCharset());
 
 		EditSavingTargetResponse response = mapper.readValue(result, EditSavingTargetResponse.class);
 

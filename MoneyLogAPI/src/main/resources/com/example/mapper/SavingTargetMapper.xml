@@ -8,7 +8,7 @@
 		<result column="target_amount" property="targetAmount" />
 		<result column="sort_no" property="sortNo" />
 	</resultMap>
-	
+
 	<!-- 貯金目標一覧の取得 -->
 		<select id="getSavingTargetList" resultMap="savingTargetMap">
 		SELECT
@@ -18,14 +18,14 @@
 			sort_no
 		FROM
 			saving_target
-		WHERE 
+		WHERE
 		 	user_no = #{userNo}
 		AND
 			delete_flg = false
 		ORDER BY
 		    sort_no
 	</select>
-	
+
 	<!-- 貯金金額含めた貯金目標一覧の取得 -->
 		<select id="getSavingTargetListWithSavedAmount" resultType="com.example.domain.SavingTarget">
 		SELECT
@@ -36,17 +36,17 @@
 			COUNT(s.saving_target_id) saving_count
 		FROM
 			saving_target st
-		LEFT JOIN 
+		LEFT JOIN
 			saving s
-		USING (saving_target_id) 
-		WHERE 
+		USING (saving_target_id)
+		WHERE
 		 	st.user_no = #{userNo}
 		AND
 			st.delete_flg = false
 		GROUP BY saving_target_id
-		ORDER BY saving_target_id 
+		ORDER BY st.sort_no
 	</select>
-	
+
 	<!-- 削除済み貯金目標一覧の取得 -->
 		<select id="getDeletedSavingTargetList" resultMap="savingTargetMap">
 		SELECT
@@ -55,12 +55,12 @@
 			target_amount
 		FROM
 			saving_target
-		WHERE 
+		WHERE
 		 	user_no = #{userNo}
 		AND
 			delete_flg = true
 	</select>
-	
+
 	<select id="findSavingTargetByIdAndUserNo" resultType="com.example.domain.SavingTarget">
 		SELECT
 			saving_target_id,
@@ -71,7 +71,7 @@
 		WHERE user_no IN (#{userNo}, 1)
 		AND saving_target_id = #{savingTargetId};
 	</select>
-	
+
 	<select id="findSavingTargetByNameAndUserNo" resultType="com.example.domain.SavingTarget">
 		SELECT
 			saving_target_id,
@@ -105,7 +105,7 @@
 		    #{sortNo}
 		);
 	</insert>
-	
+
 	<!-- 貯金目標の編集 -->
 	<update id="editSavingTarget">
 		UPDATE
@@ -114,12 +114,12 @@
 			<if test="savingTargetName != null">saving_target_name = #{savingTargetName},</if>
 			<if test="targetAmount != null">target_amount = #{targetAmount}</if>
 		</set>
-		WHERE 
-			saving_target_id = #{savingTargetId} 
-		AND 
+		WHERE
+			saving_target_id = #{savingTargetId}
+		AND
 			user_no = #{userNo} ;
 	</update>
-		
+
 	<!-- 貯金目標の削除(論理) -->
 	<update id="deleteSavingTarget">
 		UPDATE
@@ -128,12 +128,12 @@
 			delete_flg = true,
 			sort_no = #{sortNo, jdbcType=INTEGER}
 		</set>
-		WHERE 
-			saving_target_id = #{savingTargetId} 
-		AND 
+		WHERE
+			saving_target_id = #{savingTargetId}
+		AND
 			user_no = #{userNo} ;
 	</update>
-		
+
 	<!-- 貯金目標を戻す -->
 	<update id="returnSavingTarget">
 		UPDATE
@@ -142,19 +142,19 @@
 			delete_flg = false,
 		    sort_no = #{sortNo}
 		</set>
-		WHERE 
-			saving_target_id = #{savingTargetId} 
-		AND 
+		WHERE
+			saving_target_id = #{savingTargetId}
+		AND
 			user_no = #{userNo} ;
 	</update>
-		
+
 	<!-- 貯金目標の削除(物理) -->
 	<delete id="deleteSavingTargetFromTable">
 		DELETE FROM
 			saving_target
 		WHERE
-			saving_target_id = #{savingTargetId} 
-		AND 
+			saving_target_id = #{savingTargetId}
+		AND
 			user_no = #{userNo} ;
 	</delete>
 

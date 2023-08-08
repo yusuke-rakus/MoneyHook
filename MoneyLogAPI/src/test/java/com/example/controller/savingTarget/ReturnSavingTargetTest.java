@@ -55,10 +55,9 @@ class ReturnSavingTargetTest {
 		req.setUserId(USER_ID);
 		req.setSavingTargetId(savingTargetId);
 
-		String result = mvc
-				.perform(post(URL).content(mapper.writeValueAsString(req)).contentType(MediaType.APPLICATION_JSON))
-				.andDo(print()).andExpect(status().isOk()).andReturn().getResponse()
-				.getContentAsString(Charset.defaultCharset());
+		String result = mvc.perform(post(URL).content(mapper.writeValueAsString(req))
+						.contentType(MediaType.APPLICATION_JSON)).andDo(print()).andExpect(status().isOk()).andReturn()
+				.getResponse().getContentAsString(Charset.defaultCharset());
 
 		ReturnSavingTargetResponse response = mapper.readValue(result, ReturnSavingTargetResponse.class);
 
@@ -68,9 +67,8 @@ class ReturnSavingTargetTest {
 
 		GetSavingTargetListForm form = new GetSavingTargetListForm();
 		form.setUserNo(2L);
-		SavingTarget savingTarget =
-				savingTargetMapper.getSavingTargetList(form).stream().filter(i -> savingTargetId.equals(i.getSavingTargetId()))
-						.collect(Collectors.toList()).get(0);
+		SavingTarget savingTarget = savingTargetMapper.getSavingTargetList(form.getUserNo()).stream()
+				.filter(i -> savingTargetId.equals(i.getSavingTargetId())).collect(Collectors.toList()).get(0);
 
 		assertFalse(savingTarget.isDeleteFlg());
 	}
@@ -85,10 +83,9 @@ class ReturnSavingTargetTest {
 		req.setUserId(FAIL_USER_ID);
 		req.setSavingTargetId(savingTargetId);
 
-		String result = mvc
-				.perform(post(URL).content(mapper.writeValueAsString(req)).contentType(MediaType.APPLICATION_JSON))
-				.andDo(print()).andExpect(status().isOk()).andReturn().getResponse()
-				.getContentAsString(Charset.defaultCharset());
+		String result = mvc.perform(post(URL).content(mapper.writeValueAsString(req))
+						.contentType(MediaType.APPLICATION_JSON)).andDo(print()).andExpect(status().isOk()).andReturn()
+				.getResponse().getContentAsString(Charset.defaultCharset());
 
 		ReturnSavingTargetResponse response = mapper.readValue(result, ReturnSavingTargetResponse.class);
 
@@ -107,10 +104,9 @@ class ReturnSavingTargetTest {
 		req.setUserId(NULL_USER_ID);
 		req.setSavingTargetId(savingTargetId);
 
-		String result = mvc
-				.perform(post(URL).content(mapper.writeValueAsString(req)).contentType(MediaType.APPLICATION_JSON))
-				.andDo(print()).andExpect(status().isOk()).andReturn().getResponse()
-				.getContentAsString(Charset.defaultCharset());
+		String result = mvc.perform(post(URL).content(mapper.writeValueAsString(req))
+						.contentType(MediaType.APPLICATION_JSON)).andDo(print()).andExpect(status().isOk()).andReturn()
+				.getResponse().getContentAsString(Charset.defaultCharset());
 
 		ReturnSavingTargetResponse response = mapper.readValue(result, ReturnSavingTargetResponse.class);
 
@@ -129,10 +125,9 @@ class ReturnSavingTargetTest {
 		req.setUserId(USER_ID);
 		req.setSavingTargetId(savingTargetId);
 
-		String result = mvc
-				.perform(post(URL).content(mapper.writeValueAsString(req)).contentType(MediaType.APPLICATION_JSON))
-				.andDo(print()).andExpect(status().isOk()).andReturn().getResponse()
-				.getContentAsString(Charset.defaultCharset());
+		String result = mvc.perform(post(URL).content(mapper.writeValueAsString(req))
+						.contentType(MediaType.APPLICATION_JSON)).andDo(print()).andExpect(status().isOk()).andReturn()
+				.getResponse().getContentAsString(Charset.defaultCharset());
 
 		ReturnSavingTargetResponse response = mapper.readValue(result, ReturnSavingTargetResponse.class);
 
@@ -151,10 +146,9 @@ class ReturnSavingTargetTest {
 		req.setUserId(USER_ID);
 		req.setSavingTargetId(savingTargetId);
 
-		String result = mvc
-				.perform(post(URL).content(mapper.writeValueAsString(req)).contentType(MediaType.APPLICATION_JSON))
-				.andDo(print()).andExpect(status().isOk()).andReturn().getResponse()
-				.getContentAsString(Charset.defaultCharset());
+		String result = mvc.perform(post(URL).content(mapper.writeValueAsString(req))
+						.contentType(MediaType.APPLICATION_JSON)).andDo(print()).andExpect(status().isOk()).andReturn()
+				.getResponse().getContentAsString(Charset.defaultCharset());
 
 		ReturnSavingTargetResponse response = mapper.readValue(result, ReturnSavingTargetResponse.class);
 

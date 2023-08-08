@@ -32,8 +32,7 @@ public class SavingTargetService {
 	 * 並び替えの際にMAPで使うEnum
 	 */
 	private enum SortNoTarget {
-		OldTarget,
-		NewTarget
+		OldTarget, NewTarget
 	}
 
 	/**
@@ -78,8 +77,7 @@ public class SavingTargetService {
 	 * @param form 貯金目標新規追加用情報
 	 * @return savingTarget 既存検索で見つかった/新規追加された貯金目標
 	 */
-	public SavingTarget searchByNameAndInsertSavingTarget(AddSavingTargetForm form)
-			throws Throwable {
+	public SavingTarget searchByNameAndInsertSavingTarget(AddSavingTargetForm form) throws Throwable {
 
 		SavingTarget savingTarget = new SavingTarget();
 
@@ -131,8 +129,8 @@ public class SavingTargetService {
 
 			// 名称で検索
 			SavingTarget searchedSavingTarget = findSavingTargetByTargetNameAndUserNo(savingTarget);
-			if (!Objects.isNull(searchedSavingTarget)
-					&& !(savingTarget.getSavingTargetId().equals(searchedSavingTarget.getSavingTargetId()))) {
+			if (!Objects.isNull(searchedSavingTarget) && !(savingTarget.getSavingTargetId()
+					.equals(searchedSavingTarget.getSavingTargetId()))) {
 				// 既にあり、それが変更対象以外であれば、編集に失敗したことを返す
 				throw new AlreadyExistsException(ErrorMessage.SAVING_TARGET_NAME_DUPLICATED);
 			}
@@ -164,12 +162,11 @@ public class SavingTargetService {
 			List<SavingTarget> changeTargetList = savingTargetMapper.getSavingTargetListBySortNo(deleteTarget);
 			// 削除実行
 			savingTargetMapper.deleteSavingTarget(checkForm);
-			if(!changeTargetList.isEmpty()) {
+			if (!changeTargetList.isEmpty()) {
 				updateAnotherTarget(changeTargetList, userNo, false);
 			}
 
 		} catch (Exception e) {
-			e.printStackTrace();
 			throw new SystemException(ErrorMessage.SAVING_TARGET_DELETE_FAILED);
 		}
 	}
@@ -257,16 +254,12 @@ public class SavingTargetService {
 	}
 
 	/**
-	 *貯金目標の並び替えをします。
+	 * 貯金目標の並び替えをします。
 	 *
 	 * @param form 並び替えオブジェクト
-	 * @param response
-	 * @return
-	 * @throws SystemException
 	 */
-	public SortSavingTargetResponse sortNewSavingTarget(
-			SortSavingTargetForm form, SortSavingTargetResponse response)
-			throws SystemException {
+	public SortSavingTargetResponse sortNewSavingTarget(SortSavingTargetForm form,
+			SortSavingTargetResponse response) throws SystemException {
 
 		Long userNo = authenticationService.authUser(form);
 		List<SavingTarget> dbTargetList = savingTargetMapper.getSavingTargetList(userNo);
@@ -274,22 +267,21 @@ public class SavingTargetService {
 		//ソートNoが変わる対象オブジェクトを探す
 		Map<SortNoTarget, SavingTarget> map = compareSavingTarget(dbTargetList, form.getSavingTargetList());
 		//並び替えが発生しない場合は正常終了とする
-		if(Objects.isNull(map)){
+		if (Objects.isNull(map)) {
 			response.setMessage(SuccessMessage.SAVING_TARGET_EDIT_SORT_NO_SUCCESSED);
 			return response;
 		}
 
-		try{
+		try {
 			//影響受ける他のオブジェクトを先に更新
-			updateTargetFilter(dbTargetList,
-					map.get(SortNoTarget.OldTarget).getSortNo(),
-					map.get(SortNoTarget.NewTarget).getSortNo(), userNo);
+			updateTargetFilter(dbTargetList, map.get(SortNoTarget.OldTarget)
+					.getSortNo(), map.get(SortNoTarget.NewTarget).getSortNo(), userNo);
 			//対象のオブジェクトの更新
 			SavingTarget newSortTarget = map.get(SortNoTarget.NewTarget);
 			newSortTarget.setUserNo(userNo);
 			savingTargetMapper.updateSavingTargetSortNo(newSortTarget);
 			response.setMessage(SuccessMessage.SAVING_TARGET_EDIT_SORT_NO_SUCCESSED);
-		}catch (Exception e) {
+		} catch (Exception e) {
 			throw new SystemException(ErrorMessage.SAVING_TARGET_UPDATE_SORT_NO_FAILED);
 		}
 
@@ -299,17 +291,17 @@ public class SavingTargetService {
 	/**
 	 * リクエストの貯金目標とDBの貯金目標を比べて、更新対象を探します。
 	 *
-	 * @param dbTargetList　DBの貯金目標
-	 * @param newTargetList　リクエストの貯金目標
+	 * @param dbTargetList  　DBの貯金目標
+	 * @param newTargetList 　リクエストの貯金目標
 	 * @return Map<SortNoTarget, SavingTarget> 変更があったオブジェクトをもったMAP or 変更がなければnullを返す
 	 */
-	private Map<SortNoTarget, SavingTarget> compareSavingTarget(List<SavingTarget> dbTargetList, List<SavingTarget> newTargetList) {
+	private Map<SortNoTarget, SavingTarget> compareSavingTarget(List<SavingTarget> dbTargetList,
+			List<SavingTarget> newTargetList) {
 		Map<SortNoTarget, SavingTarget> map = new HashMap<>();
 
-		for(SavingTarget newTarget: newTargetList) {
-			for(SavingTarget dbTarget: dbTargetList) {
-				if (newTarget.getSavingTargetId() == dbTarget.getSavingTargetId()
-						&& newTarget.getSortNo() != dbTarget.getSortNo()) {
+		for (SavingTarget newTarget : newTargetList) {
+			for (SavingTarget dbTarget : dbTargetList) {
+				if (Objects.equals(newTarget.getSavingTargetId(), dbTarget.getSavingTargetId()) && !Objects.equals(newTarget.getSortNo(), dbTarget.getSortNo())) {
 					map.put(SortNoTarget.OldTarget, dbTarget);
 					map.put(SortNoTarget.NewTarget, newTarget);
 					return map;
@@ -323,45 +315,41 @@ public class SavingTargetService {
 	/**
 	 * 貯金目標の並び替えによって受ける他データを判別します。
 	 *
-	 * @param savingTargetList　更新対象の貯金目標
-	 * @param oldSortNo 変更前のソート順
-	 * @param newSortNo 変更後のソート順
-	 * @param userNo current_user userNo
+	 * @param savingTargetList 　更新対象の貯金目標
+	 * @param oldSortNo        変更前のソート順
+	 * @param newSortNo        変更後のソート順
+	 * @param userNo           current_user userNo
 	 */
-	private void updateTargetFilter(List<SavingTarget> savingTargetList, int oldSortNo, int newSortNo, Long userNo){
+	private void updateTargetFilter(List<SavingTarget> savingTargetList, int oldSortNo, int newSortNo, Long userNo) {
 		List<SavingTarget> updateSavingTargetList;
 		//新旧のソートNoの大きさを比較
-		if(newSortNo < oldSortNo) {
+		if (newSortNo < oldSortNo) {
 			updateSavingTargetList = savingTargetList.stream()
 					.filter(saving -> saving.getSortNo() < oldSortNo && saving.getSortNo() >= newSortNo)
 					.collect(Collectors.toList());
-			updateAnotherTarget(updateSavingTargetList, userNo ,true);
+			updateAnotherTarget(updateSavingTargetList, userNo, true);
 		} else {
 			updateSavingTargetList = savingTargetList.stream()
 					.filter(saving -> saving.getSortNo() > oldSortNo && saving.getSortNo() <= newSortNo)
 					.collect(Collectors.toList());
-			updateAnotherTarget(updateSavingTargetList, userNo ,false);
+			updateAnotherTarget(updateSavingTargetList, userNo, false);
 		}
 
 	}
 
 	/**
 	 * 貯金目標の並び替えによって影響する他データを更新します。
-	 *
-	 * @param updateList
-	 * @param userNo
-	 * @param upFlg
 	 */
-	private void updateAnotherTarget(List<SavingTarget> updateList, Long userNo ,boolean upFlg) {
+	private void updateAnotherTarget(List<SavingTarget> updateList, Long userNo, boolean upFlg) {
 		//更新処理を分岐
-		if(upFlg) {
-			for(SavingTarget target: updateList) {
+		if (upFlg) {
+			for (SavingTarget target : updateList) {
 				target.setSortNo(target.getSortNo() + 1);
 				target.setUserNo(userNo);
 				savingTargetMapper.updateSavingTargetSortNo(target);
 			}
 		} else {
-			for(SavingTarget target: updateList) {
+			for (SavingTarget target : updateList) {
 				target.setSortNo(target.getSortNo() - 1);
 				target.setUserNo(userNo);
 				savingTargetMapper.updateSavingTargetSortNo(target);

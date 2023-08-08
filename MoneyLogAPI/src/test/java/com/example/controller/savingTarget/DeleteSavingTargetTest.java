@@ -54,10 +54,9 @@ class DeleteSavingTargetTest {
 		req.setUserId(USER_ID);
 		req.setSavingTargetId(savingTargetId);
 
-		String result = mvc
-				.perform(post(URL).content(mapper.writeValueAsString(req)).contentType(MediaType.APPLICATION_JSON))
-				.andDo(print()).andExpect(status().isOk()).andReturn().getResponse()
-				.getContentAsString(Charset.defaultCharset());
+		String result = mvc.perform(post(URL).content(mapper.writeValueAsString(req))
+						.contentType(MediaType.APPLICATION_JSON)).andDo(print()).andExpect(status().isOk()).andReturn()
+				.getResponse().getContentAsString(Charset.defaultCharset());
 
 		DeleteSavingTargetResponse response = mapper.readValue(result, DeleteSavingTargetResponse.class);
 
@@ -67,8 +66,8 @@ class DeleteSavingTargetTest {
 
 		GetSavingTargetListForm form = new GetSavingTargetListForm();
 		form.setUserNo(2L);
-		SavingTarget savingTarget =
-				savingTargetMapper.getSavingTargetList(form).stream().filter(i -> savingTargetId.equals(i.getSavingTargetId())).findFirst().orElse(null);
+		SavingTarget savingTarget = savingTargetMapper.getSavingTargetList(form.getUserNo()).stream()
+				.filter(i -> savingTargetId.equals(i.getSavingTargetId())).findFirst().orElse(null);
 
 		assertNull(savingTarget);
 	}
@@ -83,10 +82,9 @@ class DeleteSavingTargetTest {
 		req.setUserId(FAIL_USER_ID);
 		req.setSavingTargetId(savingTargetId);
 
-		String result = mvc
-				.perform(post(URL).content(mapper.writeValueAsString(req)).contentType(MediaType.APPLICATION_JSON))
-				.andDo(print()).andExpect(status().isOk()).andReturn().getResponse()
-				.getContentAsString(Charset.defaultCharset());
+		String result = mvc.perform(post(URL).content(mapper.writeValueAsString(req))
+						.contentType(MediaType.APPLICATION_JSON)).andDo(print()).andExpect(status().isOk()).andReturn()
+				.getResponse().getContentAsString(Charset.defaultCharset());
 
 		DeleteSavingTargetResponse response = mapper.readValue(result, DeleteSavingTargetResponse.class);
 
@@ -105,10 +103,9 @@ class DeleteSavingTargetTest {
 		req.setUserId(NULL_USER_ID);
 		req.setSavingTargetId(savingTargetId);
 
-		String result = mvc
-				.perform(post(URL).content(mapper.writeValueAsString(req)).contentType(MediaType.APPLICATION_JSON))
-				.andDo(print()).andExpect(status().isOk()).andReturn().getResponse()
-				.getContentAsString(Charset.defaultCharset());
+		String result = mvc.perform(post(URL).content(mapper.writeValueAsString(req))
+						.contentType(MediaType.APPLICATION_JSON)).andDo(print()).andExpect(status().isOk()).andReturn()
+				.getResponse().getContentAsString(Charset.defaultCharset());
 
 		DeleteSavingTargetResponse response = mapper.readValue(result, DeleteSavingTargetResponse.class);
 
@@ -127,10 +124,9 @@ class DeleteSavingTargetTest {
 		req.setUserId(USER_ID);
 		req.setSavingTargetId(savingTargetId);
 
-		String result = mvc
-				.perform(post(URL).content(mapper.writeValueAsString(req)).contentType(MediaType.APPLICATION_JSON))
-				.andDo(print()).andExpect(status().isOk()).andReturn().getResponse()
-				.getContentAsString(Charset.defaultCharset());
+		String result = mvc.perform(post(URL).content(mapper.writeValueAsString(req))
+						.contentType(MediaType.APPLICATION_JSON)).andDo(print()).andExpect(status().isOk()).andReturn()
+				.getResponse().getContentAsString(Charset.defaultCharset());
 
 		DeleteSavingTargetResponse response = mapper.readValue(result, DeleteSavingTargetResponse.class);
 
@@ -149,10 +145,9 @@ class DeleteSavingTargetTest {
 		req.setUserId(USER_ID);
 		req.setSavingTargetId(savingTargetId);
 
-		String result = mvc
-				.perform(post(URL).content(mapper.writeValueAsString(req)).contentType(MediaType.APPLICATION_JSON))
-				.andDo(print()).andExpect(status().isOk()).andReturn().getResponse()
-				.getContentAsString(Charset.defaultCharset());
+		String result = mvc.perform(post(URL).content(mapper.writeValueAsString(req))
+						.contentType(MediaType.APPLICATION_JSON)).andDo(print()).andExpect(status().isOk()).andReturn()
+				.getResponse().getContentAsString(Charset.defaultCharset());
 
 		DeleteSavingTargetResponse response = mapper.readValue(result, DeleteSavingTargetResponse.class);
 

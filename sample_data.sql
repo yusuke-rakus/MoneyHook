@@ -444,7 +444,8 @@ INSERT INTO
         user_no,
         saving_target_name,
         target_amount,
-        delete_flg
+        delete_flg,
+        sort_no
     )
 VALUES
     (2, 'M2 MacBook Air', 160000, false, 1),

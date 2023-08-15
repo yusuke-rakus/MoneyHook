@@ -1,12 +1,10 @@
 package com.example.response;
 
 import com.example.domain.CategoryList;
-import com.fasterxml.jackson.annotation.JsonInclude;
 
 import java.math.BigInteger;
 import java.util.List;
 
-@JsonInclude(JsonInclude.Include.NON_EMPTY)
 public class GetTotalSpendingResponse extends response {
 
 	private BigInteger totalSpending;

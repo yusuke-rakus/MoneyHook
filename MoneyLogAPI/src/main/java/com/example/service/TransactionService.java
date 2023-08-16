@@ -500,9 +500,13 @@ public class TransactionService {
 		Calendar endCal = Calendar.getInstance();
 		endCal.setTime(endMonth);
 
-		int yearDiff = endCal.get(Calendar.YEAR) - startCal.get(Calendar.YEAR);
+		long diffTime = endCal.getTimeInMillis() - startCal.getTimeInMillis();
 
-		if (yearDiff > 2) {
+		// ==== 日単位に変換 ====//
+		int MILLIS_OF_DAY = 1000 * 60 * 60 * 24;
+		int dateDiff = (int) (diffTime / MILLIS_OF_DAY);
+
+		if (dateDiff > 1095) {
 			throw new DateException(ErrorMessage.DATE_RANGE_ERROR);
 		}
 	}

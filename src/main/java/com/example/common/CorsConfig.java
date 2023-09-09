@@ -17,6 +17,8 @@ public class CorsConfig {
 	public CorsFilter corsFilter() {
 		List<String> url = new ArrayList<>();
 		url.add("https://money-hooks.com");
+		url.add("http://money-hooks.com");
+		url.add("http://13.114.171.151");
 		url.add("http://localhost:3000");
 
 		CorsConfiguration config = new CorsConfiguration();

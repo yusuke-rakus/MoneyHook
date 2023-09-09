@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.mapper.SubCategoryMapper">
+
+    <!-- サブカテゴリ一覧の取得 -->
+    <resultMap type="com.example.domain.SubCategory" id="subCategoryMap">
+        <id column="sub_category_id" property="subCategoryId"/>
+        <result column="sub_category_name" property="subCategoryName"/>
+    </resultMap>
+
+    <select id="getSubCategoryList" resultMap="subCategoryMap">
+        SELECT
+            sc.sub_category_id,
+            sc.sub_category_name
+        FROM
+            sub_category sc
+        LEFT JOIN hidden_sub_category hsc ON sc.sub_category_id = hsc.sub_category_id
+        WHERE sc.user_no IN (#{userNo}, 1)
+        AND sc.category_id = #{categoryId}
+        AND hsc.sub_category_id is NULL;
+    </select>
+
+    <!-- サブカテゴリを新規追加してIDをリターン -->
+    <insert id="addSubCategory"
+            parameterType="com.example.domain.SubCategory"
+            useGeneratedKeys="true" keyProperty="subCategoryId">
+        INSERT INTO
+        sub_category(
+        user_no,
+        category_id,
+        sub_category_name
+        )
+        VALUES(
+        #{userNo},
+        #{categoryId},
+        #{subCategoryName}
+        );
+    </insert>
+
+    <!-- サブカテゴリの存在チェック -->
+    <select id="checkSubCategory" resultType="java.lang.Long">
+        SELECT
+        sub_category_id
+        FROM sub_category
+        WHERE user_no=#{userNo}
+        AND sub_category_name=#{subCategoryName};
+    </select>
+
+    <!-- サブカテゴリを非表示 -->
+    <insert id="disableSubCategory"
+            parameterType="com.example.form.EditSubCategoryForm">
+        INSERT INTO
+        hidden_sub_category(
+        user_no,
+        sub_category_id
+        )
+        VALUES(
+        #{userNo},
+        #{subCategoryId}
+        );
+    </insert>
+
+    <!-- サブカテゴリを表示 -->
+    <delete id="enableSubCategory" parameterType="com.example.form.EditSubCategoryForm">
+        DELETE FROM
+        hidden_sub_category
+        WHERE
+        user_no = #{userNo} AND sub_category_id = #{subCategoryId};
+    </delete>
+
+</mapper>

@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.mapper.UserTokenMapper">
+
+	<!-- トークンを更新 -->
+	<update id="updateToken">
+		UPDATE
+			user_token
+		SET
+			token=#{token}
+		WHERE
+			user_no=#{userNo};
+	</update>
+
+	<!-- トークンを登録 -->
+	<insert id="insertToken"
+		parameterType="com.example.form.GoogleSignInForm">
+		INSERT INTO
+		user_token(
+			user_no,
+			token
+		)
+		VALUES(
+			#{userNo},
+			#{token}
+		);
+	</insert>
+
+	<select id="checkUserToken" resultType="java.lang.Boolean">
+		SELECT
+			COUNT(ut.user_no)
+		FROM user_token ut
+		JOIN user u
+		ON ut.user_no = u.user_no
+		WHERE u.user_id = #{userId}
+		AND token = #{token}
+		LIMIT 1;
+	</select>
+
+</mapper>

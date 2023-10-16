@@ -296,7 +296,7 @@ public class TransactionService {
 					if (i < 7) {
 						processedCategoryList.add(categoryList.get(i));
 					} else {
-						othersTotalAmount.add(categoryList.get(i).getCategoryTotalAmount());
+						othersTotalAmount = othersTotalAmount.add(categoryList.get(i).getCategoryTotalAmount());
 						othersCategoryName.add(new Transaction(categoryList.get(i)
 								.getCategoryName(), categoryList.get(i).getCategoryTotalAmount()));
 					}

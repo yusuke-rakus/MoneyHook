@@ -258,7 +258,7 @@ public class UserService {
 			List<SendInquiryForm> inquiryFormList = userMapper.getInquiry(form);
 
 			// 当日に問い合わせがあればエラー
-			if (inquiryFormList.size() > 0) {
+			if (!inquiryFormList.isEmpty()) {
 				throw new Exception();
 			}
 		} catch (Exception e) {
@@ -283,7 +283,7 @@ public class UserService {
 			List<SendInquiryForm> inquiryFormList = userMapper.getInquiry(form);
 
 			// 当日に問い合わせがあればエラー
-			if (inquiryFormList.size() > 0) {
+			if (!inquiryFormList.isEmpty()) {
 				throw new Exception();
 			}
 

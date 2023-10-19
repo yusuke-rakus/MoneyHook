@@ -427,7 +427,7 @@ public class TransactionService {
 			}
 		}
 
-		if (ErrorList.size() > 0) {
+		if (!ErrorList.isEmpty()) {
 			res.setErrorTransaction(ErrorList);
 			throw new HasErrorTransactionException(ErrorMessage.TRANSACTION_ERROR_DATA_EXIST);
 		}

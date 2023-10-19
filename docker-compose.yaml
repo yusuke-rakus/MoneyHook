@@ -1,0 +1,30 @@
+version: "3"
+services:
+  sql:
+    image: mysql:8.0.32
+    restart: always
+    container_name: "sql"
+    ports:
+      - "3306:3306"
+    environment:
+      MYSQL_ROOT_PASSWORD: "password"
+      MYSQL_DATABASE: "moneyhook"
+      MYSQL_USER: "moneyhook"
+      MYSQL_PASSWORD: "password"
+    volumes:
+      - ./sql/:/docker-entrypoint-initdb.d/
+      - ./sql/mysql.cnf:/etc/mysql/conf.d/my.cnf
+      - ./sql/settings:/var/lib/mysql
+  app:
+    image: openjdk:11
+    container_name: "app"
+    restart: always
+    tty: true
+    ports:
+      - "8080:8080"
+    depends_on:
+      - sql
+    volumes:
+      - ./:/srv:cached
+    working_dir: /srv
+    command: java -jar build/libs/MoneyLogAPI-1.0.jar

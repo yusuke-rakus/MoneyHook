@@ -244,7 +244,12 @@ public class SavingService {
 		form.setUserNo(userNo);
 		form.setMonth(DateFormatter.toFirstDayOfMonth(form.getMonth()));
 
-		return savingMapper.getTotalSavingAmount(form);
+		BigInteger totalAmount = savingMapper.getTotalSavingAmount(form);
+		if (Objects.isNull(totalAmount)) {
+			totalAmount = BigInteger.ZERO;
+		}
+
+		return totalAmount;
 	}
 
 	/**

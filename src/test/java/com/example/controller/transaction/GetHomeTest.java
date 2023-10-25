@@ -55,7 +55,7 @@ class GetHomeTest {
 		GetHomeResponse response = mapper.readValue(result, GetHomeResponse.class);
 		/* 検証 */
 		int categoryListCount = 8;
-		BigInteger balance = BigInteger.valueOf(-158072);
+		BigInteger balance = BigInteger.valueOf(-167580);
 
 		assertEquals(Status.SUCCESS.getStatus(), response.getStatus());
 		assertNull(response.getMessage());

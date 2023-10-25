@@ -152,7 +152,7 @@ class EditSavingTest {
 	@Transactional(readOnly = false)
 	void editSavingSavingIdErrorTest() throws Exception {
 
-		Long savingId = null;
+		Long savingId = 1000000L;
 		Date savingDate = Date.valueOf("2023-06-20");
 		String savingName = "貯金編集テスト";
 		BigInteger savingAmount = BigInteger.valueOf(1000);

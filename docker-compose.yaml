@@ -20,6 +20,10 @@ services:
     container_name: "app"
     restart: always
     tty: true
+    environment:
+      - DATABASE_URL=moneyhook
+      - DATABASE_USER_NAME=moneyhook
+      - DATABASE_PASSWORD=password
     ports:
       - "8080:8080"
     depends_on:
@@ -27,4 +31,5 @@ services:
     volumes:
       - ./:/srv:cached
     working_dir: /srv
-    command: java -jar build/libs/MoneyLogAPI-1.0.jar
+    command: >
+      /bin/bash -c  " sh gradlew build &&  java -jar build/libs/MoneyLogAPI-1.0.jar"

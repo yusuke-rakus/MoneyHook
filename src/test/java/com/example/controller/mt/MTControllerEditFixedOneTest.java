@@ -10,10 +10,9 @@ import java.math.BigInteger;
 import java.nio.charset.Charset;
 import java.util.List;
 
-import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.TestMethodOrder;
+import org.junit.jupiter.api.*;
 import org.junit.jupiter.api.MethodOrderer.OrderAnnotation;
-import org.junit.jupiter.api.Order;
+import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -50,6 +49,12 @@ class MTControllerEditFixedOneTest {
 	
 	@SpyBean
 	private MonthlyTransactionMapper mtMapper;
+
+	@AfterEach
+	public  void doAfter() {
+		// 初期化
+		Mockito.reset(mtMapper);
+	}
 	
 	
 	private MonthlyTransactionList createList(

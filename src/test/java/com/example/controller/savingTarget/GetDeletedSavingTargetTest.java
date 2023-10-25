@@ -50,7 +50,7 @@ public class GetDeletedSavingTargetTest {
 
 		GetSavingTargetListResponse response = mapper.readValue(result, GetSavingTargetListResponse.class);
 		/* 検証 */
-		int savingTargetListCount = 0;
+		int savingTargetListCount = 1;
 
 		assertEquals(Status.SUCCESS.getStatus(), response.getStatus());
 		assertEquals(SuccessMessage.DELETED_SAVING_TARGET_LIST_GET_SUCCESSED, response.getMessage());

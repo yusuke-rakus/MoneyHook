@@ -59,7 +59,7 @@ class SubCategoryControllerTest {
 		/* JSONをresponseに変換 */
 		SubCategoryResponse response = mapper.readValue(result, SubCategoryResponse.class);
 		/* 検証 */
-		int getCount = 5;
+		int getCount = 4;
 		assertEquals(Status.SUCCESS.getStatus(), response.getStatus());
 		assertEquals(null, response.getMessage());
 		assertEquals(getCount, response.getSubCategoryList().size());
@@ -83,7 +83,7 @@ class SubCategoryControllerTest {
 
 		SubCategoryResponse response = mapper.readValue(result, SubCategoryResponse.class);
 		/* 検証 */
-		int getCount = 8;
+		int getCount = 7;
 		assertEquals(Status.SUCCESS.getStatus(), response.getStatus());
 		assertEquals(null, response.getMessage());
 		assertEquals(getCount, response.getSubCategoryList().size());

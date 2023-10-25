@@ -14,9 +14,6 @@ public class WebMvcConfig implements WebMvcConfigurer {
 
 	public void addInterceptors(InterceptorRegistry registry) {
 		// トークン認証
-		registry.addInterceptor(authTokenInterceptor()).excludePathPatterns("/user/googleSignIn")
-				.excludePathPatterns("/category/getCategoryList").excludePathPatterns("/user/login")
-				// TODO リリース時、以下削除
-				.excludePathPatterns("/**");
+		registry.addInterceptor(authTokenInterceptor()).excludePathPatterns("/user/googleSignIn");
 	}
 }

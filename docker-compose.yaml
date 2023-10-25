@@ -32,4 +32,4 @@ services:
       - ./:/srv:cached
     working_dir: /srv
     command: >
-      /bin/bash -c  " sh gradlew build &&  java -jar build/libs/MoneyLogAPI-1.0.jar"
+      /bin/bash -c  " sh gradlew build &&  java -jar build/libs/MoneyHooksAPI-1.0.jar"

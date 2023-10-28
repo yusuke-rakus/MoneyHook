@@ -1,0 +1,33 @@
+version: "3"
+services:
+  sql:
+    image: mysql:8.0.32
+    restart: always
+    container_name: "sql"
+    ports:
+      - "3306:3306"
+    environment:
+      MYSQL_ROOT_PASSWORD: "password"
+      MYSQL_DATABASE: "moneyhook"
+      MYSQL_USER: "moneyhook"
+      MYSQL_PASSWORD: "password"
+    volumes:
+      - ./sql/:/docker-entrypoint-initdb.d/
+      - ./sql/mysql.cnf:/etc/mysql/conf.d/my.cnf
+      - ./sql/settings:/var/lib/mysql
+  app:
+    build: .
+    container_name: "app"
+    restart: always
+    tty: true
+    environment:
+      - DATABASE_URL=moneyhook
+      - DATABASE_USER_NAME=moneyhook
+      - DATABASE_PASSWORD=password
+      - DATABASE_HOST=sql
+    ports:
+      - "8080:8080"
+    depends_on:
+      - sql
+    volumes:
+      - ./:/srv:cached

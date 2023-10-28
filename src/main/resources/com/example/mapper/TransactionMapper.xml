@@ -1,0 +1,401 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.mapper.TransactionMapper">
+
+	<!-- 収支を登録 -->
+	<insert id="addTransaction"
+		parameterType="com.example.form.AddTransactionForm">
+		INSERT INTO
+		transaction(
+			user_no,
+			transaction_name,
+			transaction_amount,
+			transaction_date,
+			category_id,
+			sub_category_id,
+			fixed_flg
+		)
+		VALUES(
+			#{userNo},
+			#{transactionName},
+			#{transactionAmount},
+			#{transactionDate},
+			#{categoryId},
+			#{subCategoryId},
+			#{fixedFlg}
+		);
+	</insert>
+
+	<!-- 収支リストを登録 -->
+	<insert id="addTransactionList" parameterType="java.util.List">
+		INSERT INTO
+		transaction(
+			user_no,
+			transaction_name,
+			transaction_amount,
+			transaction_date,
+			category_id,
+			sub_category_id,
+			fixed_flg
+		)
+		VALUES
+		<foreach collection="transactionList" item="tran" separator=","> 
+		(
+			#{tran.userNo},
+			#{tran.transactionName},
+			#{tran.transactionAmount},
+			#{tran.transactionDate},
+			#{tran.categoryId},
+			#{tran.subCategoryId},
+			#{tran.fixedFlg}
+		)
+		</foreach>
+		;
+	</insert>
+	
+	<!-- 収支を削除 -->
+	<delete id="deleteTransaction" parameterType="com.example.form.DeleteTransactionForm">
+		DELETE FROM 
+			transaction
+		WHERE
+			transaction_id = #{transactionId} AND user_no = #{userNo};
+	</delete>
+	
+	<!-- 収支を編集 -->
+	<update id="editTransaction">
+		UPDATE
+			transaction
+		SET
+			transaction_name=#{transactionName},
+			transaction_amount=#{transactionAmount},
+			transaction_date=#{transactionDate},
+			category_id=#{categoryId},
+			sub_category_id=#{subCategoryId},
+			fixed_flg=#{fixedFlg}
+		WHERE
+			transaction_id=#{transactionId}
+		AND
+			user_no=#{userNo};
+	</update>
+	
+	<!-- 収支詳細の取得 -->
+	<select id="getTransaction" resultType="com.example.domain.Transaction">
+		SELECT
+			t.transaction_date,
+			t.transaction_name,
+			t.transaction_amount, 
+			t.category_id,
+			c.category_name,
+			t.sub_category_id,
+			sc.sub_category_name,
+			t.fixed_flg
+		FROM
+			transaction t
+		INNER JOIN category c ON c.category_id = t.category_id
+		INNER JOIN sub_category sc ON sc.sub_category_id = t.sub_category_id
+		WHERE t.user_no = #{userNo} AND t.transaction_id = #{transactionId};
+	</select>
+	
+	<!-- ６ヶ月分の合計支出を取得 -->
+	<resultMap type="com.example.domain.Transaction" id="getMonthlySpendingDataMap">
+		<result column="month" property="month" />
+		<result column="total_amount" property="totalAmount" />
+	</resultMap>
+	
+	<!-- ６ヶ月分の合計支出を取得 -->
+	<select id="getMonthlySpendingData" resultMap="getMonthlySpendingDataMap">
+		SELECT
+			DATE_FORMAT(transaction_date, '%Y-%m-01') as month,
+			SUM(transaction_amount) as total_amount
+		FROM
+			transaction
+		WHERE
+			user_no = #{userNo}
+		AND
+			0 > transaction_amount
+		AND
+			transaction_date 
+				BETWEEN DATE_SUB(#{month}, INTERVAL 5 MONTH)
+				AND LAST_DAY(#{month})
+		GROUP BY month
+		ORDER BY month DESC
+		LIMIT 6;
+	</select>
+	
+	<!-- 月別固定収支を取得 -->
+	<resultMap type="com.example.domain.MonthlyFixedList" id="monthlyFixedMap">
+		<result column="category_name" property="categoryName" />
+		<result column="total_category_Amount" property="totalCategoryAmount" />
+		<collection property="transactionList" ofType="com.example.domain.Transaction">
+			<result column="transaction_name" property="transactionName" />
+			<result column="transaction_amount" property="transactionAmount" />
+		</collection>
+	</resultMap>
+	
+	<!-- 月別固定支出の取得 -->
+	<select id="getMonthlyFixedSpending" resultMap="monthlyFixedMap">
+		SELECT
+			c.category_name,
+			sum(t.transaction_amount) OVER(PARTITION BY c.category_name) as total_category_amount,
+			t.transaction_name,
+			t.transaction_amount
+		FROM
+			transaction t
+		INNER JOIN category c ON c.category_id = t.category_id
+		INNER JOIN sub_category sc ON sc.sub_category_id = t.sub_category_id
+		WHERE
+			t.user_no = #{userNo}
+		AND
+			t.transaction_date 
+				BETWEEN #{month}
+				AND LAST_DAY(#{month})
+		AND
+			0 > transaction_amount
+		AND t.fixed_flg = true
+		ORDER BY total_category_amount;
+	</select>
+	
+	<!-- 月別固定収入の取得 -->
+	<select id="getMonthlyFixedIncome" resultMap="monthlyFixedMap">
+		SELECT
+			c.category_name,
+			sum(t.transaction_amount) OVER(PARTITION BY c.category_name) as total_category_amount,
+			t.transaction_name,
+			t.transaction_amount
+		FROM
+			transaction t
+		INNER JOIN category c ON c.category_id = t.category_id
+		INNER JOIN sub_category sc ON sc.sub_category_id = t.sub_category_id
+		WHERE
+			t.user_no = #{userNo}
+		AND
+			t.transaction_date 
+				BETWEEN #{month}
+				AND LAST_DAY(#{month})
+		AND
+			transaction_amount > 0
+		AND t.fixed_flg = true
+		ORDER BY total_category_amount DESC;
+	</select>
+	
+	<!-- 当月のTransactionデータを取得 -->
+	<select id="getTimelineData" resultType="com.example.domain.Transaction">
+		SELECT
+			t.transaction_id,
+			t.transaction_name,
+			ABS(t.transaction_amount) as transaction_amount,
+		  	(CASE
+		  		WHEN t.transaction_amount > 0 THEN 1
+		  		ELSE -1
+		  	END) as transaction_sign,
+			t.transaction_date,
+			c.category_name,
+			t.category_id,
+			sc.sub_category_name,
+			t.sub_category_id,
+			t.fixed_flg
+		FROM
+			transaction t
+		INNER JOIN category c ON c.category_id = t.category_id
+		INNER JOIN sub_category sc ON sc.sub_category_id = t.sub_category_id
+		WHERE t.user_no = #{userNo}
+		AND t.transaction_date 
+			BETWEEN #{month} AND LAST_DAY(#{month})
+		ORDER BY
+			t.transaction_date DESC,
+			t.transaction_id DESC;
+	</select>
+	
+	<!-- ホーム画面情報の取得 -->
+	<resultMap type="com.example.domain.CategoryList" id="getHomeMap">
+		<result column="category_name" property="categoryName" />
+		<result column="category_total_amount" property="categoryTotalAmount" />
+		<collection property="subCategoryList" ofType="com.example.domain.Transaction">
+			<result column="sub_category_name" property="subCategoryName" />
+			<result column="sub_category_total_amount" property="subCategoryTotalAmount" />
+		</collection>
+	</resultMap>
+	
+	<!-- ホーム画面情報の取得 -->
+	<select id="getHome" resultMap="getHomeMap">
+		SELECT
+			(select category_name from category where category_id = sub_tran.category_id) as category_name,
+			sum(sub_tran.sub_category_total_amount) OVER(PARTITION BY sub_tran.category_id) as category_total_amount,
+			sub_tran.sub_category_name,
+			sub_tran.sub_category_total_amount
+		FROM
+			transaction t
+		RIGHT JOIN (
+				SELECT
+					st.sub_category_id,
+					ssc.category_id,
+					ssc.sub_category_name,
+					sum(st.transaction_amount) as sub_category_total_amount
+				FROM transaction st
+				INNER JOIN sub_category ssc ON ssc.sub_category_id = st.sub_category_id
+				WHERE st.user_no = #{userNo}
+				AND st.transaction_date BETWEEN #{month} AND LAST_DAY(#{month})
+				GROUP BY st.sub_category_id
+			) sub_tran ON sub_tran.sub_category_id = t.sub_category_id
+		WHERE t.user_no = #{userNo}
+			AND t.transaction_date BETWEEN #{month} AND LAST_DAY(#{month})
+			AND 0 > t.transaction_amount
+		group by t.sub_category_id
+		ORDER BY
+			category_total_amount,
+			t.sub_category_id;
+	</select>
+	
+	<!-- 指定月の変動費用・変動費合計を取得 -->
+	<resultMap type="com.example.domain.CategoryList" id="getMonthlyVariableMap">
+		<result column="category_name" property="categoryName" />
+		<result column="category_total_amount" property="categoryTotalAmount" />
+		<collection property="subCategoryList" ofType="com.example.domain.Transaction">
+			<result column="sub_category_name" property="subCategoryName" />
+			<result column="sub_category_total_amount" property="subCategoryTotalAmount" />
+			<collection property="transactionList" ofType="com.example.domain.Transaction">
+				<result column="transaction_id" property="transactionId" />
+				<result column="transaction_name" property="transactionName" />
+				<result column="transaction_amount" property="transactionAmount" />
+			</collection>
+		</collection>
+	</resultMap>
+
+	<!-- 指定月の変動費用・変動費合計を取得 -->
+	<select id="getMonthlyVariableData" resultMap="getMonthlyVariableMap">
+		SELECT
+			c.category_name,
+			SUM(t.transaction_amount) OVER(PARTITION BY c.category_name) AS category_total_amount,
+			sub_clist.sub_category_name,
+			sub_clist.sub_category_total_amount,
+			tran_list.transaction_id,
+			tran_list.transaction_name,
+			tran_list.transaction_amount
+		FROM transaction t
+		INNER JOIN category c ON c.category_id = t.category_id
+		RIGHT JOIN (
+			SELECT transaction_id, transaction_name, transaction_amount
+			FROM transaction
+			WHERE user_no=#{userNo}
+			AND transaction_date BETWEEN #{month} AND LAST_DAY(#{month})
+			) tran_list ON tran_list.transaction_id = t.transaction_id
+		RIGHT JOIN (
+			SELECT t.sub_category_id, sc.sub_category_name, SUM(t.transaction_amount) AS sub_category_total_amount
+			FROM transaction t
+			INNER JOIN sub_category sc ON t.sub_category_id = sc.sub_category_id
+			WHERE t.user_no=#{userNo}
+			AND transaction_date BETWEEN #{month} AND LAST_DAY(#{month})
+			AND t.fixed_flg = false
+			GROUP BY t.sub_category_id
+			) sub_clist ON sub_clist.sub_category_id = t.sub_category_id
+		WHERE t.user_no=#{userNo}
+		AND transaction_date BETWEEN #{month} AND LAST_DAY(#{month})
+		AND 0 > t.transaction_amount
+		AND t.fixed_flg = false
+		ORDER BY category_total_amount, sub_category_total_amount, transaction_amount;
+	</select>
+
+	<!-- 取引名の候補 -->
+	<select id="getFrequentTransactionName" resultType="com.example.domain.Transaction">
+		WITH
+		tmp1 AS(
+			SELECT
+				tran.transaction_name,
+				tran.category_id,
+				c.category_name,
+				tran.sub_category_id,
+				sc.sub_category_name,
+				tran.fixed_flg,
+				row_number() over(PARTITION BY tran.transaction_name ORDER BY count(tran.transaction_name) DESC) AS row_num
+			FROM
+			transaction tran
+			JOIN category c ON tran.category_id = c.category_id
+			JOIN sub_category sc ON tran.sub_category_id = sc.sub_category_id
+			WHERE tran.user_no = #{userNo}
+			GROUP BY tran.transaction_name, tran.category_id, tran.sub_category_id, tran.fixed_flg
+			ORDER BY COUNT(tran.transaction_name) DESC
+		),
+		tmp2 AS(
+			SELECT
+				tran.transaction_name,
+				tran.category_id,
+				c.category_name,
+				tran.sub_category_id,
+				sc.sub_category_name,
+				tran.fixed_flg,
+				1
+			FROM
+			transaction tran
+			JOIN category c ON tran.category_id = c.category_id
+			JOIN sub_category sc ON tran.sub_category_id = sc.sub_category_id
+			WHERE tran.user_no = #{userNo}
+			ORDER BY tran.transaction_id DESC LIMIT 3
+		)
+		(SELECT * FROM tmp1 WHERE row_num = 1 LIMIT 3)
+		UNION
+		(SELECT * FROM tmp2 LIMIT 3);
+	</select>
+
+ 	<!-- カテゴリ毎の支出総額を取得 -->
+	<resultMap type="com.example.domain.CategoryList" id="getTotalSpendingMap">
+		<result column="category_name" property="categoryName" />
+		<result column="category_total_amount" property="categoryTotalAmount" />
+		<collection property="subCategoryList" ofType="com.example.domain.Transaction">
+			<result column="sub_category_name" property="subCategoryName" />
+			<result column="sub_category_total_amount" property="subCategoryTotalAmount" />
+			<collection property="transactionList" ofType="com.example.domain.Transaction">
+				<result column="transaction_id" property="transactionId" />
+				<result column="transaction_name" property="transactionName" />
+				<result column="transaction_amount" property="transactionAmount" />
+				<result column="transaction_date" property="transactionDate" />
+			</collection>
+		</collection>
+	</resultMap>
+
+ 	<!-- カテゴリ毎の支出総額を取得 -->
+	<select id="getTotalSpending" resultMap="getTotalSpendingMap">
+		SELECT
+			c.category_name,
+			SUM(t.transaction_amount) OVER(PARTITION BY c.category_name) AS category_total_amount,
+			sub_clist.sub_category_name,
+			sub_clist.sub_category_total_amount,
+			tran_list.transaction_id,
+			tran_list.transaction_name,
+			tran_list.transaction_amount,
+			t.transaction_date
+		FROM transaction t
+		INNER JOIN category c ON c.category_id = t.category_id
+		INNER JOIN sub_category sc ON sc.sub_category_id = t.sub_category_id
+		RIGHT JOIN (
+			SELECT transaction_id, transaction_name, transaction_amount
+			FROM transaction
+			WHERE user_no=#{userNo}
+			AND transaction_date BETWEEN #{startMonth} AND LAST_DAY(#{endMonth})
+			) tran_list ON tran_list.transaction_id = t.transaction_id
+		RIGHT JOIN (
+			SELECT t.sub_category_id, sc.sub_category_name, SUM(t.transaction_amount) AS sub_category_total_amount
+			FROM transaction t
+			INNER JOIN sub_category sc ON t.sub_category_id = sc.sub_category_id
+			WHERE t.user_no=#{userNo}
+			AND transaction_date BETWEEN #{startMonth} AND LAST_DAY(#{endMonth})
+			AND t.fixed_flg = false
+			GROUP BY t.sub_category_id
+			) sub_clist ON sub_clist.sub_category_id = t.sub_category_id
+		WHERE t.user_no=#{userNo}		
+		<if test="categoryId != null">AND c.category_id = #{categoryId}</if>
+		<if test="subCategoryId != null">AND sc.sub_category_id = #{subCategoryId}</if>
+		AND transaction_date BETWEEN #{startMonth} AND LAST_DAY(#{endMonth})
+		AND 0 > t.transaction_amount
+		ORDER BY category_total_amount, sub_category_total_amount, transaction_amount;
+	</select>
+
+	<select id="isTransactionExist" resultType="java.lang.Boolean">
+		SELECT
+			COUNT(transaction_id)
+		FROM transaction
+		WHERE user_no = #{userNo}
+		AND transaction_id = #{transactionId}
+		LIMIT 1;
+	</select>
+
+</mapper>

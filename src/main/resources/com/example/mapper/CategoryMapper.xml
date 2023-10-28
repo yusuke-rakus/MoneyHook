@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.mapper.CategoryMapper">
+
+	<!-- カテゴリ一覧の取得 -->
+	<resultMap type="com.example.domain.Category" id="categoryMap">
+		<id column="category_id" property="categoryId" />
+		<result column="category_name" property="categoryName" />
+	</resultMap>
+
+	<select id="getCategoryList" resultMap="categoryMap">
+		SELECT
+			category_id,
+			category_name
+		FROM
+			category;
+	</select>
+	
+	<!-- カテゴリ・サブカテゴリの取得 -->
+	<select id="getCategoryWithSubCategory" resultType="com.example.domain.Category">
+		SELECT
+			c.category_id,
+			c.category_name,
+			sc.sub_category_id,
+			sc.sub_category_name,
+			sc.user_no
+		FROM category c
+		INNER JOIN sub_category sc ON c.category_id = sc.category_id
+		WHERE c.category_id = #{categoryId}
+		AND sc.user_no IN (1, #{userNo});
+	</select>
+
+	<select id="isCategoryExist" resultType="java.lang.Boolean">
+		SELECT
+			COUNT(category_id)
+		FROM category
+		WHERE category_id = #{categoryId}
+		LIMIT 1;
+	</select>
+
+	<select id="getCategoryWithSubCategoryByIds" resultType="com.example.domain.Category">
+		SELECT
+			c.category_id,
+			c.category_name,
+			sc.sub_category_id,
+			sc.sub_category_name,
+			sc.user_no
+		FROM category c
+				 INNER JOIN sub_category sc ON c.category_id = sc.category_id
+		WHERE c.category_id in
+			<foreach item="id" collection="ids" open="(" separator="," close=")">
+				#{id}
+			</foreach>
+		AND sc.user_no IN (1, #{userNo});
+	</select>
+
+	<resultMap type="com.example.domain.Category" id="categoryListMap">
+		<result column="category_id" property="categoryId" />
+		<result column="category_name" property="categoryName" />
+		<collection property="subCategoryList" ofType="com.example.domain.SubCategory">
+			<result column="sub_category_id" property="subCategoryId" />
+			<result column="sub_category_name" property="subCategoryName" />
+			<result column="enable" property="enable" />
+		</collection>
+	</resultMap>
+
+	<select id="getCategoryWithSubCategoryList" resultMap="categoryListMap">
+		SELECT
+			c.category_id,
+			c.category_name,
+			sc.sub_category_id,
+			sc.sub_category_name,
+			hsc.sub_category_id IS NULL as enable
+		FROM
+		category c
+		JOIN sub_category sc ON c.category_id = sc.category_id
+		LEFT JOIN hidden_sub_category hsc ON sc.sub_category_id = hsc.sub_category_id
+		WHERE sc.user_no IN (1, #{userNo});
+	</select>
+
+</mapper>

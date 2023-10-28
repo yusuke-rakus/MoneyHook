@@ -117,4 +117,4 @@ CREATE TABLE IF NOT EXISTS inquiry_data(
     inquiry text NOT NULL,
     inquiry_date date NOT NULL,
     FOREIGN KEY user_no(user_no) REFERENCES user(user_no)
-)
+);

@@ -16,21 +16,13 @@ services:
       - ./sql/mysql.cnf:/etc/mysql/conf.d/my.cnf
       - ./sql/settings:/var/lib/mysql
   app:
-    image: openjdk:11
+    build: .
     container_name: "app"
     restart: always
     tty: true
-    environment:
-      - DATABASE_URL=moneyhook
-      - DATABASE_USER_NAME=moneyhook
-      - DATABASE_PASSWORD=password
     ports:
       - "8080:8080"
     depends_on:
       - sql
     volumes:
       - ./:/srv:cached
-    working_dir: /srv
-    command: >
-      /bin/bash -c "sh gradlew build -x test &&
-      java -jar build/libs/MoneyHooksAPI-1.0.jar"

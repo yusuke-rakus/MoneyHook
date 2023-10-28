@@ -20,6 +20,11 @@ services:
     container_name: "app"
     restart: always
     tty: true
+    environment:
+      - DATABASE_URL=moneyhook
+      - DATABASE_USER_NAME=moneyhook
+      - DATABASE_PASSWORD=password
+      - DATABASE_HOST=sql
     ports:
       - "8080:8080"
     depends_on:

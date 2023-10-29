@@ -24,19 +24,9 @@ public class UserController {
 	@Autowired
 	private ValidationService validationService;
 
-	/** ユーザー登録 */
-	@PostMapping("/registUser")
-	public RegistUserResponse registUser(@RequestBody @Validated RegistUserForm form, BindingResult result) {
-		RegistUserResponse res = new RegistUserResponse();
-
-		if (result.hasErrors()) {
-			String errorMessage = validationService.getFirstErrorMessage(result);
-			res.setStatus(Status.ERROR.getStatus());
-			res.setMessage(errorMessage);
-			return res;
-		}
-
-		return userService.registUser(form, res);
+	@PostMapping("/hello")
+	public String hello() {
+		return "Hej!";
 	}
 
 	/** ログイン */
@@ -79,42 +69,6 @@ public class UserController {
 		return userService.getUserInfo(form);
 	}
 
-	/**
-	 * パスワード変更
-	 */
-	@PostMapping("/changePassword")
-	public ChangePasswordResponse changePassword(@RequestBody @Validated ChangePasswordForm form,
-			BindingResult result) throws Exception {
-
-		ChangePasswordResponse res = new ChangePasswordResponse();
-
-		if (result.hasErrors()) {
-			String errorMessage = validationService.getFirstErrorMessage(result);
-			res.setStatus(Status.ERROR.getStatus());
-			res.setMessage(errorMessage);
-			return res;
-		}
-
-		return userService.changePassword(form, res);
-	}
-
-	/**
-	 * メールアドレスを変更
-	 */
-	@PostMapping("/changeEmail")
-	public ChangeEmailResponse changeEmail(@RequestBody @Validated ChangeEmailForm form,
-			BindingResult result) throws Exception {
-		ChangeEmailResponse res = new ChangeEmailResponse();
-
-		if (result.hasErrors()) {
-			String errorMessage = validationService.getFirstErrorMessage(result);
-			res.setStatus(Status.ERROR.getStatus());
-			res.setMessage(errorMessage);
-			return res;
-		}
-
-		return userService.changeEmail(form, res);
-	}
 
 	/**
 	 * テーマカラーの変更
@@ -180,36 +134,4 @@ public class UserController {
 
 		return userService.sendInquiry(form, res);
 	}
-
-	/**
-	 * パスワードを忘れた場合の再設定メール送信
-	 */
-	@PostMapping("/forgotPasswordSendEmail")
-	public ForgotPasswordSendEmailResponse forgotPasswordSendEmail(
-			@RequestBody ForgotPasswordSendEmailForm form) throws Exception {
-		ForgotPasswordSendEmailResponse res = new ForgotPasswordSendEmailResponse();
-
-		return userService.forgotPasswordSendEmail(form, res);
-	}
-
-	/**
-	 * パスワードを忘れた場合の再設定
-	 */
-	@PostMapping("/forgotPasswordReset")
-	public ForgotPasswordResetResponse forgotPasswordReset(@RequestBody ForgotPasswordResetForm form) throws Exception {
-		ForgotPasswordResetResponse res = new ForgotPasswordResetResponse();
-
-		return userService.forgotPasswordReset(form, res);
-	}
-
-	/**
-	 * パスワードを忘れた場合の再設定画面表示
-	 */
-	@PostMapping("/resetPasswordPage")
-	public ResetPasswordPageResponse resetPasswordPage(@RequestBody ResetPasswordPageForm form) throws Exception {
-		ResetPasswordPageResponse res = new ResetPasswordPageResponse();
-
-		return userService.resetPasswordPage(form, res);
-	}
-
 }

@@ -36,6 +36,12 @@ VALUES
         '5e884898da28047151d0e56f8dc6292773603d0d6aabbdd62a11ef721d1542d8'
     );
 
+-- トークン
+INSERT INTO
+    user_token(user_no, token)
+VALUES
+    (2, 'sample_token');
+
 -- カテゴリ
 INSERT INTO
     category(category_id, category_name)

@@ -13,6 +13,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.transaction.annotation.Transactional;
@@ -38,6 +39,8 @@ class AddTransactionListTest {
 	final String USER_ID = "a77a6e94-6aa2-47ea-87dd-129f580fb669";
 	final String FAIL_USER_ID = "fail_user_id";
 	final String NULL_USER_ID = null;
+	final String TOKEN = "sample_token";
+	final HttpHeaders HEADER = new HttpHeaders();
 
 	@Autowired
 	private MockMvc mvc;
@@ -70,11 +73,12 @@ class AddTransactionListTest {
 		testTransactionList.add(testTransaction);
 
 		req.setTransactionList(testTransactionList);
+		HEADER.add("UserId", USER_ID);
+		HEADER.add(HttpHeaders.AUTHORIZATION, TOKEN);
 
-		String result = mvc
-				.perform(post(URL).content(mapper.writeValueAsString(req)).contentType(MediaType.APPLICATION_JSON))
-				.andDo(print()).andExpect(status().isOk()).andReturn().getResponse()
-				.getContentAsString(Charset.defaultCharset());
+		String result = mvc.perform(post(URL).headers(HEADER).content(mapper.writeValueAsString(req))
+						.contentType(MediaType.APPLICATION_JSON)).andDo(print()).andExpect(status().isOk()).andReturn()
+				.getResponse().getContentAsString(Charset.defaultCharset());
 
 		AddTransactionListResponse response = mapper.readValue(result, AddTransactionListResponse.class);
 
@@ -118,11 +122,12 @@ class AddTransactionListTest {
 		testTransactionList.add(testTransaction);
 
 		req.setTransactionList(testTransactionList);
+		HEADER.add("UserId", USER_ID);
+		HEADER.add(HttpHeaders.AUTHORIZATION, TOKEN);
 
-		String result = mvc
-				.perform(post(URL).content(mapper.writeValueAsString(req)).contentType(MediaType.APPLICATION_JSON))
-				.andDo(print()).andExpect(status().isOk()).andReturn().getResponse()
-				.getContentAsString(Charset.defaultCharset());
+		String result = mvc.perform(post(URL).headers(HEADER).content(mapper.writeValueAsString(req))
+						.contentType(MediaType.APPLICATION_JSON)).andDo(print()).andExpect(status().isOk()).andReturn()
+				.getResponse().getContentAsString(Charset.defaultCharset());
 
 		AddTransactionListResponse response = mapper.readValue(result, AddTransactionListResponse.class);
 
@@ -153,11 +158,12 @@ class AddTransactionListTest {
 		testTransactionList.add(testTransaction);
 
 		req.setTransactionList(testTransactionList);
+		HEADER.add("UserId", USER_ID);
+		HEADER.add(HttpHeaders.AUTHORIZATION, TOKEN);
 
-		String result = mvc
-				.perform(post(URL).content(mapper.writeValueAsString(req)).contentType(MediaType.APPLICATION_JSON))
-				.andDo(print()).andExpect(status().isOk()).andReturn().getResponse()
-				.getContentAsString(Charset.defaultCharset());
+		String result = mvc.perform(post(URL).headers(HEADER).content(mapper.writeValueAsString(req))
+						.contentType(MediaType.APPLICATION_JSON)).andDo(print()).andExpect(status().isOk()).andReturn()
+				.getResponse().getContentAsString(Charset.defaultCharset());
 
 		AddTransactionListResponse response = mapper.readValue(result, AddTransactionListResponse.class);
 
@@ -188,11 +194,12 @@ class AddTransactionListTest {
 		testTransactionList.add(testTransaction);
 
 		req.setTransactionList(testTransactionList);
+		HEADER.add("UserId", USER_ID);
+		HEADER.add(HttpHeaders.AUTHORIZATION, TOKEN);
 
-		String result = mvc
-				.perform(post(URL).content(mapper.writeValueAsString(req)).contentType(MediaType.APPLICATION_JSON))
-				.andDo(print()).andExpect(status().isOk()).andReturn().getResponse()
-				.getContentAsString(Charset.defaultCharset());
+		String result = mvc.perform(post(URL).headers(HEADER).content(mapper.writeValueAsString(req))
+						.contentType(MediaType.APPLICATION_JSON)).andDo(print()).andExpect(status().isOk()).andReturn()
+				.getResponse().getContentAsString(Charset.defaultCharset());
 
 		AddTransactionListResponse response = mapper.readValue(result, AddTransactionListResponse.class);
 
@@ -223,11 +230,12 @@ class AddTransactionListTest {
 		testTransactionList.add(testTransaction);
 
 		req.setTransactionList(testTransactionList);
+		HEADER.add("UserId", USER_ID);
+		HEADER.add(HttpHeaders.AUTHORIZATION, TOKEN);
 
-		String result = mvc
-				.perform(post(URL).content(mapper.writeValueAsString(req)).contentType(MediaType.APPLICATION_JSON))
-				.andDo(print()).andExpect(status().isOk()).andReturn().getResponse()
-				.getContentAsString(Charset.defaultCharset());
+		String result = mvc.perform(post(URL).headers(HEADER).content(mapper.writeValueAsString(req))
+						.contentType(MediaType.APPLICATION_JSON)).andDo(print()).andExpect(status().isOk()).andReturn()
+				.getResponse().getContentAsString(Charset.defaultCharset());
 
 		AddTransactionListResponse response = mapper.readValue(result, AddTransactionListResponse.class);
 
@@ -258,11 +266,12 @@ class AddTransactionListTest {
 		testTransactionList.add(testTransaction);
 
 		req.setTransactionList(testTransactionList);
+		HEADER.add("UserId", USER_ID);
+		HEADER.add(HttpHeaders.AUTHORIZATION, TOKEN);
 
-		String result = mvc
-				.perform(post(URL).content(mapper.writeValueAsString(req)).contentType(MediaType.APPLICATION_JSON))
-				.andDo(print()).andExpect(status().isOk()).andReturn().getResponse()
-				.getContentAsString(Charset.defaultCharset());
+		String result = mvc.perform(post(URL).headers(HEADER).content(mapper.writeValueAsString(req))
+						.contentType(MediaType.APPLICATION_JSON)).andDo(print()).andExpect(status().isOk()).andReturn()
+				.getResponse().getContentAsString(Charset.defaultCharset());
 
 		AddTransactionListResponse response = mapper.readValue(result, AddTransactionListResponse.class);
 
@@ -293,11 +302,12 @@ class AddTransactionListTest {
 		testTransactionList.add(testTransaction);
 
 		req.setTransactionList(testTransactionList);
+		HEADER.add("UserId", USER_ID);
+		HEADER.add(HttpHeaders.AUTHORIZATION, TOKEN);
 
-		String result = mvc
-				.perform(post(URL).content(mapper.writeValueAsString(req)).contentType(MediaType.APPLICATION_JSON))
-				.andDo(print()).andExpect(status().isOk()).andReturn().getResponse()
-				.getContentAsString(Charset.defaultCharset());
+		String result = mvc.perform(post(URL).headers(HEADER).content(mapper.writeValueAsString(req))
+						.contentType(MediaType.APPLICATION_JSON)).andDo(print()).andExpect(status().isOk()).andReturn()
+				.getResponse().getContentAsString(Charset.defaultCharset());
 
 		AddTransactionListResponse response = mapper.readValue(result, AddTransactionListResponse.class);
 
@@ -328,11 +338,12 @@ class AddTransactionListTest {
 		testTransactionList.add(testTransaction);
 
 		req.setTransactionList(testTransactionList);
+		HEADER.add("UserId", USER_ID);
+		HEADER.add(HttpHeaders.AUTHORIZATION, TOKEN);
 
-		String result = mvc
-				.perform(post(URL).content(mapper.writeValueAsString(req)).contentType(MediaType.APPLICATION_JSON))
-				.andDo(print()).andExpect(status().isOk()).andReturn().getResponse()
-				.getContentAsString(Charset.defaultCharset());
+		String result = mvc.perform(post(URL).headers(HEADER).content(mapper.writeValueAsString(req))
+						.contentType(MediaType.APPLICATION_JSON)).andDo(print()).andExpect(status().isOk()).andReturn()
+				.getResponse().getContentAsString(Charset.defaultCharset());
 
 		AddTransactionListResponse response = mapper.readValue(result, AddTransactionListResponse.class);
 
@@ -363,11 +374,12 @@ class AddTransactionListTest {
 		testTransactionList.add(testTransaction);
 
 		req.setTransactionList(testTransactionList);
+		HEADER.add("UserId", USER_ID);
+		HEADER.add(HttpHeaders.AUTHORIZATION, TOKEN);
 
-		String result = mvc
-				.perform(post(URL).content(mapper.writeValueAsString(req)).contentType(MediaType.APPLICATION_JSON))
-				.andDo(print()).andExpect(status().isOk()).andReturn().getResponse()
-				.getContentAsString(Charset.defaultCharset());
+		String result = mvc.perform(post(URL).headers(HEADER).content(mapper.writeValueAsString(req))
+						.contentType(MediaType.APPLICATION_JSON)).andDo(print()).andExpect(status().isOk()).andReturn()
+				.getResponse().getContentAsString(Charset.defaultCharset());
 
 		AddTransactionListResponse response = mapper.readValue(result, AddTransactionListResponse.class);
 
@@ -380,32 +392,30 @@ class AddTransactionListTest {
 	@Transactional(readOnly = false)
 	void addTransactionListMultiErrorTest() throws Exception {
 
-		List<Transaction> transactionList = new ArrayList<Transaction>(Arrays.asList(
-				createTestTransaction(Date.valueOf("2023-06-01"), BigInteger.valueOf(1000), -1, "収支リスト追加テスト", 1L, 1L,
-						false),
-				createTestTransaction(null, BigInteger.valueOf(1000), -1, "収支リスト追加テスト", 1L, 1L, false),
-				createTestTransaction(Date.valueOf("2023-06-01"), null, -1, "収支リスト追加テスト", 1L, 1L, false),
-				createTestTransaction(Date.valueOf("2023-06-01"), BigInteger.valueOf(1000), null, "収支リスト追加テスト", 1L, 1L
-						, false),
-				createTestTransaction(Date.valueOf("2023-06-01"), BigInteger.valueOf(1000), -1, "", 1L, 1L, false),
-				createTestTransaction(Date.valueOf("2023-06-01"), BigInteger.valueOf(1000), -1, "収支リスト追加テスト", null, 1L
-						, false),
-				createTestTransaction(Date.valueOf("2023-06-01"), BigInteger.valueOf(1000), -1, "収支リスト追加テスト", 1L, null
-						, false),
-				createTestTransaction(Date.valueOf("2023-06-01"), BigInteger.valueOf(1000), -1, "収支リスト追加テスト", 99L, 1L,
-						false),
-				createTestTransaction(Date.valueOf("2023-06-01"), BigInteger.valueOf(1000), -1, "収支リスト追加テスト", 1L, 99L,
-						false)
-		));
+		List<Transaction> transactionList =
+				new ArrayList<Transaction>(Arrays.asList(createTestTransaction(Date.valueOf("2023-06-01"),
+						BigInteger.valueOf(1000), -1, "収支リスト追加テスト", 1L, 1L, false), createTestTransaction(null,
+						BigInteger.valueOf(1000), -1, "収支リスト追加テスト", 1L, 1L, false),
+						createTestTransaction(Date.valueOf("2023-06-01"), null, -1, "収支リスト追加テスト", 1L, 1L, false),
+						createTestTransaction(Date.valueOf("2023-06-01"), BigInteger.valueOf(1000), null, "収支リスト追加テスト"
+								, 1L, 1L, false), createTestTransaction(Date.valueOf("2023-06-01"),
+								BigInteger.valueOf(1000), -1, "", 1L, 1L, false), createTestTransaction(Date.valueOf(
+										"2023-06-01"), BigInteger.valueOf(1000), -1, "収支リスト追加テスト", null, 1L, false),
+						createTestTransaction(Date.valueOf("2023-06-01"), BigInteger.valueOf(1000), -1, "収支リスト追加テスト",
+								1L, null, false), createTestTransaction(Date.valueOf("2023-06-01"),
+								BigInteger.valueOf(1000), -1, "収支リスト追加テスト", 99L, 1L, false),
+						createTestTransaction(Date.valueOf("2023-06-01"), BigInteger.valueOf(1000), -1, "収支リスト追加テスト",
+								1L, 99L, false)));
 
 		AddTransactionListForm req = new AddTransactionListForm();
 		req.setUserId(USER_ID);
 		req.setTransactionList(transactionList);
+		HEADER.add("UserId", USER_ID);
+		HEADER.add(HttpHeaders.AUTHORIZATION, TOKEN);
 
-		String result = mvc
-				.perform(post(URL).content(mapper.writeValueAsString(req)).contentType(MediaType.APPLICATION_JSON))
-				.andDo(print()).andExpect(status().isOk()).andReturn().getResponse()
-				.getContentAsString(Charset.defaultCharset());
+		String result = mvc.perform(post(URL).headers(HEADER).content(mapper.writeValueAsString(req))
+						.contentType(MediaType.APPLICATION_JSON)).andDo(print()).andExpect(status().isOk()).andReturn()
+				.getResponse().getContentAsString(Charset.defaultCharset());
 
 		AddTransactionListResponse response = mapper.readValue(result, AddTransactionListResponse.class);
 
@@ -418,7 +428,7 @@ class AddTransactionListTest {
 	}
 
 	private void setTestTransaction(Transaction tran, Date date, BigInteger amount, Integer sign, String name,
-									Long categoryId, Long subCategoryId, boolean fixedFlg) {
+			Long categoryId, Long subCategoryId, boolean fixedFlg) {
 		tran.setTransactionDate(date);
 		tran.setTransactionAmount(amount);
 		tran.setTransactionSign(sign);
@@ -428,8 +438,8 @@ class AddTransactionListTest {
 		tran.setFixedFlg(fixedFlg);
 	}
 
-	private Transaction createTestTransaction(Date date, BigInteger amount, Integer sign, String name, Long categoryId
-			, Long subCategoryId, boolean fixedFlg) {
+	private Transaction createTestTransaction(Date date, BigInteger amount, Integer sign, String name, Long categoryId,
+			Long subCategoryId, boolean fixedFlg) {
 		Transaction tran = new Transaction();
 
 		tran.setTransactionDate(date);

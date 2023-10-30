@@ -14,6 +14,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.transaction.annotation.Transactional;
@@ -36,6 +37,8 @@ class AddSavingTest {
 	final String USER_ID = "a77a6e94-6aa2-47ea-87dd-129f580fb669";
 	final String FAIL_USER_ID = "fail_user_id";
 	final String NULL_USER_ID = null;
+	final String TOKEN = "sample_token";
+	final HttpHeaders HEADER = new HttpHeaders();
 
 	@Autowired
 	private MockMvc mvc;
@@ -61,11 +64,12 @@ class AddSavingTest {
 		req.setSavingName(savingName);
 		req.setSavingAmount(savingAmount);
 		req.setSavingTargetId(savingTargetId);
+		HEADER.add("UserId", USER_ID);
+		HEADER.add(HttpHeaders.AUTHORIZATION, TOKEN);
 
-		String result = mvc
-				.perform(post(URL).content(mapper.writeValueAsString(req)).contentType(MediaType.APPLICATION_JSON))
-				.andDo(print()).andExpect(status().isOk()).andReturn().getResponse()
-				.getContentAsString(Charset.defaultCharset());
+		String result = mvc.perform(post(URL).headers(HEADER).content(mapper.writeValueAsString(req))
+						.contentType(MediaType.APPLICATION_JSON)).andDo(print()).andExpect(status().isOk()).andReturn()
+				.getResponse().getContentAsString(Charset.defaultCharset());
 
 		AddSavingResponse response = mapper.readValue(result, AddSavingResponse.class);
 
@@ -76,8 +80,8 @@ class AddSavingTest {
 		GetMonthlySavingListForm form = new GetMonthlySavingListForm();
 		form.setUserNo(2L);
 		form.setMonth(Date.valueOf("2023-06-01"));
-		Saving saving =
-				savingMapper.getMonthlySavingList(form).stream().filter(i -> savingName.equals(i.getSavingName())).collect(Collectors.toList()).get(0);
+		Saving saving = savingMapper.getMonthlySavingList(form).stream()
+				.filter(i -> savingName.equals(i.getSavingName())).collect(Collectors.toList()).get(0);
 
 		assertEquals(savingDate, saving.getSavingDate());
 		assertEquals(savingName, saving.getSavingName());
@@ -100,11 +104,12 @@ class AddSavingTest {
 		req.setSavingName(savingName);
 		req.setSavingAmount(savingAmount);
 		req.setSavingTargetId(savingTargetId);
+		HEADER.add("UserId", USER_ID);
+		HEADER.add(HttpHeaders.AUTHORIZATION, TOKEN);
 
-		String result = mvc
-				.perform(post(URL).content(mapper.writeValueAsString(req)).contentType(MediaType.APPLICATION_JSON))
-				.andDo(print()).andExpect(status().isOk()).andReturn().getResponse()
-				.getContentAsString(Charset.defaultCharset());
+		String result = mvc.perform(post(URL).headers(HEADER).content(mapper.writeValueAsString(req))
+						.contentType(MediaType.APPLICATION_JSON)).andDo(print()).andExpect(status().isOk()).andReturn()
+				.getResponse().getContentAsString(Charset.defaultCharset());
 
 		AddSavingResponse response = mapper.readValue(result, AddSavingResponse.class);
 
@@ -128,11 +133,12 @@ class AddSavingTest {
 		req.setSavingName(savingName);
 		req.setSavingAmount(savingAmount);
 		req.setSavingTargetId(savingTargetId);
+		HEADER.add("UserId", USER_ID);
+		HEADER.add(HttpHeaders.AUTHORIZATION, TOKEN);
 
-		String result = mvc
-				.perform(post(URL).content(mapper.writeValueAsString(req)).contentType(MediaType.APPLICATION_JSON))
-				.andDo(print()).andExpect(status().isOk()).andReturn().getResponse()
-				.getContentAsString(Charset.defaultCharset());
+		String result = mvc.perform(post(URL).headers(HEADER).content(mapper.writeValueAsString(req))
+						.contentType(MediaType.APPLICATION_JSON)).andDo(print()).andExpect(status().isOk()).andReturn()
+				.getResponse().getContentAsString(Charset.defaultCharset());
 
 		AddSavingResponse response = mapper.readValue(result, AddSavingResponse.class);
 
@@ -156,11 +162,12 @@ class AddSavingTest {
 		req.setSavingName(savingName);
 		req.setSavingAmount(savingAmount);
 		req.setSavingTargetId(savingTargetId);
+		HEADER.add("UserId", USER_ID);
+		HEADER.add(HttpHeaders.AUTHORIZATION, TOKEN);
 
-		String result = mvc
-				.perform(post(URL).content(mapper.writeValueAsString(req)).contentType(MediaType.APPLICATION_JSON))
-				.andDo(print()).andExpect(status().isOk()).andReturn().getResponse()
-				.getContentAsString(Charset.defaultCharset());
+		String result = mvc.perform(post(URL).headers(HEADER).content(mapper.writeValueAsString(req))
+						.contentType(MediaType.APPLICATION_JSON)).andDo(print()).andExpect(status().isOk()).andReturn()
+				.getResponse().getContentAsString(Charset.defaultCharset());
 
 		AddSavingResponse response = mapper.readValue(result, AddSavingResponse.class);
 
@@ -184,11 +191,12 @@ class AddSavingTest {
 		req.setSavingName(savingName);
 		req.setSavingAmount(savingAmount);
 		req.setSavingTargetId(savingTargetId);
+		HEADER.add("UserId", USER_ID);
+		HEADER.add(HttpHeaders.AUTHORIZATION, TOKEN);
 
-		String result = mvc
-				.perform(post(URL).content(mapper.writeValueAsString(req)).contentType(MediaType.APPLICATION_JSON))
-				.andDo(print()).andExpect(status().isOk()).andReturn().getResponse()
-				.getContentAsString(Charset.defaultCharset());
+		String result = mvc.perform(post(URL).headers(HEADER).content(mapper.writeValueAsString(req))
+						.contentType(MediaType.APPLICATION_JSON)).andDo(print()).andExpect(status().isOk()).andReturn()
+				.getResponse().getContentAsString(Charset.defaultCharset());
 
 		AddSavingResponse response = mapper.readValue(result, AddSavingResponse.class);
 
@@ -212,11 +220,12 @@ class AddSavingTest {
 		req.setSavingName(savingName);
 		req.setSavingAmount(savingAmount);
 		req.setSavingTargetId(savingTargetId);
+		HEADER.add("UserId", USER_ID);
+		HEADER.add(HttpHeaders.AUTHORIZATION, TOKEN);
 
-		String result = mvc
-				.perform(post(URL).content(mapper.writeValueAsString(req)).contentType(MediaType.APPLICATION_JSON))
-				.andDo(print()).andExpect(status().isOk()).andReturn().getResponse()
-				.getContentAsString(Charset.defaultCharset());
+		String result = mvc.perform(post(URL).headers(HEADER).content(mapper.writeValueAsString(req))
+						.contentType(MediaType.APPLICATION_JSON)).andDo(print()).andExpect(status().isOk()).andReturn()
+				.getResponse().getContentAsString(Charset.defaultCharset());
 
 		AddSavingResponse response = mapper.readValue(result, AddSavingResponse.class);
 
@@ -240,11 +249,12 @@ class AddSavingTest {
 		req.setSavingName(savingName);
 		req.setSavingAmount(savingAmount);
 		req.setSavingTargetId(savingTargetId);
+		HEADER.add("UserId", USER_ID);
+		HEADER.add(HttpHeaders.AUTHORIZATION, TOKEN);
 
-		String result = mvc
-				.perform(post(URL).content(mapper.writeValueAsString(req)).contentType(MediaType.APPLICATION_JSON))
-				.andDo(print()).andExpect(status().isOk()).andReturn().getResponse()
-				.getContentAsString(Charset.defaultCharset());
+		String result = mvc.perform(post(URL).headers(HEADER).content(mapper.writeValueAsString(req))
+						.contentType(MediaType.APPLICATION_JSON)).andDo(print()).andExpect(status().isOk()).andReturn()
+				.getResponse().getContentAsString(Charset.defaultCharset());
 
 		AddSavingResponse response = mapper.readValue(result, AddSavingResponse.class);
 

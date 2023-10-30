@@ -10,6 +10,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.transaction.annotation.Transactional;
@@ -29,13 +30,15 @@ class DeleteSavingTargetFromTableTest {
 	final String USER_ID = "a77a6e94-6aa2-47ea-87dd-129f580fb669";
 	final String FAIL_USER_ID = "fail_user_id";
 	final String NULL_USER_ID = null;
+	final String TOKEN = "sample_token";
+	final HttpHeaders HEADER = new HttpHeaders();
 
 	@Autowired
 	private MockMvc mvc;
 
 	@Autowired
 	private ObjectMapper mapper;
-	
+
 	@Test
 	@Transactional(readOnly = false)
 	void deleteSavingTargetFromTableTest() throws Exception {
@@ -45,8 +48,10 @@ class DeleteSavingTargetFromTableTest {
 		DeleteSavingTargetForm req = new DeleteSavingTargetForm();
 		req.setUserId(USER_ID);
 		req.setSavingTargetId(savingTargetId);
+		HEADER.add("UserId", USER_ID);
+		HEADER.add(HttpHeaders.AUTHORIZATION, TOKEN);
 
-		String result = mvc.perform(post(URL).content(mapper.writeValueAsString(req))
+		String result = mvc.perform(post(URL).headers(HEADER).content(mapper.writeValueAsString(req))
 						.contentType(MediaType.APPLICATION_JSON)).andDo(print()).andExpect(status().isOk()).andReturn()
 				.getResponse().getContentAsString(Charset.defaultCharset());
 
@@ -66,8 +71,10 @@ class DeleteSavingTargetFromTableTest {
 		DeleteSavingTargetForm req = new DeleteSavingTargetForm();
 		req.setUserId(FAIL_USER_ID);
 		req.setSavingTargetId(savingTargetId);
+		HEADER.add("UserId", USER_ID);
+		HEADER.add(HttpHeaders.AUTHORIZATION, TOKEN);
 
-		String result = mvc.perform(post(URL).content(mapper.writeValueAsString(req))
+		String result = mvc.perform(post(URL).headers(HEADER).content(mapper.writeValueAsString(req))
 						.contentType(MediaType.APPLICATION_JSON)).andDo(print()).andExpect(status().isOk()).andReturn()
 				.getResponse().getContentAsString(Charset.defaultCharset());
 
@@ -87,8 +94,10 @@ class DeleteSavingTargetFromTableTest {
 		DeleteSavingTargetForm req = new DeleteSavingTargetForm();
 		req.setUserId(NULL_USER_ID);
 		req.setSavingTargetId(savingTargetId);
+		HEADER.add("UserId", USER_ID);
+		HEADER.add(HttpHeaders.AUTHORIZATION, TOKEN);
 
-		String result = mvc.perform(post(URL).content(mapper.writeValueAsString(req))
+		String result = mvc.perform(post(URL).headers(HEADER).content(mapper.writeValueAsString(req))
 						.contentType(MediaType.APPLICATION_JSON)).andDo(print()).andExpect(status().isOk()).andReturn()
 				.getResponse().getContentAsString(Charset.defaultCharset());
 
@@ -108,8 +117,10 @@ class DeleteSavingTargetFromTableTest {
 		DeleteSavingTargetForm req = new DeleteSavingTargetForm();
 		req.setUserId(USER_ID);
 		req.setSavingTargetId(savingTargetId);
+		HEADER.add("UserId", USER_ID);
+		HEADER.add(HttpHeaders.AUTHORIZATION, TOKEN);
 
-		String result = mvc.perform(post(URL).content(mapper.writeValueAsString(req))
+		String result = mvc.perform(post(URL).headers(HEADER).content(mapper.writeValueAsString(req))
 						.contentType(MediaType.APPLICATION_JSON)).andDo(print()).andExpect(status().isOk()).andReturn()
 				.getResponse().getContentAsString(Charset.defaultCharset());
 
@@ -129,8 +140,10 @@ class DeleteSavingTargetFromTableTest {
 		DeleteSavingTargetForm req = new DeleteSavingTargetForm();
 		req.setUserId(USER_ID);
 		req.setSavingTargetId(savingTargetId);
+		HEADER.add("UserId", USER_ID);
+		HEADER.add(HttpHeaders.AUTHORIZATION, TOKEN);
 
-		String result = mvc.perform(post(URL).content(mapper.writeValueAsString(req))
+		String result = mvc.perform(post(URL).headers(HEADER).content(mapper.writeValueAsString(req))
 						.contentType(MediaType.APPLICATION_JSON)).andDo(print()).andExpect(status().isOk()).andReturn()
 				.getResponse().getContentAsString(Charset.defaultCharset());
 

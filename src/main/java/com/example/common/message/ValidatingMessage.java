@@ -53,8 +53,6 @@ public class ValidatingMessage {
 	public static final String TRANSACTION_NAME_EMPTY_ERROR = "取引名を入力してください";
 	/** カテゴリ未選択 */
 	public static final String CATEGORY_NOT_SELECT_ERROR = "カテゴリを選択してください";
-	/** サブカテゴリ文字数 */
-	public static final String SUB_CATEGORY_OVER_LIMIT_ERROR = "16文字以内で入力してください";
 	/** サブカテゴリ未入力 */
 	public static final String SUB_CATEGORY_NO_SELECT_AND_INPUT_ERROR = "サブカテゴリを選択するか入力してください";
 	/** 取引未選択 */

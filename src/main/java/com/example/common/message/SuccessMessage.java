@@ -5,16 +5,8 @@ public class SuccessMessage {
 	// user
 	/** テーマカラーを変更 */
 	public static final String USER_THEME_COLOR_CHANGED = "テーマカラーを変更しました";
-	/** パスワードを変更 */
-	public static final String USER_PASSWORD_CHANGED = "パスワードを変更しました";
-	/** メールアドレスを変更 */
-	public static final String USER_EMAIL_CHANGED = "メールアドレスを変更しました";
-	/** ユーザー登録完了 */
-	public static final String CREATE_USER_REGISTERD_SUCCESS = "ユーザー登録が完了しました。ログインして利用を開始しましょう";
 	/** お問い合わせ完了 */
 	public static final String SEND_INQUIRY_SUCCESS = "送信頂きありがとうございます。サービス向上に努めて参ります。";
-	/** パスワード再設定メール送信完了 */
-	public static final String FORGOT_PASSWORD_EMAIL_SUCCESS = "パスワード再設定メールを送信しました。";
 
 	// savingTarget
 	/** 貯金目標一覧の取得成功 */

@@ -9,22 +9,14 @@ public class ErrorMessage {
 	public static final String AUTHENTICATION_ERROR = "認証エラーが発生しました";
 
 	// user
-	/** 入力されたメールアドレスは既に登録済み */
-	public static final String MAIL_ADDRESS_ALREADY_REGISTERED = "入力されたメールアドレスは既に登録済みです";
 	/** ログイン不可メッセージ */
 	public static final String EMAIL_OR_PASSWORD_IS_WRONG = "メールアドレスかパスワードが間違えています";
 	/** ユーザー情報の取得失敗 */
 	public static final String USER_INFO_GET_FAILED = "ユーザー情報の取得に失敗しました";
-	/** パスワードの変更失敗 */
-	public static final String USER_PASSWORD_CHANGE_FAILED = "パスワードの変更に失敗しました";
 	/** お問い合わせ・ご意見は1日1回となっております */
 	public static final String INQUIRY_OVER_TIMES = "お問い合わせ・ご意見は1日1回となっております";
 	/** お問い合わせ内容未入力 */
 	public static final String INQUIRY_BLANK_ERROR = "お問い合わせ内容を入力してください";
-	/** パスワードを忘れた場合の再設定メール送信 */
-	public static final String EMAIL_NOT_EXIST_ERROR = "メールアドレスが存在しません";
-	/** パスワードを忘れた場合の再設定失敗 */
-	public static final String FORGOT_RESET_PASSWORD_ERROR = "パスワード再設定に失敗しました。再度設定してください";
 	/** 存在しないテーマカラーIDを登録した場合 */
 	public static final String THEME_COLOR_NOT_FOUND = "存在しないテーマカラーです。";
 
@@ -69,16 +61,10 @@ public class ErrorMessage {
 	// subCategory
 	/** サブカテゴリデータの取得失敗 */
 	public static final String SUB_CATEGORY_GET_FAILED = "サブカテゴリの取得に失敗しました";
-	/** サブカテゴリ登録済み */
-	public static final String SUB_CATEGORY_ALREADY_REGISTERED = "登録されているサブカテゴリです";
 
 	// savingTarget
-	/** 貯金目標の追加失敗 */
-	public static final String SAVING_TARGET_INSERT_FAILED = "貯金目標の追加に失敗しました";
 	/** 貯金目標登録済み */
 	public static final String SAVING_TARGET_NAME_DUPLICATED = "貯金目標名が重複しています";
-	/** 貯金目標の編集失敗 */
-	public static final String SAVING_TARGET_UPDATE_FAILED = "貯金目標の編集に失敗しました";
 	/** 貯金目標の検索失敗 */
 	public static final String SAVING_TARGET_NOT_FOUND = "存在しない貯金目標です";
 	/** 貯金目標の削除失敗 */

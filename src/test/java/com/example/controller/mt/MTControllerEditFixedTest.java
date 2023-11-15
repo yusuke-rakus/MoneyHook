@@ -1,8 +1,7 @@
 package com.example.controller.mt;
 
 import com.example.common.Status;
-import com.example.common.message.ErrorMessage;
-import com.example.common.message.SuccessMessage;
+import com.example.common.message.Message;
 import com.example.domain.MonthlyTransaction;
 import com.example.form.EditFixedForm;
 import com.example.form.GetFixedForm;
@@ -55,6 +54,9 @@ class MTControllerEditFixedTest {
 
 	@Autowired
 	private ObjectMapper mapper;
+
+	@Autowired
+	private Message message;
 
 	@SpyBean
 	private MonthlyTransactionMapper mtMapper;
@@ -112,7 +114,7 @@ class MTControllerEditFixedTest {
 
 		EditFixedResponse response = mapper.readValue(result, EditFixedResponse.class);
 		assertEquals(Status.SUCCESS.getStatus(), response.getStatus());
-		assertEquals(SuccessMessage.MONTHLY_TRANSACTION_EDIT_SUCCESSED, response.getMessage());
+		assertEquals(message.get("success-message.monthly-transaction-edit-successed"), response.getMessage());
 		assertEquals(editName, map.get(editName).getMonthlyTransactionName());
 		assertNotNull(map.get(addName));
 	}
@@ -140,7 +142,7 @@ class MTControllerEditFixedTest {
 
 		EditFixedResponse response = mapper.readValue(result, EditFixedResponse.class);
 		assertEquals(Status.ERROR.getStatus(), response.getStatus());
-		assertEquals(ErrorMessage.AUTHENTICATION_ERROR, response.getMessage());
+		assertEquals(message.get("error-message.authentication-error"), response.getMessage());
 
 	}
 
@@ -178,7 +180,7 @@ class MTControllerEditFixedTest {
 
 		EditFixedResponse response = mapper.readValue(result, EditFixedResponse.class);
 		assertEquals(Status.ERROR.getStatus(), response.getStatus());
-		assertEquals(ErrorMessage.MONTHLY_TRANSACTION_EDIT_ERROR, response.getMessage());
+		assertEquals(message.get("error-message.monthly-transaction-edit-error"), response.getMessage());
 		assertEquals(editName, map.get(editName).getMonthlyTransactionName());
 	}
 }

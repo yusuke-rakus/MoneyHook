@@ -3,8 +3,7 @@ package com.example.service;
 import com.example.common.exception.AlreadyExistsException;
 import com.example.common.exception.DataNotFoundException;
 import com.example.common.exception.SystemException;
-import com.example.common.message.ErrorMessage;
-import com.example.common.message.SuccessMessage;
+import com.example.common.message.Message;
 import com.example.domain.SavingTarget;
 import com.example.form.*;
 import com.example.mapper.SavingTargetMapper;
@@ -27,6 +26,8 @@ public class SavingTargetService {
 	@Autowired
 	private AuthenticationService authenticationService;
 
+	@Autowired
+	private Message message;
 
 	/**
 	 * 並び替えの際にMAPで使うEnum
@@ -103,7 +104,7 @@ public class SavingTargetService {
 			} else {
 				// 既にあれば、その内容を返す用のインスタンスに詰め替え
 				BeanUtils.copyProperties(searchedSavingTarget, savingTarget);
-				throw new AlreadyExistsException(ErrorMessage.SAVING_TARGET_NAME_DUPLICATED);
+				throw new AlreadyExistsException(message.get("error-message.saving-target-name-duplicated"));
 			}
 		}
 		return savingTarget;
@@ -132,7 +133,7 @@ public class SavingTargetService {
 			if (!Objects.isNull(searchedSavingTarget) && !(savingTarget.getSavingTargetId()
 					.equals(searchedSavingTarget.getSavingTargetId()))) {
 				// 既にあり、それが変更対象以外であれば、編集に失敗したことを返す
-				throw new AlreadyExistsException(ErrorMessage.SAVING_TARGET_NAME_DUPLICATED);
+				throw new AlreadyExistsException(message.get("error-message.saving-target-name-duplicated"));
 			}
 		}
 
@@ -167,7 +168,7 @@ public class SavingTargetService {
 			}
 
 		} catch (Exception e) {
-			throw new SystemException(ErrorMessage.SAVING_TARGET_DELETE_FAILED);
+			throw new SystemException(message.get("error-message.saving-target-delete-failed"));
 		}
 	}
 
@@ -187,7 +188,7 @@ public class SavingTargetService {
 		checkForm.setUserNo(form.getUserNo());
 		checkForm.setSavingTargetId(form.getSavingTargetId());
 		if (!savingTargetMapper.isSavingTargetExist(checkForm)) {
-			throw new AlreadyExistsException(ErrorMessage.SAVING_TARGET_NOT_FOUND);
+			throw new AlreadyExistsException(message.get("error-message.saving-target-not-found"));
 		} else {
 			List<SavingTarget> savingTargetList = savingTargetMapper.getSavingTargetList(userNo);
 			checkForm.setSortNo(savingTargetList.size() + 1);
@@ -212,11 +213,11 @@ public class SavingTargetService {
 		checkForm.setUserNo(form.getUserNo());
 		checkForm.setSavingTargetId(form.getSavingTargetId());
 		if (!savingTargetMapper.isSavingTargetExist(checkForm)) {
-			throw new AlreadyExistsException(ErrorMessage.SAVING_TARGET_NOT_FOUND);
+			throw new AlreadyExistsException(message.get("error-message.saving-target-not-found"));
 		}
 
 		if (savingTargetMapper.isTargetHasTotalSaved(form) > 0) {
-			throw new AlreadyExistsException(ErrorMessage.SAVING_TARGET_HAS_TOTAL_SAVED);
+			throw new AlreadyExistsException(message.get("error-message.saving-target-has-total-saved"));
 		} else {
 			savingTargetMapper.deleteSavingTargetFromTable(form);
 		}
@@ -236,7 +237,7 @@ public class SavingTargetService {
 
 		// 該当する貯金目標がない場合は、システム例外をスロー
 		if (Objects.isNull(savingTarget)) {
-			throw new DataNotFoundException(ErrorMessage.SAVING_TARGET_NOT_FOUND);
+			throw new DataNotFoundException(message.get("error-message.saving-target-not-found"));
 		}
 
 		return savingTarget;
@@ -268,7 +269,7 @@ public class SavingTargetService {
 		Map<SortNoTarget, SavingTarget> map = compareSavingTarget(dbTargetList, form.getSavingTargetList());
 		//並び替えが発生しない場合は正常終了とする
 		if (Objects.isNull(map)) {
-			response.setMessage(SuccessMessage.SAVING_TARGET_EDIT_SORT_NO_SUCCESSED);
+			response.setMessage(message.get("success-message.saving-target-edit-sort-no-successed"));
 			return response;
 		}
 
@@ -280,9 +281,9 @@ public class SavingTargetService {
 			SavingTarget newSortTarget = map.get(SortNoTarget.NewTarget);
 			newSortTarget.setUserNo(userNo);
 			savingTargetMapper.updateSavingTargetSortNo(newSortTarget);
-			response.setMessage(SuccessMessage.SAVING_TARGET_EDIT_SORT_NO_SUCCESSED);
+			response.setMessage(message.get("success-message.saving-target-edit-sort-no-successed"));
 		} catch (Exception e) {
-			throw new SystemException(ErrorMessage.SAVING_TARGET_UPDATE_SORT_NO_FAILED);
+			throw new SystemException(message.get("error-message.saving-target-update-sort-no-failed"));
 		}
 
 		return response;
@@ -318,7 +319,7 @@ public class SavingTargetService {
 	 * @param savingTargetList 　更新対象の貯金目標
 	 * @param oldSortNo        変更前のソート順
 	 * @param newSortNo        変更後のソート順
-	 * @param userNo           current_user userNo
+	 * @param userNo           current-user userNo
 	 */
 	private void updateTargetFilter(List<SavingTarget> savingTargetList, int oldSortNo, int newSortNo, Long userNo) {
 		List<SavingTarget> updateSavingTargetList;

@@ -1,8 +1,7 @@
 package com.example.controller.transaction;
 
 import com.example.common.Status;
-import com.example.common.message.ErrorMessage;
-import com.example.common.message.SuccessMessage;
+import com.example.common.message.Message;
 import com.example.domain.Transaction;
 import com.example.form.AddTransactionListForm;
 import com.example.form.GetTimelineDataForm;
@@ -37,7 +36,7 @@ class AddTransactionListTest {
 
 	final String URL = "/transaction/addTransactionList";
 	final String USER_ID = "a77a6e94-6aa2-47ea-87dd-129f580fb669";
-	final String FAIL_USER_ID = "fail_user_id";
+	final String FAIL_USER_ID = "fail-user-id";
 	final String NULL_USER_ID = null;
 	final String TOKEN = "sample_token";
 	final HttpHeaders HEADER = new HttpHeaders();
@@ -50,6 +49,9 @@ class AddTransactionListTest {
 
 	@Autowired
 	private TransactionMapper transactionMapper;
+
+	@Autowired
+	private Message message;
 
 	@Test
 	@Transactional(readOnly = false)
@@ -84,7 +86,7 @@ class AddTransactionListTest {
 
 		/* 検証 */
 		assertEquals(Status.SUCCESS.getStatus(), response.getStatus());
-		assertEquals(SuccessMessage.TRANSACTION_INSERT_SUCCESSED, response.getMessage());
+		assertEquals(message.get("success-message.transaction-insert-successed"), response.getMessage());
 
 		GetTimelineDataForm form = new GetTimelineDataForm();
 		form.setUserNo(2L);
@@ -133,7 +135,7 @@ class AddTransactionListTest {
 
 		/* 検証 */
 		assertEquals(Status.ERROR.getStatus(), response.getStatus());
-		assertEquals(ErrorMessage.AUTHENTICATION_ERROR, response.getMessage());
+		assertEquals(message.get("error-message.authentication-error"), response.getMessage());
 	}
 
 	@Test
@@ -169,7 +171,7 @@ class AddTransactionListTest {
 
 		/* 検証 */
 		assertEquals(Status.ERROR.getStatus(), response.getStatus());
-		assertEquals(ErrorMessage.AUTHENTICATION_ERROR, response.getMessage());
+		assertEquals(message.get("error-message.authentication-error"), response.getMessage());
 	}
 
 	@Test
@@ -205,7 +207,7 @@ class AddTransactionListTest {
 
 		/* 検証 */
 		assertEquals(Status.ERROR.getStatus(), response.getStatus());
-		assertEquals(ErrorMessage.TRANSACTION_ERROR_DATA_EXIST, response.getMessage());
+		assertEquals(message.get("error-message.transaction-error-data-exist"), response.getMessage());
 	}
 
 	@Test
@@ -241,7 +243,7 @@ class AddTransactionListTest {
 
 		/* 検証 */
 		assertEquals(Status.ERROR.getStatus(), response.getStatus());
-		assertEquals(ErrorMessage.TRANSACTION_ERROR_DATA_EXIST, response.getMessage());
+		assertEquals(message.get("error-message.transaction-error-data-exist"), response.getMessage());
 	}
 
 	@Test
@@ -277,7 +279,7 @@ class AddTransactionListTest {
 
 		/* 検証 */
 		assertEquals(Status.ERROR.getStatus(), response.getStatus());
-		assertEquals(ErrorMessage.TRANSACTION_ERROR_DATA_EXIST, response.getMessage());
+		assertEquals(message.get("error-message.transaction-error-data-exist"), response.getMessage());
 	}
 
 	@Test
@@ -313,7 +315,7 @@ class AddTransactionListTest {
 
 		/* 検証 */
 		assertEquals(Status.ERROR.getStatus(), response.getStatus());
-		assertEquals(ErrorMessage.TRANSACTION_ERROR_DATA_EXIST, response.getMessage());
+		assertEquals(message.get("error-message.transaction-error-data-exist"), response.getMessage());
 	}
 
 	@Test
@@ -349,7 +351,7 @@ class AddTransactionListTest {
 
 		/* 検証 */
 		assertEquals(Status.ERROR.getStatus(), response.getStatus());
-		assertEquals(ErrorMessage.TRANSACTION_ERROR_DATA_EXIST, response.getMessage());
+		assertEquals(message.get("error-message.transaction-error-data-exist"), response.getMessage());
 	}
 
 	@Test
@@ -385,7 +387,7 @@ class AddTransactionListTest {
 
 		/* 検証 */
 		assertEquals(Status.ERROR.getStatus(), response.getStatus());
-		assertEquals(ErrorMessage.TRANSACTION_ERROR_DATA_EXIST, response.getMessage());
+		assertEquals(message.get("error-message.transaction-error-data-exist"), response.getMessage());
 	}
 
 	@Test
@@ -423,7 +425,7 @@ class AddTransactionListTest {
 		int errorListSize = 8;
 
 		assertEquals(Status.ERROR.getStatus(), response.getStatus());
-		assertEquals(ErrorMessage.TRANSACTION_ERROR_DATA_EXIST, response.getMessage());
+		assertEquals(message.get("error-message.transaction-error-data-exist"), response.getMessage());
 		assertEquals(errorListSize, response.getErrorTransaction().size());
 	}
 

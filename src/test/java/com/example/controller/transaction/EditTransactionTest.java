@@ -1,9 +1,7 @@
 package com.example.controller.transaction;
 
 import com.example.common.Status;
-import com.example.common.message.ErrorMessage;
-import com.example.common.message.SuccessMessage;
-import com.example.common.message.ValidatingMessage;
+import com.example.common.message.Message;
 import com.example.domain.Transaction;
 import com.example.form.EditTransactionForm;
 import com.example.form.GetTimelineDataForm;
@@ -35,7 +33,7 @@ class EditTransactionTest {
 
 	final String URL = "/transaction/editTransaction";
 	final String USER_ID = "a77a6e94-6aa2-47ea-87dd-129f580fb669";
-	final String FAIL_USER_ID = "fail_user_id";
+	final String FAIL_USER_ID = "fail-user-id";
 	final String NULL_USER_ID = null;
 	final String TOKEN = "sample_token";
 	final HttpHeaders HEADER = new HttpHeaders();
@@ -48,6 +46,9 @@ class EditTransactionTest {
 
 	@Autowired
 	private TransactionMapper transactionMapper;
+
+	@Autowired
+	private Message message;
 
 	@Test
 	@Transactional(readOnly = false)
@@ -83,7 +84,7 @@ class EditTransactionTest {
 
 		/* 検証 */
 		assertEquals(Status.SUCCESS.getStatus(), response.getStatus());
-		assertEquals(SuccessMessage.TRANSACTION_EDIT_SUCCESSED, response.getMessage());
+		assertEquals(message.get("success-message.transaction-edit-successed"), response.getMessage());
 
 		GetTimelineDataForm form = new GetTimelineDataForm();
 		form.setUserNo(2L);
@@ -134,7 +135,7 @@ class EditTransactionTest {
 
 		/* 検証 */
 		assertEquals(Status.ERROR.getStatus(), response.getStatus());
-		assertEquals(ErrorMessage.AUTHENTICATION_ERROR, response.getMessage());
+		assertEquals(message.get("error-message.authentication-error"), response.getMessage());
 	}
 
 	@Test
@@ -171,7 +172,7 @@ class EditTransactionTest {
 
 		/* 検証 */
 		assertEquals(Status.ERROR.getStatus(), response.getStatus());
-		assertEquals(ErrorMessage.AUTHENTICATION_ERROR, response.getMessage());
+		assertEquals(message.get("error-message.authentication-error"), response.getMessage());
 	}
 
 	@Test
@@ -208,7 +209,7 @@ class EditTransactionTest {
 
 		/* 検証 */
 		assertEquals(Status.ERROR.getStatus(), response.getStatus());
-		assertEquals(ErrorMessage.TRANSACTION_DATA_NOT_FOUND, response.getMessage());
+		assertEquals(message.get("error-message.transaction-data-not-found"), response.getMessage());
 	}
 
 	@Test
@@ -245,7 +246,7 @@ class EditTransactionTest {
 
 		/* 検証 */
 		assertEquals(Status.ERROR.getStatus(), response.getStatus());
-		assertEquals(ValidatingMessage.DATE_EMPTY_ERROR, response.getMessage());
+		assertEquals(message.get("validating-message.date-empty-error"), response.getMessage());
 	}
 
 	@Test
@@ -282,7 +283,7 @@ class EditTransactionTest {
 
 		/* 検証 */
 		assertEquals(Status.ERROR.getStatus(), response.getStatus());
-		assertEquals(ValidatingMessage.TRANSACTION_AMOUNT_EMPTY_ERROR, response.getMessage());
+		assertEquals(message.get("validating-message.transaction-amount-empty-error"), response.getMessage());
 	}
 
 	@Test
@@ -319,7 +320,7 @@ class EditTransactionTest {
 
 		/* 検証 */
 		assertEquals(Status.ERROR.getStatus(), response.getStatus());
-		assertEquals(ValidatingMessage.TRANSACTION_AMOUNT_EMPTY_ERROR, response.getMessage());
+		assertEquals(message.get("validating-message.transaction-amount-empty-error"), response.getMessage());
 	}
 
 	@Test
@@ -356,7 +357,7 @@ class EditTransactionTest {
 
 		/* 検証 */
 		assertEquals(Status.ERROR.getStatus(), response.getStatus());
-		assertEquals(ValidatingMessage.TRANSACTION_NAME_EMPTY_ERROR, response.getMessage());
+		assertEquals(message.get("validating-message.transaction-name-empty-error"), response.getMessage());
 	}
 
 	@Test
@@ -393,7 +394,7 @@ class EditTransactionTest {
 
 		/* 検証 */
 		assertEquals(Status.ERROR.getStatus(), response.getStatus());
-		assertEquals(ValidatingMessage.CATEGORY_NOT_SELECT_ERROR, response.getMessage());
+		assertEquals(message.get("validating-message.category-not-select-error"), response.getMessage());
 	}
 
 	@Test
@@ -430,7 +431,7 @@ class EditTransactionTest {
 
 		/* 検証 */
 		assertEquals(Status.ERROR.getStatus(), response.getStatus());
-		assertEquals(ErrorMessage.CATEGORY_NOT_FOUND_ERROR, response.getMessage());
+		assertEquals(message.get("error-message.category-not-found-error"), response.getMessage());
 	}
 
 	@Test
@@ -467,7 +468,7 @@ class EditTransactionTest {
 
 		/* 検証 */
 		assertEquals(Status.ERROR.getStatus(), response.getStatus());
-		assertEquals(ErrorMessage.TRANSACTION_DATA_INSERT_FAILED, response.getMessage());
+		assertEquals(message.get("error-message.transaction-data-insert-failed"), response.getMessage());
 	}
 
 	@Test
@@ -506,6 +507,6 @@ class EditTransactionTest {
 
 		/* 検証 */
 		assertEquals(Status.ERROR.getStatus(), response.getStatus());
-		assertEquals(ValidatingMessage.SUB_CATEGORY_NO_SELECT_AND_INPUT_ERROR, response.getMessage());
+		assertEquals(message.get("validating-message.sub-category-no-select-and-input-error"), response.getMessage());
 	}
 }

@@ -1,9 +1,7 @@
 package com.example.controller.savingTarget;
 
 import com.example.common.Status;
-import com.example.common.message.ErrorMessage;
-import com.example.common.message.SuccessMessage;
-import com.example.common.message.ValidatingMessage;
+import com.example.common.message.Message;
 import com.example.domain.SavingTarget;
 import com.example.form.GetSavingTargetListForm;
 import com.example.form.ReturnSavingTargetForm;
@@ -48,6 +46,9 @@ class ReturnSavingTargetTest {
 	@Autowired
 	private SavingTargetMapper savingTargetMapper;
 
+	@Autowired
+	private Message message;
+
 	@Test
 	@Transactional(readOnly = false)
 	void returnSavingTargetTest() throws Exception {
@@ -68,7 +69,7 @@ class ReturnSavingTargetTest {
 
 		/* 検証 */
 		assertEquals(Status.SUCCESS.getStatus(), response.getStatus());
-		assertEquals(SuccessMessage.SAVING_TARGET_RETURN_SUCCESSED, response.getMessage());
+		assertEquals(message.get("success-message.saving-target-return-successed"), response.getMessage());
 
 		GetSavingTargetListForm form = new GetSavingTargetListForm();
 		form.setUserNo(2L);
@@ -98,7 +99,7 @@ class ReturnSavingTargetTest {
 
 		/* 検証 */
 		assertEquals(Status.ERROR.getStatus(), response.getStatus());
-		assertEquals(ErrorMessage.AUTHENTICATION_ERROR, response.getMessage());
+		assertEquals(message.get("error-message.authentication-error"), response.getMessage());
 	}
 
 	@Test
@@ -121,7 +122,7 @@ class ReturnSavingTargetTest {
 
 		/* 検証 */
 		assertEquals(Status.ERROR.getStatus(), response.getStatus());
-		assertEquals(ErrorMessage.AUTHENTICATION_ERROR, response.getMessage());
+		assertEquals(message.get("error-message.authentication-error"), response.getMessage());
 	}
 
 	@Test
@@ -144,7 +145,7 @@ class ReturnSavingTargetTest {
 
 		/* 検証 */
 		assertEquals(Status.ERROR.getStatus(), response.getStatus());
-		assertEquals(ErrorMessage.SAVING_TARGET_NOT_FOUND, response.getMessage());
+		assertEquals(message.get("error-message.saving-target-not-found"), response.getMessage());
 	}
 
 	@Test
@@ -167,6 +168,6 @@ class ReturnSavingTargetTest {
 
 		/* 検証 */
 		assertEquals(Status.ERROR.getStatus(), response.getStatus());
-		assertEquals(ValidatingMessage.ID_EMPTY_ERROR, response.getMessage());
+		assertEquals(message.get("validating-message.id-empty-error"), response.getMessage());
 	}
 }

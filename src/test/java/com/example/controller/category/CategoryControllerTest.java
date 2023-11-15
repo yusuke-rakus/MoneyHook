@@ -1,7 +1,7 @@
 package com.example.controller.category;
 
 import com.example.common.Status;
-import com.example.common.message.ErrorMessage;
+import com.example.common.message.Message;
 import com.example.domain.Category;
 import com.example.response.CategoryResponse;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -39,6 +39,9 @@ class CategoryControllerTest {
 	@Autowired
 	private ObjectMapper mapper;
 
+	@Autowired
+	private Message message;
+	
 	@Test
 	@Transactional(readOnly = true)
 	void getCategoryListTest() throws Exception {
@@ -74,6 +77,6 @@ class CategoryControllerTest {
 
 		CategoryResponse response = mapper.readValue(result, CategoryResponse.class);
 		assertEquals(Status.ERROR.getStatus(), response.getStatus());
-		assertEquals(ErrorMessage.CATEGORY_GET_FAILED, response.getMessage());
+		assertEquals(message.get("error-message.category-get-failed"), response.getMessage());
 	}
 }

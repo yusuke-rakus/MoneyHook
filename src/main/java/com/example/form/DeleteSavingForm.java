@@ -2,11 +2,9 @@ package com.example.form;
 
 import javax.validation.constraints.NotNull;
 
-import com.example.common.message.ValidatingMessage;
-
 public class DeleteSavingForm extends form {
 
-	@NotNull(message = ValidatingMessage.ID_EMPTY_ERROR)
+	@NotNull(message = "{validating-message.id-empty-error}")
 	private Long savingId;
 
 	public Long getSavingId() {

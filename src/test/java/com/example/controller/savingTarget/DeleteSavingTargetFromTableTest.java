@@ -1,8 +1,7 @@
 package com.example.controller.savingTarget;
 
 import com.example.common.Status;
-import com.example.common.message.ErrorMessage;
-import com.example.common.message.SuccessMessage;
+import com.example.common.message.Message;
 import com.example.form.DeleteSavingTargetForm;
 import com.example.response.DeleteSavingTargetResponse;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -39,6 +38,9 @@ class DeleteSavingTargetFromTableTest {
 	@Autowired
 	private ObjectMapper mapper;
 
+	@Autowired
+	private Message message;
+
 	@Test
 	@Transactional(readOnly = false)
 	void deleteSavingTargetFromTableTest() throws Exception {
@@ -59,7 +61,7 @@ class DeleteSavingTargetFromTableTest {
 
 		/* 検証 */
 		assertEquals(Status.SUCCESS.getStatus(), response.getStatus());
-		assertEquals(SuccessMessage.SAVING_TARGET_DELETE_SUCCESSED, response.getMessage());
+		assertEquals(message.get("success-message.SAVING_TARGET_DELETE_SUCCESSED"), response.getMessage());
 	}
 
 	@Test
@@ -82,7 +84,7 @@ class DeleteSavingTargetFromTableTest {
 
 		/* 検証 */
 		assertEquals(Status.ERROR.getStatus(), response.getStatus());
-		assertEquals(ErrorMessage.AUTHENTICATION_ERROR, response.getMessage());
+		assertEquals(message.get("error-message.authentication-error"), response.getMessage());
 	}
 
 	@Test
@@ -105,7 +107,7 @@ class DeleteSavingTargetFromTableTest {
 
 		/* 検証 */
 		assertEquals(Status.ERROR.getStatus(), response.getStatus());
-		assertEquals(ErrorMessage.AUTHENTICATION_ERROR, response.getMessage());
+		assertEquals(message.get("error-message.authentication-error"), response.getMessage());
 	}
 
 	@Test
@@ -128,7 +130,7 @@ class DeleteSavingTargetFromTableTest {
 
 		/* 検証 */
 		assertEquals(Status.ERROR.getStatus(), response.getStatus());
-		assertEquals(ErrorMessage.SAVING_TARGET_NOT_FOUND, response.getMessage());
+		assertEquals(message.get("error-message.saving-target-not-found"), response.getMessage());
 	}
 
 	@Test
@@ -151,6 +153,6 @@ class DeleteSavingTargetFromTableTest {
 
 		/* 検証 */
 		assertEquals(Status.ERROR.getStatus(), response.getStatus());
-		assertEquals(ErrorMessage.SAVING_TARGET_HAS_TOTAL_SAVED, response.getMessage());
+		assertEquals(message.get("error-message.saving-target-has-total-saved"), response.getMessage());
 	}
 }

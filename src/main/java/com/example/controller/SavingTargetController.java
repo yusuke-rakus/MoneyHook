@@ -2,7 +2,7 @@ package com.example.controller;
 
 import com.example.common.Status;
 import com.example.common.exception.AlreadyExistsException;
-import com.example.common.message.SuccessMessage;
+import com.example.common.message.Message;
 import com.example.domain.SavingTarget;
 import com.example.form.*;
 import com.example.response.*;
@@ -28,6 +28,9 @@ public class SavingTargetController {
 	@Autowired
 	private ValidationService validationService;
 
+	@Autowired
+	private Message message;
+
 	/**
 	 * 貯金目標一覧を取得
 	 *
@@ -49,7 +52,7 @@ public class SavingTargetController {
 
 		List<SavingTarget> savingTargetList = savingTargetService.getSavingTargetList(form);
 
-		res.setMessage(SuccessMessage.SAVING_TARGET_LIST_GET_SUCCESSED);
+		res.setMessage(message.get("success-message.saving-target-list-get-successed"));
 		res.setSavingTarget(savingTargetList);
 		return res;
 	}
@@ -75,7 +78,7 @@ public class SavingTargetController {
 
 		List<SavingTarget> savingTargetList = savingTargetService.getDeletedSavingTargetList(form);
 
-		res.setMessage(SuccessMessage.DELETED_SAVING_TARGET_LIST_GET_SUCCESSED);
+		res.setMessage(message.get("success-message.deleted-saving-target-list-get-successed"));
 		res.setSavingTarget(savingTargetList);
 		return res;
 	}
@@ -103,7 +106,7 @@ public class SavingTargetController {
 		try {
 			SavingTarget savingTarget = savingTargetService.searchByNameAndInsertSavingTarget(form);
 			res.setSavingTarget(savingTarget);
-			res.setMessage(SuccessMessage.SAVING_TARGET_INSERT_SUCCESSED);
+			res.setMessage(message.get("success-message.saving-target-insert-successed"));
 		} catch (Exception e) {
 			res.setStatus(Status.ERROR.getStatus());
 			res.setMessage(e.getMessage());
@@ -139,7 +142,7 @@ public class SavingTargetController {
 			return res;
 		}
 
-		res.setMessage(SuccessMessage.SAVING_TARGET_EDIT_SUCCESSED);
+		res.setMessage(message.get("success-message.saving-target-edit-successed"));
 		return res;
 	}
 
@@ -170,7 +173,7 @@ public class SavingTargetController {
 			return res;
 		}
 
-		res.setMessage(SuccessMessage.SAVING_TARGET_DELETE_SUCCESSED);
+		res.setMessage(message.get("success-message.saving-target-delete-successed"));
 		return res;
 	}
 
@@ -202,7 +205,7 @@ public class SavingTargetController {
 			return res;
 		}
 
-		res.setMessage(SuccessMessage.SAVING_TARGET_RETURN_SUCCESSED);
+		res.setMessage(message.get("success-message.saving-target-return-successed"));
 		return res;
 	}
 
@@ -233,7 +236,7 @@ public class SavingTargetController {
 			return res;
 		}
 
-		res.setMessage(SuccessMessage.SAVING_TARGET_DELETE_SUCCESSED);
+		res.setMessage(message.get("error-message.saving-target-delete-successed"));
 		return res;
 	}
 

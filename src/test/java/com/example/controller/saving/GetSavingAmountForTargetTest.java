@@ -1,8 +1,7 @@
 package com.example.controller.saving;
 
 import com.example.common.Status;
-import com.example.common.message.ErrorMessage;
-import com.example.common.message.SuccessMessage;
+import com.example.common.message.Message;
 import com.example.form.GetSavingTargetListForm;
 import com.example.response.GetSavingAmountForSavingTargetResponse;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -39,6 +38,9 @@ public class GetSavingAmountForTargetTest {
 	@Autowired
 	private ObjectMapper mapper;
 
+	@Autowired
+	private Message message;
+
 	@Test
 	@Transactional(readOnly = true)
 	void getSavingAmountForTargetTest() throws Exception {
@@ -59,7 +61,7 @@ public class GetSavingAmountForTargetTest {
 		BigInteger uncategorizedAmount = BigInteger.valueOf(2000);
 
 		assertEquals(Status.SUCCESS.getStatus(), response.getStatus());
-		assertEquals(SuccessMessage.SAVING_TARGET_AMOUNT_LIST_GET_SUCCESSED, response.getMessage());
+		assertEquals(message.get("success-message.saving-target-amount-list-get-successed"), response.getMessage());
 		assertEquals(response.getSavingTargetList().size(), savingTargetListCount);
 		assertEquals(response.getUncategorizedAmount(), uncategorizedAmount);
 	}
@@ -81,7 +83,7 @@ public class GetSavingAmountForTargetTest {
 				GetSavingAmountForSavingTargetResponse.class);
 		/* 検証 */
 		assertEquals(Status.ERROR.getStatus(), response.getStatus());
-		assertEquals(ErrorMessage.AUTHENTICATION_ERROR, response.getMessage());
+		assertEquals(message.get("error-message.authentication-error"), response.getMessage());
 	}
 
 	@Test
@@ -101,6 +103,6 @@ public class GetSavingAmountForTargetTest {
 				GetSavingAmountForSavingTargetResponse.class);
 		/* 検証 */
 		assertEquals(Status.ERROR.getStatus(), response.getStatus());
-		assertEquals(ErrorMessage.AUTHENTICATION_ERROR, response.getMessage());
+		assertEquals(message.get("error-message.authentication-error"), response.getMessage());
 	}
 }

@@ -1,8 +1,7 @@
 package com.example.controller.mt;
 
 import com.example.common.Status;
-import com.example.common.message.ErrorMessage;
-import com.example.common.message.SuccessMessage;
+import com.example.common.message.Message;
 import com.example.domain.MonthlyTransaction;
 import com.example.form.GetFixedForm;
 import com.example.form.ReturnTargetForm;
@@ -50,6 +49,9 @@ class MTControllerReturnTargetTest {
 	@Autowired
 	private ObjectMapper mapper;
 
+	@Autowired
+	private Message message;
+
 	@SpyBean
 	private MonthlyTransactionMapper mtMapper;
 
@@ -83,7 +85,7 @@ class MTControllerReturnTargetTest {
 		//検証　
 		ReturnTargetResponse response = mapper.readValue(result, ReturnTargetResponse.class);
 		assertEquals(Status.SUCCESS.getStatus(), response.getStatus());
-		assertEquals(SuccessMessage.MONTHLY_TRANSACTION_BACK_SUCCESSED, response.getMessage());
+		assertEquals(message.get("success-message.monthly-transaction-back-successed"), response.getMessage());
 		assertEquals(true, mtList.stream().anyMatch(mt -> mt.getMonthlyTransactionId() == 6));
 	}
 
@@ -112,7 +114,7 @@ class MTControllerReturnTargetTest {
 		//検証　
 		ReturnTargetResponse response = mapper.readValue(result, ReturnTargetResponse.class);
 		assertEquals(Status.ERROR.getStatus(), response.getStatus());
-		assertEquals(ErrorMessage.AUTHENTICATION_ERROR, response.getMessage());
+		assertEquals(message.get("error-message.authentication-error"), response.getMessage());
 		assertEquals(false, mtList.stream().anyMatch(mt -> mt.getMonthlyTransactionId() == 6));
 	}
 
@@ -143,7 +145,7 @@ class MTControllerReturnTargetTest {
 		//検証　
 		ReturnTargetResponse response = mapper.readValue(result, ReturnTargetResponse.class);
 		assertEquals(Status.ERROR.getStatus(), response.getStatus());
-		assertEquals(ErrorMessage.SYSTEM_ERROR, response.getMessage());
+		assertEquals(message.get("error-message.system-error"), response.getMessage());
 		assertEquals(false, mtList.stream().anyMatch(mt -> mt.getMonthlyTransactionId() == 6));
 	}
 

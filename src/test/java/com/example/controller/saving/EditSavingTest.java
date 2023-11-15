@@ -1,9 +1,7 @@
 package com.example.controller.saving;
 
 import com.example.common.Status;
-import com.example.common.message.ErrorMessage;
-import com.example.common.message.SuccessMessage;
-import com.example.common.message.ValidatingMessage;
+import com.example.common.message.Message;
 import com.example.domain.Saving;
 import com.example.form.EditSavingForm;
 import com.example.form.GetMonthlySavingListForm;
@@ -49,6 +47,9 @@ class EditSavingTest {
 	@Autowired
 	private SavingMapper savingMapper;
 
+	@Autowired
+	private Message message;
+
 	@Test
 	@Transactional(readOnly = false)
 	void editSavingTest() throws Exception {
@@ -77,7 +78,7 @@ class EditSavingTest {
 
 		/* 検証 */
 		assertEquals(Status.SUCCESS.getStatus(), response.getStatus());
-		assertEquals(SuccessMessage.SAVING_EDIT_SUCCESSED, response.getMessage());
+		assertEquals(message.get("success-message.saving-edit-successed"), response.getMessage());
 
 		GetMonthlySavingListForm form = new GetMonthlySavingListForm();
 		form.setUserNo(2L);
@@ -120,7 +121,7 @@ class EditSavingTest {
 
 		/* 検証 */
 		assertEquals(Status.ERROR.getStatus(), response.getStatus());
-		assertEquals(ErrorMessage.AUTHENTICATION_ERROR, response.getMessage());
+		assertEquals(message.get("error-message.authentication-error"), response.getMessage());
 	}
 
 	@Test
@@ -151,7 +152,7 @@ class EditSavingTest {
 
 		/* 検証 */
 		assertEquals(Status.ERROR.getStatus(), response.getStatus());
-		assertEquals(ErrorMessage.AUTHENTICATION_ERROR, response.getMessage());
+		assertEquals(message.get("error-message.authentication-error"), response.getMessage());
 	}
 
 	@Test
@@ -182,7 +183,7 @@ class EditSavingTest {
 
 		/* 検証 */
 		assertEquals(Status.ERROR.getStatus(), response.getStatus());
-		assertEquals(ErrorMessage.SAVING_DATA_NOT_FOUND, response.getMessage());
+		assertEquals(message.get("error-message.saving-data-not-found"), response.getMessage());
 	}
 
 	@Test
@@ -213,7 +214,7 @@ class EditSavingTest {
 
 		/* 検証 */
 		assertEquals(Status.ERROR.getStatus(), response.getStatus());
-		assertEquals(ValidatingMessage.DATE_EMPTY_ERROR, response.getMessage());
+		assertEquals(message.get("validating-message.date-empty-error"), response.getMessage());
 	}
 
 	@Test
@@ -244,7 +245,7 @@ class EditSavingTest {
 
 		/* 検証 */
 		assertEquals(Status.ERROR.getStatus(), response.getStatus());
-		assertEquals(ValidatingMessage.SAVING_NAME_EMPTY_ERROR, response.getMessage());
+		assertEquals(message.get("validating-message.saving-name-empty-error"), response.getMessage());
 	}
 
 	@Test
@@ -275,7 +276,7 @@ class EditSavingTest {
 
 		/* 検証 */
 		assertEquals(Status.ERROR.getStatus(), response.getStatus());
-		assertEquals(ValidatingMessage.SAVING_AMOUNT_EMPTY_ERROR, response.getMessage());
+		assertEquals(message.get("validating-message.saving-amount-empty-error"), response.getMessage());
 	}
 
 	@Test
@@ -306,6 +307,6 @@ class EditSavingTest {
 
 		/* 検証 */
 		assertEquals(Status.ERROR.getStatus(), response.getStatus());
-		assertEquals(ErrorMessage.SAVING_TARGET_NOT_FOUND, response.getMessage());
+		assertEquals(message.get("error-message.saving-target-not-found"), response.getMessage());
 	}
 }

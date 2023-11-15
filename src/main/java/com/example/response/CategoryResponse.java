@@ -1,8 +1,9 @@
 package com.example.response;
 
-import java.util.List;
 import com.example.domain.Category;
 import com.fasterxml.jackson.annotation.JsonInclude;
+
+import java.util.List;
 
 @JsonInclude(JsonInclude.Include.NON_EMPTY)
 public class CategoryResponse extends response {

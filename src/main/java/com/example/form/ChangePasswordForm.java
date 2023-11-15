@@ -1,17 +1,15 @@
 package com.example.form;
 
-import javax.validation.constraints.NotBlank;
-
 import org.hibernate.validator.constraints.Length;
 
-import com.example.common.message.ValidatingMessage;
+import javax.validation.constraints.NotBlank;
 
 public class ChangePasswordForm extends form {
 
 	private String password;
 
-	@NotBlank(message = ValidatingMessage.PASSWORD_EMPTY_ERROR)
-	@Length(max = 32, min = 8, message = ValidatingMessage.PASSWORD_RANGE_ERROR)
+	@NotBlank(message = "{validating-message.password-empty-error}")
+	@Length(max = 32, min = 8, message = "{validating-message.password-range-error}")
 	private String newPassword;
 
 	public String getPassword() {

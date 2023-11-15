@@ -1,8 +1,7 @@
 package com.example.controller.transaction;
 
 import com.example.common.Status;
-import com.example.common.message.ErrorMessage;
-import com.example.common.message.ValidatingMessage;
+import com.example.common.message.Message;
 import com.example.form.GetTotalSpendingForm;
 import com.example.response.GetTotalSpendingResponse;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -41,6 +40,9 @@ class GetTotalSpendingTest {
 
 	@Autowired
 	private ObjectMapper mapper;
+
+	@Autowired
+	private Message message;
 
 	@Test
 	@Transactional(readOnly = true)
@@ -132,7 +134,7 @@ class GetTotalSpendingTest {
 
 		/* 検証 */
 		assertEquals(Status.ERROR.getStatus(), response.getStatus());
-		assertEquals(ErrorMessage.AUTHENTICATION_ERROR, response.getMessage());
+		assertEquals(message.get("error-message.authentication-error"), response.getMessage());
 	}
 
 	@Test
@@ -161,7 +163,7 @@ class GetTotalSpendingTest {
 
 		/* 検証 */
 		assertEquals(Status.ERROR.getStatus(), response.getStatus());
-		assertEquals(ErrorMessage.AUTHENTICATION_ERROR, response.getMessage());
+		assertEquals(message.get("error-message.authentication-error"), response.getMessage());
 	}
 
 	@Test
@@ -190,7 +192,7 @@ class GetTotalSpendingTest {
 
 		/* 検証 */
 		assertEquals(Status.ERROR.getStatus(), response.getStatus());
-		assertEquals(ValidatingMessage.CATEGORY_NOT_SELECT_ERROR, response.getMessage());
+		assertEquals(message.get("validating-message.category-not-select-error"), response.getMessage());
 	}
 
 	@Test
@@ -219,7 +221,7 @@ class GetTotalSpendingTest {
 
 		/* 検証 */
 		assertEquals(Status.ERROR.getStatus(), response.getStatus());
-		assertEquals(ValidatingMessage.START_MONTH_NOT_INPUT_ERROR, response.getMessage());
+		assertEquals(message.get("validating-message.start-month-not-input-error"), response.getMessage());
 	}
 
 	@Test
@@ -248,7 +250,7 @@ class GetTotalSpendingTest {
 
 		/* 検証 */
 		assertEquals(Status.ERROR.getStatus(), response.getStatus());
-		assertEquals(ValidatingMessage.END_MONTH_NOT_INPUT_ERROR, response.getMessage());
+		assertEquals(message.get("validating-message.end-month-not-input-error"), response.getMessage());
 	}
 
 	@Test
@@ -277,7 +279,7 @@ class GetTotalSpendingTest {
 
 		/* 検証 */
 		assertEquals(Status.ERROR.getStatus(), response.getStatus());
-		assertEquals(ErrorMessage.CATEGORY_IS_NOT_RELATIONAL, response.getMessage());
+		assertEquals(message.get("error-message.category-is-not-relational"), response.getMessage());
 	}
 
 	@Test
@@ -306,7 +308,7 @@ class GetTotalSpendingTest {
 
 		/* 検証 */
 		assertEquals(Status.ERROR.getStatus(), response.getStatus());
-		assertEquals(ErrorMessage.DATE_RANGE_ERROR, response.getMessage());
+		assertEquals(message.get("error-message.date-range-error"), response.getMessage());
 	}
 
 	@Test
@@ -335,6 +337,6 @@ class GetTotalSpendingTest {
 
 		/* 検証 */
 		assertEquals(Status.ERROR.getStatus(), response.getStatus());
-		assertEquals(ErrorMessage.DATE_REVERSED_ERROR, response.getMessage());
+		assertEquals(message.get("error-message.date-reversed-error"), response.getMessage());
 	}
 }

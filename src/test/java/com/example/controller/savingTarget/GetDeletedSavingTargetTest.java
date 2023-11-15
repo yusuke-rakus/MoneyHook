@@ -1,8 +1,7 @@
 package com.example.controller.savingTarget;
 
 import com.example.common.Status;
-import com.example.common.message.ErrorMessage;
-import com.example.common.message.SuccessMessage;
+import com.example.common.message.Message;
 import com.example.form.GetSavingTargetListForm;
 import com.example.response.GetSavingTargetListResponse;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -38,6 +37,9 @@ public class GetDeletedSavingTargetTest {
 	@Autowired
 	private ObjectMapper mapper;
 
+	@Autowired
+	private Message message;
+
 	@Test
 	@Transactional(readOnly = true)
 	void getDeletedSavingTargetTest() throws Exception {
@@ -56,7 +58,7 @@ public class GetDeletedSavingTargetTest {
 		int savingTargetListCount = 1;
 
 		assertEquals(Status.SUCCESS.getStatus(), response.getStatus());
-		assertEquals(SuccessMessage.DELETED_SAVING_TARGET_LIST_GET_SUCCESSED, response.getMessage());
+		assertEquals(message.get("success-message.deleted-saving-target-list-get-successed"), response.getMessage());
 		assertEquals(response.getSavingTarget().size(), savingTargetListCount);
 	}
 
@@ -76,7 +78,7 @@ public class GetDeletedSavingTargetTest {
 		GetSavingTargetListResponse response = mapper.readValue(result, GetSavingTargetListResponse.class);
 		/* 検証 */
 		assertEquals(Status.ERROR.getStatus(), response.getStatus());
-		assertEquals(ErrorMessage.AUTHENTICATION_ERROR, response.getMessage());
+		assertEquals(message.get("error-message.authentication-error"), response.getMessage());
 	}
 
 	@Test
@@ -95,6 +97,6 @@ public class GetDeletedSavingTargetTest {
 		GetSavingTargetListResponse response = mapper.readValue(result, GetSavingTargetListResponse.class);
 		/* 検証 */
 		assertEquals(Status.ERROR.getStatus(), response.getStatus());
-		assertEquals(ErrorMessage.AUTHENTICATION_ERROR, response.getMessage());
+		assertEquals(message.get("error-message.authentication-error"), response.getMessage());
 	}
 }

@@ -3,15 +3,13 @@ package com.example.form;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 
-import com.example.common.message.ValidatingMessage;
-
 public class LoginForm extends form {
 
-	@NotBlank(message = ValidatingMessage.EMAIL_EMPTY_ERROR)
-	@Email(message = ValidatingMessage.EMAIL_EMPTY_ERROR)
+	@NotBlank(message = "{validating-message.email-empty-error}")
+	@Email(message = "{validating-message.email-empty-error}")
 	private String email;
 
-	@NotBlank(message = ValidatingMessage.PASSWORD_EMPTY_ERROR)
+	@NotBlank(message = "{validating-message.password-empty-error}")
 	private String password;
 
 	public String getEmail() {

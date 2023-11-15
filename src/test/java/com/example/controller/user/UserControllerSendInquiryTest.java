@@ -1,8 +1,7 @@
 package com.example.controller.user;
 
 import com.example.common.Status;
-import com.example.common.message.ErrorMessage;
-import com.example.common.message.SuccessMessage;
+import com.example.common.message.Message;
 import com.example.form.SendInquiryForm;
 import com.example.response.SendInquiryResponse;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -53,6 +52,9 @@ class UserControllerSendInquiryTest {
 	@Autowired
 	private JdbcTemplate jdbcTemplate;
 
+	@Autowired
+	private Message message;
+
 	private BindingResult bindingResult;
 
 	@BeforeEach
@@ -69,7 +71,8 @@ class UserControllerSendInquiryTest {
 
 		validator.validate(form, bindingResult);
 
-		assertEquals(ErrorMessage.INQUIRY_BLANK_ERROR, bindingResult.getFieldError().getDefaultMessage());
+		assertEquals(message.get("error-message.inquiry-blank-error"), bindingResult.getFieldError()
+				.getDefaultMessage());
 
 	}
 
@@ -81,7 +84,8 @@ class UserControllerSendInquiryTest {
 
 		validator.validate(form, bindingResult);
 
-		assertEquals(ErrorMessage.INQUIRY_BLANK_ERROR, bindingResult.getFieldError().getDefaultMessage());
+		assertEquals(message.get("error-message.inquiry-blank-error"), bindingResult.getFieldError()
+				.getDefaultMessage());
 	}
 
 	@Test
@@ -104,7 +108,7 @@ class UserControllerSendInquiryTest {
 		//検証
 		SendInquiryResponse response = mapper.readValue(result, SendInquiryResponse.class);
 		assertEquals(Status.SUCCESS.getStatus(), response.getStatus());
-		assertEquals(SuccessMessage.SEND_INQUIRY_SUCCESS, response.getMessage());
+		assertEquals(message.get("success-message.send-inquiry-success"), response.getMessage());
 	}
 
 	@Test
@@ -133,7 +137,7 @@ class UserControllerSendInquiryTest {
 		//検証
 		SendInquiryResponse response = mapper.readValue(result, SendInquiryResponse.class);
 		assertEquals(Status.ERROR.getStatus(), response.getStatus());
-		assertEquals(ErrorMessage.INQUIRY_OVER_TIMES, response.getMessage());
+		assertEquals(message.get("error-message.inquiry-over-times"), response.getMessage());
 	}
 
 }

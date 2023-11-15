@@ -1,8 +1,7 @@
 package com.example.controller.saving;
 
 import com.example.common.Status;
-import com.example.common.message.ErrorMessage;
-import com.example.common.message.SuccessMessage;
+import com.example.common.message.Message;
 import com.example.form.GetTotalSavingForm;
 import com.example.response.GetTotalSavingResponse;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -40,6 +39,9 @@ public class GetTotalSavingTest {
 	@Autowired
 	private ObjectMapper mapper;
 
+	@Autowired
+	private Message message;
+
 	@Test
 	@Transactional(readOnly = true)
 	void getTotalSavingTest() throws Exception {
@@ -61,7 +63,7 @@ public class GetTotalSavingTest {
 		BigInteger totalSavingAmount = BigInteger.valueOf(602100);
 
 		assertEquals(Status.SUCCESS.getStatus(), response.getStatus());
-		assertEquals(SuccessMessage.SAVING_TOTAL_DATA_GET_SUCCESSED, response.getMessage());
+		assertEquals(message.get("success-message.saving-total-data-get-successed"), response.getMessage());
 		assertEquals(response.getSavingDataList().size(), savingDataCount);
 		assertEquals(response.getTotalSavingAmount(), totalSavingAmount);
 	}
@@ -84,7 +86,7 @@ public class GetTotalSavingTest {
 		GetTotalSavingResponse response = mapper.readValue(result, GetTotalSavingResponse.class);
 		/* 検証 */
 		assertEquals(Status.ERROR.getStatus(), response.getStatus());
-		assertEquals(ErrorMessage.AUTHENTICATION_ERROR, response.getMessage());
+		assertEquals(message.get("error-message.authentication-error"), response.getMessage());
 	}
 
 	@Test
@@ -105,6 +107,6 @@ public class GetTotalSavingTest {
 		GetTotalSavingResponse response = mapper.readValue(result, GetTotalSavingResponse.class);
 		/* 検証 */
 		assertEquals(Status.ERROR.getStatus(), response.getStatus());
-		assertEquals(ErrorMessage.AUTHENTICATION_ERROR, response.getMessage());
+		assertEquals(message.get("error-message.authentication-error"), response.getMessage());
 	}
 }

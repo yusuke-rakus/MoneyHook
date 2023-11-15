@@ -3,7 +3,7 @@ package com.example.controller;
 import com.example.common.Status;
 import com.example.common.exception.DataNotFoundException;
 import com.example.common.exception.SystemException;
-import com.example.common.message.SuccessMessage;
+import com.example.common.message.Message;
 import com.example.domain.MonthlySavingData;
 import com.example.domain.Saving;
 import com.example.domain.SavingTarget;
@@ -36,6 +36,9 @@ public class SavingController {
 	@Autowired
 	private ValidationService validationService;
 
+	@Autowired
+	private Message message;
+
 	/**
 	 * 月別貯金一覧を取得
 	 */
@@ -54,7 +57,7 @@ public class SavingController {
 
 		List<Saving> savingList = savingService.getMonthlySavingList(form);
 
-		res.setMessage(SuccessMessage.SAVING_LIST_GET_SUCCESSED);
+		res.setMessage(message.get("success-message.saving-list-get-successed"));
 		res.setSavingList(savingList);
 		return res;
 	}
@@ -77,7 +80,7 @@ public class SavingController {
 
 		List<Saving> savingList = savingService.getUncategorizedSavingList(form);
 
-		res.setMessage(SuccessMessage.SAVING_LIST_GET_SUCCESSED);
+		res.setMessage(message.get("success-message.saving-list-get-successed"));
 		res.setSavingList(savingList);
 		return res;
 	}
@@ -108,7 +111,7 @@ public class SavingController {
 			return res;
 		}
 
-		res.setMessage(SuccessMessage.SAVING_DATA_GET_SUCCESSED);
+		res.setMessage(message.get("success-message.saving-data-get-successed"));
 		res.setSaving(saving);
 		return res;
 	}
@@ -138,7 +141,7 @@ public class SavingController {
 			return res;
 		}
 
-		res.setMessage(SuccessMessage.SAVING_INSERT_SUCCESSED);
+		res.setMessage(message.get("success-message.saving-insert-successed"));
 		return res;
 	}
 
@@ -167,7 +170,7 @@ public class SavingController {
 			return res;
 		}
 
-		res.setMessage(SuccessMessage.SAVING_EDIT_SUCCESSED);
+		res.setMessage(message.get("success-message.saving-edit-successed"));
 		return res;
 	}
 
@@ -194,7 +197,7 @@ public class SavingController {
 			return res;
 		}
 
-		res.setMessage(SuccessMessage.SAVING_DATA_DELETE_SUCCESSED);
+		res.setMessage(message.get("success-message.saving-data-delete-successed"));
 		return res;
 	}
 
@@ -223,7 +226,7 @@ public class SavingController {
 			return res;
 		}
 
-		res.setMessage(SuccessMessage.SAVING_ALLOT_SUCCESSED);
+		res.setMessage(message.get("success-message.saving-allot-successed"));
 		return res;
 	}
 
@@ -249,7 +252,7 @@ public class SavingController {
 
 		res.setTotalSavingAmount(totalSavingAmount);
 		res.setSavingDataList(monthlySavingDataList);
-		res.setMessage(SuccessMessage.SAVING_TOTAL_DATA_GET_SUCCESSED);
+		res.setMessage(message.get("success-message.saving-total-data-get-successed"));
 		return res;
 	}
 
@@ -273,7 +276,7 @@ public class SavingController {
 
 		res.setSavingTargetList(savingTargetList);
 		res.setUncategorizedAmount(uncategorizedAmount);
-		res.setMessage(SuccessMessage.SAVING_TARGET_AMOUNT_LIST_GET_SUCCESSED);
+		res.setMessage(message.get("success-message.saving-target-amount-list-get-successed"));
 		return res;
 	}
 

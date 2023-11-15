@@ -1,7 +1,7 @@
 package com.example.controller.subCategory;
 
 import com.example.common.Status;
-import com.example.common.message.ErrorMessage;
+import com.example.common.message.Message;
 import com.example.form.GetSubCategoryListForm;
 import com.example.response.SubCategoryResponse;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -18,6 +18,7 @@ import java.nio.charset.Charset;
 import java.util.UUID;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -40,22 +41,25 @@ class SubCategoryControllerTest {
 	@Autowired
 	private ObjectMapper mapper;
 
+	@Autowired
+	private Message message;
+
 	@Test
 	@Transactional(readOnly = true)
 	void getSubCategorySuccessByUser1Test() throws Exception {
 		/* 準備 */
 		Long categoryId = 2L;
 		/* 送るFormの中身を用意 */
-		GetSubCategoryListForm requsetForm = new GetSubCategoryListForm();
-		requsetForm.setUserId(USER_ID1);
-		requsetForm.setCategoryId(categoryId);
+		GetSubCategoryListForm requestForm = new GetSubCategoryListForm();
+		requestForm.setUserId(USER_ID1);
+		requestForm.setCategoryId(categoryId);
 		HEADER.add("UserId", USER_ID2);
 		HEADER.add(HttpHeaders.AUTHORIZATION, TOKEN);
 
 
 		/* 実行 */
 		String result = mvc.perform(post(URL).headers(HEADER)// 対象のURLに対してPOSTでリクエストを送る
-						.content(mapper.writeValueAsString(requsetForm)) // FormをJSONに変換してリクエストにセット
+						.content(mapper.writeValueAsString(requestForm)) // FormをJSONに変換してリクエストにセット
 						.contentType(MediaType.APPLICATION_JSON)) // headerにセット
 				.andDo(print()) // ログにリクエスト・レスポンを表示
 				.andExpect(status().isOk()) // 変換ステータスを指定
@@ -66,7 +70,7 @@ class SubCategoryControllerTest {
 		/* 検証 */
 		int getCount = 4;
 		assertEquals(Status.SUCCESS.getStatus(), response.getStatus());
-		assertEquals(null, response.getMessage());
+		assertNull(response.getMessage());
 		assertEquals(getCount, response.getSubCategoryList().size());
 	}
 
@@ -75,14 +79,14 @@ class SubCategoryControllerTest {
 	void getSubCategorySuccessByUser2Test() throws Exception {
 		/* 準備 */
 		Long categoryId = 2L;
-		GetSubCategoryListForm requsetForm = new GetSubCategoryListForm();
-		requsetForm.setUserId(USER_ID2);
-		requsetForm.setCategoryId(categoryId);
+		GetSubCategoryListForm requestForm = new GetSubCategoryListForm();
+		requestForm.setUserId(USER_ID2);
+		requestForm.setCategoryId(categoryId);
 		HEADER.add("UserId", USER_ID2);
 		HEADER.add(HttpHeaders.AUTHORIZATION, TOKEN);
 
 		/* 実行 */
-		String result = mvc.perform(post(URL).headers(HEADER).content(mapper.writeValueAsString(requsetForm))
+		String result = mvc.perform(post(URL).headers(HEADER).content(mapper.writeValueAsString(requestForm))
 						.contentType(MediaType.APPLICATION_JSON)).andDo(print()).andExpect(status().isOk()).andReturn()
 				.getResponse().getContentAsString(Charset.defaultCharset());
 
@@ -90,7 +94,7 @@ class SubCategoryControllerTest {
 		/* 検証 */
 		int getCount = 7;
 		assertEquals(Status.SUCCESS.getStatus(), response.getStatus());
-		assertEquals(null, response.getMessage());
+		assertNull(response.getMessage());
 		assertEquals(getCount, response.getSubCategoryList().size());
 
 	}
@@ -102,43 +106,43 @@ class SubCategoryControllerTest {
 		UUID uuid = UUID.randomUUID();
 		String userId = uuid.toString();
 		Long categoryId = 2L;
-		GetSubCategoryListForm requsetForm = new GetSubCategoryListForm();
-		requsetForm.setUserId(userId);
-		requsetForm.setCategoryId(categoryId);
+		GetSubCategoryListForm requestForm = new GetSubCategoryListForm();
+		requestForm.setUserId(userId);
+		requestForm.setCategoryId(categoryId);
 		HEADER.add("UserId", USER_ID2);
 		HEADER.add(HttpHeaders.AUTHORIZATION, TOKEN);
 
 		/* 実行 */
-		String result = mvc.perform(post(URL).headers(HEADER).content(mapper.writeValueAsString(requsetForm))
+		String result = mvc.perform(post(URL).headers(HEADER).content(mapper.writeValueAsString(requestForm))
 						.contentType(MediaType.APPLICATION_JSON)).andDo(print()).andExpect(status().isOk()).andReturn()
 				.getResponse().getContentAsString(Charset.defaultCharset());
 
 		SubCategoryResponse response = mapper.readValue(result, SubCategoryResponse.class);
 		assertEquals(Status.ERROR.getStatus(), response.getStatus());
-		assertEquals(ErrorMessage.AUTHENTICATION_ERROR, response.getMessage());
-		assertEquals(null, response.getSubCategoryList());
+		assertEquals(message.get("error-message.authentication-error"), response.getMessage());
+		assertNull(response.getSubCategoryList());
 	}
 
 	@Test
 	@Transactional(readOnly = true)
-	void getSubCategoryiIs0Test() throws Exception {
+	void getSubCategoryIs0Test() throws Exception {
 		/* 準備 */
 		Long categoryId = 30L;
-		GetSubCategoryListForm requsetForm = new GetSubCategoryListForm();
-		requsetForm.setUserId(USER_ID2);
-		requsetForm.setCategoryId(categoryId);
+		GetSubCategoryListForm requestForm = new GetSubCategoryListForm();
+		requestForm.setUserId(USER_ID2);
+		requestForm.setCategoryId(categoryId);
 		HEADER.add("UserId", USER_ID2);
 		HEADER.add(HttpHeaders.AUTHORIZATION, TOKEN);
 
 		/* 実行 */
-		String result = mvc.perform(post(URL).headers(HEADER).content(mapper.writeValueAsString(requsetForm))
+		String result = mvc.perform(post(URL).headers(HEADER).content(mapper.writeValueAsString(requestForm))
 						.contentType(MediaType.APPLICATION_JSON)).andDo(print()).andExpect(status().isOk()).andReturn()
 				.getResponse().getContentAsString(Charset.defaultCharset());
 
 		SubCategoryResponse response = mapper.readValue(result, SubCategoryResponse.class);
 		assertEquals(Status.ERROR.getStatus(), response.getStatus());
-		assertEquals(ErrorMessage.SUB_CATEGORY_GET_FAILED, response.getMessage());
-		assertEquals(null, response.getSubCategoryList());
+		assertEquals(message.get("error-message.sub-category-get-failed"), response.getMessage());
+		assertNull(response.getSubCategoryList());
 	}
 
 }

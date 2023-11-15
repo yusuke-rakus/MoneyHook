@@ -1,7 +1,7 @@
 package com.example.controller.transaction;
 
 import com.example.common.Status;
-import com.example.common.message.ErrorMessage;
+import com.example.common.message.Message;
 import com.example.form.GetMonthlyVariableDataForm;
 import com.example.response.GetMonthlyVariableDataResponse;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -40,6 +40,9 @@ class GetMonthlyVariableDataTest {
 
 	@Autowired
 	private ObjectMapper mapper;
+
+	@Autowired
+	private Message message;
 
 	@Test
 	@Transactional(readOnly = true)
@@ -89,7 +92,7 @@ class GetMonthlyVariableDataTest {
 
 		/* 検証 */
 		assertEquals(Status.ERROR.getStatus(), response.getStatus());
-		assertEquals(ErrorMessage.AUTHENTICATION_ERROR, response.getMessage());
+		assertEquals(message.get("error-message.authentication-error"), response.getMessage());
 	}
 
 	@Test
@@ -112,6 +115,6 @@ class GetMonthlyVariableDataTest {
 
 		/* 検証 */
 		assertEquals(Status.ERROR.getStatus(), response.getStatus());
-		assertEquals(ErrorMessage.AUTHENTICATION_ERROR, response.getMessage());
+		assertEquals(message.get("error-message.authentication-error"), response.getMessage());
 	}
 }

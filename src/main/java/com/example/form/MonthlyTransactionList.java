@@ -1,10 +1,8 @@
 package com.example.form;
 
-import javax.validation.constraints.NotBlank;
-
 import org.hibernate.validator.constraints.Length;
 
-import com.example.common.message.ValidatingMessage;
+import javax.validation.constraints.NotBlank;
 
 public class MonthlyTransactionList {
 
@@ -12,16 +10,16 @@ public class MonthlyTransactionList {
 
 	private Long monthlyTransactionId;
 
-	@NotBlank(message = ValidatingMessage.TRANSACTION_NAME_EMPTY_ERROR)
-	@Length(max = 32, message = ValidatingMessage.TRANSACTION_NAME_LIMIT_ERROR)
+	@NotBlank(message = "{validating-message.transaction-name-empty-error}")
+	@Length(max = 32, message = "{validating-message.transaction-name-limit-error}")
 	private String monthlyTransactionName;
 
-	@NotBlank(message = ValidatingMessage.TRANSACTION_AMOUNT_EMPTY_ERROR)
+	@NotBlank(message = "{validating-message.transaction-amount-empty-error}")
 	private Integer monthlyTransactionAmount;
 
 	private Integer monthlyTransactionSign;
 
-	@NotBlank(message = ValidatingMessage.DATE_EMPTY_ERROR)
+	@NotBlank(message = "{validating-message.date-empty-error}")
 	private Integer monthlyTransactionDate;
 
 	private Long categoryId;

@@ -1,7 +1,7 @@
 package com.example.controller.saving;
 
 import com.example.common.Status;
-import com.example.common.message.ErrorMessage;
+import com.example.common.message.Message;
 import com.example.form.FrequentSavingNameForm;
 import com.example.response.FrequentSavingNameResponse;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -38,6 +38,9 @@ public class GetFrequentSavingNameTest {
 
 	@Autowired
 	private ObjectMapper mapper;
+
+	@Autowired
+	private Message message;
 
 	@Test
 	@Transactional(readOnly = true)
@@ -77,7 +80,7 @@ public class GetFrequentSavingNameTest {
 		FrequentSavingNameResponse response = mapper.readValue(result, FrequentSavingNameResponse.class);
 		/* 検証 */
 		assertEquals(Status.ERROR.getStatus(), response.getStatus());
-		assertEquals(ErrorMessage.AUTHENTICATION_ERROR, response.getMessage());
+		assertEquals(message.get("error-message.authentication-error"), response.getMessage());
 	}
 
 	@Test
@@ -96,6 +99,6 @@ public class GetFrequentSavingNameTest {
 		FrequentSavingNameResponse response = mapper.readValue(result, FrequentSavingNameResponse.class);
 		/* 検証 */
 		assertEquals(Status.ERROR.getStatus(), response.getStatus());
-		assertEquals(ErrorMessage.AUTHENTICATION_ERROR, response.getMessage());
+		assertEquals(message.get("error-message.authentication-error"), response.getMessage());
 	}
 }

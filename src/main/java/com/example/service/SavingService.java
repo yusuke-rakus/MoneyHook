@@ -3,7 +3,7 @@ package com.example.service;
 import com.example.common.DateFormatter;
 import com.example.common.exception.DataNotFoundException;
 import com.example.common.exception.SystemException;
-import com.example.common.message.ErrorMessage;
+import com.example.common.message.Message;
 import com.example.domain.MonthlySavingData;
 import com.example.domain.Saving;
 import com.example.domain.SavingTarget;
@@ -34,6 +34,9 @@ public class SavingService {
 	@Autowired
 	private SavingTargetService savingTargetService;
 
+	@Autowired
+	private Message message;
+
 	/**
 	 * 月別貯金一覧の取得
 	 */
@@ -63,7 +66,7 @@ public class SavingService {
 		saving = savingMapper.load(form);
 
 		if (Objects.isNull(saving)) {
-			throw new DataNotFoundException(ErrorMessage.SAVING_DATA_SELECT_FAILED);
+			throw new DataNotFoundException(message.get("error-message.saving-data-select-failed"));
 		}
 
 		return saving;
@@ -93,13 +96,13 @@ public class SavingService {
 		param.setUserNo(form.getUserNo());
 		param.setSavingId(form.getSavingId());
 		if (!savingMapper.isSavingExist(param)) {
-			throw new DataNotFoundException(ErrorMessage.SAVING_DATA_NOT_FOUND);
+			throw new DataNotFoundException(message.get("error-message.saving-data-not-found"));
 		}
 
 		try {
 			savingMapper.editSaving(form);
 		} catch (Exception e) {
-			throw new SystemException(ErrorMessage.SAVING_DATA_EDIT_FAILED);
+			throw new SystemException(message.get("error-message.saving-data-edit-failed"));
 		}
 	}
 
@@ -126,7 +129,7 @@ public class SavingService {
 		try {
 			savingMapper.insertSaving(form);
 		} catch (Exception e) {
-			throw new SystemException(ErrorMessage.SAVING_DATA_INSERT_FAILED);
+			throw new SystemException(message.get("error-message.saving-data-insert-failed"));
 		}
 	}
 
@@ -143,13 +146,13 @@ public class SavingService {
 		param.setUserNo(form.getUserNo());
 		param.setSavingId(form.getSavingId());
 		if (!savingMapper.isSavingExist(param)) {
-			throw new DataNotFoundException(ErrorMessage.SAVING_DATA_NOT_FOUND);
+			throw new DataNotFoundException(message.get("error-message.saving-data-not-found"));
 		}
 
 		try {
 			savingMapper.deleteSaving(form);
 		} catch (Exception e) {
-			throw new SystemException(ErrorMessage.SAVING_DATA_DELETE_FAILED);
+			throw new SystemException(message.get("error-message.saving-data-delete-failed"));
 		}
 	}
 
@@ -173,7 +176,7 @@ public class SavingService {
 		try {
 			savingMapper.allotSaving(form);
 		} catch (Exception e) {
-			throw new SystemException(ErrorMessage.SAVING_DATA_ALLOT_FAILED);
+			throw new SystemException(message.get("error-message.saving-data-allot-failed"));
 		}
 	}
 

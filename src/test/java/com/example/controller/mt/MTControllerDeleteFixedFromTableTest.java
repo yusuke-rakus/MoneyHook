@@ -1,8 +1,7 @@
 package com.example.controller.mt;
 
 import com.example.common.Status;
-import com.example.common.message.ErrorMessage;
-import com.example.common.message.SuccessMessage;
+import com.example.common.message.Message;
 import com.example.domain.MonthlyTransaction;
 import com.example.form.DeleteFixedForm;
 import com.example.form.GetFixedForm;
@@ -50,9 +49,11 @@ class MTControllerDeleteFixedFromTableTest {
 	@Autowired
 	private ObjectMapper mapper;
 
-
 	@SpyBean
 	private MonthlyTransactionMapper mtMapper;
+
+	@Autowired
+	private Message message;
 
 	@AfterEach
 	public void doAfter() {
@@ -81,7 +82,8 @@ class MTControllerDeleteFixedFromTableTest {
 
 		DeleteFixedResponse response = mapper.readValue(result, DeleteFixedResponse.class);
 		assertEquals(Status.SUCCESS.getStatus(), response.getStatus());
-		assertEquals(SuccessMessage.MONTHLY_TRANSACTION_DELETE_FROM_TABLE_SUCCESSED, response.getMessage());
+		assertEquals(message.get("success-message.monthly-transaction-delete-from-table-successed"),
+				response.getMessage());
 
 		boolean check = mtList.stream().anyMatch(m -> m.getMonthlyTransactionId() == 2);
 		assertEquals(false, check);
@@ -110,7 +112,7 @@ class MTControllerDeleteFixedFromTableTest {
 
 		DeleteFixedResponse response = mapper.readValue(result, DeleteFixedResponse.class);
 		assertEquals(Status.ERROR.getStatus(), response.getStatus());
-		assertEquals(ErrorMessage.AUTHENTICATION_ERROR, response.getMessage());
+		assertEquals(message.get("error-message.authentication-error"), response.getMessage());
 
 		boolean check = mtList.stream().anyMatch(m -> m.getMonthlyTransactionId() == 2);
 		assertEquals(true, check);
@@ -143,7 +145,7 @@ class MTControllerDeleteFixedFromTableTest {
 		//検証
 		DeleteFixedResponse response = mapper.readValue(result, DeleteFixedResponse.class);
 		assertEquals(Status.ERROR.getStatus(), response.getStatus());
-		assertEquals(ErrorMessage.DELETE_FIXED_ERROR, response.getMessage());
+		assertEquals(message.get("error-message.delete-fixed-error"), response.getMessage());
 
 		boolean check = mtList.stream().anyMatch(m -> m.getMonthlyTransactionId() == 2);
 		assertEquals(true, check);

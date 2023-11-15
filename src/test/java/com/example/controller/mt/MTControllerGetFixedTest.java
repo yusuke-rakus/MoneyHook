@@ -1,7 +1,7 @@
 package com.example.controller.mt;
 
 import com.example.common.Status;
-import com.example.common.message.ErrorMessage;
+import com.example.common.message.Message;
 import com.example.form.GetFixedForm;
 import com.example.response.GetFixedResponse;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -40,6 +40,9 @@ class MTControllerGetFixedTest {
 	@Autowired
 	private JdbcTemplate jdbcTemplate;
 
+	@Autowired
+	private Message message;
+
 	@Test
 	@Transactional(readOnly = true)
 	void getFixedSuccessTest() throws Exception {
@@ -77,6 +80,6 @@ class MTControllerGetFixedTest {
 
 		GetFixedResponse response = mapper.readValue(result, GetFixedResponse.class);
 		assertEquals(Status.ERROR.getStatus(), response.getStatus());
-		assertEquals(ErrorMessage.MONTHLY_TRANSACTION_NOT_EXISTS, response.getMessage());
+		assertEquals(message.get("error-message.monthly-transaction-not-exists"), response.getMessage());
 	}
 }

@@ -1,7 +1,7 @@
 package com.example.controller.mt;
 
 import com.example.common.Status;
-import com.example.common.message.ErrorMessage;
+import com.example.common.message.Message;
 import com.example.form.DeleteFixedForm;
 import com.example.form.GetDeletedFixedForm;
 import com.example.mapper.MonthlyTransactionMapper;
@@ -50,6 +50,9 @@ class MTControllerGrtDeletedFixedTest {
 
 	@Autowired
 	private JdbcTemplate template;
+
+	@Autowired
+	private Message message;
 
 	@SpyBean
 	private MonthlyTransactionMapper mtMapper;
@@ -110,7 +113,7 @@ class MTControllerGrtDeletedFixedTest {
 		//検証　
 		GetDeletedFixedResponse response = mapper.readValue(result, GetDeletedFixedResponse.class);
 		assertEquals(Status.ERROR.getStatus(), response.getStatus());
-		assertEquals(ErrorMessage.AUTHENTICATION_ERROR, response.getMessage());
+		assertEquals(message.get("error-message.authentication-error"), response.getMessage());
 
 	}
 
@@ -137,7 +140,7 @@ class MTControllerGrtDeletedFixedTest {
 		//検証　
 		GetDeletedFixedResponse response = mapper.readValue(result, GetDeletedFixedResponse.class);
 		assertEquals(Status.ERROR.getStatus(), response.getStatus());
-		assertEquals(ErrorMessage.MONTHLY_TRANSACTION_NOT_EXISTS, response.getMessage());
+		assertEquals(message.get("error-message.monthly-transaction-not-exists"), response.getMessage());
 
 	}
 
@@ -163,7 +166,7 @@ class MTControllerGrtDeletedFixedTest {
 		//検証　
 		GetDeletedFixedResponse response = mapper.readValue(result, GetDeletedFixedResponse.class);
 		assertEquals(Status.ERROR.getStatus(), response.getStatus());
-		assertEquals(ErrorMessage.SYSTEM_ERROR, response.getMessage());
+		assertEquals(message.get("error-message.system-error"), response.getMessage());
 
 	}
 

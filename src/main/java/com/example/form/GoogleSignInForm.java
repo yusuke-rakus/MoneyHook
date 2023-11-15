@@ -1,14 +1,13 @@
 package com.example.form;
 
-import com.example.common.message.ValidatingMessage;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
 
 public class GoogleSignInForm extends form {
 
-	@NotBlank(message = ValidatingMessage.USER_ID_NOT_FOUND)
-	@Size(min = 64, max = 64, message = ValidatingMessage.USER_ID_NOT_FOUND)
+	@NotBlank(message = "{validating-message.user-id-not-found}")
+	@Size(min = 64, max = 64, message = "{validating-message.user-id-not-found}")
 	private String userId;
 
 	private String token;

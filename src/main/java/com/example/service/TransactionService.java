@@ -3,8 +3,7 @@ package com.example.service;
 import com.example.common.DateFormatter;
 import com.example.common.Status;
 import com.example.common.exception.*;
-import com.example.common.message.ErrorMessage;
-import com.example.common.message.SuccessMessage;
+import com.example.common.message.Message;
 import com.example.domain.*;
 import com.example.form.*;
 import com.example.mapper.CategoryMapper;
@@ -36,6 +35,9 @@ public class TransactionService {
 	@Autowired
 	private CategoryMapper categoryMapper;
 
+	@Autowired
+	private Message message;
+
 	/**
 	 * 収支を登録
 	 */
@@ -60,10 +62,10 @@ public class TransactionService {
 			int sign = form.getTransactionSign() < 0 ? -1 : 1;
 			form.setTransactionAmount(transactionAmount.multiply(BigInteger.valueOf(sign)));
 			transactionMapper.addTransaction(form);
-			res.setMessage(SuccessMessage.TRANSACTION_INSERT_SUCCESSED);
+			res.setMessage(message.get("success-message.transaction-insert-successed"));
 		} catch (Exception e) {
 			res.setStatus(Status.ERROR.getStatus());
-			res.setMessage(ErrorMessage.TRANSACTION_DATA_INSERT_FAILED);
+			res.setMessage(message.get("error-message.transaction-data-insert-failed"));
 		}
 		return res;
 	}
@@ -82,13 +84,13 @@ public class TransactionService {
 
 			// 収支登録
 			transactionMapper.addTransactionList(form.getTransactionList());
-			res.setMessage(SuccessMessage.TRANSACTION_INSERT_SUCCESSED);
+			res.setMessage(message.get("success-message.transaction-insert-successed"));
 		} catch (HasErrorTransactionException e) {
 			res.setStatus(Status.ERROR.getStatus());
 			res.setMessage(e.getMessage());
 		} catch (Exception e) {
 			res.setStatus(Status.ERROR.getStatus());
-			res.setMessage(ErrorMessage.TRANSACTION_DATA_INSERT_FAILED);
+			res.setMessage(message.get("error-message.transaction-data-insert-failed"));
 		}
 		return res;
 	}
@@ -105,10 +107,10 @@ public class TransactionService {
 		// 削除処理
 		try {
 			transactionMapper.deleteTransaction(form);
-			res.setMessage(SuccessMessage.TRANSACTION_DELETE_SUCCESSED);
+			res.setMessage(message.get("success-message.transaction-delete-successed"));
 		} catch (Exception e) {
 			res.setStatus(Status.ERROR.getStatus());
-			res.setMessage(ErrorMessage.TRANSACTION_DATA_DELETE_FAILED);
+			res.setMessage(message.get("error-message.transaction-data-delete-failed"));
 			return res;
 		}
 
@@ -140,10 +142,10 @@ public class TransactionService {
 			Integer sign = form.getTransactionSign();
 			form.setTransactionAmount(transactionAmount.multiply(BigInteger.valueOf(sign)));
 			transactionMapper.editTransaction(form);
-			res.setMessage(SuccessMessage.TRANSACTION_EDIT_SUCCESSED);
+			res.setMessage(message.get("success-message.transaction-edit-successed"));
 		} catch (Exception e) {
 			res.setStatus(Status.ERROR.getStatus());
-			res.setMessage(ErrorMessage.TRANSACTION_DATA_INSERT_FAILED);
+			res.setMessage(message.get("error-message.transaction-data-insert-failed"));
 			return res;
 		}
 
@@ -167,7 +169,7 @@ public class TransactionService {
 			res.setTransaction(transaction);
 		} catch (Exception e) {
 			res.setStatus(Status.ERROR.getStatus());
-			res.setMessage(ErrorMessage.TRANSACTION_DATA_SELECT_FAILED);
+			res.setMessage(message.get("error-message.transaction-date-select-failed"));
 			return res;
 		}
 
@@ -226,7 +228,7 @@ public class TransactionService {
 			res.setDisposableIncome(disposableIncome);
 		} catch (Exception e) {
 			res.setStatus(Status.ERROR.getStatus());
-			res.setMessage(ErrorMessage.MONTHLY_FIXED_SPENDING_GET_FAILED);
+			res.setMessage(message.get("error-message.monthly-fixed-spending-get-failed"));
 		}
 
 		return res;
@@ -249,7 +251,7 @@ public class TransactionService {
 			res.setDisposableIncome(disposableIncome);
 		} catch (Exception e) {
 			res.setStatus(Status.ERROR.getStatus());
-			res.setMessage(ErrorMessage.MONTHLY_FIXED_SPENDING_GET_FAILED);
+			res.setMessage(message.get("error-message.monthly-fixed-spending-get-failed"));
 		}
 
 		return res;
@@ -268,7 +270,7 @@ public class TransactionService {
 			res.setTransactionList(transactionList);
 		} catch (Exception e) {
 			res.setStatus(Status.ERROR.getStatus());
-			res.setMessage(ErrorMessage.TIMELINE_DATA_GET_FAILED);
+			res.setMessage(message.get("error-message.timeline-data-get-failed"));
 		}
 
 		return res;
@@ -316,7 +318,7 @@ public class TransactionService {
 			res.setBalance(balance);
 		} catch (Exception e) {
 			res.setStatus(Status.ERROR.getStatus());
-			res.setMessage(ErrorMessage.TIMELINE_DATA_GET_FAILED);
+			res.setMessage(message.get("error-message.timeline-data-get-failed"));
 		}
 
 		return res;
@@ -339,7 +341,7 @@ public class TransactionService {
 			res.setTotalVariable(totalVariable);
 		} catch (Exception e) {
 			res.setStatus(Status.ERROR.getStatus());
-			res.setMessage(ErrorMessage.MONTHLY_VARIABLE_DATA_GET_FAILED);
+			res.setMessage(message.get("error-message.monthly-variable-data-get-failed"));
 		}
 
 		return res;
@@ -429,7 +431,7 @@ public class TransactionService {
 
 		if (!ErrorList.isEmpty()) {
 			res.setErrorTransaction(ErrorList);
-			throw new HasErrorTransactionException(ErrorMessage.TRANSACTION_ERROR_DATA_EXIST);
+			throw new HasErrorTransactionException(message.get("error-message.transaction-error-data-exist"));
 		}
 	}
 
@@ -438,7 +440,7 @@ public class TransactionService {
 		Category categoryParam = new Category();
 		categoryParam.setCategoryId(categoryId);
 		if (!categoryMapper.isCategoryExist(categoryParam)) {
-			throw new DataNotFoundException(ErrorMessage.CATEGORY_NOT_FOUND_ERROR);
+			throw new DataNotFoundException(message.get("error-message.category-not-found-error"));
 		}
 	}
 
@@ -470,7 +472,7 @@ public class TransactionService {
 		param.setUserNo(userNo);
 		param.setTransactionId(transactionId);
 		if (!transactionMapper.isTransactionExist(param)) {
-			throw new DataNotFoundException(ErrorMessage.TRANSACTION_DATA_NOT_FOUND);
+			throw new DataNotFoundException(message.get("error-message.transaction-data-not-found"));
 		}
 	}
 
@@ -483,7 +485,7 @@ public class TransactionService {
 		category.setCategoryId(CategoryId);
 		boolean isCategoryRelational = categoryService.isCategoryRelational(category, subCategoryId);
 		if (!isCategoryRelational) {
-			throw new CategoryRelationalException(ErrorMessage.CATEGORY_IS_NOT_RELATIONAL);
+			throw new CategoryRelationalException(message.get("error-message.category-is-not-relational"));
 		}
 	}
 
@@ -491,7 +493,7 @@ public class TransactionService {
 	private void checkDateRange(Date startMonth, Date endMonth) throws DateException {
 		// 期間の逆転チェック
 		if (startMonth.after(endMonth)) {
-			throw new DateException(ErrorMessage.DATE_REVERSED_ERROR);
+			throw new DateException(message.get("error-message.date-reversed-error"));
 		}
 
 		// 期間の範囲チェック(3年未満)
@@ -507,7 +509,7 @@ public class TransactionService {
 		int dateDiff = (int) (diffTime / MILLIS_OF_DAY);
 
 		if (dateDiff > 1095) {
-			throw new DateException(ErrorMessage.DATE_RANGE_ERROR);
+			throw new DateException(message.get("error-message.date-range-error"));
 		}
 	}
 

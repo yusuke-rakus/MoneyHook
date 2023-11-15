@@ -1,8 +1,7 @@
 package com.example.controller.mt;
 
 import com.example.common.Status;
-import com.example.common.message.ErrorMessage;
-import com.example.common.message.SuccessMessage;
+import com.example.common.message.Message;
 import com.example.domain.MonthlyTransaction;
 import com.example.form.EditOneFixedForm;
 import com.example.form.GetFixedForm;
@@ -53,6 +52,9 @@ class MTControllerEditFixedOneTest {
 	@Autowired
 	private ObjectMapper mapper;
 
+	@Autowired
+	private Message message;
+
 	@SpyBean
 	private MonthlyTransactionMapper mtMapper;
 
@@ -102,7 +104,7 @@ class MTControllerEditFixedOneTest {
 
 		EditOneFixedResponse response = mapper.readValue(result, EditOneFixedResponse.class);
 		assertEquals(Status.SUCCESS.getStatus(), response.getStatus());
-		assertEquals(SuccessMessage.MONTHLY_TRANSACTION_EDIT_SUCCESSED, response.getMessage());
+		assertEquals(message.get("success-message.monthly-transaction-edit-successed"), response.getMessage());
 		BigInteger bi = BigInteger.valueOf(editAmount);
 		assertEquals(true, list.stream()
 				.anyMatch(e -> e.getMonthlyTransactionName().equals(editName) && e.getMonthlyTransactionAmount()
@@ -133,7 +135,7 @@ class MTControllerEditFixedOneTest {
 
 		EditOneFixedResponse response = mapper.readValue(result, EditOneFixedResponse.class);
 		assertEquals(Status.SUCCESS.getStatus(), response.getStatus());
-		assertEquals(SuccessMessage.MONTHLY_TRANSACTION_EDIT_SUCCESSED, response.getMessage());
+		assertEquals(message.get("success-message.monthly-transaction-edit-successed"), response.getMessage());
 		BigInteger bi = BigInteger.valueOf(editAmount);
 		assertEquals(true, list.stream()
 				.anyMatch(e -> e.getMonthlyTransactionName().equals(editName) && e.getMonthlyTransactionAmount()
@@ -161,7 +163,7 @@ class MTControllerEditFixedOneTest {
 
 		EditOneFixedResponse response = mapper.readValue(result, EditOneFixedResponse.class);
 		assertEquals(Status.ERROR.getStatus(), response.getStatus());
-		assertEquals(ErrorMessage.AUTHENTICATION_ERROR, response.getMessage());
+		assertEquals(message.get("error-message.authentication-error"), response.getMessage());
 
 	}
 
@@ -187,7 +189,7 @@ class MTControllerEditFixedOneTest {
 
 		EditOneFixedResponse response = mapper.readValue(result, EditOneFixedResponse.class);
 		assertEquals(Status.ERROR.getStatus(), response.getStatus());
-		assertEquals(ErrorMessage.CATEGORY_IS_NOT_RELATIONAL, response.getMessage());
+		assertEquals(message.get("error-message.category-is-not-relational"), response.getMessage());
 
 	}
 
@@ -214,7 +216,7 @@ class MTControllerEditFixedOneTest {
 
 		EditOneFixedResponse response = mapper.readValue(result, EditOneFixedResponse.class);
 		assertEquals(Status.ERROR.getStatus(), response.getStatus());
-		assertEquals(ErrorMessage.MONTHLY_TRANSACTION_EDIT_ERROR, response.getMessage());
+		assertEquals(message.get("error-message.monthly-transaction-edit-error"), response.getMessage());
 
 	}
 

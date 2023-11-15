@@ -1,8 +1,7 @@
 package com.example.controller.mt;
 
 import com.example.common.Status;
-import com.example.common.message.ErrorMessage;
-import com.example.common.message.SuccessMessage;
+import com.example.common.message.Message;
 import com.example.form.DeleteFixedForm;
 import com.example.mapper.MonthlyTransactionMapper;
 import com.example.response.DeleteFixedResponse;
@@ -47,6 +46,8 @@ class MTControllerDeleteFixedTest {
 	@Autowired
 	private ObjectMapper mapper;
 
+	@Autowired
+	private Message message;
 
 	@SpyBean
 	private MonthlyTransactionMapper mtMapper;
@@ -75,7 +76,7 @@ class MTControllerDeleteFixedTest {
 
 		DeleteFixedResponse response = mapper.readValue(result, DeleteFixedResponse.class);
 		assertEquals(Status.SUCCESS.getStatus(), response.getStatus());
-		assertEquals(SuccessMessage.MONTHLY_TRANSACTION_DELETE_SUCCESSED, response.getMessage());
+		assertEquals(message.get("success-message.monthly-transaction-delete-successed"), response.getMessage());
 	}
 
 	@Order(2)
@@ -97,7 +98,7 @@ class MTControllerDeleteFixedTest {
 
 		DeleteFixedResponse response = mapper.readValue(result, DeleteFixedResponse.class);
 		assertEquals(Status.ERROR.getStatus(), response.getStatus());
-		assertEquals(ErrorMessage.AUTHENTICATION_ERROR, response.getMessage());
+		assertEquals(message.get("error-message.authentication-error"), response.getMessage());
 	}
 
 	@Order(3)
@@ -123,6 +124,6 @@ class MTControllerDeleteFixedTest {
 		//検証
 		DeleteFixedResponse response = mapper.readValue(result, DeleteFixedResponse.class);
 		assertEquals(Status.ERROR.getStatus(), response.getStatus());
-		assertEquals(ErrorMessage.DELETE_FIXED_ERROR, response.getMessage());
+		assertEquals(message.get("error-message.delete-fixed-error"), response.getMessage());
 	}
 }

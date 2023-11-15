@@ -1,8 +1,7 @@
 package com.example.controller.saving;
 
 import com.example.common.Status;
-import com.example.common.message.ErrorMessage;
-import com.example.common.message.SuccessMessage;
+import com.example.common.message.Message;
 import com.example.form.GetSavingListForm;
 import com.example.response.GetSavingListResponse;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -38,6 +37,9 @@ public class GetUncategorizedSavingTest {
 	@Autowired
 	private ObjectMapper mapper;
 
+	@Autowired
+	private Message message;
+
 	@Test
 	@Transactional(readOnly = true)
 	void getUncategorizedSavingTest() throws Exception {
@@ -56,7 +58,7 @@ public class GetUncategorizedSavingTest {
 		int savingListCount = 2;
 
 		assertEquals(Status.SUCCESS.getStatus(), response.getStatus());
-		assertEquals(SuccessMessage.SAVING_LIST_GET_SUCCESSED, response.getMessage());
+		assertEquals(message.get("success-message.saving-list-get-successed"), response.getMessage());
 		assertEquals(response.getSavingList().size(), savingListCount);
 	}
 
@@ -76,7 +78,7 @@ public class GetUncategorizedSavingTest {
 		GetSavingListResponse response = mapper.readValue(result, GetSavingListResponse.class);
 		/* 検証 */
 		assertEquals(Status.ERROR.getStatus(), response.getStatus());
-		assertEquals(ErrorMessage.AUTHENTICATION_ERROR, response.getMessage());
+		assertEquals(message.get("error-message.authentication-error"), response.getMessage());
 	}
 
 	@Test
@@ -95,6 +97,6 @@ public class GetUncategorizedSavingTest {
 		GetSavingListResponse response = mapper.readValue(result, GetSavingListResponse.class);
 		/* 検証 */
 		assertEquals(Status.ERROR.getStatus(), response.getStatus());
-		assertEquals(ErrorMessage.AUTHENTICATION_ERROR, response.getMessage());
+		assertEquals(message.get("error-message.authentication-error"), response.getMessage());
 	}
 }

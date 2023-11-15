@@ -1,6 +1,5 @@
 package com.example.form;
 
-import com.example.common.message.ValidatingMessage;
 import com.example.common.validation.AnyOneNotEmpty;
 import org.hibernate.validator.constraints.Length;
 
@@ -9,26 +8,26 @@ import javax.validation.constraints.NotNull;
 import java.math.BigInteger;
 import java.sql.Date;
 
-@AnyOneNotEmpty(fields = {"subCategoryId",
-		"subCategoryName"}, message = ValidatingMessage.SUB_CATEGORY_NO_SELECT_AND_INPUT_ERROR)
+@AnyOneNotEmpty(fields = {"subCategoryId", "subCategoryName"}, message =
+		"{validating-message" + ".sub-category-no" + "-select-and-input-error}")
 public class EditTransactionForm extends form {
 
 	private Long transactionId;
 
-	@NotNull(message = ValidatingMessage.DATE_EMPTY_ERROR)
+	@NotNull(message = "{validating-message.date-empty-error}")
 	private Date transactionDate;
 
-	@NotNull(message = ValidatingMessage.TRANSACTION_AMOUNT_EMPTY_ERROR)
+	@NotNull(message = "{validating-message.transaction-amount-empty-error}")
 	private BigInteger transactionAmount;
 
-	@NotNull(message = ValidatingMessage.TRANSACTION_AMOUNT_EMPTY_ERROR)
+	@NotNull(message = "{validating-message.transaction-amount-empty-error}")
 	private Integer transactionSign;
 
-	@NotBlank(message = ValidatingMessage.TRANSACTION_NAME_EMPTY_ERROR)
-	@Length(max = 32, message = ValidatingMessage.TRANSACTION_NAME_LIMIT_ERROR)
+	@NotBlank(message = "{validating-message.transaction-name-empty-error}")
+	@Length(max = 32, message = "{validating-message.transaction-name-limit-error}")
 	private String transactionName;
 
-	@NotNull(message = ValidatingMessage.CATEGORY_NOT_SELECT_ERROR)
+	@NotNull(message = "{validating-message.category-not-select-error}")
 	private Long categoryId;
 
 	private Long subCategoryId;

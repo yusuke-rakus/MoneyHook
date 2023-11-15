@@ -1,12 +1,10 @@
 package com.example.form;
 
-import com.example.common.message.ValidatingMessage;
-
 import javax.validation.constraints.NotNull;
 
 public class DeleteTransactionForm extends form {
 
-	@NotNull(message = ValidatingMessage.TRANSACTION_ID_NOT_SELECT_ERROR)
+	@NotNull(message = "{validating-message.transaction-id-not-select-error}")
 	private Long transactionId;
 
 	public Long getTransactionId() {

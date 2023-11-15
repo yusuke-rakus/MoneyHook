@@ -1,9 +1,7 @@
 package com.example.controller.savingTarget;
 
 import com.example.common.Status;
-import com.example.common.message.ErrorMessage;
-import com.example.common.message.SuccessMessage;
-import com.example.common.message.ValidatingMessage;
+import com.example.common.message.Message;
 import com.example.domain.SavingTarget;
 import com.example.form.AddSavingTargetForm;
 import com.example.form.GetSavingTargetListForm;
@@ -48,6 +46,9 @@ class AddSavingTargetTest {
 	@Autowired
 	private SavingTargetMapper savingTargetMapper;
 
+	@Autowired
+	private Message message;
+
 	@Test
 	@Transactional(readOnly = false)
 	void addSavingTargetTest() throws Exception {
@@ -70,7 +71,7 @@ class AddSavingTargetTest {
 
 		/* 検証 */
 		assertEquals(Status.SUCCESS.getStatus(), response.getStatus());
-		assertEquals(SuccessMessage.SAVING_TARGET_INSERT_SUCCESSED, response.getMessage());
+		assertEquals(message.get("success-message.saving-target-insert-successed"), response.getMessage());
 
 		GetSavingTargetListForm form = new GetSavingTargetListForm();
 		form.setUserNo(2L);
@@ -102,7 +103,7 @@ class AddSavingTargetTest {
 
 		/* 検証 */
 		assertEquals(Status.ERROR.getStatus(), response.getStatus());
-		assertEquals(ErrorMessage.AUTHENTICATION_ERROR, response.getMessage());
+		assertEquals(message.get("error-message.authentication-error"), response.getMessage());
 	}
 
 	@Test
@@ -127,7 +128,7 @@ class AddSavingTargetTest {
 
 		/* 検証 */
 		assertEquals(Status.ERROR.getStatus(), response.getStatus());
-		assertEquals(ErrorMessage.AUTHENTICATION_ERROR, response.getMessage());
+		assertEquals(message.get("error-message.authentication-error"), response.getMessage());
 	}
 
 	@Test
@@ -152,7 +153,7 @@ class AddSavingTargetTest {
 
 		/* 検証 */
 		assertEquals(Status.ERROR.getStatus(), response.getStatus());
-		assertEquals(ValidatingMessage.BOTH_OF_ID_AND_NAME_EMPTY_ERROR, response.getMessage());
+		assertEquals(message.get("validating-message.both-of-id-and-name-empty-error"), response.getMessage());
 	}
 
 	@Test
@@ -177,6 +178,6 @@ class AddSavingTargetTest {
 
 		/* 検証 */
 		assertEquals(Status.ERROR.getStatus(), response.getStatus());
-		assertEquals(ValidatingMessage.SAVING_TARGET_AMOUNT_EMPTY_ERROR, response.getMessage());
+		assertEquals(message.get("validating-message.saving-target-amount-empty-error"), response.getMessage());
 	}
 }

@@ -1,8 +1,7 @@
 package com.example.controller.saving;
 
 import com.example.common.Status;
-import com.example.common.message.ErrorMessage;
-import com.example.common.message.SuccessMessage;
+import com.example.common.message.Message;
 import com.example.domain.Saving;
 import com.example.form.GetSavingForm;
 import com.example.response.GetSavingResponse;
@@ -40,6 +39,9 @@ public class GetSavingDataTest {
 	@Autowired
 	private ObjectMapper mapper;
 
+	@Autowired
+	private Message message;
+
 	@Test
 	@Transactional(readOnly = true)
 	void getSavingDataTest() throws Exception {
@@ -60,7 +62,7 @@ public class GetSavingDataTest {
 		Saving resSaving = response.getSaving();
 
 		assertEquals(Status.SUCCESS.getStatus(), response.getStatus());
-		assertEquals(SuccessMessage.SAVING_DATA_GET_SUCCESSED, response.getMessage());
+		assertEquals(message.get("success-message.saving-data-get-successed"), response.getMessage());
 		assertThat(resSaving.getSavingId()).isNotNull();
 		assertThat(resSaving.getSavingName()).isNotNull();
 		assertThat(resSaving.getSavingAmount()).isNotNull();
@@ -85,7 +87,7 @@ public class GetSavingDataTest {
 		GetSavingResponse response = mapper.readValue(result, GetSavingResponse.class);
 		/* 検証 */
 		assertEquals(Status.ERROR.getStatus(), response.getStatus());
-		assertEquals(ErrorMessage.AUTHENTICATION_ERROR, response.getMessage());
+		assertEquals(message.get("error-message.authentication-error"), response.getMessage());
 	}
 
 	@Test
@@ -106,6 +108,6 @@ public class GetSavingDataTest {
 		GetSavingResponse response = mapper.readValue(result, GetSavingResponse.class);
 		/* 検証 */
 		assertEquals(Status.ERROR.getStatus(), response.getStatus());
-		assertEquals(ErrorMessage.AUTHENTICATION_ERROR, response.getMessage());
+		assertEquals(message.get("error-message.authentication-error"), response.getMessage());
 	}
 }

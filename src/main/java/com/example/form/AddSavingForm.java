@@ -55,9 +55,4 @@ public class AddSavingForm extends form {
 		this.savingTargetId = savingTargetId;
 	}
 
-	@Override
-	public String toString() {
-		return "AddSavingForm [savingName=" + savingName + ", savingAmount=" + savingAmount + ", savingDate=" + savingDate + ", savingTargetId=" + savingTargetId + "]";
-	}
-
 }

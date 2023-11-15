@@ -21,9 +21,4 @@ public class form {
 		this.userNo = userNo;
 	}
 
-	@Override
-	public String toString() {
-		return "form [userId=" + userId + "]";
-	}
-
 }

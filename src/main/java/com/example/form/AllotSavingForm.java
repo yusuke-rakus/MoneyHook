@@ -26,9 +26,4 @@ public class AllotSavingForm extends form {
 		this.savingTargetId = savingTargetId;
 	}
 
-	@Override
-	public String toString() {
-		return "AllotSavingForm [savingIdList=" + savingIdList + ", savingTargetId=" + savingTargetId + "]";
-	}
-
 }

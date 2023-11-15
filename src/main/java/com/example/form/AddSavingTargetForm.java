@@ -39,10 +39,4 @@ public class AddSavingTargetForm extends form {
 		this.targetAmount = targetAmount;
 	}
 
-	@Override
-	public String toString() {
-		return "AddSavingTargetForm [savingTargetId=" + savingTargetId + ", savingTargetName=" + savingTargetName + ","
-				+ " targetAmount=" + targetAmount + "]";
-	}
-
 }

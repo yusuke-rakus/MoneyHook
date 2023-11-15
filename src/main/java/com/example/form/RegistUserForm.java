@@ -32,9 +32,4 @@ public class RegistUserForm extends form {
 		this.password = password;
 	}
 
-	@Override
-	public String toString() {
-		return "RegistUserForm [email=" + email + ", password=" + password + "]";
-	}
-
 }

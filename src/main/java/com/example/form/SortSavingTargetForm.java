@@ -15,5 +15,4 @@ public class SortSavingTargetForm extends form {
 		this.savingTargetList = savingTargetList;
 	}
 
-
 }

@@ -15,9 +15,4 @@ public class GetTotalSavingForm extends form {
 		this.month = month;
 	}
 
-	@Override
-	public String toString() {
-		return "GetTotalSavingForm [month=" + month + "]";
-	}
-
 }

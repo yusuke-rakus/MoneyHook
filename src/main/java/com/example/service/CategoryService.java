@@ -2,7 +2,7 @@ package com.example.service;
 
 import com.example.common.Status;
 import com.example.common.exception.SystemException;
-import com.example.common.message.ErrorMessage;
+import com.example.common.message.Message;
 import com.example.domain.Category;
 import com.example.form.CategoryWithSubCategoryListForm;
 import com.example.mapper.CategoryMapper;
@@ -25,19 +25,22 @@ public class CategoryService {
 	@Autowired
 	private AuthenticationService authenticationService;
 
+	@Autowired
+	private Message message;
+
 	/** カテゴリ一覧の取得 */
 	public CategoryResponse getCategoryList() {
 		CategoryResponse res = new CategoryResponse();
 
 		try {
 			List<Category> categoryList = categoryMapper.getCategoryList();
-			if (categoryList.size() == 0) {
+			if (categoryList.isEmpty()) {
 				throw new Exception();
 			}
 			res.setCategoryList(categoryList);
 		} catch (Exception e) {
 			res.setStatus(Status.ERROR.getStatus());
-			res.setMessage(ErrorMessage.CATEGORY_GET_FAILED);
+			res.setMessage(message.get("error-message.category-get-failed"));
 			return res;
 		}
 
@@ -58,8 +61,7 @@ public class CategoryService {
 
 	/** 　カテゴリ・サブカテゴリの複数取得 */
 	public List<Category> getList(List<Long> categoryIds, Long userNo) {
-		List<Category> categoryList = categoryMapper.getCategoryWithSubCategoryByIds(categoryIds, userNo);
-		return categoryList;
+		return categoryMapper.getCategoryWithSubCategoryByIds(categoryIds, userNo);
 	}
 
 	/** カテゴリ一覧の取得 */
@@ -71,13 +73,13 @@ public class CategoryService {
 
 		try {
 			List<Category> categoryList = categoryMapper.getCategoryWithSubCategoryList(form);
-			if (categoryList.size() == 0) {
+			if (categoryList.isEmpty()) {
 				throw new Exception();
 			}
 			res.setCategoryList(categoryList);
 		} catch (Exception e) {
 			res.setStatus(Status.ERROR.getStatus());
-			res.setMessage(ErrorMessage.CATEGORY_GET_FAILED);
+			res.setMessage(message.get("error-message.category-get-failed"));
 			return res;
 		}
 

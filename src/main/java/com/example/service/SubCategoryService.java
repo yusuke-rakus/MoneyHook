@@ -2,8 +2,7 @@ package com.example.service;
 
 import com.example.common.Status;
 import com.example.common.exception.SystemException;
-import com.example.common.message.ErrorMessage;
-import com.example.common.message.SuccessMessage;
+import com.example.common.message.Message;
 import com.example.domain.SubCategory;
 import com.example.form.EditSubCategoryForm;
 import com.example.form.GetSubCategoryListForm;
@@ -27,6 +26,9 @@ public class SubCategoryService {
 	@Autowired
 	private AuthenticationService authenticationService;
 
+	@Autowired
+	private Message message;
+
 	/** サブカテゴリ一覧の取得 */
 	public SubCategoryResponse getSubCategoryList(GetSubCategoryListForm form) throws SystemException {
 		SubCategoryResponse res = new SubCategoryResponse();
@@ -37,13 +39,13 @@ public class SubCategoryService {
 
 		try {
 			List<SubCategory> subCategoryList = subCategoryMapper.getSubCategoryList(form);
-			if (subCategoryList.size() == 0) {
+			if (subCategoryList.isEmpty()) {
 				throw new Exception();
 			}
 			res.setSubCategoryList(subCategoryList);
 		} catch (Exception e) {
 			res.setStatus(Status.ERROR.getStatus());
-			res.setMessage(ErrorMessage.SUB_CATEGORY_GET_FAILED);
+			res.setMessage(message.get("error-message.sub-category-get-failed"));
 			return res;
 		}
 
@@ -82,9 +84,9 @@ public class SubCategoryService {
 				// サブカテゴリを非表示にする
 				subCategoryMapper.disableSubCategory(form);
 			}
-			res.setMessage(SuccessMessage.TRANSACTION_EDIT_SUCCESSED);
+			res.setMessage(message.get("success-message.transaction-edit-successed"));
 		} catch (Exception e) {
-			String errorMessage = ErrorMessage.SYSTEM_ERROR;
+			String errorMessage = message.get("error-message.system-error");
 			res.setStatus(Status.ERROR.getStatus());
 			res.setMessage(errorMessage);
 		}

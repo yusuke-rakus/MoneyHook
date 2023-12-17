@@ -1,9 +1,9 @@
 package com.example.response;
 
-import java.util.List;
-
 import com.example.domain.MonthlyTransaction;
 import com.fasterxml.jackson.annotation.JsonInclude;
+
+import java.util.List;
 
 @JsonInclude(JsonInclude.Include.NON_EMPTY)
 public class GetFixedResponse extends response {

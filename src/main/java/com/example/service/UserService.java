@@ -4,8 +4,7 @@ import com.example.common.SHA256;
 import com.example.common.Status;
 import com.example.common.exception.AlreadyExistsException;
 import com.example.common.exception.SystemException;
-import com.example.common.message.ErrorMessage;
-import com.example.common.message.SuccessMessage;
+import com.example.common.message.Message;
 import com.example.domain.User;
 import com.example.form.*;
 import com.example.mapper.UserMapper;
@@ -32,6 +31,9 @@ public class UserService {
 	@Autowired
 	private AuthenticationService authenticationService;
 
+	@Autowired
+	private Message message;
+
 	/** ログイン */
 	public LoginResponse googleSignIn(LoginForm form, LoginResponse res) {
 
@@ -52,7 +54,7 @@ public class UserService {
 		} catch (Exception e) {
 			res.setStatus(Status.ERROR.getStatus());
 			// パスワードが不一致の場合のエラー
-			res.setMessage(ErrorMessage.EMAIL_OR_PASSWORD_IS_WRONG);
+			res.setMessage(message.get("error-message.email-or-password-is-wrong"));
 		}
 
 		return res;
@@ -78,7 +80,7 @@ public class UserService {
 			}
 		} catch (Exception e) {
 			res.setStatus(Status.ERROR.getStatus());
-			res.setMessage(ErrorMessage.AUTHENTICATION_ERROR);
+			res.setMessage(message.get("error-message.authentication-error"));
 		}
 
 		return res;
@@ -96,7 +98,7 @@ public class UserService {
 			res.setUserInfo(user);
 		} catch (Exception e) {
 			res.setStatus(Status.ERROR.getStatus());
-			res.setMessage(ErrorMessage.USER_INFO_GET_FAILED);
+			res.setMessage(message.get("error-message.user-info-get-failed"));
 		}
 
 		return res;
@@ -109,14 +111,14 @@ public class UserService {
 			EditThemeColorResponse res) throws SystemException {
 
 		if (!userMapper.isThemeColorExist(form)) {
-			throw new AlreadyExistsException(ErrorMessage.THEME_COLOR_NOT_FOUND);
+			throw new AlreadyExistsException(message.get("error-message.theme-color-not-found"));
 		}
 
 		boolean updateResult = userMapper.editThemeColor(form);
 		if (!updateResult) {
-			throw new SystemException(ErrorMessage.THEME_COLOR_NOT_FOUND);
+			throw new SystemException(message.get("error-message.theme-color-not-found"));
 		} else {
-			res.setMessage(SuccessMessage.USER_THEME_COLOR_CHANGED);
+			res.setMessage(message.get("success-message.user-theme-color-changed"));
 		}
 
 		return res;
@@ -135,7 +137,7 @@ public class UserService {
 			res.setThemeColorList(themeColorList);
 		} catch (Exception e) {
 			res.setStatus(Status.ERROR.getStatus());
-			res.setMessage(ErrorMessage.USER_INFO_GET_FAILED);
+			res.setMessage(message.get("error-message.user-info-get-failed"));
 		}
 
 		return res;
@@ -160,7 +162,7 @@ public class UserService {
 			}
 		} catch (Exception e) {
 			res.setStatus(Status.ERROR.getStatus());
-			res.setMessage(ErrorMessage.INQUIRY_OVER_TIMES);
+			res.setMessage(message.get("error-message.inquiry-over-times"));
 		}
 
 		return res;
@@ -186,11 +188,11 @@ public class UserService {
 
 			// 問い合わせテーブルに登録
 			userMapper.insertInquiry(form);
-			res.setMessage(SuccessMessage.SEND_INQUIRY_SUCCESS);
+			res.setMessage(message.get("success-message.send-inquiry-success"));
 
 		} catch (Exception e) {
 			res.setStatus(Status.ERROR.getStatus());
-			res.setMessage(ErrorMessage.INQUIRY_OVER_TIMES);
+			res.setMessage(message.get("error-message.inquiry-over-times"));
 		}
 
 		return res;

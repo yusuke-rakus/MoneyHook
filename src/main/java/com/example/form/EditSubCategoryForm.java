@@ -1,14 +1,12 @@
 package com.example.form;
 
-import com.example.common.message.ValidatingMessage;
-
 import javax.validation.constraints.NotNull;
 
 public class EditSubCategoryForm extends form {
 
-	@NotNull(message = ValidatingMessage.VALIDATING_ERROR)
+	@NotNull(message = "{validating-message.validating-error}")
 	private Long subCategoryId;
-	@NotNull(message = ValidatingMessage.VALIDATING_ERROR)
+	@NotNull(message = "{validating-message.validating-error}")
 	private boolean enable;
 
 	public Long getSubCategoryId() {

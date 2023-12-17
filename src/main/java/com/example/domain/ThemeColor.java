@@ -30,10 +30,4 @@ public class ThemeColor {
 		this.themeColorGradientCode = themeColorGradientCode;
 	}
 
-	@Override
-	public String toString() {
-		return "ThemeColor [themeColorId=" + themeColorId + ", themeColorCode=" + themeColorCode
-				+ ", themeColorGradientCode=" + themeColorGradientCode + "]";
-	}
-
 }

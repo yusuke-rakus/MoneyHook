@@ -3,8 +3,7 @@ package com.example.service;
 import com.example.common.Status;
 import com.example.common.exception.DataNotFoundException;
 import com.example.common.exception.SystemException;
-import com.example.common.message.ErrorMessage;
-import com.example.common.message.SuccessMessage;
+import com.example.common.message.Message;
 import com.example.domain.Category;
 import com.example.domain.MonthlyTransaction;
 import com.example.domain.SubCategory;
@@ -31,6 +30,9 @@ public class MonthlyTransactionService {
 	@Autowired
 	private CategoryService categoryService;
 
+	@Autowired
+	private Message message;
+
 	private final Integer SUCCESS = 0;
 
 	private final Integer CATEGORY_IS_NOT_RELATIONAL_ERROR = 1;
@@ -40,7 +42,7 @@ public class MonthlyTransactionService {
 
 		try {
 			List<MonthlyTransaction> monthlyTransactionList = monthlyTransactionMapper.getFixed(form);
-			if (monthlyTransactionList.size() == 0) {
+			if (monthlyTransactionList.isEmpty()) {
 				throw new Exception();
 			} else {
 				monthlyTransactionList = monthlyTransactionList.stream()
@@ -51,7 +53,7 @@ public class MonthlyTransactionService {
 			res.setMonthlyTransactionList(monthlyTransactionList);
 		} catch (Exception e) {
 			res.setStatus(Status.ERROR.getStatus());
-			res.setMessage(ErrorMessage.MONTHLY_TRANSACTION_NOT_EXISTS);
+			res.setMessage(message.get("error-message.monthly-transaction-not-exists"));
 		}
 		return res;
 	}
@@ -63,10 +65,10 @@ public class MonthlyTransactionService {
 
 		try {
 			monthlyTransactionMapper.deleteFixed(form);
-			res.setMessage(SuccessMessage.MONTHLY_TRANSACTION_DELETE_SUCCESSED);
+			res.setMessage(message.get("success-message.monthly-transaction-delete-successed"));
 		} catch (Exception e) {
 			res.setStatus(Status.ERROR.getStatus());
-			res.setMessage(ErrorMessage.DELETE_FIXED_ERROR);
+			res.setMessage(message.get("error-message.delete-fixed-error"));
 		}
 
 		return res;
@@ -81,10 +83,10 @@ public class MonthlyTransactionService {
 		try {
 			monthlyTransactionMapper.deleteFixedFromTable(form);
 		} catch (Exception e) {
-			throw new SystemException(ErrorMessage.DELETE_FIXED_ERROR);
+			throw new SystemException(message.get("error-message.delete-fixed-error"));
 		}
 
-		res.setMessage(SuccessMessage.MONTHLY_TRANSACTION_DELETE_FROM_TABLE_SUCCESSED);
+		res.setMessage(message.get("success-message.monthly-transaction-delete-from-table-successed"));
 
 		return res;
 	}
@@ -97,10 +99,10 @@ public class MonthlyTransactionService {
 		try {
 			monthlyTransactionMapper.returnTarget(form);
 		} catch (Exception e) {
-			throw new SystemException(ErrorMessage.SYSTEM_ERROR);
+			throw new SystemException(message.get("error-message.system-error"));
 		}
 
-		res.setMessage(SuccessMessage.MONTHLY_TRANSACTION_BACK_SUCCESSED);
+		res.setMessage(message.get("success-message.monthly-transaction-back-successed"));
 
 		return res;
 	}
@@ -111,8 +113,8 @@ public class MonthlyTransactionService {
 
 		try {
 			List<MonthlyTransaction> monthlyTransactionList = monthlyTransactionMapper.getDeletedFixed(form);
-			if (monthlyTransactionList.size() == 0) {
-				throw new DataNotFoundException(ErrorMessage.MONTHLY_TRANSACTION_NOT_EXISTS);
+			if (monthlyTransactionList.isEmpty()) {
+				throw new DataNotFoundException(message.get("error-message.monthly-transaction-not-exists"));
 			}
 			res.setMonthlyTransactionList(monthlyTransactionList);
 		} catch (DataNotFoundException e) {
@@ -120,7 +122,7 @@ public class MonthlyTransactionService {
 			res.setMessage(e.getMessage());
 		} catch (Exception e) {
 			res.setStatus(Status.ERROR.getStatus());
-			res.setMessage(ErrorMessage.SYSTEM_ERROR);
+			res.setMessage(message.get("error-message.system-error"));
 		}
 
 		return res;
@@ -135,27 +137,27 @@ public class MonthlyTransactionService {
 			// monthlyTransactionIdを保持しているものを更新処理
 			List<MonthlyTransactionList> includingIdList = form.getMonthlyTransactionList().stream()
 					.filter(i -> i.getMonthlyTransactionId() != null).collect(Collectors.toList());
-			if (includingIdList.size() > 0) {
+			if (!includingIdList.isEmpty()) {
 				updateStatus = this.updateFixed(includingIdList);
 			}
 
 			// monthlyTransactionIdがないものを登録処理
 			List<MonthlyTransactionList> notIncludingIdList = form.getMonthlyTransactionList().stream()
 					.filter(i -> i.getMonthlyTransactionId() == null).collect(Collectors.toList());
-			if (notIncludingIdList.size() > 0) {
+			if (!notIncludingIdList.isEmpty()) {
 				updateStatus = this.registerFixed(notIncludingIdList);
 			}
 
 			if (CATEGORY_IS_NOT_RELATIONAL_ERROR.equals(updateStatus)) {
 				res.setStatus(Status.ERROR.getStatus());
-				res.setMessage(ErrorMessage.CATEGORY_IS_NOT_RELATIONAL);
+				res.setMessage(message.get("error-message.category-is-not-relational"));
 				return res;
 			}
 
-			res.setMessage(SuccessMessage.MONTHLY_TRANSACTION_EDIT_SUCCESSED);
+			res.setMessage(message.get("success-message.monthly-transaction-edit-successed"));
 
 		} catch (Exception e) {
-			throw new SystemException(ErrorMessage.MONTHLY_TRANSACTION_EDIT_ERROR);
+			throw new SystemException(message.get("error-message.monthly-transaction-edit-error"));
 		}
 
 		return res;
@@ -185,15 +187,15 @@ public class MonthlyTransactionService {
 
 			if (CATEGORY_IS_NOT_RELATIONAL_ERROR.equals(updateStatus)) {
 				res.setStatus(Status.ERROR.getStatus());
-				res.setMessage(ErrorMessage.CATEGORY_IS_NOT_RELATIONAL);
+				res.setMessage(message.get("error-message.category-is-not-relational"));
 				return res;
 			}
 
-			res.setMessage(SuccessMessage.MONTHLY_TRANSACTION_EDIT_SUCCESSED);
+			res.setMessage(message.get("success-message.monthly-transaction-edit-successed"));
 
 		} catch (Exception e) {
 			res.setStatus(Status.ERROR.getStatus());
-			res.setMessage(ErrorMessage.MONTHLY_TRANSACTION_EDIT_ERROR);
+			res.setMessage(message.get("error-message.monthly-transaction-edit-error"));
 		}
 
 		return res;
@@ -207,7 +209,7 @@ public class MonthlyTransactionService {
 		// サブカテゴリをDBのリストから選択した場合
 		List<MonthlyTransactionList> chosenSubCategoryList = list.stream().filter(i -> i.getSubCategoryId() != null)
 				.collect(Collectors.toList());
-		if (chosenSubCategoryList.size() > 0) {
+		if (!chosenSubCategoryList.isEmpty()) {
 			monthlyTransactionMapper.registerFixed(chosenSubCategoryList);
 			return SUCCESS;
 		}
@@ -216,7 +218,7 @@ public class MonthlyTransactionService {
 		List<MonthlyTransactionList> userInputSubCategoryList = list.stream()
 				.filter(i -> i.getSubCategoryName() != null).filter(i -> !i.getSubCategoryName().isEmpty())
 				.collect(Collectors.toList());
-		if (userInputSubCategoryList.size() > 0) {
+		if (!userInputSubCategoryList.isEmpty()) {
 
 			for (MonthlyTransactionList monthlyTran : userInputSubCategoryList) {
 				if (Objects.isNull(categoryMap.get(monthlyTran.getCategoryId()))) {
@@ -245,7 +247,7 @@ public class MonthlyTransactionService {
 		List<MonthlyTransactionList> chosenSubCategoryList = list.stream().filter(i -> i.getSubCategoryId() != null)
 				.collect(Collectors.toList());
 
-		if (chosenSubCategoryList.size() > 0) {
+		if (!chosenSubCategoryList.isEmpty()) {
 			for (MonthlyTransactionList monthlyTran : chosenSubCategoryList) {
 				List<Category> categoryList = categoryMap.get(monthlyTran.getCategoryId());
 				if (categoryList.stream().noneMatch(c -> c.getSubCategoryId().equals(monthlyTran.getSubCategoryId()))) {
@@ -262,7 +264,7 @@ public class MonthlyTransactionService {
 		// ユーザー入力のサブカテゴリがある場合
 		List<MonthlyTransactionList> userInputSubCategoryList = list.stream().filter(i -> i.getSubCategoryId() == null)
 				.collect(Collectors.toList());
-		if (userInputSubCategoryList.size() > 0) {
+		if (!userInputSubCategoryList.isEmpty()) {
 			for (MonthlyTransactionList monthlyTran : userInputSubCategoryList) {
 				if (Objects.isNull(categoryMap.get(monthlyTran.getCategoryId()))) {
 					return CATEGORY_IS_NOT_RELATIONAL_ERROR;
@@ -292,10 +294,8 @@ public class MonthlyTransactionService {
 				.collect(Collectors.toSet());
 		List<Long> categoryIds = new ArrayList<>(categoryIdSet);
 		List<Category> categoryList = categoryService.getList(categoryIds, userNo);
-		Map<Long, List<Category>> categoryMap = categoryList.stream()
-				.collect(Collectors.groupingBy(Category::getCategoryId));
 
-		return categoryMap;
+		return categoryList.stream().collect(Collectors.groupingBy(Category::getCategoryId));
 	}
 
 }

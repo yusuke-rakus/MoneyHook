@@ -1,8 +1,8 @@
 package com.example.response;
 
-import java.util.List;
-
 import com.example.domain.Saving;
+
+import java.util.List;
 
 public class FrequentSavingNameResponse extends response {
 

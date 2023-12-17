@@ -78,12 +78,4 @@ public class User {
 		this.resetPasswordParam = resetPasswordParam;
 	}
 
-	@Override
-	public String toString() {
-		return "User [userNo=" + userNo + ", userId=" + userId + ", email=" + email + ", password=" + password
-				+ ", themeColorId=" + themeColorId + ", themeColorCode=" + themeColorCode + ", themeColorGradientCode="
-				+ themeColorGradientCode + ", resetPasswordParam=" + resetPasswordParam + "]";
-	}
-
-	
 }

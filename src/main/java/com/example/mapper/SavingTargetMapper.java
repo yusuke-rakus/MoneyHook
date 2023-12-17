@@ -4,7 +4,6 @@ import com.example.domain.SavingTarget;
 import com.example.form.DeleteSavingTargetForm;
 import com.example.form.EditSavingTargetForm;
 import com.example.form.GetSavingTargetListForm;
-import com.example.form.ReturnSavingTargetForm;
 import org.apache.ibatis.annotations.Mapper;
 
 import java.util.List;
@@ -73,12 +72,12 @@ public interface SavingTargetMapper {
 	public Integer isTargetHasTotalSaved(DeleteSavingTargetForm form);
 
 	/**
-	* ソート順の並び替え
-	*/
+	 * ソート順の並び替え
+	 */
 	public void updateSavingTargetSortNo(SavingTarget form);
 
 	/**
-	 *　貯金目標並び替えを行う一覧の取得
+	 * 　貯金目標並び替えを行う一覧の取得
 	 */
 	public List<SavingTarget> getSavingTargetListBySortNo(SavingTarget form);
 

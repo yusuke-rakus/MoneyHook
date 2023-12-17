@@ -1,7 +1,7 @@
 package com.example.controller.transaction;
 
 import com.example.common.Status;
-import com.example.common.message.ErrorMessage;
+import com.example.common.message.Message;
 import com.example.domain.Transaction;
 import com.example.form.FrequentTransactionNameForm;
 import com.example.response.FrequentTransactionNameResponse;
@@ -10,6 +10,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.transaction.annotation.Transactional;
@@ -30,6 +31,8 @@ class GetFrequentTransactionNameTest {
 	final String USER_ID = "a77a6e94-6aa2-47ea-87dd-129f580fb669";
 	final String FAIL_USER_ID = "fail_user_id";
 	final String NULL_USER_ID = null;
+	final String TOKEN = "sample_token";
+	final HttpHeaders HEADER = new HttpHeaders();
 
 	@Autowired
 	private MockMvc mvc;
@@ -37,14 +40,19 @@ class GetFrequentTransactionNameTest {
 	@Autowired
 	private ObjectMapper mapper;
 
+	@Autowired
+	private Message message;
+
 	@Test
 	@Transactional(readOnly = true)
 	void getFrequentTransactionNameTest() throws Exception {
 
 		FrequentTransactionNameForm requestForm = new FrequentTransactionNameForm();
 		requestForm.setUserId(USER_ID);
+		HEADER.add("UserId", USER_ID);
+		HEADER.add(HttpHeaders.AUTHORIZATION, TOKEN);
 
-		String result = mvc.perform(post(URL).content(mapper.writeValueAsString(requestForm))
+		String result = mvc.perform(post(URL).headers(HEADER).content(mapper.writeValueAsString(requestForm))
 						.contentType(MediaType.APPLICATION_JSON)).andDo(print()).andExpect(status().isOk()).andReturn()
 				.getResponse().getContentAsString(Charset.defaultCharset());
 
@@ -71,8 +79,10 @@ class GetFrequentTransactionNameTest {
 
 		FrequentTransactionNameForm requestForm = new FrequentTransactionNameForm();
 		requestForm.setUserId(FAIL_USER_ID);
+		HEADER.add("UserId", USER_ID);
+		HEADER.add(HttpHeaders.AUTHORIZATION, TOKEN);
 
-		String result = mvc.perform(post(URL).content(mapper.writeValueAsString(requestForm))
+		String result = mvc.perform(post(URL).headers(HEADER).content(mapper.writeValueAsString(requestForm))
 						.contentType(MediaType.APPLICATION_JSON)).andDo(print()).andExpect(status().isOk()).andReturn()
 				.getResponse().getContentAsString(Charset.defaultCharset());
 
@@ -80,7 +90,7 @@ class GetFrequentTransactionNameTest {
 
 		/* 検証 */
 		assertEquals(Status.ERROR.getStatus(), response.getStatus());
-		assertEquals(ErrorMessage.AUTHENTICATION_ERROR, response.getMessage());
+		assertEquals(message.get("error-message.authentication-error"), response.getMessage());
 	}
 
 	@Test
@@ -89,17 +99,17 @@ class GetFrequentTransactionNameTest {
 
 		FrequentTransactionNameForm requestForm = new FrequentTransactionNameForm();
 		requestForm.setUserId(NULL_USER_ID);
+		HEADER.add("UserId", USER_ID);
+		HEADER.add(HttpHeaders.AUTHORIZATION, TOKEN);
 
-		String result = mvc
-				.perform(post(URL).content(mapper.writeValueAsString(requestForm))
-						.contentType(MediaType.APPLICATION_JSON))
-				.andDo(print()).andExpect(status().isOk()).andReturn().getResponse()
-				.getContentAsString(Charset.defaultCharset());
+		String result = mvc.perform(post(URL).headers(HEADER).content(mapper.writeValueAsString(requestForm))
+						.contentType(MediaType.APPLICATION_JSON)).andDo(print()).andExpect(status().isOk()).andReturn()
+				.getResponse().getContentAsString(Charset.defaultCharset());
 
 		FrequentTransactionNameResponse response = mapper.readValue(result, FrequentTransactionNameResponse.class);
 
 		/* 検証 */
 		assertEquals(Status.ERROR.getStatus(), response.getStatus());
-		assertEquals(ErrorMessage.AUTHENTICATION_ERROR, response.getMessage());
+		assertEquals(message.get("error-message.authentication-error"), response.getMessage());
 	}
 }

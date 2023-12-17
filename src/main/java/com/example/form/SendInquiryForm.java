@@ -1,14 +1,11 @@
 package com.example.form;
 
-import java.sql.Date;
-
 import javax.validation.constraints.NotBlank;
-
-import com.example.common.message.ErrorMessage;
+import java.sql.Date;
 
 public class SendInquiryForm extends form {
 
-	@NotBlank(message = ErrorMessage.INQUIRY_BLANK_ERROR)
+	@NotBlank(message = "{validating-message.inquiry-blank-error}")
 	private String inquiry;
 
 	private Date inquiryDate;

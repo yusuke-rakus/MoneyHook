@@ -1,6 +1,5 @@
 package com.example.form;
 
-import com.example.common.message.ValidatingMessage;
 import org.hibernate.validator.constraints.Length;
 
 import javax.validation.constraints.Max;
@@ -11,18 +10,18 @@ import java.sql.Date;
 
 public class EditSavingForm extends form {
 
-	@NotNull(message = ValidatingMessage.ID_EMPTY_ERROR)
+	@NotNull(message = "{validating-message.id-empty-error}")
 	private Long savingId;
 
-	@NotEmpty(message = ValidatingMessage.SAVING_NAME_EMPTY_ERROR)
-	@Length(max = 32, message = ValidatingMessage.SAVING_NAME_LENGTH_ERROR)
+	@NotEmpty(message = "{validating-message.saving-name-empty-error}")
+	@Length(max = 32, message = "{validating-message.saving-name-length-error}")
 	private String savingName;
 
-	@NotNull(message = ValidatingMessage.SAVING_AMOUNT_EMPTY_ERROR)
-	@Max(value = 9999999, message = ValidatingMessage.SAVING_AMOUNT_RANGE_ERROR)
+	@NotNull(message = "{validating-message.saving-amount-empty-error}")
+	@Max(value = 9999999, message = "{validating-message.saving-amount-range-error}")
 	private BigInteger savingAmount;
 
-	@NotNull(message = ValidatingMessage.DATE_EMPTY_ERROR)
+	@NotNull(message = "{validating-message.date-empty-error}")
 	private Date savingDate;
 
 	private Long savingTargetId;
@@ -67,9 +66,4 @@ public class EditSavingForm extends form {
 		this.savingTargetId = savingTargetId;
 	}
 
-	@Override
-	public String toString() {
-		return "EditSavingForm [savingId=" + savingId + ", savingName=" + savingName + ", savingAmount=" + savingAmount
-				+ ", savingDate=" + savingDate + ", savingTargetId=" + savingTargetId + "]";
-	}
 }

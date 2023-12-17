@@ -16,9 +16,4 @@ public class GoogleSignInResponse extends response {
 		this.user = user;
 	}
 
-	@Override
-	public String toString() {
-		return "RegisterUserResponse [user=" + user + "]";
-	}
-
 }

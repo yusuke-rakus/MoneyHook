@@ -1,13 +1,10 @@
 package com.example.form;
 
+import javax.validation.constraints.NotNull;
 import java.sql.Date;
 
-import javax.validation.constraints.NotNull;
-
-import com.example.common.message.ValidatingMessage;
-
 public class GetTotalSavingForm extends form {
-	@NotNull(message = ValidatingMessage.DATE_EMPTY_ERROR)
+	@NotNull(message = "{validating-message.date-empty-error}")
 	private Date month;
 
 	public Date getMonth() {
@@ -16,11 +13,6 @@ public class GetTotalSavingForm extends form {
 
 	public void setMonth(Date month) {
 		this.month = month;
-	}
-
-	@Override
-	public String toString() {
-		return "GetTotalSavingForm [month=" + month + "]";
 	}
 
 }

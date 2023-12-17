@@ -1,21 +1,19 @@
 package com.example.form;
 
+import org.hibernate.validator.constraints.Length;
+
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 
-import org.hibernate.validator.constraints.Length;
-
-import com.example.common.message.ValidatingMessage;
-
 public class ChangeEmailForm extends form {
 
-	@NotBlank(message = ValidatingMessage.EMAIL_EMPTY_ERROR)
-	@Email(message = ValidatingMessage.EMAIL_EMPTY_ERROR)
-	@Length(max = 128, message = ValidatingMessage.EMAIL_OVER_LIMIT_ERROR)
+	@NotBlank(message = "{validating-message.email-empty-error}")
+	@Email(message = "{validating-message.email-empty-error}")
+	@Length(max = 128, message = "{validating-message.email-over-limit-error}")
 	private String email;
 
-	@NotBlank(message = ValidatingMessage.PASSWORD_EMPTY_ERROR)
-	@Length(max = 32, min = 8, message = ValidatingMessage.PASSWORD_RANGE_ERROR)
+	@NotBlank(message = "{validating-message.password-empty-error}")
+	@Length(max = 32, min = 8, message = "{validating-message.password-range-error}")
 	private String password;
 
 	public String getEmail() {

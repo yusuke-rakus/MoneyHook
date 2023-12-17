@@ -1,16 +1,11 @@
 package com.example.mapper;
 
-import java.util.List;
-
+import com.example.domain.MonthlyTransaction;
+import com.example.form.*;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
-import com.example.domain.MonthlyTransaction;
-import com.example.form.DeleteFixedForm;
-import com.example.form.GetDeletedFixedForm;
-import com.example.form.GetFixedForm;
-import com.example.form.MonthlyTransactionList;
-import com.example.form.ReturnTargetForm;
+import java.util.List;
 
 @Mapper
 public interface MonthlyTransactionMapper {

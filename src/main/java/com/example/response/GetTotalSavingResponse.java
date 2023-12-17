@@ -7,29 +7,23 @@ import java.util.List;
 
 public class GetTotalSavingResponse extends response {
 
-    private BigInteger totalSavingAmount;
-    private List<MonthlySavingData> savingDataList;
+	private BigInteger totalSavingAmount;
+	private List<MonthlySavingData> savingDataList;
 
-    public BigInteger getTotalSavingAmount() {
-        return totalSavingAmount;
-    }
+	public BigInteger getTotalSavingAmount() {
+		return totalSavingAmount;
+	}
 
-    public void setTotalSavingAmount(BigInteger totalSavingAmount) {
-        this.totalSavingAmount = totalSavingAmount;
-    }
+	public void setTotalSavingAmount(BigInteger totalSavingAmount) {
+		this.totalSavingAmount = totalSavingAmount;
+	}
 
-    public List<MonthlySavingData> getSavingDataList() {
-        return savingDataList;
-    }
+	public List<MonthlySavingData> getSavingDataList() {
+		return savingDataList;
+	}
 
-    public void setSavingDataList(List<MonthlySavingData> savingDataList) {
-        this.savingDataList = savingDataList;
-    }
-
-    @Override
-    public String toString() {
-        return "GetTotalSavingResponse [totalSavingAmount=" + totalSavingAmount + ", savingDataList=" + savingDataList
-                + "]";
-    }
+	public void setSavingDataList(List<MonthlySavingData> savingDataList) {
+		this.savingDataList = savingDataList;
+	}
 
 }

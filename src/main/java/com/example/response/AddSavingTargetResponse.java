@@ -14,9 +14,4 @@ public class AddSavingTargetResponse extends response {
 		this.savingTarget = savingTarget;
 	}
 
-	@Override
-	public String toString() {
-		return "AddSavingTargetResponse [savingTarget=" + savingTarget + "]";
-	}
-
 }

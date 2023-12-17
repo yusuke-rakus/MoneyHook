@@ -1,8 +1,8 @@
 package com.example.response;
 
-import java.util.List;
-
 import com.example.domain.SavingTarget;
+
+import java.util.List;
 
 public class GetSavingTargetListResponse extends response {
 

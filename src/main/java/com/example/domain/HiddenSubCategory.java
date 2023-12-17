@@ -21,9 +21,4 @@ public class HiddenSubCategory {
 		this.subCategoryId = subCategoryId;
 	}
 
-	@Override
-	public String toString() {
-		return "HiddenSubCategory [userNo=" + userNo + ", subCategoryId=" + subCategoryId + "]";
-	}
-
 }

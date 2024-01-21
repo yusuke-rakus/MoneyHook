@@ -26,7 +26,7 @@ public class UserController {
 
 	@PostMapping("/hello")
 	public String hello() {
-		return "Hello!";
+		return "Hello";
 	}
 
 	/** ログイン */

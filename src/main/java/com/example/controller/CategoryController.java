@@ -25,7 +25,8 @@ public class CategoryController {
 	@GetMapping("/")
 	public String getCategory() {
 		CategoryResponse response = categoryService.getCategoryList();
-		return response.getCategoryList().get(0).getCategoryName();
+		System.out.println(response.getCategoryList().get(0).getCategoryName());
+		return "OK";
 	}
 
 	/** カテゴリ一覧の取得 */

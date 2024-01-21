@@ -24,8 +24,8 @@ public class CategoryController {
 
 	@GetMapping("/")
 	public String getCategory() {
-		CategoryResponse response = categoryService.getCategoryList();
-		System.out.println(response.getCategoryList().get(0).getCategoryName());
+		//		CategoryResponse response = categoryService.getCategoryList();
+		//		System.out.println(response.getCategoryList().get(0).getCategoryName());
 		return "OK";
 	}
 

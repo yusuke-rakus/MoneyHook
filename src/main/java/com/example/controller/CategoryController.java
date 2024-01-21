@@ -10,7 +10,10 @@ import com.example.service.ValidationService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping("/category")
@@ -22,12 +25,6 @@ public class CategoryController {
 	@Autowired
 	private ValidationService validationService;
 
-	@GetMapping("/")
-	public String getCategory() {
-		//		CategoryResponse response = categoryService.getCategoryList();
-		//		System.out.println(response.getCategoryList().get(0).getCategoryName());
-		return "OK";
-	}
 
 	/** カテゴリ一覧の取得 */
 	@PostMapping("/getCategoryList")

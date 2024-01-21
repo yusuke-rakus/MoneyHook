@@ -18,7 +18,7 @@ dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-web'
 //	implementation 'org.springframework.boot:spring-boot-starter-jdbc'
 //	implementation 'com.google.cloud:spring-cloud-gcp-starter-sql-mysql:3.1.0'
-	implementation 'org.springframework.cloud:spring-cloud-gcp-starter'
+//	implementation 'org.springframework.cloud:spring-cloud-gcp-starter'
 	implementation 'org.mybatis.spring.boot:mybatis-spring-boot-starter:2.2.2'
 	developmentOnly 'org.springframework.boot:spring-boot-devtools'
 	runtimeOnly 'mysql:mysql-connector-java'

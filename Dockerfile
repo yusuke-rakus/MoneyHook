@@ -1,4 +1,4 @@
-FROM openjdk:11
+FROM gcr.io/cloud-builders/java
 WORKDIR /app
 COPY . .
 #COPY --from=gcr.io/cloudsql-docker/gce-proxy /cloud_sql_proxy /cloud_sql_proxy

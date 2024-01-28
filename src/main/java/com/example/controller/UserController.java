@@ -24,11 +24,6 @@ public class UserController {
 	@Autowired
 	private ValidationService validationService;
 
-	@PostMapping("/hello")
-	public String hello() {
-		return "Hello";
-	}
-
 	/** ログイン */
 	@PostMapping("/login")
 	public LoginResponse login(@RequestBody @Validated LoginForm form, BindingResult result) {
